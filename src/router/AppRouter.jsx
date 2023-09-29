@@ -1,8 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-//import PrimaderaRoutes from '../primadera-clientes'
-
 import HomePage from "../primadera-clientes/pages/HomePage";
-import LoginPage from "../auth/pages/LoginPage";
+import PrimaderaRoutes from "../primadera-clientes/routes/PrimaderaRoutes";
+
 //import { Navbar } from "../ui";
 
 
@@ -12,8 +11,9 @@ const AppRouter = () => {
    
     <Routes>
         
-        <Route path="login" element={ <LoginPage/> } />
+        
         <Route path="/" element={ <HomePage/> } />
+        <Route path="/*" element={ <PrimaderaRoutes/> } />
         
 
         
@@ -26,4 +26,4 @@ const AppRouter = () => {
   )
 }
 
-export default AppRouter
+export default AppRouter;

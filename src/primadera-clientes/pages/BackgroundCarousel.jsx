@@ -9,7 +9,7 @@ const BackgroundCarousel = () => {
 <Carousel.Item>
 <img
            className="img1 img-fluid"
-           src={imagenes.FlorMorado}
+           src={imagenes.PlantaHome}
            alt="Primera diapositiva"
          />
 </Carousel.Item>
@@ -18,6 +18,20 @@ const BackgroundCarousel = () => {
            className="img2 img-fluid"
            src={imagenes.Jayka}
            alt="Segunda diapositiva"
+         />
+</Carousel.Item>
+<Carousel.Item>
+<img
+           className="img2 img-fluid"
+           src={imagenes.Arboles}
+           alt="Tercera diapositiva"
+         />
+</Carousel.Item>
+<Carousel.Item>
+<img
+           className="img2 img-fluid"
+           src={imagenes.Restos}
+           alt="Cuarta diapositiva"
          />
 </Carousel.Item>
        {/* Agrega más diapositivas según sea necesario */}

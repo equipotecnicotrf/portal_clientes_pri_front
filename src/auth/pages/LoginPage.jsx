@@ -1,9 +1,10 @@
-
+import { useNavigate } from "react-router-dom";
 import '../pages/LoginPage.css';
 import { Form, Button } from 'react-bootstrap';
 import imagenes from '../../assets/imagenes';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   return (
     <div className='BackImg'>
       <div className='Login-head p-4 p-sm-3 justify-content-center
@@ -29,7 +30,7 @@ const LoginPage = () => {
             placeholder='Ingresa Contraseña' />
           </Form.Group>
 
-          <Button className='Login-btn' type='submit'>
+          <Button onClick={() => navigate("/GestionarUsuario")} className='Login-btn'>
             Ingresa
           </Button>
 

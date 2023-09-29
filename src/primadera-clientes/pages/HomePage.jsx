@@ -15,7 +15,6 @@ const HomePage = () => {
       <div className="App">
 <BackgroundCarousel />
 <div className='logo-blanco'>
- 'jnfkjnfkn'
   <img src={imagenes.LogoBlanco}/>
    </div>
    <button onClick={() => navigate("/login")} className="btn enter-button" >INGRESO</button>
