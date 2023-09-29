@@ -4,7 +4,7 @@ import imagenes from "../../assets/imagenes";
 
 const Banner = () => {
     const bannerStyle = {
-    backgroundImage: `url(${imagenes.BannerAdmin}`,
+    backgroundImage: `url(${imagenes.bannerAdmin}`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       textAling: 'center',

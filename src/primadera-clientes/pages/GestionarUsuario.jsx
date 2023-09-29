@@ -14,7 +14,7 @@ const DataTable = ({backgroundColor}) => {
     
   };
   const backgroundStyle = {
-    backgroundImage: `url(${imagenes.FondoAdmin}`, 
+    backgroundImage: `url(${imagenes.fondoTextura}`, 
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     height: '100vh', // Altura de la pantalla completa
@@ -75,4 +75,3 @@ const DataTable = ({backgroundColor}) => {
     };
     
     export default DataTable;
-
