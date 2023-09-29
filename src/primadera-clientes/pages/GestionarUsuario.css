@@ -1,0 +1,21 @@
+
+.DataTable{
+    padding: 5%;
+    margin: 5%;
+    
+}
+.btn1{
+    border-radius: 20px;
+    background-color: #323333;
+    color: white;
+    
+}
+.btn2 {
+    border-radius: 20px;
+    background-color: #323333;
+    color: white;
+    font-size:medium;
+}
+.Buttons{
+    margin-left: 1000px;
+}
