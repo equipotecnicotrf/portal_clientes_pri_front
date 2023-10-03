@@ -17,14 +17,15 @@ const Banner = () => {
       maxWidth: '478px', // Ajusta según tus necesidades
       margin: '10px',
     };
+    
    
     return (
         <>
         
         <div style={bannerStyle}>
-        <img src={imagenes.LogoBlanco} alt="Logo" style={logoStyle} />
-        
+        <img src={imagenes.LogoBlanco} alt="Logo" style={logoStyle} />        
         </div>
+
         </>
     );
    };

@@ -20,7 +20,6 @@ const DataTable = ({ backgroundColor }) => {
     padding: '20px',
     textAlign: 'center',
 
-
   };
   const backgroundStyle = {
     backgroundImage: `url(${imagenes.fondoTextura}`,
@@ -28,8 +27,6 @@ const DataTable = ({ backgroundColor }) => {
     backgroundPosition: 'center',
     height: '100vh', // Altura de la pantalla completa
   };
-
-
 
   const data = [
     {
@@ -48,34 +45,15 @@ const DataTable = ({ backgroundColor }) => {
   ];
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
-
   const handleShow = () => setShow(true);
-
   const [show2, setShow2] = useState(false);
-
   const handleClose2 = () => setShow2(false);
-
   const handleShow2 = () => setShow2(true);
 
-
-
   const [show3, setShow3] = useState(false);
-
   const handleClose3 = () => setShow3(false);
-
   const handleShow3 = () => setShow3(true);
-
-
-
-  const handleOptionChange = (event) => {
-
-    setSelectedOption(event.target.value);
-
-  };
-
-  const [selectedOption, setSelectedOption] = useState('');
 
   const [crtUserShow, crtUserSetShow] = useState(false);
   const handleCrtUserClose = () => crtUserSetShow(false);
@@ -113,7 +91,6 @@ const DataTable = ({ backgroundColor }) => {
     setCheckbox1(false);
     setCheckbox2(true);
   };
-
 
 
   return (
@@ -159,193 +136,105 @@ const DataTable = ({ backgroundColor }) => {
           </table>
 
 
-
         </div>
         <div className='Buttons mt-12'>
           <button onClick={handleShow} className='btn1 p-2 btn-sm'>Gestionar Roles</button>
           <button onClick={handleCrtUserShow} className='btn2 p-2 m-2 btn-sm'>Crear usuario</button>
         </div>
-
-      </div>
+      
 
       <Modal show={show} onHide={handleClose}>
-
         <Modal.Header className='Create-Rol' closeButton>
-
           <Modal.Title>ROL</Modal.Title>
-
         </Modal.Header>
-
         <Modal.Body className='Create-Rol'>
-
           <Form>
-
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-
               <Form.Label><th>CREAR</th></Form.Label>
-
               <Form.Control
-
                 type="text"
-
                 placeholder="Nombre Rol"
-
                 autoFocus
-
                 disabled
-
               />
 
             </Form.Group>
-
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-
               <Form.Control
-
                 type="text"
-
                 placeholder="Descripción"
-
                 autoFocus
-
               />
 
             </Form.Group>
-
             <Button className="Btn_crear" >
-
               Crear
-
             </Button>
-
             <Button className="Btn_rol" onClick={handleShow2} onClose={handleClose}>
-
               Gestionar Rol
-
             </Button>
-
           </Form>
 
         </Modal.Body>
-
         <Modal.Footer className='Create-Rol'>
-
         </Modal.Footer>
-
       </Modal>
-
-
-
-
 
 
 
       <Modal size="lg" show={show2} onHide={handleClose2}>
-
         <Modal.Header className="Gestion_roles">
-
           <Modal.Title>GESTIONAR ROLES</Modal.Title>
-
         </Modal.Header>
-
         <Modal.Body className="Gestion_roles">
-
           <Form>
-
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-
               <div className='DataTable_GR' style={bannerStyle} >
-
                 <table className='table table-borderless' style={bannerStyle} >
-
                   <thead>
-
                     <tr style={bannerStyle} >
-
                       <th style={bannerStyle}>Nombre</th>
-
                       <th style={bannerStyle}>Descripción Rol</th>
-
                       <th style={bannerStyle}>Estado</th>
-
                       <th style={bannerStyle}></th>
-
                     </tr>
-
                   </thead>
 
                   <tbody >
-
                     {data_rol.map((item) => (
-
                       <tr key={item.id}>
-
                         <td>{item.name}</td>
-
                         <td>{item.descripcion_rol}</td>
-
                         <td>{item.estado}</td>
-
                         <td><Button className="Btn_contexto" onClick={handleShow3} onClose={handleClose2}>
-
                           Contexto
-
                         </Button></td>
-
                       </tr>
-
                     ))}
-
                   </tbody>
-
                 </table>
-
               </div>
 
-
-
               <Button className="Btn_cerrar" onClick={handleClose2}>
-
                 Cerrar
-
               </Button>
-
             </Form.Group>
-
-
-
           </Form>
 
         </Modal.Body>
-
         <Modal.Footer className="Gestion_roles">
-
         </Modal.Footer>
-
       </Modal>
 
 
-
-
-
       <Modal show={show3} onHide={handleClose3}>
-
         <Modal.Header className="Contexto">
-
         </Modal.Header>
-
         <Modal.Body className="Contexto">
-
           <Form>
-
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-
               <Form.Label><th>CONTEXTO</th></Form.Label>
-
             </Form.Group>
-
-
-
             <div className='CheckBox'>
               <label>
                 <input
@@ -375,23 +264,15 @@ const DataTable = ({ backgroundColor }) => {
               </label>
             </div>
 
-
-
             <Button className="Btn_guardar_context" onClick={handleClose3}>
-
               Guardar
-
             </Button>
-
           </Form>
-
         </Modal.Body>
-
         <Modal.Footer className="Contexto">
-
         </Modal.Footer>
-
       </Modal>
+
 
       <Modal show={crtUserShow} onHide={handleCrtUserClose}>
         <Modal.Header className='Create-User' closeButton>
@@ -447,16 +328,13 @@ const DataTable = ({ backgroundColor }) => {
                 <Dropdown.Menu>
                   <Dropdown.Item >Administrador</Dropdown.Item>
                   <Dropdown.Item >Cliente</Dropdown.Item>
-
                 </Dropdown.Menu>
               </Dropdown>
             </Form.Group>
-
-
           </Form>
+
         </Modal.Body>
         <Modal.Footer className='Create-User' >
-
           <Button className='Crear-btn' onClick={handleCrtUserClose}>
             Crear
           </Button>
@@ -596,24 +474,18 @@ const DataTable = ({ backgroundColor }) => {
             </table>
           </div>
 
-
-
-
-
         </ModalBody>
 
         <Modal.Footer className='Create-User' >
-
-
           <Button className='Crear-btn' onClick={handleHomeClose}>
             Cerrar
           </Button>
         </Modal.Footer>
       </Modal>
+      </div>
     </>
 
   );
 
 };
-
 export default DataTable;

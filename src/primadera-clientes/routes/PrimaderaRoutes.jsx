@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import Dropdown from "react-bootstrap/esm/DropdownMenu";
+import Dropdown from "../../primadera-clientes/pages/DropdownMenu";
 import LoginPage from "../../auth/pages/LoginPage";
 import GestionarUsuario from "../pages/GestionarUsuario";
 
