@@ -2,11 +2,7 @@
     padding: 5%;
     margin: 5%;
     border-radius: 29px;
-    width: auto;
-    border-collapse: collapse;
-    max-height: 350px;
-    overflow-y: auto;
-    
+
 }
 
 .DicTable {
@@ -37,8 +33,6 @@ label {
     border-radius: 20px;
     background-color: #323333;
     color: white;
-    position:auto;
-    
 
 }
 
@@ -47,14 +41,10 @@ label {
     background-color: #323333;
     color: white;
     font-size: medium;
-    position: auto;
-    
 }
 
 .Buttons {
-    margin-top: -50px;
     margin-left: 1000px;
-    
 }
 
 .Create-User {
@@ -79,6 +69,7 @@ label {
     background-color: #878787;
     color: white;
 }
+
 .Crear-btn {
     background-color: #323333;
     border-radius: 30px;
@@ -112,6 +103,7 @@ label {
     text-align: center;
 }
 
+
 .Contexto {
     background-color: #878787;
     color: white;
@@ -137,8 +129,6 @@ label {
     margin: 0 auto;
 }
 
-
-
 .Gestion_roles {
     background-color: #878787;
     color: white;
@@ -153,3 +143,8 @@ label {
     width: 200px;
     margin: 0 auto;
 }
+
+.auditoria { 
+    background-color: #323333;     
+}
+

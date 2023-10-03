@@ -32,6 +32,34 @@ const DataTable = ({ backgroundColor }) => {
     {
       Cliente: 1, Nombre: 'John Doe', Telefono: 358454, correo: 'dshfkjr@bf.com',
       estado: 'Activo', rol: 'Admin'
+    },
+    {
+      Cliente: 1, Nombre: 'John Doe', Telefono: 358454, correo: 'dshfkjr@bf.com',
+      estado: 'Activo', rol: 'Admin'
+    },
+    {
+      Cliente: 1, Nombre: 'John Doe', Telefono: 358454, correo: 'dshfkjr@bf.com',
+      estado: 'Activo', rol: 'Admin'
+    },
+    {
+      Cliente: 1, Nombre: 'John Doe', Telefono: 358454, correo: 'dshfkjr@bf.com',
+      estado: 'Activo', rol: 'Admin'
+    },
+    {
+      Cliente: 1, Nombre: 'John Doe', Telefono: 358454, correo: 'dshfkjr@bf.com',
+      estado: 'Activo', rol: 'Admin'
+    },
+    {
+      Cliente: 1, Nombre: 'John Doe', Telefono: 358454, correo: 'dshfkjr@bf.com',
+      estado: 'Activo', rol: 'Admin'
+    },
+    {
+      Cliente: 1, Nombre: 'John Doe', Telefono: 358454, correo: 'dshfkjr@bf.com',
+      estado: 'Activo', rol: 'Admin'
+    },
+    {
+      Cliente: 1, Nombre: 'John Doe', Telefono: 358454, correo: 'dshfkjr@bf.com',
+      estado: 'Activo', rol: 'Admin'
     }
 
   ];
@@ -113,7 +141,7 @@ const DataTable = ({ backgroundColor }) => {
             </thead>
             <tbody style={bannerStyle}>
               {data.map((item) => (
-                <tr style={bannerStyle} key={item.Cliente}>
+                <tr style={bannerStyle} key={item}>
                   <td style={bannerStyle}>{item.Cliente}</td>
                   <td style={bannerStyle}>{item.Nombre}</td>
                   <td style={bannerStyle}>{item.Telefono}</td>
@@ -202,7 +230,8 @@ const DataTable = ({ backgroundColor }) => {
 
                   <tbody >
                     {data_rol.map((item) => (
-                      <tr key={item.id}>
+                      <tr key={item}>
+                        <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.descripcion_rol}</td>
                         <td>{item.estado}</td>
@@ -460,7 +489,7 @@ const DataTable = ({ backgroundColor }) => {
               </thead>
               <tbody >
                 {data.map((item) => (
-                  <tr key={item.Cliente}>
+                  <tr key={item}>
                     <td >{item.Cliente}</td>
                     <td >{item.Nombre}</td>
                     <td >{item.Telefono}</td>
