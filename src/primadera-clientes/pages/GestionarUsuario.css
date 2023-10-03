@@ -1,20 +1,234 @@
-.DataTable{
+.DataTable {
     padding: 5%;
     margin: 5%;
-    
+    border-radius: 29px;
+
 }
-.btn1{
+
+.DicTable {
+    height: 80px;
+}
+
+.CheckBox {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+
+label {
+    margin: 0 10px;
+}
+
+.home-btn {
+    background-color: #878787;
+    color: white;
+}
+
+.edit-btn {
+    background-color: #878787;
+    color: white;
+}
+
+.btn1 {
     border-radius: 20px;
     background-color: #323333;
     color: white;
-    
+
 }
+
 .btn2 {
     border-radius: 20px;
     background-color: #323333;
     color: white;
-    font-size:medium;
+    font-size: medium;
 }
-.Buttons{
+
+.Buttons {
     margin-left: 1000px;
+}
+
+.Create-User {
+    background-color: #878787;
+    color: white;
+}
+
+.Crear-btn {
+    background-color: #323333;
+    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 20px;
+}
+
+.menu {
+    width: 100%;
+    background-color: white;
+}
+
+.Create-Rol {
+
+    background-color: #878787;
+
+    color: white;
+
+
+
+}
+
+
+
+
+
+.Crear-btn {
+
+    background-color: #323333;
+
+    border-radius: 30px;
+
+    padding-left: 20px;
+
+    padding-right: 20px;
+
+    font-size: 20px;
+
+}
+
+.Btn_crear {
+
+    background-color: #323333;
+
+    height: 50.74px;
+
+    border-radius: 30px;
+
+    display: block;
+
+    padding: 0.5rem 1rem;
+
+    width: 200px;
+
+    margin-top: 10px;
+
+
+
+}
+
+
+
+.Btn_rol {
+
+    background-color: #323333;
+
+    height: 50.74px;
+
+    border-radius: 30px;
+
+    display: block;
+
+    padding: 0.5rem 1rem;
+
+    width: 200px;
+
+    margin-top: 10px;
+
+
+
+}
+
+
+
+.Modificar {
+
+    margin-top: 12px;
+
+    text-align: center;
+
+}
+
+
+
+.Contexto {
+
+    background-color: #878787;
+
+    color: white;
+
+
+
+}
+
+
+
+.Btn_contexto {
+
+    background-color: #323333;
+
+    height: 35.74px;
+
+    border-radius: 30px;
+
+    display: block;
+
+    padding: 0.1rem 1rem;
+
+    width: 100px;
+
+    margin: 0 auto;
+
+}
+
+
+
+.Btn_guardar_context {
+
+    background-color: #323333;
+
+    height: 50.74px;
+
+    border-radius: 30px;
+
+    display: block;
+
+    padding: 0.5rem 1rem;
+
+    width: 200px;
+
+    margin: 0 auto;
+
+}
+
+
+
+.Gestion_roles {
+
+    background-color: #878787;
+
+    color: white;
+
+
+
+
+
+}
+
+
+
+.Btn_cerrar {
+
+    background-color: #323333;
+
+    height: 50.74px;
+
+    border-radius: 30px;
+
+    display: block;
+
+    padding: 0.5rem 1rem;
+
+    width: 200px;
+
+    margin: 0 auto;
+
+
+
 }
