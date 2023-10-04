@@ -11,16 +11,17 @@ const Banner = ({ backgroundColor }) => {
       backgroundPosition: 'center',
       textAling: 'center',
       padding: '50px',
+      height: '20px'
     };  
     const logoStyle = {
       maxWidth: '478px', // Ajusta según tus necesidades
-      margin: '10px',
+      marginTop: '-40px',
     };
     const btnCrrSesion = {
        padding: '10px 20px',
        cursor: 'pointer',
        position: 'absolute',
-       top: '50px',
+       top: '20px',
        right: '10px',
        backgroundColor: backgroundColor || '#323333',
        borderRadius: '20px',

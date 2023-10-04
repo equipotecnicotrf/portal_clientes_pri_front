@@ -73,6 +73,7 @@ label {
 .menu {
     width: 100%;
     background-color: white;
+    
 }
 
 .Create-Rol {
@@ -145,6 +146,15 @@ label {
 }
 
 .Btn_cerrar {
+    background-color: #323333;
+    height: 50.74px;
+    border-radius: 30px;
+    display: block;
+    padding: 0.5rem 1rem;
+    width: 200px;
+    margin-left: 100px;
+}
+.Btn_CrearRol{
     background-color: #323333;
     height: 50.74px;
     border-radius: 30px;

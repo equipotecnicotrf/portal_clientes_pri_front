@@ -1,10 +1,9 @@
 import Banner from './BannerAdmin';
 import imagenes from "../../assets/imagenes";
-import '../pages/Auditoria.css';
+import '../pages/Inventario.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Navbar from 'react-bootstrap/Navbar';
 import { FaSearch } from "react-icons/fa";
 import React, { useState } from 'react';
 import Row from 'react-bootstrap/Row';
@@ -24,31 +23,29 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        top: '10px'
+        top: '10px',
+        
 
     };
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column'
+        height: '100vh', 
     };
 
     const data = [
         {
-            id: 1, descripcion: 'Iniciar sesión', fecha_hora: "03-10-2023", editado_por: 'ADMIN 1'
+            Organización: 1, Nombre: 'Iniciar sesión'
         },
         {
-            id: 2, descripcion: 'Cerrar sesión', fecha_hora: "03-10-2023", editado_por: 'ADMIN 1'
+            Organización: 2, Nombre: 'Cerrar sesión'
         }
     ];
 
-
     const audit = {
-        padding: '20px',
+        padding: '10px',
+        
     };
 
     const audit2 = {
@@ -56,7 +53,9 @@ const DataTable = ({ backgroundColor }) => {
         height: '23vh',
         marginTop: '-35px'
 
+
     };
+    
 
     return (
         <>
@@ -97,19 +96,19 @@ const DataTable = ({ backgroundColor }) => {
                     </div>
                 </div>
 
-
                 <div className='DataTable' style={bannerStyle}>
-                    <th style={audit}>AUDITORIA </th>
+                    <th style={audit}>INVENTARIO </th>
 
-                    <Navbar className="bg-body-tertiary justify-content-between">
+                    
                         <Form inline />
+                        <div className='SearchInventario'>
                         <Form inline>
                             <Row>
                                 <Col xs="auto">
-                                    <Form.Control
+                                    <Form.Control 
                                         type="text"
                                         placeholder="Buscar"
-                                        className=" mr-sm-2"
+                                        className="mr-sm-2"
                                     />
                                 </Col>
                                 <Col xs="auto">
@@ -117,25 +116,24 @@ const DataTable = ({ backgroundColor }) => {
                                 </Col>
                             </Row>
                         </Form>
-                    </Navbar>
+                        </div>
+                    
 
                     <table className='table table-borderless' style={bannerStyle} >
 
                         <thead style={bannerStyle}>
                             <tr style={bannerStyle} >
-                                <th style={bannerStyle}>ID</th>
-                                <th style={bannerStyle}>Descripción</th>
-                                <th style={bannerStyle}>Fecha/Hora</th>
-                                <th style={bannerStyle}>Editado por</th>
+                                <th style={bannerStyle}>Organización</th>
+                                <th style={bannerStyle}>Nombre</th>
+                                <th style={bannerStyle}>Estado</th>
                             </tr>
                         </thead>
                         <tbody style={bannerStyle}>
                             {data.map((item) => (
-                                <tr style={bannerStyle} key={item.id}>
-                                    <td style={bannerStyle}>{item.id}</td>
-                                    <td style={bannerStyle}>{item.descripcion}</td>
-                                    <td style={bannerStyle}>{item.fecha_hora}</td>
-                                    <td style={bannerStyle}>{item.editado_por}</td>
+                                <tr style={bannerStyle} key={item}>
+                                    <td style={bannerStyle}>{item.Organización}</td>
+                                    <td style={bannerStyle}>{item.Nombre}</td>
+                                    <td style={bannerStyle}>{item.Estado}</td>
                                 </tr>
                             ))}
                         </tbody>

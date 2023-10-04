@@ -38,8 +38,8 @@ function AdminMenu() {
         <Dropdown.Menu style={backgroundStyle}>
           <Dropdown.Item onClick={() => navigate("/GestionarUsuario")}>Gestion de usuarios</Dropdown.Item>
           <Dropdown.Item onClick={() => navigate("/Auditoria")}>Auditoria</Dropdown.Item>
-          <Dropdown.Item onClick={() => navigate("/GestionarUsuario")}>Gestionar Pedidos</Dropdown.Item>
-          <Dropdown.Item onClick={() => navigate("/GestionarUsuario")}>Organización de Inventarios</Dropdown.Item>
+          <Dropdown.Item onClick={() => navigate("/Pedidos")}>Gestionar Pedidos</Dropdown.Item>
+          <Dropdown.Item onClick={() => navigate("/Inventario")}>Organización de Inventarios</Dropdown.Item>
           <Dropdown.Item onClick={() => navigate("/GestionarUsuario")}>Notificaciones</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
