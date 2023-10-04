@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import '../pages/LoginPage.css';
 import { Form, Button } from 'react-bootstrap';
@@ -8,10 +9,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  return (
-    <div className='BackImg'>
-      <div className='Login-head p-4 p-sm-3 justify-content-center
-      aling-items-center'>
+
         <div className='logo-rojo p-4 p-sm-3 justify-content-center
         aling-items-center' >
           <img src={imagenes.LogoRojo} />
@@ -38,9 +36,9 @@ const LoginPage = () => {
           </Form>
         </div>
       </div>
+
     </div>
-
   )
-
 }
+
 export default LoginPage
