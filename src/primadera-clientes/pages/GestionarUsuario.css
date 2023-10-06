@@ -6,13 +6,18 @@
     border-collapse: collapse;
     max-height: 350px;
     overflow-y: auto;
-    
 }
 
 .CheckBox {
     display: flex;
     align-items: end;
     justify-content: end;
+    margin: 1%;
+   
+}
+
+.Checkbox_estado{
+    padding: 5px; /*AJUSTE LCPG*/
 }
 
 .home-btn {
@@ -29,13 +34,13 @@
     border-radius: 20px;
     background-color: #323333;
     color: white;
-    position:auto;
+    position: auto;
     font-size: medium;
 }
 
 .Buttons {
     margin-top: -50px;
-    margin-left: 1000px;    
+    margin-left: 1000px;
 }
 
 .Create-User {
@@ -55,13 +60,14 @@
 .menu {
     width: 100%;
     background-color: white;
-    
+
 }
 
 .Create-Rol {
     background-color: #878787;
     color: white;
 }
+
 .Crear-btn {
     background-color: #323333;
     border-radius: 30px;
@@ -96,7 +102,7 @@
     width: 200px;
     margin: 0 auto;
     font-size: medium;
-    
+
 }
 
 .boton_crear_rol {
@@ -104,12 +110,12 @@
     height: 50.74px;
     width: 200px;
     border-radius: 30px;
-    display: block;    
+    display: block;
     padding: 0.5rem 1rem;
     margin: 0 auto;
     color: white;
     font-size: medium;
-    position:auto;
+    position: auto;
 }
 
 .Gestion_roles {
@@ -122,11 +128,27 @@
     height: 50.74px;
     width: 200px;
     border-radius: 30px;
-    display: block;    
+    display: block;
     padding: 0.5rem 1rem;
     margin: 0 auto;
     color: white;
     font-size: medium;
-    position:auto;
+    position: auto;
 
 }
+/*AJUSTES LCPG INI*/
+.Img_gest_usua{
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    display: block;
+}
+
+.busc_gest_usua{    
+    margin-top: -45px;
+    margin-left: 850px;
+}
+.gest_usua { 
+    background-color: #323333;    
+}
+/*AJUSTES LCPG FIN*/

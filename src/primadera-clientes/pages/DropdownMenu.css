@@ -1,17 +1,18 @@
-.fondoBlanco{
-    position:absoulte;
-    background-color: white;   
+.fondoBlanco {
+    position: absoulte;
+    background-color: white;
     margin-top: -93.3px;
     margin-left: 60px;
-    margin-right: 60px;    
-    opacity: 55;    
+    margin-right: 60px;
+    opacity: 55;
     border-radius: 29px;
-    padding: 14%;    
+    padding: 14%;
 }
 
-.Img-Creamos{
+.Img-Creamos {
     width: 200px;
     height: 100px;
-    margin-left: 490px;
+    margin: auto;
+    display: block;
 
 }

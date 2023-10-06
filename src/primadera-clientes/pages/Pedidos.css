@@ -5,11 +5,9 @@
 
 }
 
-.botones {
-   
-    margin-top: 20px;
-    margin-left: 350px;
-
+.botones { 
+    margin-top: -50px; /*AJUSTE LCPG*/
+    margin-left: 1075px; /*AJUSTE LCPG*/
 }
 
 .boton1 {
@@ -26,21 +24,39 @@
 
 }
 
-.boton2 {
-    background-color: #323333;
-    height: 50.74px;
-    width: 200px;
-    border-radius: 30px;
-    display: block;
-    padding: 0.5rem 1rem;    
-    margin: 0 auto;
-    color: white;
-    font-size: medium;
-    position: auto;
-}
-
-.imagen-circular{
-  
+.imagen-circular{  
    width: 100px;
    height: 100px;
 }
+/*AJUSTE LCPG INI borrar boton2*/
+
+.Checkbox_estado_ped{
+    padding: 5px; 
+}
+
+.Edit-ped {
+    background-color: #878787; 
+    color: white; 
+}
+
+.Crear-ped {
+    background-color: #878787; 
+    color: white; 
+}
+
+.Guardar-btn-ped {
+    background-color: #323333;
+    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 20px;
+    font-size: medium;
+}
+
+.Img-Creamos_ped{
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    display: block;
+}
+/*AJUSTE LCPG FIN*/

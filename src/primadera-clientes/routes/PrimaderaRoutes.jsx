@@ -5,9 +5,8 @@ import GestionarUsuario from "../pages/GestionarUsuario";
 import Auditoria from "../pages/Auditoria";
 import Inventario from "../pages/Inventario";
 import Pedidos from "../pages/Pedidos";
-
-
-
+import DropdownMenu from "../pages/DropdownMenu"; {/*AJUSTE LCPG*/}
+import Notificaciones from "../pages/Notificaciones"; {/*AJUSTE LCPG*/}
 
 const PrimaderaRoutes = () => {
   return (
@@ -20,10 +19,8 @@ const PrimaderaRoutes = () => {
         <Route path="Auditoria" element={<Auditoria />} />
         <Route path="Inventario" element={<Inventario /> } />
         <Route path="Pedidos" element={<Pedidos /> } />
-
-        
-        
-        
+        <Route path="DropdownMenu" element={<DropdownMenu /> } />     {/*AJUSTE LCPG*/}          
+        <Route path="Notificaciones" element={<Notificaciones /> } />     {/*AJUSTE LCPG*/}  
       </Routes>
     </>
   )

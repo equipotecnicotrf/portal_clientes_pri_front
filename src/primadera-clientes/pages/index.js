@@ -6,3 +6,5 @@ export * from './BannerAdmin';
 export * from './Auditoria';
 export * from './Inventario';
 export * from './Pedidos';
+export * from './DropdownMenu'; {/*AJUSTE LCPG*/}
+export * from './Notificaciones'; {/*AJUSTE LCPG*/}

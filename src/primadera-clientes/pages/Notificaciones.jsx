@@ -2,9 +2,6 @@ import Banner from './BannerAdmin';
 import imagenes from "../../assets/imagenes";
 import '../pages/Inventario.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { FaSearch } from "react-icons/fa";
 import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -14,9 +11,7 @@ import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import Cookies from 'js-cookie';
 import LoginService from '../../services/LoginService';
-import InvService from '../../services/InvService';
 import UserService from '../../services/UserService';
-
 
 
 const DataTable = ({ backgroundColor }) => {
@@ -50,40 +45,13 @@ const DataTable = ({ backgroundColor }) => {
             LoginService.logout();
             navigate('/')
         }
-    }
+    }  
 
-    //Consulta Inventario
-    const [inventary, SetInv] = useState([]);
-    useEffect(() => {
-        ListaInv()
-    }, [])
-    const ListaInv = () => {
-        InvService.getAllInv().then(response => {
-            SetInv(response.data)
-            console.log(response.data)
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-
-    const bannerStyle = {
-        backgroundColor: backgroundColor || '#878787',
-        color: '#fff',
-        padding: '20px',
-        textAlign: 'center',
-        marginTop: '30px',
-
-    };
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: '100vh',
-    };
-
-    const audit = {
-        padding: '20px',
-
     };
 
     const audit2 = {
@@ -137,48 +105,6 @@ const DataTable = ({ backgroundColor }) => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <div className='DataTable' style={bannerStyle}>
-                    <th style={audit}>ORGANIZACIONES DE INVENTARIO </th>
-                    <div className='SearchInventario'>
-                        <Form inline>
-                            <Row>
-                                <Col xs="auto">
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Buscar"
-                                        className="mr-sm-2"
-                                    />
-                                </Col>
-                                <Col xs="auto">
-                                    <Button className='inventario'><FaSearch /></Button>
-                                </Col>
-                            </Row>
-                        </Form>
-                    </div>
-
-                    <table className='table table-borderless'  >
-                        <thead style={bannerStyle}>
-                            <tr style={bannerStyle} >
-                                <th style={bannerStyle}>Organización</th>
-                                <th style={bannerStyle}>Codigo Organización</th>
-                                <th style={bannerStyle}>Nombre</th>
-                                <th style={bannerStyle}>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody style={bannerStyle}>
-                            {inventary
-                                .toSorted((a, b) => a.organization_id - b.organization_id) // Ordena el arreglo por organization_id en orden ascendente
-                                .map((inventary) => (
-                                    <tr style={bannerStyle} key={inventary.organization_id}>
-                                        <td style={bannerStyle}>{inventary.organization_id}</td>
-                                        <td style={bannerStyle}>{inventary.organization_code}</td>
-                                        <td style={bannerStyle}>{inventary.organization_name}</td>
-                                        <td style={bannerStyle}>{inventary.organization_status}</td>
-                                    </tr>
-                                ))}
-                        </tbody>
-                    </table>
-                </div>
                 <Image className='Img-Creamos_ped' src={imagenes.Creamos} />
             </div>{/*AJUSTE LCPG*/}
         </>

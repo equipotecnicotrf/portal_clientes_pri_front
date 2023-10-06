@@ -5,17 +5,108 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FaSearch } from "react-icons/fa";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
+import Cookies from 'js-cookie';
+import AuditService from '../../services/AuditService';
+import LoginService from '../../services/LoginService';
+import UserService from '../../services/UserService';
+
 
 
 const DataTable = ({ backgroundColor }) => {
+    const [selectedOption, setSelectedOption] = useState('Acciones');
+    //validacion de sesion activa
+    const [usuarioSesion, setUarioSesion] = useState([]);
+    const [usuarioCorreo, setUsuarioCorreo] = useState([]);
     const navigate = useNavigate();
+    useEffect(() => {
+        SesionUsername()
+    }, [])
+
+    const SesionUsername = () => {
+        if (LoginService.isAuthenticated()) {
+            // Renderizar la vista protegida
+            const read = Cookies.get()
+            //console.log(read)
+            //alert("Bienvenido " + read.portal_sesion);    
+            UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
+                //console.log(responseid.data)
+                setUarioSesion(responseid.data.cp_name);
+                setUsuarioCorreo(responseid.data.username);
+
+            }).catch(error => {
+                console.log(error)
+                alert("Error obtener usuario de sesion")
+            })
+        } else {
+            // Redirigir al inicio de sesión u otra acción
+            LoginService.logout();
+            navigate('/')
+        }
+    }
+
+    // consulta de auditoria
+    const [auditoria, SetAuditoria] = useState([]);
+
+    //para traer los nombres de los usuarios
+    const [usernames, setUsernames] = useState({});
+
+    //listar los datos de auditoria
+    const ListarAuditoria = () => {
+        AuditService.getAllAudits().then(response => {
+            SetAuditoria(response.data)
+            console.log(response.data)
+
+            //traer datos de nombre de usuarios de la tabla users
+            obtenerNombresDeUsuario();
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    //consulta username para tabla auditoria
+    const obtenerNombresDeUsuario = async () => {
+        try {
+            const auditPromises = auditoria.map(async (audit) => {
+                try {
+                    const userResponse = await UserService.getUserById(audit.cp_id_user);
+                    const user = userResponse.data;
+                    return { id: audit.cp_id_user, username: user.username };
+                } catch (error) {
+                    console.error(`Error obteniendo el usuario con ID ${audit.cp_id_user}: ${error}`);
+                    return { id: audit.cp_id_user, username: "N/A" }; // Puedes proporcionar un valor predeterminado si la obtención falla
+                }
+            });
+
+            const auditUsers = await Promise.all(auditPromises);
+
+            // Convertir el arreglo de auditorías a un objeto de usernames para un acceso más eficiente
+            const usernamesObject = {};
+            auditUsers.forEach((user) => {
+                usernamesObject[user.id] = user.username;
+            });
+
+            setUsernames(usernamesObject);
+        } catch (error) {
+            console.error(`Error obteniendo nombres de usuario: ${error}`);
+        }
+    };
+
+
+    useEffect(() => {
+        ListarAuditoria()
+    }, [])
+
+    useEffect(() => {
+        obtenerNombresDeUsuario()
+    }, [auditoria])
+
     const bannerStyle = {
         backgroundColor: backgroundColor || '#878787',
         color: '#fff',
@@ -60,15 +151,6 @@ const DataTable = ({ backgroundColor }) => {
 
     };
 
-    const data = [
-        {
-            id: 1, descripcion: 'Iniciar sesión', fecha_hora: "03-10-2023", editado_por: 'ADMIN 1'
-        },
-        {
-            id: 2, descripcion: 'Cerrar sesión', fecha_hora: "03-10-2023", editado_por: 'ADMIN 1'
-        }
-    ];
-
     return (
         <>
             <div className='Back' style={backgroundStyle}>
@@ -84,19 +166,19 @@ const DataTable = ({ backgroundColor }) => {
                             </Row>
                         </Container>
                         </td>
-                        <td><th>ADMIN1 </th><tr><td>Correo</td></tr></td>
+                        <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr></td>
                     </tr>
                 </div>
                 <Dropdown style={dropDown}>
                     <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
-                        Acciones
+                        {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
-                        <Dropdown.Item onClick={() => navigate("/GestionarUsuario")}>Gestión de usuarios</Dropdown.Item>
-                        <Dropdown.Item onClick={() => navigate("/Auditoria")}>Auditoria</Dropdown.Item>
-                        <Dropdown.Item onClick={() => navigate("/Pedidos")}>Gestionar Pedidos</Dropdown.Item>
-                        <Dropdown.Item onClick={() => navigate("/Inventario")}>Organización de Inventarios</Dropdown.Item>
-                        <Dropdown.Item onClick={() => navigate("/GestionarUsuario")}>Notificaciones</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestión de usuarios'); navigate("/GestionarUsuario"); }}>Gestión de usuarios</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoria</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
 
@@ -130,17 +212,20 @@ const DataTable = ({ backgroundColor }) => {
                             </tr>
                         </thead>
                         <tbody style={bannerStyle}>
-                            {data.map((item) => (
-                                <tr style={bannerStyle} key={item.id}>
-                                    <td style={bannerStyle}>{item.id}</td>
-                                    <td style={bannerStyle}>{item.descripcion}</td>
-                                    <td style={bannerStyle}>{item.fecha_hora}</td>
-                                    <td style={bannerStyle}>{item.editado_por}</td>
-                                </tr>
-                            ))}
+                            {auditoria
+                                .sort((a, b) => a.cp_Audit_id - b.cp_Audit_id) // Ordena el arreglo por cp_Audit_id en orden ascendente
+                                .map((auditoria) => (
+                                    <tr style={bannerStyle} key={auditoria.cp_Audit_id}>
+                                        <td style={bannerStyle}>{auditoria.cp_Audit_id}</td>
+                                        <td style={bannerStyle}>{auditoria.cp_audit_description}</td>
+                                        <td style={bannerStyle}>{auditoria.cp_audit_date}</td>
+                                        <td style={bannerStyle}>{usernames[auditoria.cp_id_user] ? (<span>{usernames[auditoria.cp_id_user]}</span>) : (<span>Cargando...</span>)}</td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>
+                <Image className='Img_gest_usua' src={imagenes.Creamos} />
             </div>
         </>
     );
