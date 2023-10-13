@@ -1,0 +1,44 @@
+.BackImg_conf_correo {
+    background-image: url("../../assets/LoginBack.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.conf_correo_head {
+    background-color: white;
+    border-radius: 10px;
+    width: 482px;
+    height: 482px;
+    margin: auto;
+    display: block;
+}
+
+.conf_correo_content {
+    text-align: center;
+}
+
+.logo-rojo_conf_correo {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.email-form-conf {
+    width: 312.88px;
+    height: 50.74;
+    margin: auto;
+    border-radius: 30px;
+    padding-top: 5%;
+}
+
+.Confirmacion-btn {
+    background-color: #323333;
+    width: 214.49px;
+    height: 50.74px;
+    border-radius: 30px;
+    margin-top: 10px;
+}

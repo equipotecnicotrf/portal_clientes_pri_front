@@ -1,0 +1,320 @@
+.DataTable {
+
+    padding: 5%;
+
+    margin: 5%;
+
+    border-radius: 29px;
+
+    width: auto;
+
+    border-collapse: collapse;
+
+    max-height: 350px;
+
+    overflow-y: auto;
+
+}
+
+
+
+.CheckBox {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: flex-end;
+
+    margin: 1%;
+
+}
+
+
+
+.Checkbox_estado {
+
+    padding: 5px;
+
+}
+
+
+
+.home-btn {
+    background-color: #878787;
+    color: white;
+    border: none;
+}
+
+
+
+.edit-btn {
+    background-color: #878787;
+    color: white;
+    border: none;
+}
+
+
+
+.btns {
+
+    border-radius: 20px;
+
+    background-color: #323333;
+
+    color: white;
+
+    position: auto;
+
+    font-size: medium;
+
+}
+
+
+
+.Buttons {
+
+    margin-top: -50px;
+
+    margin-right: 5%;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+}
+
+
+
+.Create-User {
+
+    background-color: #878787;
+
+    color: white;
+
+}
+
+
+
+.Crear-btn {
+
+    background-color: #323333;
+
+    border-radius: 30px;
+
+    padding-left: 20px;
+
+    padding-right: 20px;
+
+    font-size: 20px;
+
+    font-size: medium;
+
+}
+
+
+
+.menu {
+
+    width: 100%;
+
+    background-color: white;
+
+}
+
+
+
+.Create-Rol {
+
+    background-color: #878787;
+
+    color: white;
+
+}
+
+
+
+.Crear-btn {
+
+    background-color: #323333;
+
+    border-radius: 30px;
+
+    padding-left: 20px;
+
+    padding-right: 20px;
+
+    font-size: 20px;
+
+    font-size: medium;
+
+}
+
+
+
+.Contexto {
+
+    background-color: #878787;
+
+    color: white;
+
+}
+
+
+
+.Btn_contexto {
+
+    background-color: #323333;
+
+    height: 35.74px;
+
+    border-radius: 30px;
+
+    display: block;
+
+    padding: 0.1rem 1rem;
+
+    width: 100px;
+
+    margin: 0 auto;
+
+    font-size: medium;
+
+}
+
+
+
+.Btn_guardar_context {
+
+    background-color: #323333;
+
+    height: 50.74px;
+
+    border-radius: 30px;
+
+    display: block;
+
+    padding: 0.5rem 1rem;
+
+    width: 200px;
+
+    margin: 0 auto;
+
+    font-size: medium;
+
+}
+
+
+
+.boton_crear_rol {
+
+    background-color: #323333;
+
+    height: 50.74px;
+
+    width: 200px;
+
+    border-radius: 30px;
+
+    display: block;
+
+    padding: 0.5rem 1rem;
+
+    margin: 0 auto;
+
+    color: white;
+
+    font-size: medium;
+
+    position: auto;
+
+}
+
+
+
+.Gestion_roles {
+
+    background-color: #878787;
+
+    color: white;
+
+}
+
+
+
+.boton_ges_usua {
+    background-color: #323333;
+    padding: 0.4rem 0.8rem;
+    border-radius: 30px;
+    margin-right: 20px;
+    width: 100px;
+}
+
+
+
+.Img_gest_usua {
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    display: block;
+}
+
+
+
+.busc_gest_usua {
+
+    position: absolute;
+
+    top: 40px;
+
+    right: 10px;
+
+}
+
+
+
+.gest_usua {
+
+    background-color: #323333;
+
+    padding: 0.4rem 0.8rem;
+
+    border-radius: 5px;
+
+    margin-right: 20px;
+
+}
+
+
+
+@media (max-width: 768px) {
+
+    .busc_gest_usua {
+
+        position: sticky;
+
+        margin-top: 10px;
+
+        margin-left: 0;
+
+    }
+
+}
+
+.Edit-estado-ges-rol {
+
+    background-color: #878787;
+
+    color: white;
+
+    border: none;
+
+}
+
+
+
+.Checkbox_estado_rol {
+
+    padding: 5px;
+
+}

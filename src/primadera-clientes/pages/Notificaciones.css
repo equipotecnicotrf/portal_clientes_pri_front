@@ -1,0 +1,21 @@
+.Img-Admin{
+    width: 100px;
+    height: 100px;
+}
+.SearchInventario{    
+    margin-top: -45px;
+    margin-left: 850px;
+}
+.inventario { 
+    background-color: #323333;     
+}
+
+/*AJUSTE LCPG INI*/
+
+.Img-Creamos_inv{
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    display: block;
+}
+/*AJUSTE LCPG FIN*/

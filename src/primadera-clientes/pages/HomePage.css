@@ -1,0 +1,40 @@
+.enter-button{
+    background-color: #fff !important;
+    color: #000;
+    padding: 10px 20px;
+    font-size: 40px !important;
+    cursor: pointer;
+    width: 412px;
+    height: 86px;
+    border: none;
+    border-radius: 8px;
+    position: relative !important;
+    margin-left: 470px;
+   
+
+}
+
+
+.logo-blanco{
+    margin-top: 400px !important;
+   margin-left: 550px;
+    width: 542px;
+    height: auto;
+    
+    
+}
+   
+   /* Estilos para el Carousel de fondo */
+   .background-carousel {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0;
+    z-index: -1; /* Coloca el Carousel detrás del contenido */
+   }
+   
+   /* Estilos para el contenido de la página */
+   .content {
+    
+    position: relative;
+    z-index: 1; /* Coloca el contenido sobre el Carousel */
+   }

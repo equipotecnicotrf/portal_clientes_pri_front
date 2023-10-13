@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'Gotham-Bold' ;
+    src: url('./assets/Gotham/Gotham-Bold.otf');
+
+    font-family: 'Gotham-Medium' ;
+    src: url('./assets/Gotham/Gotham-Medium.otf');
+
+    font-family: 'Gotham-Light' ;
+    src: url('./assets/Gotham/Gotham-Light.otf');
+    
+    
+}
+
+body{
+    font-family: 'Gotham-Medium', sans-serif;
+}

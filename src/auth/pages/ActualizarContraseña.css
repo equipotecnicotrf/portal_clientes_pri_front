@@ -1,0 +1,49 @@
+.BackImg_actua_contra {
+    background-image: url("../../assets/LoginBack.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.Actua_contra-head {
+    background-color: white;
+    border-radius: 10px;
+    width: 482px;
+    height: 482px;
+    margin: auto;
+    display: block;
+}
+
+.Actua_contra_content {
+    text-align: center;
+}
+
+.logo-rojo_actua_contra {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.email-form-actua {
+    width: 312.88px;
+    height: 50.74;
+    margin: auto;
+    border-radius: 30px;
+    padding-top: 5%;
+}
+
+.Actua_contra {
+    margin: auto;
+    display: block;
+}
+
+.Actualizar-btn {
+    background-color: #323333;
+    width: 214.49px;
+    height: 50.74px;
+    border-radius: 30px;
+    margin-top: 10px;
+}

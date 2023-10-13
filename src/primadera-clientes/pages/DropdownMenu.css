@@ -1,0 +1,18 @@
+.fondoBlanco {
+    position: absoulte;
+    background-color: white;
+    margin-top: -93.3px;
+    margin-left: 60px;
+    margin-right: 60px;
+    opacity: 55;
+    border-radius: 29px;
+    padding: 14%;
+}
+
+.Img-Creamos {
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    display: block;
+
+}
