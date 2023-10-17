@@ -23,6 +23,7 @@ import RoleService from '../../services/RoleService';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import AddressService from '../../services/AddressService';
 import TypeOrderService from '../../services/TypeOrderService';
+import EmailService from '../../services/EmailService';
 
 const DataTable = ({ backgroundColor }) => {
   const [selectedOption, setSelectedOption] = useState('Acciones');
@@ -204,6 +205,28 @@ const DataTable = ({ backgroundColor }) => {
               alert("Error al actualizar Usuario, Por favor diligenciar todos los campos")
             });
           }
+        } else {
+          const username = cp_email;
+          const cp_estatus = (checkbox2 ? "Activo" : checkbox1 ? "Inactivo" : cp_estatus);
+          const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone }
+          UserService.updateUser(editUserId, UserEdit).then((response) => {
+            console.log(responseid.data)
+            const cp_id_user = responseid.data.cp_user_id;
+            const cp_audit_description = "Actualizacion de usuario " + username;
+            const Audit = { cp_id_user, cp_audit_description };
+            AuditService.CrearAudit(Audit).then((response) => {
+              console.log(response.data);
+              navigate('/GestionarUsuario');
+              alert("Usuario Actualizado Exitosamente");
+              window.location.reload();
+            }).catch(error => {
+              console.log(error)
+              alert("Error al crear auditoria")
+            })
+          }).catch((error) => {
+            console.log(error);
+            alert("Error al actualizar Usuario, Por favor diligenciar todos los campos")
+          });
         }
 
       }).catch(error => {
@@ -220,8 +243,8 @@ const DataTable = ({ backgroundColor }) => {
         const username = cp_email;
         const cp_estatus = "Activo";
         const userCreate = { username, cust_account_id, cust_name, party_id, cp_name, cp_Password, cp_email, cp_estatus, cp_rol_id, cp_cell_phone };
-        UserService.createUsers(userCreate).then((response) => {
-          console.log(response.data);
+        UserService.createUsers(userCreate).then((responsecreate) => {
+          console.log(responsecreate.data);
           const read = Cookies.get()
           UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
             console.log(responseid.data)
@@ -230,9 +253,26 @@ const DataTable = ({ backgroundColor }) => {
             const Audit = { cp_id_user, cp_audit_description };
             AuditService.CrearAudit(Audit).then((response) => {
               console.log(response.data);
-              navigate('/GestionarUsuario');
-              alert("Usuario Creado Exitosamente");
-              window.location.reload();
+
+              const toUser = [cp_email];
+              const subject = "Bienvenido al Portal clientes Primadera";
+              const resetPasswordLink = `http://150.136.119.119:83/ActualizarContrasena/?userId=${responsecreate.data.cp_user_id}`;
+              const message = `Hola ${responsecreate.data.cp_name},\n\n`
+                + "Bienvenido a Nuestra Plataforma. Hemos creado una cuenta para ti y asignado una contraseña temporal.\n\n"
+                + "Para configurar tu contraseña y comenzar a usar nuestros servicios, por favor haz clic en el siguiente enlace:\n\n"
+                + `${resetPasswordLink}.\n\n`
+                + "Después de hacer clic en el enlace, podrás establecer una contraseña segura para tu cuenta.\n\n"
+                + "Si no solicitaste esta cuenta o tienes alguna pregunta, por favor contáctanos de inmediato.\n\n"
+                + "Gracias, equipo Primadera";
+              const correo = { toUser, subject, message };
+              EmailService.Sendmessage(correo).then(() => {
+                navigate('/GestionarUsuario');
+                alert("Usuario Creado Exitosamente");
+                window.location.reload();
+              }).catch(error => {
+                console.log(error);
+                alert("Error al enviar correo");
+              })
             }).catch(error => {
               console.log(error)
               alert("Error al crear auditoria")
@@ -494,6 +534,35 @@ const DataTable = ({ backgroundColor }) => {
             alert("Error al Actualizar Rol")
           });
         }
+      } else {
+        // Update an existing record
+        const cp_rol_status = (checkbox_rol2 ? "Activo" : checkbox_rol1 ? "Inactivo" : cp_rol_status);
+        const Rol = { cp_rol_name, cp_rol_description, cp_rol_status };
+        RoleService.updaterol(editrolId, Rol).then((response) => {
+          console.log(response.data);
+          const read = Cookies.get()
+          UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
+            console.log(responseid.data)
+            const cp_id_user = responseid.data.cp_user_id;
+            const cp_audit_description = "Actualizacion rol " + cp_rol_name + " " + cp_rol_description;
+            const Audit = { cp_id_user, cp_audit_description };
+            AuditService.CrearAudit(Audit).then((response) => {
+              console.log(response.data);
+              navigate('/GestionarUsuario');
+              alert("Rol Actualizado Exitosamente");
+              window.location.reload();
+            }).catch(error => {
+              console.log(error)
+              alert("Error al crear auditoria")
+            })
+          }).catch(error => {
+            console.log(error)
+            alert("Error obtener usuario de sesion")
+          })
+        }).catch(error => {
+          console.log(error)
+          alert("Error al Actualizar Rol")
+        });
       }
     } else {
       // Create a new record

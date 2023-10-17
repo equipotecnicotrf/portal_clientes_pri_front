@@ -24,7 +24,7 @@ const PrimaderaRoutes = () => {
         <Route path="DropdownMenu" element={<DropdownMenu />} />     {/*AJUSTE LCPG*/}
         <Route path="Notificaciones" element={<Notificaciones />} />     {/*AJUSTE LCPG*/}
         <Route path="ConfirmarCorreo" element={<ConfirmarCorreo />} />     {/*AJUSTE LCPG*/}
-        <Route path="ActualizarContraseña" element={<ActualizarContraseña />} />     {/*AJUSTE LCPG*/}
+        <Route path="ActualizarContrasena" element={<ActualizarContraseña />} />     {/*AJUSTE LCPG*/}
       </Routes>
     </>
   )
