@@ -1,0 +1,186 @@
+.Info_general_compra {
+    background-color: #BFBFBF;
+    text-align: left;
+    margin-left: 80%;
+    width: 220px;
+    height: 80px;
+    margin-top: 2%;
+    border-radius: 10px;
+    border-width: 0.5px;
+    border-color: black;
+}
+
+.Info_general_compra_2 {
+    background-color: #BFBFBF;
+    margin-left: 40%;
+    margin-top: -29.5%;
+    width: 100px;
+    text-align: center;
+    font-size: smaller;
+    color: white;
+}
+
+.tamano_carro_principal_compra {
+    font-size: 40px;
+    margin-left: 12%;
+    margin-top: 10%;
+    color: white;
+}
+
+.FondoBlanco_compra {
+    background-color: white;
+    margin: 40px;
+    margin-top: 3%;
+    height: 785px;
+}
+
+.Buttons_compra {
+    margin-top: -2.5%;
+    margin-left: 20.5%;
+    z-index: auto;
+}
+
+.btns_compra {
+    box-shadow: 2px;
+    background-color: #BFBFBF;
+    color: white;
+    position: auto;
+    font-size: medium;
+    width: 188px;
+    height: 50px;
+    border-color: black;
+    border-width: 0.5px;
+}
+
+.ContenedorPadre_compra {
+    background-color: #F9F7F7;
+    width: 950x;
+    height: 590px;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 0%;
+    overflow: auto;
+}
+
+.btns_carrito_conf_compra {
+    background-color: #941C1D;
+    border-radius: 30px;
+    width: 200px;
+    border: none;
+
+}
+
+.centrar_boton_confirmar {
+    padding: 1%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 8%;
+}
+
+.direccion_envio {
+    background-color: #D9D9D9;
+    margin-top: 2%;
+    margin-left: 12%;
+    width: 500px;
+    height: 300px;
+    display: flex;
+}
+
+.tamano_carro_compra {
+    font-size: 40px;
+    margin-top: 6%;
+    margin-left: 7%;
+}
+
+.tamano_carro_compra_2 {
+    font-size: 40px;
+    margin-top: 8%;
+    margin-left: 11%;
+}
+
+.tamano_direccion {
+    font-size: medium;
+    margin-top: 10%;
+    margin-left: 3%;
+}
+
+.buscador {
+    margin-top: 50%;
+    margin-left: -95%;
+    width: 180%;
+    height: 50px;
+    background-color: white;
+}
+
+.resumen_pedido {
+    background-color: #D9D9D9;
+    margin-top: -24.6%;
+    margin-left: 60%;
+    width: 405px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: auto;
+    overflow: auto;
+
+}
+
+.tamano_carro_resumen {
+    font-size: 40px;
+    margin-top: 10%;
+    margin-left: 17%;
+}
+
+.tamano_resumen {
+    font-size: medium;
+    margin-top: -7.5%;
+    margin-left: 31%;
+}
+
+.ubicacion_totales {
+    overflow: 'auto';
+    text-align: right;
+    margin-left: 190px;
+    max-width: 265px;
+    justify-content: left;
+    align-items: left;
+}
+
+.borde_horizontal {
+    border-bottom: 2px solid #000;
+}
+
+.centrar_carrito_finalizar {
+    width: 50px;
+    height: 50px;
+    color: #941C1D;
+}
+
+
+.modal-frase-finalizar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.ancho_modal_finalizar {
+    width: 400px;
+    left: 35%;
+}
+
+.modal_principal_finalizar {
+    background-color: white;
+    color: black;
+
+}
+
+.tables {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding-right: 13px;
+}

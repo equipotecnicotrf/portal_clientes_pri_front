@@ -7,8 +7,11 @@ import Inventario from "../pages/Inventario";
 import Pedidos from "../pages/Pedidos";
 import DropdownMenu from "../pages/DropdownMenu"; {/*AJUSTE LCPG*/ }
 import Notificaciones from "../pages/Notificaciones"; {/*AJUSTE LCPG*/ }
-import ConfirmarCorreo from "../../auth/pages/ConfirmarCorreo"; {/*AJUSTE LCPG*/ }
-import ActualizarContraseña from "../../auth/pages/ActualizarContraseña"; {/*AJUSTE LCPG*/ }
+import DataTablePerfilUser from '../../primadera-usuario/pages-usuario/PerfilUsuario';
+import DataInventario from '../../primadera-usuario/pages-usuario/InventarioUser';
+import DataPedido from "../../primadera-usuario/pages-usuario/HazPedido";
+import CarritoCompras from "../../primadera-usuario/pages-usuario/CarritoCompra";
+import FinalizarCompra from '../../primadera-usuario/pages-usuario/FinalizarCompra';
 
 const PrimaderaRoutes = () => {
   return (
@@ -23,8 +26,12 @@ const PrimaderaRoutes = () => {
         <Route path="Pedidos" element={<Pedidos />} />
         <Route path="DropdownMenu" element={<DropdownMenu />} />     {/*AJUSTE LCPG*/}
         <Route path="Notificaciones" element={<Notificaciones />} />     {/*AJUSTE LCPG*/}
-        <Route path="ConfirmarCorreo" element={<ConfirmarCorreo />} />     {/*AJUSTE LCPG*/}
-        <Route path="ActualizarContrasena" element={<ActualizarContraseña />} />     {/*AJUSTE LCPG*/}
+        <Route path="DataTablePerfilUser" element={<DataTablePerfilUser />} />
+        {<Route path="DataInventario" element={<DataInventario />} />}
+        <Route path="DataPedido" element={<DataPedido />} />
+        <Route path="CarritoCompras" element={<CarritoCompras />} />
+        <Route path="FinalizarCompra" element={<FinalizarCompra />} />
+
       </Routes>
     </>
   )
