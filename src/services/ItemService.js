@@ -10,6 +10,10 @@ class ItemService {
     getItemsConDisponibilidad() {
         return axios.get(BASE_REST_API_URL + "/itemscondisponibilidad")
     }
+
+    getItemsSinDisponibilidad() {
+        return axios.get(BASE_REST_API_URL + "/itemshazpedido")
+    }
 }
 
 export default new ItemService();

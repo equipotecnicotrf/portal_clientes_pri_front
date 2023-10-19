@@ -17,6 +17,7 @@ import FiltroDropdownCheckbox from './Filtro';
 import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck } from "react-icons/fa";
 
 import { Modal } from 'react-bootstrap';
+import ItemService from '../../services/ItemService';
 
 const DataPedido = () => {
     const [usuarioSesion, setUarioSesion] = useState([]);
@@ -25,7 +26,8 @@ const DataPedido = () => {
     const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
-        SesionUsername()
+        SesionUsername();
+        itemsSinDisponibildad();
     }, [])
 
     const SesionUsername = () => {
@@ -50,6 +52,16 @@ const DataPedido = () => {
             LoginService.logout();
             navigate('/')
         }
+    }
+
+    const [ArticulosSinDisponibilidad, setArticulosSinDisponibilidad] = useState([]);
+    const itemsSinDisponibildad = () => {
+        ItemService.getItemsSinDisponibilidad().then(response => {
+            setArticulosSinDisponibilidad(response.data)
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
     const productos = [
@@ -212,57 +224,53 @@ const DataPedido = () => {
                         </div>
 
                         <div className='organiza_articulos row rows-cols1 row-cols-md-3'>
+                            {ArticulosSinDisponibilidad
+                                .toSorted((a, b) => a.inventory_item_id - b.inventory_item_id) // Ordena el arreglo por cp_user_id en orden ascendente
+                                .map(articulo => (
+                                    <td key={articulo.inventory_item_id}>
+                                        <div className='organiza_img_y_cont'>
+                                            <img className='Borde_imagenes'
+                                                src={imagenes.Arboles}
+                                                alt=""
+                                                style={{ width: '200px', height: '270px' }}
+                                            />
+                                            <div className='organiza_texto'>
+                                                <tr>CÓDIGO ARTÍCULO:{articulo.item_number}</tr>
+                                                <tr><strong>{articulo.item_description_long}</strong></tr>
+                                                <tr><strong>{articulo.atribute3 + " caras " + articulo.atribute1 + " " + articulo.atribute6 + "mm" + " " + articulo.atribute7 + "m10"}</strong></tr>
+                                                <tr><strong>Precio: { }</strong></tr>
+                                                <div className='organiza_iva_inc'>
+                                                    <tr>{ } IVA INCLUIDO</tr>
+                                                </div>
+                                                <div className='organiza_btn_carro'>
+                                                    <Button onClick={handleShow} className='btn_agregar_carro'>
+                                                        <FaShoppingCart /><span> Agregar</span>
+                                                    </Button>
+                                                </div>
+                                                <div className='principal_contador'>
+                                                    <td>
+                                                        <div className="contador-box">
+                                                            {contador}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <Col><Button className='decre_incre' onClick={incrementarContador}>+</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={decrementarContador}>-</Button></Col>
+                                                    </td>
+                                                </div>
+                                                <div className='organiza_uni_paq'>
 
-                            {productos.map(producto => (
+                                                    <tr>Unidades por paquete</tr>
 
-                                <td key={producto.imagen}>
-
-                                    <div className='organiza_img_y_cont'>
-                                        <img className='Borde_imagenes'
-                                            src={imagenes[producto.imagen]}
-                                            alt={producto.nombre}
-                                            style={{ width: '200px', height: '270px' }}
-                                        />
-
-                                        <div className='organiza_texto'>
-                                            <tr>CÓDIGO ARTÍCULO:{producto.codigo}</tr>
-                                            <tr><strong>{producto.nombre}</strong></tr>
-                                            <tr><strong>{producto.descripcion}</strong></tr>
-
-                                            <tr><strong>Precio: {producto.precio}</strong></tr>
-                                            <div className='organiza_iva_inc'>
-                                                <tr>{producto.precio} IVA INCLUIDO</tr>
-                                            </div>
-                                            <div className='organiza_btn_carro'>
-                                                <Button onClick={handleShow} className='btn_agregar_carro'>
-                                                    <FaShoppingCart /><span> Agregar</span>
-                                                </Button>
-                                            </div>
-
-                                            <div className='principal_contador'>
-                                                <td>
-                                                    <div className="contador-box">
-                                                        {contador}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <Col><Button className='decre_incre' onClick={incrementarContador}>+</Button></Col>
-                                                    <Col><Button className='decre_incre' onClick={decrementarContador}>-</Button></Col>
-                                                </td>
-                                            </div>
-                                            <div className='organiza_uni_paq'>
-
-                                                <tr>Unidades por paquete</tr>
-
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
 
 
-                                </td>
+                                    </td>
 
-                            ))}
+                                ))}
 
                         </div>
                         <Modal show={show} onHide={handleClose} backdrop="static" centered size='sm'>
