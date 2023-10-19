@@ -21,7 +21,7 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
 
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
-    const [usuarioCust, setUsuarioCustAccountId] = useState([]);
+    const [usuarioCustAccountId, setUsuarioCustAccountId] = useState([]);
     const [usuarioTelefono, setUsuarioTelefono] = useState([]);
     const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
     const navigate = useNavigate();
@@ -56,17 +56,11 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
 
     }
 
-
-
-    // constantes de usuarios
-
-
-    // consulta de usuarios
-
+    useEffect(() => {
+        ListDirecciones()
+    }, [])
 
     const [direcciones, setDirecciones] = useState([]);
-
-
     const ListDirecciones = (id_direccion) => {
         SoapServiceDirecciones.getAllDirecciones(id_direccion).then(response => {
             setDirecciones(response.data);
@@ -126,7 +120,7 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
     const toggleOverlay = () => {
         setOverlayVisible(!isOverlayVisible);
         setOverlayVisible2(false);
-        ListDirecciones(usuarioCust);
+        ListDirecciones(usuarioCustAccountId);
     };
 
 
@@ -216,8 +210,6 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                                                             <td >{direcciones.country}</td>
                                                             <td >{direcciones.siteUseCode}</td>
                                                             <td >{direcciones.nameVendedor}</td>
-
-
                                                         </tr>
                                                     ))}
                                             </tbody>
@@ -253,7 +245,7 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                     <div className='Buttons_perfil2 mt-12'>
                         <Row>
 
-                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' onClick={toggleOverlay}><td><th>Direcciones</th>3 direcciones agregadas</td></button></Col>
+                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' onClick={toggleOverlay}><td><th>Direcciones</th>{direcciones.length + " "}direcciones agregadas</td></button></Col>
                         </Row>
                         <Row>
                             <Col><button className='btns_perfil2 p-2 m-2 btn-sm' onClick={toggleOverlay2}><th>Servicio de ayuda</th></button></Col>

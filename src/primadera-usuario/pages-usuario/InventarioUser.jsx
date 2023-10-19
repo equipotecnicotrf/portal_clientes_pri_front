@@ -17,12 +17,9 @@ import TypeOrderService from '../../services/TypeOrderService';
 import Button from 'react-bootstrap/Button';
 import FiltroDropdownCheckbox from './Filtro';
 import { FaShoppingCart } from "react-icons/fa";
+import AvailabilityService from '../../services/AvailabilityService';
 
 const DataInventario = () => {
-
-
-
-
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
     const [usuarioTelefono, setUsuarioTelefono] = useState([]);
@@ -56,6 +53,38 @@ const DataInventario = () => {
         }
     }
 
+    // Traer información de disponibilidad y unirla con los artículos disponibles
+    const [ArticulosConDisponibilidad, setArticulosConDisponibilidad] = useState([]);
+    useEffect(() => {
+        ListArticulosConDisponibilidad();
+    }, []);
+
+    const ListArticulosConDisponibilidad = () => {
+        ItemService.getItemsConDisponibilidad().then(response => {
+            const articulosDisponibles = response.data;
+            AvailabilityService.getallAvailability().then(availabilityResponse => {
+                const disponibilidad = availabilityResponse.data;
+                // Realizar la unión de los datos por inventory_item_id
+                const articulosConDisponibilidad = articulosDisponibles.map(articulo => {
+                    const disponibilidadArticulo = disponibilidad.find(item => item.inventory_item_id === articulo.inventory_item_id);
+                    if (disponibilidadArticulo) {
+                        // Si se encuentra la disponibilidad, añadir la cantidad al artículo
+                        articulo.cantidad = disponibilidadArticulo.available_to_transact;
+                    } else {
+                        // Si no se encuentra la disponibilidad, establecer cantidad a 0
+                        articulo.cantidad = 0;
+                    }
+                    return articulo;
+                });
+                setArticulosConDisponibilidad(articulosConDisponibilidad);
+            }).catch(error => {
+                console.log(error);
+            });
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
     const items = [
         { total: '$0.000.000', cantidad_items: '55', m3: '2020' },
 
@@ -73,10 +102,7 @@ const DataInventario = () => {
         { imagen: 'Arboles', codigo: '0000060', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', cantidad: '1000 und', precio: '$9.99' },
     ];
 
-
-
     const [contador, setContador] = useState(0);
-
     const incrementarContador = () => {
         setContador(contador + 1);
     };
@@ -86,23 +112,6 @@ const DataInventario = () => {
             setContador(contador - 1);
         }
     };
-
-    //traer articulos del inventario siuuuuu
-    const [Articulos, setArticulos] = useState([]);
-    useEffect(() => {
-        ListInventario()
-    }, [])
-
-    const ListInventario = () => {
-        ItemService.getAllItems().then(response => {
-            setArticulos(response.data);
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-
-
 
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
@@ -147,9 +156,6 @@ const DataInventario = () => {
         console.log('Filtros seleccionados:', filtros);
     };
 
-
-
-
     return (
         <>
             <div className='Back' style={backgroundStyle}>
@@ -174,16 +180,13 @@ const DataInventario = () => {
                         </table>
                     </div>
                 </button>
-
                 <div className='FondoBlanco_inv'>
-
                     <div className='Buttons_Inventario mt-12'>
                         <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}>Perfil</button>
                         <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}>Inventario Disponible</button>
                         <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}>Haz tu pedido</button>
                         <button className='btns_inventario p-2 m-2 btn-sm'>Consulta tu pedido</button>
                     </div>
-
                     <div style={InveDatosUser}>
                         <tr>
                             <td style={{ verticalAlign: 'middle' }}><Container>
@@ -205,8 +208,9 @@ const DataInventario = () => {
 
 
 
-                    <div className='ContenedorPadre'>
 
+
+                    <div className='ContenedorPadre'>
                         <div className='Filtro'>
                             <h3>Filtros</h3>
                             <FiltroDropdownCheckbox
@@ -216,28 +220,23 @@ const DataInventario = () => {
                             />
                             {/* Resto de tu aplicación */}
                         </div>
-
                         <div className='organiza_articulos row rows-cols1 row-cols-md-3'>
-
-                            {Articulos
+                            {ArticulosConDisponibilidad
                                 .toSorted((a, b) => a.inventory_item_id - b.inventory_item_id) // Ordena el arreglo por cp_user_id en orden ascendente
-                                .map((Articulos) => (
-
+                                .map((articulo) => (
                                     <td key='Restos'>
-
                                         <div className='organiza_img_y_cont'>
                                             <img className='Borde_imagenes'
                                                 src=""
                                                 alt=""
                                                 style={{ width: '200px', height: '270px' }}
                                             />
-
                                             <div className='organiza_texto'>
-                                                <tr>CÓDIGO ARTÍCULO: {Articulos.item_number} </tr>
-                                                <tr><strong>{Articulos.item_description_long}</strong></tr>
-                                                <tr><strong>"descripcion"</strong></tr>
+                                                <tr>CÓDIGO ARTÍCULO: {articulo.item_number} </tr>
+                                                <tr><strong>{articulo.item_description_long}</strong></tr>
+                                                <tr><strong>{articulo.atribute3 + " caras " + articulo.atribute1 + " " + articulo.atribute6 + "mm" + " " + articulo.atribute7 + "m10"}</strong></tr>
                                                 <div className='organiza_cant_disp'>
-                                                    <tr>Cantidad disponible: "cantidad"</tr>
+                                                    <tr>Cantidad disponible: {articulo.cantidad}</tr>
                                                 </div>
                                                 <tr><strong>Precio: "precio"</strong></tr>
                                                 <div className='organiza_iva_inc'>
@@ -248,7 +247,6 @@ const DataInventario = () => {
                                                         <FaShoppingCart /><span> Agregar</span>
                                                     </Button>
                                                 </div>
-
                                                 <div className='principal_contador'>
                                                     <td>
                                                         <div className="contador-box">
@@ -262,20 +260,11 @@ const DataInventario = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </td>
-
                                 ))}
-
                         </div>
-
-
                     </div>
-
                 </div>
-
                 <Image className='Img-Creamos_ped' src={imagenes.Creamos} />
             </div>{/*AJUSTE LCPG*/}
         </>

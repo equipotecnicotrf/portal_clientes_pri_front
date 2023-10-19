@@ -19,9 +19,10 @@ import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck } from "react-icons/fa";
 import { Modal } from 'react-bootstrap';
 
 const DataPedido = () => {
-
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
+    const [usuarioTelefono, setUsuarioTelefono] = useState([]);
+    const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         SesionUsername()
@@ -37,6 +38,8 @@ const DataPedido = () => {
                 //console.log(responseid.data)
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
+                setUsuarioTelefono(responseid.data.cp_cell_phone);
+                setUsuarioEmpresa(responseid.data.cust_name);
 
             }).catch(error => {
                 console.log(error)
@@ -184,10 +187,12 @@ const DataPedido = () => {
                             </Container>
                             </td>
                             <td>
-                                <tr><th>{usuarioSesion}</th></tr>
-                                <tr> Empresa </tr>
-                                <tr>{usuarioCorreo}</tr>
-                                <tr>Telefono</tr>
+                                <td>
+                                    <tr><th>{usuarioSesion}</th></tr>
+                                    <tr> {usuarioEmpresa} </tr>
+                                    <tr>{usuarioCorreo}</tr>
+                                    <tr>{usuarioTelefono}</tr>
+                                </td>
                             </td>
                         </tr>
                     </div>

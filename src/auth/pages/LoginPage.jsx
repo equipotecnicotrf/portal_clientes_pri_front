@@ -35,7 +35,7 @@ const LoginPage = () => {
               if (responseuser.data.cp_estatus == "Activo" & responserol.data.cp_rol_name == "Administrador" & responserol.data.cp_rol_status == "Activo") {
                 navigate('/Dropdown');
               } else {
-                alert("Aun no tiene Accesos o el rol esta inactivo");
+                navigate('/DataTablePerfilUser');
               }
             }).catch(error => {
               console.log(error)

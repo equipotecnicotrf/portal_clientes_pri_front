@@ -6,6 +6,10 @@ class ItemService {
     getAllItems() {
         return axios.get(BASE_REST_API_URL);
     }
+
+    getItemsConDisponibilidad() {
+        return axios.get(BASE_REST_API_URL + "/itemscondisponibilidad")
+    }
 }
 
 export default new ItemService();
