@@ -59,31 +59,27 @@ const DataInventario = () => {
         ListArticulosConDisponibilidad();
     }, []);
 
-    const ListArticulosConDisponibilidad = () => {
-        ItemService.getItemsConDisponibilidad().then(response => {
-            const articulosDisponibles = response.data;
-            AvailabilityService.getallAvailability().then(availabilityResponse => {
-                const disponibilidad = availabilityResponse.data;
-                // Realizar la unión de los datos por inventory_item_id
-                const articulosConDisponibilidad = articulosDisponibles.map(articulo => {
-                    const disponibilidadArticulo = disponibilidad.find(item => item.inventory_item_id === articulo.inventory_item_id);
-                    if (disponibilidadArticulo) {
-                        // Si se encuentra la disponibilidad, añadir la cantidad al artículo
-                        articulo.cantidad = disponibilidadArticulo.available_to_transact;
-                    } else {
-                        // Si no se encuentra la disponibilidad, establecer cantidad a 0
-                        articulo.cantidad = 0;
-                    }
-                    return articulo;
-                });
-                setArticulosConDisponibilidad(articulosConDisponibilidad);
-            }).catch(error => {
-                console.log(error);
+    const ListArticulosConDisponibilidad = async () => {
+        try {
+            const [articulosDisponibles, disponibilidad] = await Promise.all([
+                ItemService.getItemsConDisponibilidad(),
+                AvailabilityService.getallAvailability()
+            ]);
+
+            const disponibilidadMap = new Map(disponibilidad.data.map(item => [item.inventory_item_id, item.available_to_transact]));
+
+            const articulosConDisponibilidad = articulosDisponibles.data.map(articulo => {
+                const cantidad = disponibilidadMap.get(articulo.inventory_item_id) || 0;
+                return { ...articulo, cantidad };
             });
-        }).catch(error => {
-            console.log(error);
-        });
-    }
+
+            setArticulosConDisponibilidad(articulosConDisponibilidad);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
 
     const items = [
         { total: '$0.000.000', cantidad_items: '55', m3: '2020' },
@@ -96,21 +92,25 @@ const DataInventario = () => {
         color: 'white',
     };
 
-    const productos = [
-        { imagen: 'Restos', codigo: '0000060', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', cantidad: '1000 und', precio: '$9.99' },
-        { imagen: 'Arboles', codigo: '0000060', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', cantidad: '1000 und', precio: '$9.99' },
-        { imagen: 'Arboles', codigo: '0000060', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', cantidad: '1000 und', precio: '$9.99' },
-    ];
+    // Define un estado para los contadores de cada artículo
+    const [contadores, setContadores] = useState({});
 
-    const [contador, setContador] = useState(0);
-    const incrementarContador = () => {
-        setContador(contador + 1);
+    const incrementarContador = (inventory_item_id) => {
+        setContadores(prevContadores => {
+            const nuevoContador = { ...prevContadores };
+            nuevoContador[inventory_item_id] = (nuevoContador[inventory_item_id] || 0) + 1;
+            return nuevoContador;
+        });
     };
 
-    const decrementarContador = () => {
-        if (contador > 0) {
-            setContador(contador - 1);
-        }
+    const decrementarContador = (inventory_item_id) => {
+        setContadores(prevContadores => {
+            const nuevoContador = { ...prevContadores };
+            if (nuevoContador[inventory_item_id] > 0) {
+                nuevoContador[inventory_item_id] -= 1;
+            }
+            return nuevoContador;
+        });
     };
 
     const backgroundStyle = {
@@ -224,10 +224,10 @@ const DataInventario = () => {
                             {ArticulosConDisponibilidad
                                 .toSorted((a, b) => a.inventory_item_id - b.inventory_item_id) // Ordena el arreglo por cp_user_id en orden ascendente
                                 .map((articulo) => (
-                                    <td key='Restos'>
+                                    <td key={articulo.inventory_item_id}>
                                         <div className='organiza_img_y_cont'>
                                             <img className='Borde_imagenes'
-                                                src=""
+                                                src={imagenes.Arboles}
                                                 alt=""
                                                 style={{ width: '200px', height: '270px' }}
                                             />
@@ -250,12 +250,12 @@ const DataInventario = () => {
                                                 <div className='principal_contador'>
                                                     <td>
                                                         <div className="contador-box">
-                                                            "contador"
+                                                            {contadores[articulo.inventory_item_id] || 0}
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <Col><Button className='decre_incre' onClick={incrementarContador}>+</Button></Col>
-                                                        <Col><Button className='decre_incre' onClick={decrementarContador}>-</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo.inventory_item_id)}>+</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo.inventory_item_id)}>-</Button></Col>
                                                     </td>
                                                 </div>
                                             </div>
