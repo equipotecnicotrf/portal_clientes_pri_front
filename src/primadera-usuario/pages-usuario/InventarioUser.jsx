@@ -15,7 +15,7 @@ import UserService from '../../services/UserService';
 import ItemService from '../../services/ItemService';
 import TypeOrderService from '../../services/TypeOrderService';
 import Button from 'react-bootstrap/Button';
-import FiltroDropdownCheckbox from './Filtro';
+import FiltroInven from './Filtro';
 import { FaShoppingCart } from "react-icons/fa";
 import AvailabilityService from '../../services/AvailabilityService';
 
@@ -60,23 +60,12 @@ const DataInventario = () => {
     }, []);
 
     const ListArticulosConDisponibilidad = async () => {
-        try {
-            const [articulosDisponibles, disponibilidad] = await Promise.all([
-                ItemService.getItemsConDisponibilidad(),
-                AvailabilityService.getallAvailability()
-            ]);
-
-            const disponibilidadMap = new Map(disponibilidad.data.map(item => [item.inventory_item_id, item.available_to_transact]));
-
-            const articulosConDisponibilidad = articulosDisponibles.data.map(articulo => {
-                const cantidad = disponibilidadMap.get(articulo.inventory_item_id) || 0;
-                return { ...articulo, cantidad };
-            });
-
-            setArticulosConDisponibilidad(articulosConDisponibilidad);
-        } catch (error) {
-            console.error(error);
-        }
+        ItemService.getItemsConDisponibilidad().then(response => {
+            setArticulosConDisponibilidad(response.data)
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error);
+        })
     };
 
 
@@ -213,7 +202,7 @@ const DataInventario = () => {
                     <div className='ContenedorPadre'>
                         <div className='Filtro'>
                             <h3>Filtros</h3>
-                            <FiltroDropdownCheckbox
+                            <FiltroInven
                                 opciones={opcionesDropdown}
                                 checkboxOpciones={opcionesCheckbox}
                                 onFilter={handleFilter}
@@ -222,9 +211,9 @@ const DataInventario = () => {
                         </div>
                         <div className='organiza_articulos row rows-cols1 row-cols-md-3'>
                             {ArticulosConDisponibilidad
-                                .toSorted((a, b) => a.inventory_item_id - b.inventory_item_id) // Ordena el arreglo por cp_user_id en orden ascendente
+                                .toSorted((a, b) => a[0].inventory_item_id - b[0].inventory_item_id) // Ordena el arreglo por cp_user_id en orden ascendente
                                 .map((articulo) => (
-                                    <td key={articulo.inventory_item_id}>
+                                    <td key={articulo[0].inventory_item_id}>
                                         <div className='organiza_img_y_cont'>
                                             <img className='Borde_imagenes'
                                                 src={imagenes.Arboles}
@@ -232,11 +221,11 @@ const DataInventario = () => {
                                                 style={{ width: '200px', height: '270px' }}
                                             />
                                             <div className='organiza_texto'>
-                                                <tr>CÓDIGO ARTÍCULO: {articulo.item_number} </tr>
-                                                <tr><strong>{articulo.item_description_long}</strong></tr>
-                                                <tr><strong>{articulo.atribute3 + " caras " + articulo.atribute1 + " " + articulo.atribute6 + "mm" + " " + articulo.atribute7 + "m10"}</strong></tr>
+                                                <tr>CÓDIGO ARTÍCULO: {articulo[0].item_number} </tr>
+                                                <tr><strong>{articulo[0].item_description_long}</strong></tr>
+                                                <tr><strong>{articulo[0].atribute3 + " caras " + articulo[0].atribute1 + " " + articulo[0].atribute6 + "mm" + " " + articulo[0].atribute7 + "m10"}</strong></tr>
                                                 <div className='organiza_cant_disp'>
-                                                    <tr>Cantidad disponible: {articulo.cantidad}</tr>
+                                                    <tr>Cantidad disponible: {articulo[1].available_to_transact}</tr>
                                                 </div>
                                                 <tr><strong>Precio: "precio"</strong></tr>
                                                 <div className='organiza_iva_inc'>
@@ -250,13 +239,16 @@ const DataInventario = () => {
                                                 <div className='principal_contador'>
                                                     <td>
                                                         <div className="contador-box">
-                                                            {contadores[articulo.inventory_item_id] || 0}
+                                                            {contadores[articulo[0].inventory_item_id] || 0}
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo.inventory_item_id)}>+</Button></Col>
-                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo.inventory_item_id)}>-</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo[0].inventory_item_id)}>+</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo[0].inventory_item_id)}>-</Button></Col>
                                                     </td>
+                                                </div>
+                                                <div className='organiza_uni_paq'>
+                                                    <tr>Unidades por paquete</tr>
                                                 </div>
                                             </div>
                                         </div>

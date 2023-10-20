@@ -31,7 +31,6 @@ class UserService {
         return axios.put(BASE_REST_API_URL + '/' + userId + '/update-password', { cp_Password: newPassword });
     }
 
-    //http://localhost:83/ActualizarContraseña/?userId=5 => Ejemplo URL para cambio de contraseña
 
 }
 

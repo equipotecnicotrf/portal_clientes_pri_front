@@ -13,7 +13,7 @@ import Cookies from 'js-cookie';
 import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
 import Button from 'react-bootstrap/Button';
-import FiltroDropdownCheckbox from './Filtro';
+import FiltroInven from './Filtro';
 import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck } from "react-icons/fa";
 
 import { Modal } from 'react-bootstrap';
@@ -64,24 +64,25 @@ const DataPedido = () => {
         })
     }
 
-    const productos = [
-        { imagen: 'Restos', codigo: '0000060', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', cantidad: '1000 und', precio: '$9.99' },
+    // Define un estado para los contadores de cada artículo
+    const [contadores, setContadores] = useState({});
 
-        { imagen: 'Arboles', codigo: '0000060', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', cantidad: '1000 und', precio: '$9.99' },
-
-        { imagen: 'Arboles', codigo: '0000060', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', cantidad: '1000 und', precio: '$9.99' },
-    ];
-
-    const [contador, setContador] = useState(0);
-
-    const incrementarContador = () => {
-        setContador(contador + 1);
+    const incrementarContador = (inventory_item_id) => {
+        setContadores(prevContadores => {
+            const nuevoContador = { ...prevContadores };
+            nuevoContador[inventory_item_id] = (nuevoContador[inventory_item_id] || 0) + 1;
+            return nuevoContador;
+        });
     };
 
-    const decrementarContador = () => {
-        if (contador > 0) {
-            setContador(contador - 1);
-        }
+    const decrementarContador = (inventory_item_id) => {
+        setContadores(prevContadores => {
+            const nuevoContador = { ...prevContadores };
+            if (nuevoContador[inventory_item_id] > 0) {
+                nuevoContador[inventory_item_id] -= 1;
+            }
+            return nuevoContador;
+        });
     };
 
     const backgroundStyle = {
@@ -157,7 +158,6 @@ const DataPedido = () => {
 
                         <table className='table table-borderless' >
                             <thead >
-
                             </thead>
                             <tbody >
                                 {items
@@ -171,16 +171,11 @@ const DataPedido = () => {
                                             </td>
                                         </tr>
                                     ))}
-
                             </tbody>
                         </table>
-
                     </div>
                 </button>
-
-
                 <div className='FondoBlanco_Pedi'>
-
                     <div className='Buttons_Pedido mt-12'>
                         <button className='btns_pedido p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
                         <button className='btns_pedido p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}> <FaSearchMinus /> Inventario Disponible</button>
@@ -208,21 +203,15 @@ const DataPedido = () => {
                             </td>
                         </tr>
                     </div>
-
-
-
                     <div className='ContenedorPadrePedi'>
-
                         <div className='Filtro'>
                             <h3>Filtros</h3>
-                            <FiltroDropdownCheckbox
+                            <FiltroInven
                                 opciones={opcionesDropdown}
                                 checkboxOpciones={opcionesCheckbox}
                                 onFilter={handleFilter}
                             />
-                            {/* Resto de tu aplicación */}
                         </div>
-
                         <div className='organiza_articulos row rows-cols1 row-cols-md-3'>
                             {ArticulosSinDisponibilidad
                                 .toSorted((a, b) => a.inventory_item_id - b.inventory_item_id) // Ordena el arreglo por cp_user_id en orden ascendente
@@ -250,12 +239,12 @@ const DataPedido = () => {
                                                 <div className='principal_contador'>
                                                     <td>
                                                         <div className="contador-box">
-                                                            {contador}
+                                                            {contadores[articulo.inventory_item_id] || 0}
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <Col><Button className='decre_incre' onClick={incrementarContador}>+</Button></Col>
-                                                        <Col><Button className='decre_incre' onClick={decrementarContador}>-</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo.inventory_item_id)}>+</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo.inventory_item_id)}>-</Button></Col>
                                                     </td>
                                                 </div>
                                                 <div className='organiza_uni_paq'>
@@ -265,48 +254,25 @@ const DataPedido = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </td>
-
                                 ))}
-
                         </div>
                         <Modal show={show} onHide={handleClose} backdrop="static" centered size='sm'>
-
                             <Modal.Header className='modal_principal' closeButton>
-
-
-
                             </Modal.Header>
-
                             <Modal.Body className='modal_principal'  >
-
                                 <div className='modal-frase' >
-
                                     <h5>Artículo agregado al carrito</h5>
-
                                 </div>
-
                                 <div className='modal-carrito' >
-
                                     <a onClick={() => navigate("/CarritoCompras")} target="_blank" rel="noopener noreferrer">
-
                                         <th>Ver carrito</th>
-
                                     </a>
-
                                 </div>
-
                             </Modal.Body>
-
                         </Modal>
-
                     </div>
-
                 </div>
-
                 <Image className='Img-Creamos_Inv' src={imagenes.Creamos} />
             </div>{/*AJUSTE LCPG*/}
         </>
