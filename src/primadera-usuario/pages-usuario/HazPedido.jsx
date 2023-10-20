@@ -226,7 +226,6 @@ const DataPedido = () => {
                                             <div className='organiza_texto'>
                                                 <tr>CÓDIGO ARTÍCULO:{articulo.item_number}</tr>
                                                 <tr><strong>{articulo.item_description_long}</strong></tr>
-                                                <tr><strong>{articulo.atribute3 + " caras " + articulo.atribute1 + " " + articulo.atribute6 + "mm" + " " + articulo.atribute7 + "m10"}</strong></tr>
                                                 <tr><strong>Precio: { }</strong></tr>
                                                 <div className='organiza_iva_inc'>
                                                     <tr>{ } IVA INCLUIDO</tr>
@@ -249,7 +248,7 @@ const DataPedido = () => {
                                                 </div>
                                                 <div className='organiza_uni_paq'>
 
-                                                    <tr>Unidades por paquete</tr>
+                                                    <tr>Unidades por paquete{" " + articulo.atribute9}</tr>
 
                                                 </div>
                                             </div>

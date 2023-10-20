@@ -1,21 +1,76 @@
-.Img-Admin{
+.Img-Admin {
     width: 100px;
     height: 100px;
 }
-.SearchInventario{    
+
+.SearchInventario {
     margin-top: -45px;
     margin-left: 850px;
 }
-.inventario { 
-    background-color: #323333;     
+
+.inventario {
+    background-color: #323333;
 }
 
-/*AJUSTE LCPG INI*/
-
-.Img-Creamos_inv{
+.Img-Creamos_inv {
     width: 200px;
     height: 100px;
     margin: auto;
     display: block;
 }
-/*AJUSTE LCPG FIN*/
+
+/*AJUSTES 19-10-23*/
+
+.DataTable_noti {
+    padding: 5%;
+    margin: 5%;
+    border-radius: 29px;
+}
+
+.Edit_noti {
+    background-color: #878787;
+    color: white;
+    border: none;
+}
+
+.Guardar-btn-noti {
+    background-color: #323333;
+    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 20px;
+    font-size: medium;
+}
+
+/*
+.bordes_tabla td:last-child {
+    border: none;
+}
+
+.bordes_tabla td:nth-last-child(2) {
+    border: none;
+}
+
+.bordes_tabla td:first-child {
+    border: none;
+}
+
+.bordes_tabla tr {
+    border-bottom: 2px solid #000;
+}
+
+.bordes_tabla td {
+    border: 1px solid #000;
+}*/
+
+.DataTable_noti tbody tr:nth-child(1) {
+    border-top: 2px solid #ffffff;
+}
+
+.DataTable_noti td {
+    border-left: 2px solid #ffffff;
+}
+
+.DataTable_noti td:first-child {
+    border: none;
+}

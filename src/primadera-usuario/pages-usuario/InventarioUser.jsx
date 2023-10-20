@@ -16,8 +16,7 @@ import ItemService from '../../services/ItemService';
 import TypeOrderService from '../../services/TypeOrderService';
 import Button from 'react-bootstrap/Button';
 import FiltroInven from './Filtro';
-import { FaShoppingCart } from "react-icons/fa";
-import AvailabilityService from '../../services/AvailabilityService';
+import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck } from "react-icons/fa";
 
 const DataInventario = () => {
     const [usuarioSesion, setUarioSesion] = useState([]);
@@ -171,10 +170,10 @@ const DataInventario = () => {
                 </button>
                 <div className='FondoBlanco_inv'>
                     <div className='Buttons_Inventario mt-12'>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}>Perfil</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}>Inventario Disponible</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}>Haz tu pedido</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm'>Consulta tu pedido</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
                     </div>
                     <div style={InveDatosUser}>
                         <tr>
@@ -223,7 +222,6 @@ const DataInventario = () => {
                                             <div className='organiza_texto'>
                                                 <tr>CÓDIGO ARTÍCULO: {articulo[0].item_number} </tr>
                                                 <tr><strong>{articulo[0].item_description_long}</strong></tr>
-                                                <tr><strong>{articulo[0].atribute3 + " caras " + articulo[0].atribute1 + " " + articulo[0].atribute6 + "mm" + " " + articulo[0].atribute7 + "m10"}</strong></tr>
                                                 <div className='organiza_cant_disp'>
                                                     <tr>Cantidad disponible: {articulo[1].available_to_transact}</tr>
                                                 </div>
@@ -248,7 +246,7 @@ const DataInventario = () => {
                                                     </td>
                                                 </div>
                                                 <div className='organiza_uni_paq'>
-                                                    <tr>Unidades por paquete</tr>
+                                                    <tr>Unidades por paquete{" " + articulo[0].atribute9}</tr>
                                                 </div>
                                             </div>
                                         </div>
