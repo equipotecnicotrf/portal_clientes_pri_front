@@ -16,6 +16,7 @@ import Cookies from 'js-cookie';
 import AuditService from '../../services/AuditService';
 import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
+import { BsFillEyeFill } from "react-icons/bs"; {/*20-10-2023*/ }
 
 
 
@@ -172,17 +173,19 @@ const DataTable = ({ backgroundColor }) => {
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestión de usuarios'); navigate("/GestionarUsuario"); }}>Gestión de usuarios</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoria</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
 
 
                 <div className='DataTable' style={bannerStyle}>
-                    <th style={audit}>AUDITORIA </th>
+                    <th style={audit}><BsFillEyeFill /> AUDITORIA </th>
                     <div className="SearchAuditoria">
                         <Form inline>
                             <Row>
@@ -201,21 +204,21 @@ const DataTable = ({ backgroundColor }) => {
                             </Row>
                         </Form>
                     </div>
-                    <table className='table table-borderless' style={bannerStyle} >
+                    <table className='table table-bordered' style={bannerStyle} >
 
                         <thead style={bannerStyle}>
-                            <tr style={bannerStyle} >
-                                <th style={bannerStyle}>ID</th>
+                            <tr style={bannerStyle} className='borderless_audit'>
+                                <th style={bannerStyle} className='borderless_audit' >ID</th>
                                 <th style={bannerStyle}>Descripción</th>
                                 <th style={bannerStyle}>Fecha/Hora</th>
-                                <th style={bannerStyle}>Editado por</th>
+                                <th style={bannerStyle} className='borderless_audit' >Editado por</th>
                             </tr>
                         </thead>
                         <tbody style={bannerStyle}>
                             {filterAuditoria()
                                 .toSorted((a, b) => a.cp_Audit_id - b.cp_Audit_id) // Ordena el arreglo por cp_user_id en orden ascendente
                                 .map((audit) => (
-                                    <tr style={bannerStyle} key={audit.cp_Audit_id}>
+                                    <tr style={bannerStyle} className='borderless_audit' key={audit.cp_Audit_id}>
                                         <td style={bannerStyle}>{audit.cp_Audit_id}</td>
                                         <td style={bannerStyle}>{audit.cp_audit_description}</td>
                                         <td style={bannerStyle}>{audit.cp_audit_date}</td>

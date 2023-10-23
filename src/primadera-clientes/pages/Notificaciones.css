@@ -42,35 +42,14 @@
     font-size: medium;
 }
 
-/*
-.bordes_tabla td:last-child {
+.borderless_noti {
     border: none;
 }
 
-.bordes_tabla td:nth-last-child(2) {
+.borderless_noti td:first-child {
     border: none;
 }
 
-.bordes_tabla td:first-child {
-    border: none;
-}
-
-.bordes_tabla tr {
-    border-bottom: 2px solid #000;
-}
-
-.bordes_tabla td {
-    border: 1px solid #000;
-}*/
-
-.DataTable_noti tbody tr:nth-child(1) {
-    border-top: 2px solid #ffffff;
-}
-
-.DataTable_noti td {
-    border-left: 2px solid #ffffff;
-}
-
-.DataTable_noti td:first-child {
+.borderless_noti td:last-child {
     border: none;
 }

@@ -133,11 +133,13 @@ const DataTable = ({ backgroundColor }) => {
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestión de usuarios'); navigate("/GestionarUsuario"); }}>Gestión de usuarios</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoria</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
 
@@ -162,18 +164,18 @@ const DataTable = ({ backgroundColor }) => {
                         </Form>
                     </div>
 
-                    <table className='table table-borderless'  >
+                    <table className='table table-bordered'  >
                         <thead style={bannerStyle}>
-                            <tr style={bannerStyle} >
-                                <th style={bannerStyle}>Organización</th>
+                            <tr style={bannerStyle} className='borderless_inv' >
+                                <th style={bannerStyle} className='borderless_inv'>Organización</th>
                                 <th style={bannerStyle}>Codigo Organización</th>
                                 <th style={bannerStyle}>Nombre</th>
-                                <th style={bannerStyle}>Estado</th>
+                                <th style={bannerStyle} className='borderless_inv'>Estado</th>
                             </tr>
                         </thead>
                         <tbody style={bannerStyle}>
                             {filterInventary().map((item) => (
-                                <tr style={bannerStyle} key={item.organization_id}>
+                                <tr style={bannerStyle} className='borderless_inv' key={item.organization_id}>
                                     <td style={bannerStyle}>{item.organization_id}</td>
                                     <td style={bannerStyle}>{item.organization_code}</td>
                                     <td style={bannerStyle}>{item.organization_name}</td>

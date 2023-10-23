@@ -12,6 +12,8 @@ import DataInventario from '../../primadera-usuario/pages-usuario/InventarioUser
 import DataPedido from "../../primadera-usuario/pages-usuario/HazPedido";
 import CarritoCompras from "../../primadera-usuario/pages-usuario/CarritoCompra";
 import FinalizarCompra from '../../primadera-usuario/pages-usuario/FinalizarCompra';
+import DataIva from '../pages/GestionarIva';
+import GestionarConsecutivos from '../pages/GestionarConsecutivos';
 
 const PrimaderaRoutes = () => {
   return (
@@ -31,6 +33,8 @@ const PrimaderaRoutes = () => {
         <Route path="DataPedido" element={<DataPedido />} />
         <Route path="CarritoCompras" element={<CarritoCompras />} />
         <Route path="FinalizarCompra" element={<FinalizarCompra />} />
+        <Route path="DataIva" element={<DataIva />} />
+        <Route path="GestionarConsecutivos" element={<GestionarConsecutivos />} />
 
       </Routes>
     </>

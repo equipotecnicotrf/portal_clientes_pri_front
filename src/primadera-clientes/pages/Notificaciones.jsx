@@ -141,11 +141,13 @@ const DataTable = ({ backgroundColor }) => {
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestión de usuarios'); navigate("/GestionarUsuario"); }}>Gestión de usuarios</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoria</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
 
@@ -156,20 +158,20 @@ const DataTable = ({ backgroundColor }) => {
                 {/*AJUSTES 19-10-2023 INI*/}
                 <div className='DataTable_noti' style={bannerStyle}>
                     <th style={notificacion}>GESTIONAR TIPO DE NOTIFICACIONES</th>
-                    <table className='table table-borderless' >
+                    <table className='table table-bordered' >
                         <thead style={bannerStyle}>
-                            <tr style={bannerStyle} >
-                                <th style={bannerStyle}>Código</th>
+                            <tr className='borderless_noti' style={bannerStyle} >
+                                <th className='borderless_noti' style={bannerStyle}>Código</th>
                                 <th style={bannerStyle}>Tipo de Notificación</th>
                                 <th style={bannerStyle}>Asunto</th>
-                                <th style={bannerStyle}>Acciones</th>
+                                <th className='borderless_noti' style={bannerStyle}>Acciones</th>
                             </tr>
 
                         </thead>
                         <tbody style={bannerStyle}>
                             {notificaciones
                                 .map((notificaciones) => (
-                                    <tr style={bannerStyle} key={notificaciones.codigo}>
+                                    <tr className='borderless_noti' style={bannerStyle} key={notificaciones.codigo}>
                                         <td style={bannerStyle}>{notificaciones.codigo}</td>
 
                                         <td style={bannerStyle}>{notificaciones.tipo}</td>

@@ -1,44 +1,23 @@
 .DataTable {
-
     padding: 5%;
-
     margin: 5%;
-
     border-radius: 29px;
-
     width: auto;
-
     border-collapse: collapse;
-
     max-height: 350px;
-
     overflow-y: auto;
-
 }
-
-
 
 .CheckBox {
-
     display: flex;
-
     align-items: flex-end;
-
     justify-content: flex-end;
-
     margin: 1%;
-
 }
-
-
 
 .Checkbox_estado {
-
     padding: 5px;
-
 }
-
-
 
 .home-btn {
     background-color: #878787;
@@ -46,28 +25,21 @@
     border: none;
 }
 
-
-
 .edit-btn {
     background-color: #878787;
     color: white;
     border: none;
 }
 
-
-
 .btns {
-
     border-radius: 20px;
-
     background-color: #323333;
-
     color: white;
-
     position: auto;
-
     font-size: medium;
-
+    border: none;
+    width: 140px;
+    right: 44px;
 }
 
 
@@ -94,153 +66,81 @@
 
 }
 
-
-
 .Crear-btn {
-
     background-color: #323333;
-
     border-radius: 30px;
-
     padding-left: 20px;
-
     padding-right: 20px;
-
     font-size: 20px;
-
     font-size: medium;
-
+    border: none;
 }
 
 
-
 .menu {
-
     width: 100%;
-
     background-color: white;
-
 }
 
 
 
 .Create-Rol {
-
     background-color: #878787;
-
     color: white;
-
 }
-
-
-
-.Crear-btn {
-
-    background-color: #323333;
-
-    border-radius: 30px;
-
-    padding-left: 20px;
-
-    padding-right: 20px;
-
-    font-size: 20px;
-
-    font-size: medium;
-
-}
-
-
 
 .Contexto {
-
     background-color: #878787;
-
     color: white;
-
 }
 
 
 
 .Btn_contexto {
-
     background-color: #323333;
-
     height: 35.74px;
-
     border-radius: 30px;
-
     display: block;
-
     padding: 0.1rem 1rem;
-
     width: 100px;
-
     margin: 0 auto;
-
     font-size: medium;
-
+    border: none;
 }
 
 
 
 .Btn_guardar_context {
-
     background-color: #323333;
-
-    height: 50.74px;
-
+    height: 45px;
     border-radius: 30px;
-
     display: block;
-
     padding: 0.5rem 1rem;
-
-    width: 200px;
-
+    width: 150px;
     margin: 0 auto;
-
     font-size: medium;
-
+    border: none;
 }
-
-
 
 .boton_crear_rol {
-
     background-color: #323333;
-
-    height: 50.74px;
-
-    width: 200px;
-
+    height: 45px;
+    width: 150px;
     border-radius: 30px;
-
     display: block;
-
     padding: 0.5rem 1rem;
-
     margin: 0 auto;
-
     color: white;
-
     font-size: medium;
-
     position: auto;
-
+    border: none;
 }
-
 
 
 .Gestion_roles {
-
     background-color: #878787;
-
     color: white;
-
 }
-
-
 
 .boton_ges_usua {
     background-color: #323333;
@@ -248,9 +148,8 @@
     border-radius: 30px;
     margin-right: 20px;
     width: 100px;
+    border: none;
 }
-
-
 
 .Img_gest_usua {
     width: 200px;
@@ -259,62 +158,62 @@
     display: block;
 }
 
-
-
 .busc_gest_usua {
-
     position: absolute;
-
-    top: 40px;
-
-    right: 10px;
-
+    top: 35%;
+    right: 5%;
 }
-
-
 
 .gest_usua {
-
     background-color: #323333;
-
     padding: 0.4rem 0.8rem;
-
     border-radius: 5px;
-
     margin-right: 20px;
-
 }
-
 
 
 @media (max-width: 768px) {
-
     .busc_gest_usua {
-
         position: sticky;
-
         margin-top: 10px;
-
         margin-left: 0;
-
     }
-
 }
 
 .Edit-estado-ges-rol {
-
     background-color: #878787;
-
     color: white;
-
     border: none;
-
 }
 
-
-
 .Checkbox_estado_rol {
-
     padding: 5px;
+}
 
+.borderless_gest_usua {
+    border: none;
+}
+
+.borderless_gest_usua td:first-child {
+    border: none;
+}
+
+.borderless_gest_usua td:last-child {
+    border: none;
+}
+
+.borderless_gest_usua td:nth-last-child(2) {
+    border: none;
+}
+
+.usuario {
+    background-color: #323333;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    margin-right: 20px;
+    border: none;
+}
+
+.icon_edit_usua {
+    margin-top: 2%;
 }

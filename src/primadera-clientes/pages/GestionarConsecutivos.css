@@ -1,0 +1,64 @@
+.Img-Admin {
+    width: 100px;
+    height: 100px;
+}
+
+.Img-Creamos_cons {
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    display: block;
+}
+
+.DataTable_cons {
+    padding: 5%;
+    margin: 5%;
+    border-radius: 29px;
+}
+
+.Edit_cons {
+    background-color: #878787;
+    color: white;
+    border: none;
+}
+
+.Guardar-btn-cons {
+    background-color: #323333;
+    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 20px;
+    font-size: medium;
+}
+
+.borderless_cons {
+    border: none;
+}
+
+.borderless_cons td:first-child {
+    border: none;
+}
+
+.borderless_cons td:last-child {
+    border: none;
+}
+
+.botones_cons {
+    margin-top: -30px;
+    margin-right: 5%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.boton_cons {
+    background-color: #323333;
+    height: 50.74px;
+    width: 200px;
+    border-radius: 30px;
+    display: block;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    color: white;
+    font-size: medium;
+    border: none;
+}

@@ -17,12 +17,16 @@ import TypeOrderService from '../../services/TypeOrderService';
 import Button from 'react-bootstrap/Button';
 import FiltroInven from './Filtro';
 import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck } from "react-icons/fa";
+import { Modal } from 'react-bootstrap';
+import ShopingCartService from '../../services/ShopingCartService';
 
 const DataInventario = () => {
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
     const [usuarioTelefono, setUsuarioTelefono] = useState([]);
     const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
+    const [usuarioId, setUsarioId] = useState([]);
+    const [CustAccountId, setCustAccountId] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         SesionUsername()
@@ -40,7 +44,8 @@ const DataInventario = () => {
                 setUsuarioCorreo(responseid.data.username);
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
                 setUsuarioEmpresa(responseid.data.cust_name);
-
+                setUsarioId(responseid.data.cp_user_id)
+                setCustAccountId(responseid.data.cust_account_id)
             }).catch(error => {
                 console.log(error)
                 alert("Error obtener usuario de sesion")
@@ -83,23 +88,40 @@ const DataInventario = () => {
     // Define un estado para los contadores de cada artículo
     const [contadores, setContadores] = useState({});
 
-    const incrementarContador = (inventory_item_id) => {
+    const incrementarContador = (inventory_item_id, atribute9) => {
         setContadores(prevContadores => {
             const nuevoContador = { ...prevContadores };
-            nuevoContador[inventory_item_id] = (nuevoContador[inventory_item_id] || 0) + 1;
+            nuevoContador[inventory_item_id] = (nuevoContador[inventory_item_id] || 0) + atribute9;
             return nuevoContador;
         });
     };
 
-    const decrementarContador = (inventory_item_id) => {
+    const decrementarContador = (inventory_item_id, atribute9) => {
         setContadores(prevContadores => {
             const nuevoContador = { ...prevContadores };
             if (nuevoContador[inventory_item_id] > 0) {
-                nuevoContador[inventory_item_id] -= 1;
+                nuevoContador[inventory_item_id] -= atribute9;
             }
             return nuevoContador;
         });
     };
+
+    //
+
+    //Crear Carrito de Compra
+    const carritoCompra = () => {
+        const cp_user_id = usuarioId;
+        const cust_account_id = CustAccountId;
+        const site_use_id = 0;
+        const cp_cart_status = 'En Proceso';
+        const carrocabecera = { cust_account_id, site_use_id, cp_user_id, cp_cart_status }
+        ShopingCartService.InsertarCabecera(carrocabecera).then(carrocabeceraresponse => {
+            console.log(carrocabeceraresponse.data)
+        }).catch(error => {
+            console.log(error);
+        })
+
+    }
 
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
@@ -143,6 +165,10 @@ const DataInventario = () => {
         // Aquí debes implementar la lógica para filtrar según las opciones seleccionadas
         console.log('Filtros seleccionados:', filtros);
     };
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <>
@@ -230,7 +256,7 @@ const DataInventario = () => {
                                                     <tr>"precio" IVA INCLUIDO</tr>
                                                 </div>
                                                 <div className='organiza_btn_carro'>
-                                                    <Button className='btn_agregar_carro'>
+                                                    <Button onClick={handleShow} className='btn_agregar_carro'>
                                                         <FaShoppingCart /><span> Agregar</span>
                                                     </Button>
                                                 </div>
@@ -241,8 +267,8 @@ const DataInventario = () => {
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo[0].inventory_item_id)}>+</Button></Col>
-                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo[0].inventory_item_id)}>-</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}>+</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}>-</Button></Col>
                                                     </td>
                                                 </div>
                                                 <div className='organiza_uni_paq'>
@@ -253,6 +279,20 @@ const DataInventario = () => {
                                     </td>
                                 ))}
                         </div>
+                        <Modal show={show} onHide={handleClose} backdrop="static" centered size='sm'>
+                            <Modal.Header className='modal_principal' closeButton>
+                            </Modal.Header>
+                            <Modal.Body className='modal_principal'  >
+                                <div className='modal-frase' >
+                                    <h5>Artículo agregado al carrito</h5>
+                                </div>
+                                <div className='modal-carrito' >
+                                    <a onClick={() => navigate("/CarritoCompras")} target="_blank" rel="noopener noreferrer">
+                                        <th>Ver carrito</th>
+                                    </a>
+                                </div>
+                            </Modal.Body>
+                        </Modal>
                     </div>
                 </div>
                 <Image className='Img-Creamos_ped' src={imagenes.Creamos} />

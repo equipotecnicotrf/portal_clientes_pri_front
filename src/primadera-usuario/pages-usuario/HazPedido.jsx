@@ -15,7 +15,6 @@ import UserService from '../../services/UserService';
 import Button from 'react-bootstrap/Button';
 import FiltroInven from './Filtro';
 import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck } from "react-icons/fa";
-
 import { Modal } from 'react-bootstrap';
 import ItemService from '../../services/ItemService';
 
@@ -67,19 +66,19 @@ const DataPedido = () => {
     // Define un estado para los contadores de cada artículo
     const [contadores, setContadores] = useState({});
 
-    const incrementarContador = (inventory_item_id) => {
+    const incrementarContador = (inventory_item_id, atribute9) => {
         setContadores(prevContadores => {
             const nuevoContador = { ...prevContadores };
-            nuevoContador[inventory_item_id] = (nuevoContador[inventory_item_id] || 0) + 1;
+            nuevoContador[inventory_item_id] = (nuevoContador[inventory_item_id] || 0) + atribute9;
             return nuevoContador;
         });
     };
 
-    const decrementarContador = (inventory_item_id) => {
+    const decrementarContador = (inventory_item_id, atribute9) => {
         setContadores(prevContadores => {
             const nuevoContador = { ...prevContadores };
             if (nuevoContador[inventory_item_id] > 0) {
-                nuevoContador[inventory_item_id] -= 1;
+                nuevoContador[inventory_item_id] -= atribute9;
             }
             return nuevoContador;
         });
@@ -129,11 +128,7 @@ const DataPedido = () => {
     };
 
     const [show, setShow] = useState(false);
-
-
-
     const handleClose = () => setShow(false);
-
     const handleShow = () => setShow(true);
 
     const info_general_items = {
@@ -242,8 +237,8 @@ const DataPedido = () => {
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo.inventory_item_id)}>+</Button></Col>
-                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo.inventory_item_id)}>-</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo.inventory_item_id, articulo.atribute9)}>+</Button></Col>
+                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo.inventory_item_id, articulo.atribute9)}>-</Button></Col>
                                                     </td>
                                                 </div>
                                                 <div className='organiza_uni_paq'>

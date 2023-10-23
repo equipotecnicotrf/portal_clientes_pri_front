@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { FaHome, FaRegEdit, FaSearch } from "react-icons/fa";
+import { FaHome, FaRegEdit, FaSearch, FaUser } from "react-icons/fa";
 import { ModalBody } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -607,8 +607,7 @@ const DataTable = ({ backgroundColor }) => {
     color: '#fff',
     padding: '20px',
     textAlign: 'center',
-    marginTop: '40px'
-
+    marginTop: '60px'
   };
 
   const bannerStyle2 = {
@@ -623,6 +622,13 @@ const DataTable = ({ backgroundColor }) => {
     color: '#fff',
     padding: '2%',
     textAlign: 'left',
+  };
+
+  const bannerStyle4 = {
+    backgroundColor: backgroundColor || '#878787',
+    color: '#fff',
+    padding: '13px',
+    textAlign: 'center',
   };
 
   const backgroundStyle = {
@@ -784,62 +790,64 @@ const DataTable = ({ backgroundColor }) => {
             {selectedOption}
           </Dropdown.Toggle>
           <Dropdown.Menu style={dropDownbackgroundStyle}>
-            <Dropdown.Item onClick={() => { setSelectedOption('Gestión de usuarios'); navigate("/GestionarUsuario"); }}>Gestión de usuarios</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoria</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+            <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
+            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
+            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
+            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
+            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
             <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
+            <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+        <div className='busc_gest_usua'>
+          <Form inline>
+            <Row>
+              <Col xs="auto">
+                <Form.Control
+                  type="text"
+                  placeholder="Buscar"
+                  className=" mr-sm-2"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                />
+              </Col>
+              <Col xs="auto">
+                <Button className='usuario'><FaSearch /></Button> {/*20-10-2023*/}
+              </Col>
+            </Row>
+          </Form>
+        </div>
         <div className='DataTable' style={bannerStyle} >
           <th style={gestion}>GESTIÓN DE USUARIO </th>
-          <div className='busc_gest_usua'>
-            <Form inline>
-              <Row>
-                <Col xs="auto">
-                  <Form.Control
-                    type="text"
-                    placeholder="Buscar"
-                    className=" mr-sm-2"
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                  />
-                </Col>
-                <Col xs="auto">
-                  <Button className='users'><FaSearch /></Button>
-                </Col>
-              </Row>
-            </Form>
-          </div>
-          <table className='table table-borderless' style={bannerStyle} >
+          <table className='table table-bordered' style={bannerStyle} >
             <thead style={bannerStyle}>
-              <tr style={bannerStyle} >
-                <th style={bannerStyle}>Cliente</th>
+              <tr style={bannerStyle} className='borderless_gest_usua'>
+                <th style={bannerStyle} className='borderless_gest_usua'>Cliente</th>
                 <th style={bannerStyle}>Nombre</th>
-                <th style={bannerStyle}>Telefono</th>
+                <th style={bannerStyle}>Teléfono</th>
                 <th style={bannerStyle}>Correo</th>
                 <th style={bannerStyle}>Estado</th>
                 <th style={bannerStyle}>Rol</th>
-                <th style={bannerStyle}>Acciones</th>
+                <th style={bannerStyle} className='borderless_gest_usua'>Acciones</th>
               </tr>
             </thead>
             <tbody style={bannerStyle}>
               {filterUsuario()
                 .toSorted((a, b) => a.cp_user_id - b.cp_user_id) // Ordena el arreglo por cp_user_id en orden ascendente
                 .map((users) => (
-                  <tr style={bannerStyle} key={users.cp_user_id}>
+                  <tr style={bannerStyle} className='borderless_gest_usua' key={users.cp_user_id}>
                     <td style={bannerStyle}>{users.cust_name}</td>
                     <td style={bannerStyle}>{users.cp_name}</td>
                     <td style={bannerStyle}>{users.cp_cell_phone}</td>
                     <td style={bannerStyle}>{users.cp_email}</td>
                     <td style={bannerStyle}>{users.cp_estatus}</td>
                     <td style={bannerStyle}>{usernameRol[users.cp_rol_id] ? (<span>{usernameRol[users.cp_rol_id]}</span>) : (<span>Cargando...</span>)}</td>
-                    <td style={bannerStyle}>
+                    <td style={bannerStyle4}>
                       <Button onClick={() => handleEditClick(users.cp_user_id)} className='edit-btn'>
                         <FaRegEdit />
                       </Button>
                     </td>
-                    <td style={bannerStyle}>
+                    <td style={bannerStyle4}>
                       <Button onClick={() => { handleHomeShow(); ListDirecciones(users.cust_account_id); }} className='home-btn'>
                         <FaHome />
                       </Button>
@@ -938,11 +946,10 @@ const DataTable = ({ backgroundColor }) => {
                 <Form.Control.Feedback type="invalid">Por favor ingresa la Descripción del rol</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
               </Form.Group>
               <Modal.Footer className='Create-Rol'>
-                <Button className="boton_crear_rol p-2 m-2 btn-sm" type='submit'> Crear</Button>
+                <Button className="boton_crear_rol p-1 m-1 btn-sm" type='submit'> Crear</Button>
               </Modal.Footer>
             </Form>
           </Modal.Body>
-
         </Modal>
 
 
@@ -992,7 +999,7 @@ const DataTable = ({ backgroundColor }) => {
 
         <Modal show={crtUserShow} onHide={handleCrtUserClose}>
           <Modal.Header className='Create-User' closeButton>
-            <Modal.Title>CREAR USUARIO</Modal.Title>
+            <Modal.Title><FaUser /> CREAR USUARIO</Modal.Title>
           </Modal.Header>
           <Modal.Body className='Create-User' >
             <Form noValidate validated={validated} onSubmit={handleSubmit} >
@@ -1096,7 +1103,7 @@ const DataTable = ({ backgroundColor }) => {
 
         <Modal show={editShow} onHide={handleEditClose}>
           <Modal.Header className='Create-User' closeButton>
-            <Modal.Title>MODIFICAR DATOS</Modal.Title>
+            <Modal.Title><FaRegEdit /> MODIFICAR DATOS</Modal.Title>
           </Modal.Header>
           <Modal.Body style={bannerStyle3} className='Edit-User'>
             <Form noValidate validated={validated} onSubmit={handleSubmit} > {/*AJUSTE LCPG 9-10*/}
@@ -1218,7 +1225,7 @@ const DataTable = ({ backgroundColor }) => {
         <Modal size="lg"
           show={homeShow} onHide={handleHomeClose} aria-labelledby="example-modal-sizes-title-lg">
           <Modal.Header className='Create-User' closeButton>
-            <Modal.Title>GESTIONAR DIRECCIONES</Modal.Title>
+            <Modal.Title><FaHome /> GESTIONAR DIRECCIONES</Modal.Title>
           </Modal.Header>
           <ModalBody className='Create-User'>
             <div>

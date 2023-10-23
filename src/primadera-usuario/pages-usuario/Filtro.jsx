@@ -150,6 +150,8 @@ const FiltroInven = () => {
         fontSize: '15px',
         marginTop: '-10px',
         marginBottom: '15px',
+        maxHeight: '150px', // Altura máxima del contenedor de desplazamiento
+        overflow: 'auto', // Habilitar el desplazamiento cuando los productos excedan la altura del contenedor
 
     };
 

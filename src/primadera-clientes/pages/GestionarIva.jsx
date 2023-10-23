@@ -1,6 +1,6 @@
 import Banner from './BannerAdmin';
 import imagenes from "../../assets/imagenes";
-import '../pages/Pedidos.css';
+import '../pages/GestionarIva.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import React, { useEffect, useState } from 'react';
@@ -17,15 +17,17 @@ import AuditService from '../../services/AuditService';
 import UserService from '../../services/UserService';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { FaHome, FaRegEdit, FaTruck } from "react-icons/fa";
+import { FaHome, FaRegEdit, FaPlus } from "react-icons/fa";
 
-const DataTable = ({ backgroundColor }) => {
+
+const DataIva = ({ backgroundColor }) => {
+
+
     const [selectedOption, setSelectedOption] = useState('Acciones');
 
     //validacion de sesion activa
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
-    const [usuariotelefono, setUsuarioTelefono] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         SesionUsername()
@@ -38,7 +40,6 @@ const DataTable = ({ backgroundColor }) => {
             UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
-                setUsuarioTelefono(responseid.data.cp_cell_phone);
 
             }).catch(error => {
                 console.log(error)
@@ -73,6 +74,13 @@ const DataTable = ({ backgroundColor }) => {
     const [editTypeOrderId, setEditTypeOrderId] = useState(null); // Add a state variable for editing
     const { typeOrderId } = useParams();
 
+
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
     //consulta por ID
     const ConsultarTipoPedidoPorId = (typeOrderId) => {
         TypeOrderService.getTypeOrderById(typeOrderId).then((response) => {
@@ -81,38 +89,25 @@ const DataTable = ({ backgroundColor }) => {
             setcp_Type_Order_Status(response.data.cp_type_order_status);
             // Aquí establece el estado de los checkboxes en función del valor de cp_type_order_status
             if (response.data.cp_type_order_status === "Activo") {
-                setCheckbox3(true); // Activo
-                setCheckbox2(false)
+                setCheckbox2(true); // Activo
             } else {
-                setCheckbox3(false); // Inactivo
-                setCheckbox2(true)
+                setCheckbox2(false); // Activo
             }
         }).catch(error => {
             console.log(error)
         })
     }
 
-    const [validated, setValidated] = useState(false);
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        event.preventDefault();
-        event.stopPropagation();
-        if (form.checkValidity() === false) {
-            alert("Por favor, complete el formulario correctamente.");
-        } else {
-            saveOrUpdateTypeOrder();
-        }
-
-        setValidated(true);
-    }
-
     const saveOrUpdateTypeOrder = (e) => {
+        const typeOrder = {
+            cp_type_order_description,
+            cp_type_order_meaning,
+            cp_type_order_status: "Activo",
+        };
 
         if (editTypeOrderId) {
             // Update an existing record
-            const cp_type_order_status = (checkbox3 ? "Activo" : checkbox2 ? "Inactivo" : cp_type_order_status);
-            const typeOrder_edit = { cp_type_order_description, cp_type_order_meaning, cp_type_order_status };
-            TypeOrderService.updateTypEOrder(editTypeOrderId, typeOrder_edit).then((response) => {
+            TypeOrderService.updateTypEOrder(editTypeOrderId, typeOrder).then((response) => {
                 console.log(response.data);
                 const read = Cookies.get()
                 UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
@@ -139,43 +134,32 @@ const DataTable = ({ backgroundColor }) => {
             });
         } else {
             // Create a new record
-            const existingType = tipoPedido.find(item => item.cp_type_order_description === cp_type_order_description || item.cp_type_order_meaning === cp_type_order_meaning);
-
-            if (existingType) {
-                alert("Ya existe un tipo de pedido con el mismo nombre.");
-            } else {
-                const typeOrder = {
-                    cp_type_order_description,
-                    cp_type_order_meaning,
-                    cp_type_order_status: "Activo",
-                };
-                TypeOrderService.createTypEOrder(typeOrder).then((response) => {
-                    console.log(response.data);
-                    const read = Cookies.get()
-                    UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
-                        console.log(responseid.data)
-                        const cp_id_user = responseid.data.cp_user_id;
-                        const cp_audit_description = "Creacion de tipo pedido " + cp_type_order_meaning + " " + cp_type_order_description;
-                        const Audit = { cp_id_user, cp_audit_description };
-                        AuditService.CrearAudit(Audit).then((response) => {
-                            console.log(response.data);
-                            navigate('/Pedidos');
-                            alert("Tipo Pedido creado Exitosamente");
-                            window.location.reload();
-                        }).catch(error => {
-                            console.log(error)
-                            alert("Error al crear auditoria")
-                        })
+            TypeOrderService.createTypEOrder(typeOrder).then((response) => {
+                console.log(response.data);
+                const read = Cookies.get()
+                UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
+                    console.log(responseid.data)
+                    const cp_id_user = responseid.data.cp_user_id;
+                    const cp_audit_description = "Creacion de tipo pedido " + cp_type_order_meaning + " " + cp_type_order_description;
+                    const Audit = { cp_id_user, cp_audit_description };
+                    AuditService.CrearAudit(Audit).then((response) => {
+                        console.log(response.data);
+                        navigate('/Pedidos');
+                        alert("Tipo Pedido creado Exitosamente");
+                        window.location.reload();
                     }).catch(error => {
                         console.log(error)
-                        alert("Error obtener usuario de sesion")
+                        alert("Error al crear auditoria")
                     })
+                }).catch(error => {
+                    console.log(error)
+                    alert("Error obtener usuario de sesion")
                 })
-                    .catch((error) => {
-                        console.log(error);
-                        alert("Error al crear Tipo Pedido, Por favor diligenciar todos los campos")
-                    });
-            }
+            })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Error al crear Tipo Pedido")
+                });
         }
     };
 
@@ -184,7 +168,7 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '40px',
+        marginTop: '30px',
     };
 
     const backgroundStyle = {
@@ -235,13 +219,10 @@ const DataTable = ({ backgroundColor }) => {
         setCheckbox1();
     };
     const handleCheckbox2Change = () => {
-        setCheckbox2(true);
-        setCheckbox3(false);
+        setCheckbox2();
     };
-    const handleCheckbox3Change = (event) => {
-        setCheckbox2(false);
-        setCheckbox3(true);
-        setIsChecked(event.target.checked);
+    const handleCheckbox3Change = () => {
+        setCheckbox3();
     };
 
     const handleEditClose = () => editSetShow(false);
@@ -275,7 +256,7 @@ const DataTable = ({ backgroundColor }) => {
                                 </Row>
                             </Container>
                         </td>
-                        <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr><tr><td>{usuariotelefono}</td></tr></td>
+                        <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr></td>
                     </tr>
                 </div>
 
@@ -284,7 +265,7 @@ const DataTable = ({ backgroundColor }) => {
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
@@ -294,44 +275,32 @@ const DataTable = ({ backgroundColor }) => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <div className='DataTable' style={bannerStyle}>
-                    <th style={pedido}><FaTruck /> GESTIONAR TIPO DE PEDIDOS</th> {/*AJUSTE LCPG*/}
-                    <table className='table table-bordered' >
-                        <thead style={bannerStyle} >
-                            <tr style={bannerStyle} className='borderless_ped'>
-                                <th style={bannerStyle} className='borderless_ped'>Código</th>
-                                <th style={bannerStyle}>Tipo Pedido</th>
-                                <th style={bannerStyle}>Descripción</th>
-                                <th style={bannerStyle}>Estado</th>
-                                <th style={bannerStyle} className='borderless_ped'>Acciones</th>
+                <div className='DataTableIva' style={bannerStyle}>
+                    <th style={pedido}>GESTIONAR IVA</th> {/*AJUSTE LCPG*/}
+                    <table className='table table-borderless' >
+                        <thead style={bannerStyle}>
+                            <tr style={bannerStyle} >
+                                <th style={bannerStyle}>% de IVA</th>
+                                <th style={bannerStyle}>Fecha de inicio</th>
+                                <th style={bannerStyle}>Fecha de finalización</th>
+                                <th style={bannerStyle}>Acciones</th>
                             </tr>
                         </thead>
                         <tbody style={bannerStyle}>
                             {tipoPedido
                                 .toSorted((a, b) => a.cp_type_order_id - b.cp_type_order_id) // Ordena el arreglo por cp_type_order_id en orden ascendente
                                 .map((tipoPedido) => (
-                                    <tr style={bannerStyle} className='borderless_ped' key={tipoPedido.cp_type_order_id}>
-                                        <td style={bannerStyle} className='borderless_ped'>{tipoPedido.cp_type_order_id}</td>
+                                    <tr style={bannerStyle} key={tipoPedido.cp_type_order_id}>
+                                        <td style={bannerStyle}>{tipoPedido.cp_type_order_id}</td>
                                         <td style={bannerStyle}>{tipoPedido.cp_type_order_meaning}</td>
                                         <td style={bannerStyle}>{tipoPedido.cp_type_order_description}</td>
+
                                         <td style={bannerStyle}>
-                                            {/*AJUSTE LCPG INI*/}
-                                            <Form className='CheckBox_estado_ped'>
-                                                <Form.Group>
-                                                    <Form.Check
-                                                        type="checkbox"
-                                                        checked={tipoPedido.cp_type_order_status === "Activo"}
-                                                        onChange={() => handleCheckbox1Change(tipoPedido.cp_type_order_id)}
-                                                        label={tipoPedido.cp_type_order_status === "Activo" ? "Activo" : "Inactivo"}
-                                                    />
-                                                </Form.Group>
-                                            </Form>
-                                        </td>
-                                        <td style={bannerStyle} className='borderless_ped'>
                                             {/* Call handleEditClick with tipoPedido.cp_type_order_id */}
-                                            <Button onClick={() => handleEditClick(tipoPedido.cp_type_order_id)} className='Edit-ped'>
+                                            <button onClick={() => handleEditClick(tipoPedido.cp_type_order_id)} className='Edit-Iva '>
                                                 <FaRegEdit />
-                                            </Button>
+                                            </button>
+
                                         </td>
                                         {/*AJUSTE LCPG FIN*/}
                                     </tr>
@@ -339,8 +308,8 @@ const DataTable = ({ backgroundColor }) => {
                         </tbody>
                     </table>
                 </div>
-                <div className="botones mt-12">
-                    <Button className="boton1 p-2 m-2 btn-sm" onClick={handleShow}>Crear</Button> {/*AJUSTE LCPG*/}
+                <div className="botones-Iva mt-12">
+                    <Button className="Crear-btn p-2 m-2 btn-sm" onClick={handleShow}>Crear</Button> {/*AJUSTE LCPG*/}
                 </div>
 
 
@@ -350,70 +319,50 @@ const DataTable = ({ backgroundColor }) => {
 
                 <Modal show={editShow} onHide={handleEditClose}>
                     <Modal.Header className='Edit-ped' closeButton>
-                        <Modal.Title><FaRegEdit /> MODIFICAR DATOS</Modal.Title>
+                        <Modal.Title>EDITAR IVA</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className='Edit-ped' >
-                        <Form noValidate validated={validated} onSubmit={handleSubmit} >
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Código</Form.Label>
+                        <Form >
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" >
+                                <Form.Label>% IVA</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Código"
+
                                     autoFocus
-                                    disabled
-                                    value={cp_type_order_id}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" disabled>
-                                <Form.Label>Tipo Pedido</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Tipo Pedido"
-                                    autoFocus
+                                    required // Hacer que este campo sea obligatorio
                                     value={cp_type_order_meaning}
                                     onChange={(e) => setcp_Type_Order_Meaning(e.target.value)}
-                                    required // Hacer que este campo sea obligatorio
                                 />
-                                <Form.Control.Feedback type="invalid">Por favor ingresa el tipo de pedido</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" >
+                                <Form.Label>Fecha Inicio</Form.Label>
+                                <Form.Control
+                                    type="date"
+
+                                    autoFocus
+                                    required // Hacer que este campo sea obligatorio
+                                    value={cp_type_order_meaning}
+                                    onChange={(e) => setcp_Type_Order_Meaning(e.target.value)}
+                                />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                                <Form.Label>Descripción</Form.Label>
+                                <Form.Label>Fexcha Finalización</Form.Label>
                                 <Form.Control
-                                    type="text"
-                                    placeholder="Descripción"
+                                    type="date"
+
                                     autoFocus
+                                    required // Hacer que este campo sea obligatorio
                                     value={cp_type_order_description}
                                     onChange={(e) => setcp_Type_Order_Description(e.target.value)}
-                                    required // Hacer que este campo sea obligatorio
                                 />
-                                <Form.Control.Feedback type="invalid">Por favor ingresa la Descripción tipo de pedido</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
-                            <Form className='CheckBox_estado_ped'>
-                                <div className='CheckBox'> {/*AJUSTE LCPG INICIO*/}
-                                    <Form className='CheckBox'>
-                                        <Form.Group className='CheckBox_estado_ped'>
-                                            <Form.Check type="checkbox">
-                                                <Form.Check.Label>Inactivo</Form.Check.Label>
-                                                <Form.Check.Input checked={checkbox2} onChange={handleCheckbox2Change}
-                                                />
-                                            </Form.Check>
-                                        </Form.Group>
-                                        <Form.Group className='CheckBox_estado_ped'>
-                                            <Form.Check type="checkbox">
-                                                <Form.Check.Label>Activo</Form.Check.Label>
-                                                <Form.Check.Input checked={checkbox3} onChange={handleCheckbox3Change} />
-                                            </Form.Check>
-                                        </Form.Group>
-                                    </Form>
-                                </div> {/*AJUSTE LCPG FIN*/}
-                            </Form>
-                            <Modal.Footer className='Edit-ped' >
-                                <Button className='Guardar-btn-ped' type='submit'>
-                                    Guardar
-                                </Button>
-                            </Modal.Footer>
                         </Form>
                     </Modal.Body>
+                    <Modal.Footer className='Edit-ped' >
+                        <Button className='Guardar-btn-ped' onClick={(e) => saveOrUpdateTypeOrder(setcp_Type_Order_Id)}>
+                            Guardar
+                        </Button>
+                    </Modal.Footer>
                 </Modal>
 
 
@@ -421,45 +370,52 @@ const DataTable = ({ backgroundColor }) => {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header className='Crear-ped' closeButton>
-                        <Modal.Title>CREAR TIPO PEDIDO</Modal.Title>
+                        <Modal.Title>CREAR</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className='Crear-ped' >
-                        <Form noValidate validated={validated} onSubmit={handleSubmit} >
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                                <Form.Label>Tipo Pedido</Form.Label>
+                        <Form >
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" >
+                                <Form.Label>% IVA</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Tipo Pedido"
+
                                     autoFocus
+                                    required // Hacer que este campo sea obligatorio
                                     value={cp_type_order_meaning}
                                     onChange={(e) => setcp_Type_Order_Meaning(e.target.value)}
-                                    required // Hacer que este campo sea obligatorio
                                 />
-                                <Form.Control.Feedback type="invalid">Por favor ingresa el tipo de pedido</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput3" disabled>
-                                <Form.Label>Descripción</Form.Label>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                                <Form.Label>Fecha Inicio</Form.Label>
                                 <Form.Control
-                                    type="text"
+                                    type="date"
                                     placeholder="Descripción"
                                     autoFocus
+                                    required // Hacer que este campo sea obligatorio
                                     value={cp_type_order_description}
                                     onChange={(e) => setcp_Type_Order_Description(e.target.value)}
-                                    required // Hacer que este campo sea obligatorio
                                 />
-                                <Form.Control.Feedback type="invalid">Por favor ingresa la Descripción tipo de pedido</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
-                            <Modal.Footer className='Crear-ped' >
-                                <Button className='Guardar-btn-ped' type='submit'>
-                                    Guardar
-                                </Button>
-                            </Modal.Footer>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                                <Form.Label>Fecha Finalización</Form.Label>
+                                <Form.Control
+                                    type="date"
+                                    placeholder="Descripción"
+                                    autoFocus
+                                    required // Hacer que este campo sea obligatorio
+                                    value={cp_type_order_description}
+                                    onChange={(e) => setcp_Type_Order_Description(e.target.value)}
+                                />
+                            </Form.Group>
+
                         </Form>
                     </Modal.Body>
+                    <Modal.Footer className='Crear-ped' >
+                        <Button className='Guardar-btn-ped' onClick={(e) => saveOrUpdateTypeOrder(e)}>
+                            Guardar
+                        </Button>
+                    </Modal.Footer>
                 </Modal>
-
-
-
                 <Image className='Img-Creamos_ped' src={imagenes.Creamos} />
             </div>
 
@@ -468,7 +424,9 @@ const DataTable = ({ backgroundColor }) => {
             {/*AJUSTE LCPG FIN*/}
         </>
     );
+    {
+    }
 
 };
 
-export default DataTable;
+export default DataIva;
