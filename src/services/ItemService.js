@@ -7,12 +7,12 @@ class ItemService {
         return axios.get(BASE_REST_API_URL);
     }
 
-    getItemsConDisponibilidad() {
-        return axios.get(BASE_REST_API_URL + "/itemscondisponibilidad")
+    getItemsConDisponibilidad(Cust_account_id) {
+        return axios.get(BASE_REST_API_URL + "/itemscondisponibilidad?Cust_account_id=" + Cust_account_id)
     }
 
-    getItemsSinDisponibilidad() {
-        return axios.get(BASE_REST_API_URL + "/itemshazpedido")
+    getItemsSinDisponibilidad(Cust_account_id) {
+        return axios.get(BASE_REST_API_URL + "/itemshazpedido?Cust_account_id=" + Cust_account_id)
     }
 
     getItemsLinea() {
