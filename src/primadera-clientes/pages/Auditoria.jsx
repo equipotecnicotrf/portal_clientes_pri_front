@@ -123,6 +123,13 @@ const DataTable = ({ backgroundColor }) => {
         display: 'flex',
         flexDirection: 'column'
     };
+    const bannerStyle2 = {
+        backgroundColor: backgroundColor || '#878787',
+        color: '#fff',
+        padding: '20px',
+        textAlign: 'center',
+        marginTop: '30px'
+    };
 
     const dropDownbackgroundStyle = {
         backgroundColor: 'white',
@@ -204,7 +211,7 @@ const DataTable = ({ backgroundColor }) => {
                             </Row>
                         </Form>
                     </div>
-                    <table className='table table-bordered' style={bannerStyle} >
+                    <table className='table table-bordered' style={bannerStyle2} >
 
                         <thead style={bannerStyle}>
                             <tr style={bannerStyle} className='borderless_audit'>

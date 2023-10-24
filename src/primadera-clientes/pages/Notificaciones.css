@@ -40,6 +40,13 @@
     padding-right: 20px;
     font-size: 20px;
     font-size: medium;
+    border: none;
+}
+
+.btn_faregedit_noti {
+
+    margin-top: -2.61%;
+
 }
 
 .borderless_noti {

@@ -101,6 +101,14 @@ const DataTable = ({ backgroundColor }) => {
         marginTop: '40px',
     };
 
+    const bannerStyle2 = {
+        backgroundColor: backgroundColor || '#878787',
+        color: '#fff',
+        padding: '13px',
+        textAlign: 'center',
+
+    };
+
     const notificacion = {
         padding: '20px',
     };
@@ -176,7 +184,7 @@ const DataTable = ({ backgroundColor }) => {
 
                                         <td style={bannerStyle}>{notificaciones.tipo}</td>
                                         <td style={bannerStyle}>{notificaciones.asunto}</td>
-                                        <td style={bannerStyle}>
+                                        <td style={bannerStyle2}>
                                             {/* Call handleEditClick with tipoPedido.cp_type_order_id */}
                                             <Button onClick={handleShow} className='Edit_noti'>
                                                 <FaRegEdit />
@@ -193,7 +201,7 @@ const DataTable = ({ backgroundColor }) => {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header className='Edit_noti' closeButton>
-                        <Modal.Title>MODIFICAR DATOS</Modal.Title>
+                        <Modal.Title><FaRegEdit className='btn_faregedit_noti' /> MODIFICAR DATOS</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className='Edit_noti' >
                         <Form noValidate validated={validated} onSubmit={handleSubmit}  >

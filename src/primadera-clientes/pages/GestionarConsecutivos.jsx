@@ -115,6 +115,13 @@ const GestionarConsecutivos = ({ backgroundColor }) => {
         marginTop: '40px',
     };
 
+    const bannerStyle2 = {
+        backgroundColor: backgroundColor || '#878787',
+        color: '#fff',
+        padding: '13px',
+        textAlign: 'center',
+    };
+
     const consecutivos_2 = {
         padding: '20px',
     };
@@ -189,7 +196,7 @@ const GestionarConsecutivos = ({ backgroundColor }) => {
                                         <td style={bannerStyle}>{data_cons.numero_cons}</td>
                                         <td style={bannerStyle}>{data_cons.fecha_ini}</td>
                                         <td style={bannerStyle}>{data_cons.fecha_fin}</td>
-                                        <td style={bannerStyle}>
+                                        <td style={bannerStyle2}>
                                             {/* Call handleEditClick with tipoPedido.cp_type_order_id */}
                                             <Button onClick={handleShow} className='Edit_cons'>
                                                 <FaRegEdit />
@@ -207,7 +214,7 @@ const GestionarConsecutivos = ({ backgroundColor }) => {
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header className='Edit_cons' closeButton>
-                        <Modal.Title><FaRegEdit /> MODIFICAR DATOS</Modal.Title>
+                        <Modal.Title><FaRegEdit className='btn_faEdit_cons' /> MODIFICAR DATOS</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className='Edit_cons' >
                         <Form noValidate validated={validated} onSubmit={handleSubmit}  >

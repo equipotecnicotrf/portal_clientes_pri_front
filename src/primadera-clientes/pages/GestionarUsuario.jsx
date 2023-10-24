@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { FaHome, FaRegEdit, FaSearch, FaUser } from "react-icons/fa";
+import { FaHome, FaRegEdit, FaSearch, FaStar, FaUser } from "react-icons/fa";
 import { ModalBody } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -613,7 +613,7 @@ const DataTable = ({ backgroundColor }) => {
   const bannerStyle2 = {
     backgroundColor: backgroundColor || '#878787',
     color: '#fff',
-    padding: '2%',
+    padding: '1.5%',
     textAlign: 'center',
   };
 
@@ -629,6 +629,21 @@ const DataTable = ({ backgroundColor }) => {
     color: '#fff',
     padding: '13px',
     textAlign: 'center',
+  };
+
+  const bannerStyle5 = {
+    backgroundColor: backgroundColor || '#878787',
+    color: '#fff',
+    textAlign: 'center',
+    marginTop: '10px'
+  };
+
+  const bannerStyle6 = {
+    backgroundColor: backgroundColor || '#878787',
+    color: '#fff',
+    padding: '20px',
+    textAlign: 'center',
+    marginTop: '20px'
   };
 
   const backgroundStyle = {
@@ -819,7 +834,7 @@ const DataTable = ({ backgroundColor }) => {
         </div>
         <div className='DataTable' style={bannerStyle} >
           <th style={gestion}>GESTIÓN DE USUARIO </th>
-          <table className='table table-bordered' style={bannerStyle} >
+          <table className='table table-bordered' style={bannerStyle6} >
             <thead style={bannerStyle}>
               <tr style={bannerStyle} className='borderless_gest_usua'>
                 <th style={bannerStyle} className='borderless_gest_usua'>Cliente</th>
@@ -867,20 +882,20 @@ const DataTable = ({ backgroundColor }) => {
 
         <Modal size="lg" show={show} onHide={handleClose}>
           <Modal.Header className="Gestion_roles" closeButton>
-            <Modal.Title>GESTIONAR ROLES</Modal.Title>
+            <Modal.Title><FaStar className='btn_faStar_usua' /> GESTIONAR ROLES</Modal.Title>
           </Modal.Header>
           <Modal.Body className="Gestion_roles">
             <Form>
               <Form.Group className="mb-3" controlid="exampleForm.ControlInput1">
                 <div>
-                  <table className='table table-borderless' style={bannerStyle} >
+                  <table className='table table-bordered' style={bannerStyle5} >
                     <thead>
-                      <tr style={bannerStyle} >
-                        <th style={bannerStyle}>Nombre</th>
-                        <th style={bannerStyle}>Descripción Rol</th>
-                        <th style={bannerStyle}>Estado</th>
-                        <th style={bannerStyle}>Acciones</th>
-                        <th style={bannerStyle}></th>
+                      <tr className='bordered_usua' style={bannerStyle} >
+                        <th className='bordered_usua' style={bannerStyle}>Nombre</th>
+                        <th className='bordered_usua' style={bannerStyle}>Descripción Rol</th>
+                        <th className='bordered_usua' style={bannerStyle}>Estado</th>
+                        <th className='bordered_usua' style={bannerStyle}>Acciones</th>
+                        <th className='bordered_usua' style={bannerStyle}></th>
                       </tr>
                     </thead>
 
@@ -888,7 +903,7 @@ const DataTable = ({ backgroundColor }) => {
                       {roles
                         .toSorted((a, b) => a.cp_rol_id - b.cp_rol_id) // Ordena el arreglo por cp_rol_id en orden ascendente
                         .map((roles) => (
-                          <tr style={bannerStyle} key={roles.cp_rol_id}>
+                          <tr className='bordered_usua' style={bannerStyle} key={roles.cp_rol_id}>
                             <td style={bannerStyle}>{roles.cp_rol_name}</td>
                             <td style={bannerStyle}>{roles.cp_rol_description}</td>
                             <td style={bannerStyle}>{roles.cp_rol_status}</td>
@@ -897,7 +912,7 @@ const DataTable = ({ backgroundColor }) => {
                                 <FaRegEdit />
                               </Button>
                             </td>
-                            <td style={bannerStyle2}><Button className="Btn_contexto" onClick={handleShow3} onClose={handleClose}>
+                            <td style={bannerStyle}><Button className="Btn_contexto" onClick={handleShow3} onClose={handleClose}>
                               Contexto
                             </Button></td>
                           </tr>
@@ -909,7 +924,7 @@ const DataTable = ({ backgroundColor }) => {
             </Form>
           </Modal.Body>
           <Modal.Footer className="Gestion_roles">
-            <Button className="boton_ges_usua p-2 m-2 btn-sm" onClick={handleShow2}>Crear Rol</Button>
+            <Button className="boton_ges_usua p-1 m-1" onClick={handleShow2}>Crear Rol</Button>
           </Modal.Footer>
         </Modal>
 
@@ -918,7 +933,7 @@ const DataTable = ({ backgroundColor }) => {
 
         <Modal show={show2} onHide={handleClose2}>
           <Modal.Header className='Create-Rol' closeButton>
-            <Modal.Title>ROL</Modal.Title>
+            <Modal.Title><FaStar className='btn_faStar1_usua' /> ROL</Modal.Title>
           </Modal.Header>
           <Modal.Body className='Create-Rol'>
             <Form noValidate validated={validatedRol} onSubmit={handleSubmitRol}>
@@ -988,7 +1003,7 @@ const DataTable = ({ backgroundColor }) => {
             </Form>
           </Modal.Body>
           <Modal.Footer className="Contexto">
-            <Button className="Btn_guardar_context p-2 m-2 btn-sm" >
+            <Button className="Btn_guardar_context p-1 m-1 btn-sm" >
               Guardar
             </Button>
           </Modal.Footer>
@@ -999,7 +1014,7 @@ const DataTable = ({ backgroundColor }) => {
 
         <Modal show={crtUserShow} onHide={handleCrtUserClose}>
           <Modal.Header className='Create-User' closeButton>
-            <Modal.Title><FaUser /> CREAR USUARIO</Modal.Title>
+            <Modal.Title ><FaUser className='btn_fauser_usua' /> CREAR USUARIO</Modal.Title>
           </Modal.Header>
           <Modal.Body className='Create-User' >
             <Form noValidate validated={validated} onSubmit={handleSubmit} >
@@ -1090,7 +1105,7 @@ const DataTable = ({ backgroundColor }) => {
                 </Dropdown>
               </Form.Group>
               <Modal.Footer className='Create-User' >
-                <Button className='Crear-btn' type='submit' >
+                <Button className='Crear-btn-usua' type='submit' >
                   Crear
                 </Button>
               </Modal.Footer>
@@ -1103,7 +1118,7 @@ const DataTable = ({ backgroundColor }) => {
 
         <Modal show={editShow} onHide={handleEditClose}>
           <Modal.Header className='Create-User' closeButton>
-            <Modal.Title><FaRegEdit /> MODIFICAR DATOS</Modal.Title>
+            <Modal.Title><FaRegEdit className='btn_faregedit_usua' /> MODIFICAR DATOS</Modal.Title>
           </Modal.Header>
           <Modal.Body style={bannerStyle3} className='Edit-User'>
             <Form noValidate validated={validated} onSubmit={handleSubmit} > {/*AJUSTE LCPG 9-10*/}
@@ -1132,7 +1147,7 @@ const DataTable = ({ backgroundColor }) => {
                 <Form.Control.Feedback type="invalid">Por favor ingresa el Correo de usuario</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
               </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                <Form.Label>Telefono</Form.Label>
+                <Form.Label>Teléfono</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Teléfono" /*AJUSTE LCPG 9-10*/
@@ -1211,7 +1226,7 @@ const DataTable = ({ backgroundColor }) => {
               </div> {/*AJUSTE LCPG FIN*/}
               {/*AJUSTE LCPG 9-10 cambio ubicación footer*/}
               <Modal.Footer className='Create-User'>
-                <Button type="submit" className='Crear-btn' >
+                <Button type="submit" className='Crear-btn-usua' >
                   Guardar
                 </Button>
               </Modal.Footer>
@@ -1225,7 +1240,7 @@ const DataTable = ({ backgroundColor }) => {
         <Modal size="lg"
           show={homeShow} onHide={handleHomeClose} aria-labelledby="example-modal-sizes-title-lg">
           <Modal.Header className='Create-User' closeButton>
-            <Modal.Title><FaHome /> GESTIONAR DIRECCIONES</Modal.Title>
+            <Modal.Title><FaHome className='btn_fahome_usua' /> GESTIONAR DIRECCIONES</Modal.Title>
           </Modal.Header>
           <ModalBody className='Create-User'>
             <div>
@@ -1282,7 +1297,7 @@ const DataTable = ({ backgroundColor }) => {
             </div>
           </ModalBody>
           <Modal.Footer className='Create-User' >
-            <Button className='Crear-btn' onClick={(e) => guardarDireccion(e)}>
+            <Button className='Save-btn-usua' onClick={(e) => guardarDireccion(e)}>
               Guardar
             </Button>
           </Modal.Footer>
@@ -1292,7 +1307,7 @@ const DataTable = ({ backgroundColor }) => {
 
         <Modal show={editShow2} onHide={handleEditClose2}>
           <Modal.Header className='Create-User' closeButton>
-            <Modal.Title>MODIFICAR DATOS</Modal.Title>
+            <Modal.Title><FaRegEdit className='btn_faregedit_usua' /> MODIFICAR DATOS</Modal.Title>
           </Modal.Header>
           <Modal.Body style={bannerStyle3} >
             <Form noValidate validated={validatedRol} onSubmit={handleSubmitRol}>
@@ -1321,14 +1336,14 @@ const DataTable = ({ backgroundColor }) => {
               <Form className='CheckBox_estado_rol'>
                 <div className='CheckBox'> {/*AJUSTE LCPG INICIO*/}
                   <Form className='CheckBox'>
-                    <Form.Group className='CheckBox_estado_rol'>
+                    <Form.Group className='Checkbox_estado'>
                       <Form.Check type="checkbox">
                         <Form.Check.Label>Inactivo</Form.Check.Label>
                         <Form.Check.Input checked={checkbox_rol1} onChange={handleCheckbox_rol1}
                         />
                       </Form.Check>
                     </Form.Group>
-                    <Form.Group className='CheckBox_estado_rol'>
+                    <Form.Group className='Checkbox_estado'>
                       <Form.Check type="checkbox">
                         <Form.Check.Label>Activo</Form.Check.Label>
                         <Form.Check.Input checked={checkbox_rol2} onChange={handleCheckbox_rol2} />
@@ -1338,7 +1353,7 @@ const DataTable = ({ backgroundColor }) => {
                 </div> {/*AJUSTE LCPG FIN*/}
               </Form>
               <Modal.Footer className='Create-User'>
-                <Button className='Crear-btn' type='submit'>
+                <Button className='Save-btn-usua' type='submit'>
                   Guardar
                 </Button>
               </Modal.Footer>

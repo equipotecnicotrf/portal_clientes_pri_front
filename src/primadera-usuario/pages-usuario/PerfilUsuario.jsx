@@ -25,6 +25,7 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
     const [usuarioCustAccountId, setUsuarioCustAccountId] = useState([]);
     const [usuarioTelefono, setUsuarioTelefono] = useState([]);
     const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
+    const [direcciones, setDirecciones] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         SesionUsername()
@@ -45,6 +46,9 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                 setUsuarioCustAccountId(responseid.data.cust_account_id);
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
                 setUsuarioEmpresa(responseid.data.cust_name);
+
+                ListDirecciones(responseid.data.cust_account_id);
+
             }).catch(error => {
                 console.log(error)
                 alert("Error obtener usuario de sesion")
@@ -57,11 +61,6 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
 
     }
 
-    useEffect(() => {
-        ListDirecciones()
-    }, [])
-
-    const [direcciones, setDirecciones] = useState([]);
     const ListDirecciones = (id_direccion) => {
         SoapServiceDirecciones.getAllDirecciones(id_direccion).then(response => {
             setDirecciones(response.data);

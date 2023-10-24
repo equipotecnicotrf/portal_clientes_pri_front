@@ -17,11 +17,10 @@ import AuditService from '../../services/AuditService';
 import UserService from '../../services/UserService';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { FaHome, FaRegEdit, FaPlus } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
 
 
 const DataIva = ({ backgroundColor }) => {
-
 
     const [selectedOption, setSelectedOption] = useState('Acciones');
 
@@ -73,7 +72,6 @@ const DataIva = ({ backgroundColor }) => {
     const [cp_type_order_id, setcp_Type_Order_Id] = useState('');
     const [editTypeOrderId, setEditTypeOrderId] = useState(null); // Add a state variable for editing
     const { typeOrderId } = useParams();
-
 
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -171,6 +169,12 @@ const DataIva = ({ backgroundColor }) => {
         marginTop: '30px',
     };
 
+    const bannerStyle2 = {
+        backgroundColor: backgroundColor || '#878787',
+        color: '#fff',
+        padding: '15px',
+        textAlign: 'center',
+    };
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
         backgroundSize: 'cover',
@@ -196,19 +200,15 @@ const DataIva = ({ backgroundColor }) => {
 
     };
 
-    const pedido = {
+    const iva = {
         padding: '20px',
     };
 
-    const pedido2 = {
+    const iva2 = {
         padding: '60px',
         height: '23vh',
         marginTop: '-35px'
     };
-
-    /*AJUSTE LCPG INI*/
-
-
 
     const [checkbox1, setCheckbox1] = useState(false);
     const [checkbox2, setCheckbox2] = useState(false);
@@ -239,13 +239,11 @@ const DataIva = ({ backgroundColor }) => {
         ConsultarTipoPedidoPorId(typeOrderId); // Fetch data for editing
     };
 
-    /*AJUSTE LCPG FIN*/
-
     return (
         <>
             <div className='Back' style={backgroundStyle}>
                 <Banner />
-                <div style={pedido2}>
+                <div style={iva2}>
                     <tr>
                         <td >
                             <Container >
@@ -265,7 +263,7 @@ const DataIva = ({ backgroundColor }) => {
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
-                    <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
@@ -276,26 +274,26 @@ const DataIva = ({ backgroundColor }) => {
                 </Dropdown>
 
                 <div className='DataTableIva' style={bannerStyle}>
-                    <th style={pedido}>GESTIONAR IVA</th> {/*AJUSTE LCPG*/}
-                    <table className='table table-borderless' >
+                    <th style={iva}>GESTIONAR IVA</th>
+                    <table className='table table-bordered' >
                         <thead style={bannerStyle}>
-                            <tr style={bannerStyle} >
-                                <th style={bannerStyle}>% de IVA</th>
-                                <th style={bannerStyle}>Fecha de inicio</th>
-                                <th style={bannerStyle}>Fecha de finalización</th>
-                                <th style={bannerStyle}>Acciones</th>
+                            <tr className='bordered_iva' style={bannerStyle} >
+                                <th className='bordered_iva' style={bannerStyle}>% de IVA</th>
+                                <th style={bannerStyle}>Fecha Inicio</th>
+                                <th style={bannerStyle}>Fecha Finalización</th>
+                                <th className='bordered_iva' style={bannerStyle}>Acciones</th>
                             </tr>
                         </thead>
                         <tbody style={bannerStyle}>
                             {tipoPedido
                                 .toSorted((a, b) => a.cp_type_order_id - b.cp_type_order_id) // Ordena el arreglo por cp_type_order_id en orden ascendente
                                 .map((tipoPedido) => (
-                                    <tr style={bannerStyle} key={tipoPedido.cp_type_order_id}>
+                                    <tr className='bordered_iva' style={bannerStyle} key={tipoPedido.cp_type_order_id}>
                                         <td style={bannerStyle}>{tipoPedido.cp_type_order_id}</td>
                                         <td style={bannerStyle}>{tipoPedido.cp_type_order_meaning}</td>
                                         <td style={bannerStyle}>{tipoPedido.cp_type_order_description}</td>
 
-                                        <td style={bannerStyle}>
+                                        <td style={bannerStyle2}>
                                             {/* Call handleEditClick with tipoPedido.cp_type_order_id */}
                                             <button onClick={() => handleEditClick(tipoPedido.cp_type_order_id)} className='Edit-Iva '>
                                                 <FaRegEdit />
@@ -309,19 +307,14 @@ const DataIva = ({ backgroundColor }) => {
                     </table>
                 </div>
                 <div className="botones-Iva mt-12">
-                    <Button className="Crear-btn p-2 m-2 btn-sm" onClick={handleShow}>Crear</Button> {/*AJUSTE LCPG*/}
+                    <Button className="Crear-btn-iva p-1 m-1 btn-sm" onClick={handleShow}>Crear</Button>
                 </div>
 
-
-
-
-                {/*AJUSTE LCPG INI*/}
-
                 <Modal show={editShow} onHide={handleEditClose}>
-                    <Modal.Header className='Edit-ped' closeButton>
+                    <Modal.Header className='Edit-iva' closeButton>
                         <Modal.Title>EDITAR IVA</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body className='Edit-ped' >
+                    <Modal.Body className='Edit-iva' >
                         <Form >
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" >
                                 <Form.Label>% IVA</Form.Label>
@@ -346,7 +339,7 @@ const DataIva = ({ backgroundColor }) => {
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-                                <Form.Label>Fexcha Finalización</Form.Label>
+                                <Form.Label>Fecha Finalización</Form.Label>
                                 <Form.Control
                                     type="date"
 
@@ -358,21 +351,18 @@ const DataIva = ({ backgroundColor }) => {
                             </Form.Group>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className='Edit-ped' >
-                        <Button className='Guardar-btn-ped' onClick={(e) => saveOrUpdateTypeOrder(setcp_Type_Order_Id)}>
+                    <Modal.Footer className='Edit-iva' >
+                        <Button className='Guardar-btn-iva' onClick={(e) => saveOrUpdateTypeOrder(setcp_Type_Order_Id)}>
                             Guardar
                         </Button>
                     </Modal.Footer>
                 </Modal>
 
-
-
-
                 <Modal show={show} onHide={handleClose}>
-                    <Modal.Header className='Crear-ped' closeButton>
+                    <Modal.Header className='Crear-iva' closeButton>
                         <Modal.Title>CREAR</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body className='Crear-ped' >
+                    <Modal.Body className='Crear-iva' >
                         <Form >
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" >
                                 <Form.Label>% IVA</Form.Label>
@@ -407,21 +397,16 @@ const DataIva = ({ backgroundColor }) => {
                                     onChange={(e) => setcp_Type_Order_Description(e.target.value)}
                                 />
                             </Form.Group>
-
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className='Crear-ped' >
-                        <Button className='Guardar-btn-ped' onClick={(e) => saveOrUpdateTypeOrder(e)}>
+                    <Modal.Footer className='Crear-iva' >
+                        <Button className='Guardar-btn-iva' onClick={(e) => saveOrUpdateTypeOrder(e)}>
                             Guardar
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <Image className='Img-Creamos_ped' src={imagenes.Creamos} />
+                <Image className='Img-Creamos_iva' src={imagenes.Creamos} />
             </div>
-
-
-            {/*AJUSTE LCPG*/}
-            {/*AJUSTE LCPG FIN*/}
         </>
     );
     {

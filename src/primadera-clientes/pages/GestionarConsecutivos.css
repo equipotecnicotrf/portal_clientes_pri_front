@@ -29,6 +29,8 @@
     padding-right: 20px;
     font-size: 20px;
     font-size: medium;
+    border: none;
+    width: 150px;
 }
 
 .borderless_cons {
@@ -52,7 +54,7 @@
 
 .boton_cons {
     background-color: #323333;
-    height: 50.74px;
+
     width: 200px;
     border-radius: 30px;
     display: block;
@@ -61,4 +63,8 @@
     color: white;
     font-size: medium;
     border: none;
+}
+
+.btn_faEdit_cons {
+    margin-top: -3%;
 }

@@ -6,40 +6,48 @@
     border-collapse: collapse;
     max-height: 350px;
     overflow-y: auto;
+
+
 }
+
 
 .CheckBox {
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
     margin: 1%;
+
 }
 
 .Checkbox_estado {
     padding: 5px;
+
 }
 
 .home-btn {
     background-color: #878787;
     color: white;
     border: none;
+
 }
 
 .edit-btn {
     background-color: #878787;
     color: white;
     border: none;
+
 }
 
 .btns {
-    border-radius: 20px;
+    border-radius: 30px;
     background-color: #323333;
     color: white;
     position: auto;
     font-size: medium;
     border: none;
-    width: 140px;
-    right: 44px;
+    width: 194px;
+
+
 }
 
 
@@ -54,6 +62,7 @@
 
     justify-content: flex-end;
 
+
 }
 
 
@@ -61,7 +70,7 @@
 .Create-User {
 
     background-color: #878787;
-
+    border: none;
     color: white;
 
 }
@@ -87,18 +96,20 @@
 .Create-Rol {
     background-color: #878787;
     color: white;
+    border: none;
 }
 
 .Contexto {
     background-color: #878787;
     color: white;
+    border: none;
 }
 
 
 
 .Btn_contexto {
     background-color: #323333;
-    height: 35.74px;
+
     border-radius: 30px;
     display: block;
     padding: 0.1rem 1rem;
@@ -112,7 +123,7 @@
 
 .Btn_guardar_context {
     background-color: #323333;
-    height: 45px;
+
     border-radius: 30px;
     display: block;
     padding: 0.5rem 1rem;
@@ -124,7 +135,7 @@
 
 .boton_crear_rol {
     background-color: #323333;
-    height: 45px;
+
     width: 150px;
     border-radius: 30px;
     display: block;
@@ -140,6 +151,7 @@
 .Gestion_roles {
     background-color: #878787;
     color: white;
+    border: none;
 }
 
 .boton_ges_usua {
@@ -147,7 +159,7 @@
     padding: 0.4rem 0.8rem;
     border-radius: 30px;
     margin-right: 20px;
-    width: 100px;
+    width: 150px;
     border: none;
 }
 
@@ -216,4 +228,64 @@
 
 .icon_edit_usua {
     margin-top: 2%;
+}
+
+.btn_faregedit_usua {
+    margin-top: -2.61%;
+}
+
+.Crear-btn-usua {
+    background-color: #323333;
+    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 20px;
+    font-size: medium;
+    border: none;
+    width: 160px;
+
+}
+
+.btn_fauser_usua {
+    margin-top: -2%;
+}
+
+.btn_fahome_usua {
+    margin-top: -1.5%;
+}
+
+.bordered_usua {
+    border: none;
+}
+
+.bordered_usua td:first-child {
+    border: none;
+}
+
+.bordered_usua td:last-child {
+    border: none;
+}
+
+.tabla_gestion_roles {
+    background-color: aqua;
+}
+
+.btn_faStar_usua {
+    margin-top: -3%;
+}
+
+.btn_faStar1_usua {
+    margin-top: -6%;
+}
+
+.Save-btn-usua {
+    background-color: #323333;
+    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 20px;
+    font-size: medium;
+    border: none;
+    width: 160px;
+
 }

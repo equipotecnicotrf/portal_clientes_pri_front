@@ -14,19 +14,27 @@ import UserService from '../../services/UserService';
 import { FaShoppingCart, FaTrashAlt, FaTruck, FaUser, FaSearchMinus } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
 import { Modal } from 'react-bootstrap';
+import ShopingCartService from '../../services/ShopingCartService';
+import ShopingCartLineService from '../../services/ShopingCartLineService';
 
 const CarritoCompras = () => {
 
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
+    const [usuarioTelefono, setUsuarioTelefono] = useState([]);
+    const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
+    const [usuarioId, setUsarioId] = useState([]);
+    const [CustAccountId, setCustAccountId] = useState([]);
+    const [carrito, setcarrito] = useState([]);
+    const [carritoline, setcarritoline] = useState([]);
+
     const navigate = useNavigate();
     useEffect(() => {
-        SesionUsername()
+        SesionUsername();
     }, [])
 
     const SesionUsername = () => {
         if (LoginService.isAuthenticated()) {
-            // Renderizar la vista protegida
             const read = Cookies.get()
             //console.log(read)
             //alert("Bienvenido " + read.portal_sesion);    
@@ -34,6 +42,12 @@ const CarritoCompras = () => {
                 //console.log(responseid.data)
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
+                setCustAccountId(responseid.data.cust_account_id);
+                setUsarioId(responseid.data.cp_user_id);
+                setUsuarioTelefono(responseid.data.cp_cell_phone);
+                setUsuarioEmpresa(responseid.data.cust_name);
+
+                carritoCompra(responseid.data.cust_account_id, responseid.data.cp_user_id);
 
             }).catch(error => {
                 console.log(error)
@@ -46,6 +60,30 @@ const CarritoCompras = () => {
         }
     }
 
+    const carritoCompra = (cust_account_id, cp_user_id) => {
+        ShopingCartService.getCarritoxUserId(cust_account_id, cp_user_id).then(carrouseridresponse => {
+            setcarrito(carrouseridresponse.data);
+            console.log(carrouseridresponse.data);
+
+            carritoCompraLine(carrouseridresponse.data[0].cp_cart_id);
+
+        }).catch(error => {
+            console.log(error);
+            alert("Error al Obtener Carrito")
+        })
+    }
+
+    const carritoCompraLine = (cp_cart_id) => {
+        ShopingCartLineService.getLineCarritoItemsbyCartId(cp_cart_id).then(obtenerlineasresponse => {
+            setcarritoline(obtenerlineasresponse.data);
+            console.log(obtenerlineasresponse.data);
+        }).catch(error => {
+            console.log(error);
+            alert("Error al Obtener lineas de Carrito")
+        })
+
+    }
+
     const productos = [
         { imagen: 'Arboles', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', codigo: '0000000', dias_entrega: '5', fecha_entrega: '13-10-2023', precio_unitario: '$9000.99', cantidad: '25', m3: '25', precio_total: '$9.99' },
         { imagen: 'Arboles', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', codigo: '0000000', dias_entrega: '5', fecha_entrega: '13-10-2023', precio_unitario: '$9000.99', cantidad: '25', m3: '25', precio_total: '$9.99' },
@@ -53,16 +91,25 @@ const CarritoCompras = () => {
 
     ];
 
-    const [contador, setContador] = useState(0);
+    // Define un estado para los contadores de cada artículo
+    const [contadores, setContadores] = useState({});
 
-    const incrementarContador = () => {
-        setContador(contador + 1);
+    const incrementarContador = (inventory_item_id, atribute9) => {
+        setContadores(prevContadores => {
+            const nuevoContador = { ...prevContadores };
+            nuevoContador[inventory_item_id] = (nuevoContador[inventory_item_id] || 0) + atribute9;
+            return nuevoContador;
+        });
     };
 
-    const decrementarContador = () => {
-        if (contador > 0) {
-            setContador(contador - 1);
-        }
+    const decrementarContador = (inventory_item_id, atribute9) => {
+        setContadores(prevContadores => {
+            const nuevoContador = { ...prevContadores };
+            if (nuevoContador[inventory_item_id] > 0) {
+                nuevoContador[inventory_item_id] -= atribute9;
+            }
+            return nuevoContador;
+        });
     };
 
     const [show, setShow] = useState(false);
@@ -175,9 +222,9 @@ const CarritoCompras = () => {
                             </td>
                             <td>
                                 <tr><th>{usuarioSesion}</th></tr>
-                                <tr> Empresa </tr>
+                                <tr>{usuarioEmpresa}</tr>
                                 <tr>{usuarioCorreo}</tr>
-                                <tr>Telefono</tr>
+                                <tr>{usuarioTelefono}</tr>
                             </td>
                         </tr>
                     </div>
@@ -198,27 +245,25 @@ const CarritoCompras = () => {
                                 </thead>
 
                                 <tbody >
-                                    {productos
-                                        .map((productos) => (
+                                    {carritoline
+                                        .map((carritoline) => (
                                             <tr >
                                                 <td style={bannerStyle_carrito2}>
                                                     <div >
                                                         <div className='alinea_imagen'>
-                                                            <td key={productos.imagen}> <img className='Borde_imagenes_carrito'
-                                                                src={imagenes[productos.imagen]}
-
+                                                            <td key={carritoline[0].cp_cart_line_id}> <img className='Borde_imagenes_carrito'
+                                                                src={imagenes.Arboles}
                                                                 style={{ width: '180px', height: '190px' }}
-
                                                             />
                                                             </td>
                                                         </div>
                                                         <td >
                                                             <div className='Organiza_descripción'>
-                                                                <tr style={cellStyle}><strong>{productos.nombre}</strong></tr>
-                                                                <tr style={cellStyle}><strong>{productos.descripcion}</strong></tr>
+                                                                <tr style={cellStyle}><strong>{carritoline[1].item_description_long}</strong></tr>
+                                                                <tr style={cellStyle}><strong>{carritoline[1].item_description_long}</strong></tr>
                                                             </div>
                                                             <div className='Organiza_articulo'>
-                                                                <tr style={cellStyle}>CÓDIGO ARTíCULO: {productos.codigo}</tr>
+                                                                <tr style={cellStyle}>CÓDIGO ARTíCULO: {carritoline[1].item_number}</tr>
                                                             </div>
                                                             <div className='Organiza_entrega'>
                                                                 <div><FaTruck className='tamaño-camion' /></div>
@@ -230,22 +275,22 @@ const CarritoCompras = () => {
                                                         </td>
                                                     </div></td>
 
-                                                <td style={bannerStyle_carrito2}> <div className='precio_unit'>{productos.precio_unitario}</div></td>
+                                                <td style={bannerStyle_carrito2}> <div className='precio_unit'>${(carritoline[2].unit_price).toLocaleString('es-ES', { style: 'currency', currency: carritoline[2].currency_code })}</div></td>
                                                 <td style={bannerStyle_carrito2}>
                                                     <div className='principal_contador_carrito'>
                                                         <td>
                                                             <div className="contador-box-carrito">
-                                                                {contador}
+                                                                {contadores[carritoline[1].inventory_item_id] || carritoline[0].cp_cart_Quantity_units}
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <Col><Button className='decre_incre_carrito' onClick={incrementarContador}>+</Button></Col>
-                                                            <Col><Button className='decre_incre_carrito' onClick={decrementarContador}>-</Button></Col>
+                                                            <Col><Button className='decre_incre_carrito' onClick={() => incrementarContador(carritoline[1].inventory_item_id, carritoline[1].atribute9)}>+</Button></Col>
+                                                            <Col><Button className='decre_incre_carrito' onClick={() => decrementarContador(carritoline[1].inventory_item_id, carritoline[1].atribute9)}>-</Button></Col>
                                                         </td>
                                                     </div>
                                                 </td>
-                                                <td style={bannerStyle_carrito2}><div className='metro_cubico'>{productos.m3} </div></td>
-                                                <td style={bannerStyle_carrito2}><div className='precio_tot'>{productos.precio_total}</div></td>
+                                                <td style={bannerStyle_carrito2}><div className='metro_cubico'>{carritoline[0].cp_cart_Quantity_volume} </div></td>
+                                                <td style={bannerStyle_carrito2}><div className='precio_tot'>${(carritoline[2].unit_price * carritoline[0].cp_cart_Quantity_units).toLocaleString('es-ES', { style: 'currency', currency: carritoline[2].currency_code })}</div></td>
                                                 <td style={bannerStyle_carrito2}>
                                                     <Button className='btn_eliminar'>
                                                         <FaTrashAlt />
@@ -260,7 +305,7 @@ const CarritoCompras = () => {
                         </div>
 
                         <div >
-                            <Button className='btns_carrito_seguir'>Seguir comprando   </Button>
+                            <Button className='btns_carrito_seguir' onClick={() => navigate("/DataInventario")}>Seguir comprando   </Button>
                             <Button onClick={handleShow} className='btns_carrito_borrar' >Borrar carrito   </Button>
                             <Button onClick={() => navigate("/FinalizarCompra")} className='btns_carrito_finalizar'>Finalizar compra   </Button>
                         </div>

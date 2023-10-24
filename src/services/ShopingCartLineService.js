@@ -11,5 +11,9 @@ class ShoppingCartLines {
         return axios.get(BASE_REST_API_URL + '/cartid/' + CartId);
     }
 
+    getLineCarritoItemsbyCartId(CartId) {
+        return axios.get(BASE_REST_API_URL + '/items/' + CartId);
+    }
+
 }
 export default new ShoppingCartLines();

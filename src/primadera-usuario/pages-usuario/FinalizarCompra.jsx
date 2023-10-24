@@ -184,10 +184,10 @@ const FinalizarCompra = () => {
                 <div className='FondoBlanco_compra'>
 
                     <div className='Buttons_compra mt-12'>
-                        <button className='btns_compra p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
-                        <button className='btns_compra p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
-                        <button className='btns_compra p-2 m-2 btn-sm'><FaShoppingCart /> Haz tu pedido</button>
-                        <button className='btns_compra p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
                     </div>
 
                     <div style={FinalizarDatosUser}>

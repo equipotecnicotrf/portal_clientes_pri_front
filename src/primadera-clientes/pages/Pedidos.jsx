@@ -187,6 +187,13 @@ const DataTable = ({ backgroundColor }) => {
         marginTop: '40px',
     };
 
+    const bannerStyle2 = {
+        backgroundColor: backgroundColor || '#878787',
+        color: '#fff',
+        padding: '13px',
+        textAlign: 'center',
+    };
+
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
         backgroundSize: 'cover',
@@ -316,7 +323,7 @@ const DataTable = ({ backgroundColor }) => {
                                         <td style={bannerStyle}>{tipoPedido.cp_type_order_description}</td>
                                         <td style={bannerStyle}>
                                             {/*AJUSTE LCPG INI*/}
-                                            <Form className='CheckBox_estado_ped'>
+                                            <Form className='CheckBox_ped_2'>
                                                 <Form.Group>
                                                     <Form.Check
                                                         type="checkbox"
@@ -327,7 +334,7 @@ const DataTable = ({ backgroundColor }) => {
                                                 </Form.Group>
                                             </Form>
                                         </td>
-                                        <td style={bannerStyle} className='borderless_ped'>
+                                        <td style={bannerStyle2} className='borderless_ped'>
                                             {/* Call handleEditClick with tipoPedido.cp_type_order_id */}
                                             <Button onClick={() => handleEditClick(tipoPedido.cp_type_order_id)} className='Edit-ped'>
                                                 <FaRegEdit />
@@ -340,7 +347,7 @@ const DataTable = ({ backgroundColor }) => {
                     </table>
                 </div>
                 <div className="botones mt-12">
-                    <Button className="boton1 p-2 m-2 btn-sm" onClick={handleShow}>Crear</Button> {/*AJUSTE LCPG*/}
+                    <Button className="boton_crear_pedi p-2 m-2 btn-sm" onClick={handleShow}>Crear</Button> {/*AJUSTE LCPG*/}
                 </div>
 
 
@@ -350,7 +357,7 @@ const DataTable = ({ backgroundColor }) => {
 
                 <Modal show={editShow} onHide={handleEditClose}>
                     <Modal.Header className='Edit-ped' closeButton>
-                        <Modal.Title><FaRegEdit /> MODIFICAR DATOS</Modal.Title>
+                        <Modal.Title><FaRegEdit className='btn_faregedit_ped' /> MODIFICAR DATOS</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className='Edit-ped' >
                         <Form noValidate validated={validated} onSubmit={handleSubmit} >
@@ -388,25 +395,23 @@ const DataTable = ({ backgroundColor }) => {
                                 />
                                 <Form.Control.Feedback type="invalid">Por favor ingresa la Descripción tipo de pedido</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
-                            <Form className='CheckBox_estado_ped'>
-                                <div className='CheckBox'> {/*AJUSTE LCPG INICIO*/}
-                                    <Form className='CheckBox'>
-                                        <Form.Group className='CheckBox_estado_ped'>
-                                            <Form.Check type="checkbox">
-                                                <Form.Check.Label>Inactivo</Form.Check.Label>
-                                                <Form.Check.Input checked={checkbox2} onChange={handleCheckbox2Change}
-                                                />
-                                            </Form.Check>
-                                        </Form.Group>
-                                        <Form.Group className='CheckBox_estado_ped'>
-                                            <Form.Check type="checkbox">
-                                                <Form.Check.Label>Activo</Form.Check.Label>
-                                                <Form.Check.Input checked={checkbox3} onChange={handleCheckbox3Change} />
-                                            </Form.Check>
-                                        </Form.Group>
-                                    </Form>
-                                </div> {/*AJUSTE LCPG FIN*/}
-                            </Form>
+                            <div className='CheckBox_ped'> {/*23-10-2023*/}
+                                <Form className='CheckBox_ped'> {/*23-10-2023*/}
+                                    <Form.Group className='Checkbox_estado_ped'> {/*23-10-2023*/}
+                                        <Form.Check type="checkbox">
+                                            <Form.Check.Label>Inactivo</Form.Check.Label>
+                                            <Form.Check.Input checked={checkbox2} onChange={handleCheckbox2Change}
+                                            />
+                                        </Form.Check>
+                                    </Form.Group>
+                                    <Form.Group className='Checkbox_estado_ped'> {/*23-10-2023*/}
+                                        <Form.Check type="checkbox">
+                                            <Form.Check.Label>Activo</Form.Check.Label>
+                                            <Form.Check.Input checked={checkbox3} onChange={handleCheckbox3Change} />
+                                        </Form.Check>
+                                    </Form.Group>
+                                </Form>
+                            </div> {/*AJUSTE LCPG FIN*/}
                             <Modal.Footer className='Edit-ped' >
                                 <Button className='Guardar-btn-ped' type='submit'>
                                     Guardar

@@ -1,14 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
-import {PrimaderaApp} from './PrimaderaApp.jsx'
+import { PrimaderaApp } from './PrimaderaApp.jsx'
+import './fonts/FontGotham.css';
 
 import './Styles.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-    <PrimaderaApp />
+      <PrimaderaApp />
     </BrowserRouter>
   </React.StrictMode>,
 )

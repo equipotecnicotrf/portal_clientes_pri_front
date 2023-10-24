@@ -1,156 +1,107 @@
 .DataTableIva {
-
     padding: 5%;
-
     margin: 5%;
-
     border-radius: 29px;
-
 }
 
-
+.Img-Creamos_iva {
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    display: block;
+}
 
 .botones-Iva {
-
     margin-top: -30px;
-
     margin-right: 5%;
-
     display: flex;
-
     justify-content: flex-end;
-
 }
-
-
 
 @media (max-width: 768px) {
-
     .botones {
-
         flex-direction: column;
-
         align-items: flex-end;
-
     }
-
 }
-
-
 
 .boton1 {
-
     background-color: #323333;
-
     height: 50.74px;
-
     width: 200px;
-
     border-radius: 30px;
-
     display: block;
-
     padding: 0.5rem 1rem;
-
     margin: 0.5rem;
-
     color: white;
-
     font-size: medium;
-
 }
-
-
 
 .imagen-circular {
-
     width: 100px;
-
     height: 100px;
-
 }
-
-
-
-/*AJUSTE LCPG INI borrar boton2*/
 
 .Checkbox_estado_ped {
-
     padding: 5px;
-
 }
-
-
 
 .Edit-Iva {
-
     background-color: #878787;
-
     color: white;
     border: none;
-
 }
 
-
-
-.Crear-ped {
-
+.Crear-iva {
     background-color: #878787;
-
     color: white;
-
+    border: none;
 }
 
-
-
-.Guardar-btn-ped {
-
+.Guardar-btn-iva {
     background-color: #323333;
-
     border-radius: 30px;
-
     padding-left: 20px;
-
     padding-right: 20px;
-
     font-size: 20px;
-
     font-size: medium;
-
+    border: none;
+    width: 150px;
 }
-
-
 
 .Img-Creamos_ped {
-
     width: 200px;
-
     height: 100px;
-
     margin: auto;
-
     display: block;
-
 }
 
-.Crear-btn {
+.Crear-btn-iva {
     background-color: #323333;
-
-    height: 50.74px;
-
-    width: 200px;
-
+    width: 150px;
     border-radius: 30px;
-
     display: block;
-
     padding: 0.5rem 1rem;
-
     margin: 0.5rem;
-
     color: white;
-
     font-size: medium;
+    border: none;
 }
 
-/*AJUSTE LCPG FIN*/
+.bordered_iva {
+    border: none;
+}
+
+.bordered_iva td:first-child {
+    border: none;
+}
+
+.bordered_iva td:last-child {
+    border: none;
+}
+
+.Edit-iva {
+    background-color: #878787;
+    color: white;
+    border: none;
+}

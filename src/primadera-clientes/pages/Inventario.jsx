@@ -168,7 +168,7 @@ const DataTable = ({ backgroundColor }) => {
                         <thead style={bannerStyle}>
                             <tr style={bannerStyle} className='borderless_inv' >
                                 <th style={bannerStyle} className='borderless_inv'>Organización</th>
-                                <th style={bannerStyle}>Codigo Organización</th>
+                                <th style={bannerStyle}>Código Organización</th>
                                 <th style={bannerStyle}>Nombre</th>
                                 <th style={bannerStyle} className='borderless_inv'>Estado</th>
                             </tr>
