@@ -15,5 +15,9 @@ class ShoppingCartLines {
         return axios.get(BASE_REST_API_URL + '/items/' + CartId);
     }
 
+    deleteCarline(CarLineId) {
+        return axios.delete(BASE_REST_API_URL + '/' + CarLineId)
+    }
+
 }
 export default new ShoppingCartLines();

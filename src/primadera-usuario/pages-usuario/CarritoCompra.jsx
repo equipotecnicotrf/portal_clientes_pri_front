@@ -69,7 +69,7 @@ const CarritoCompras = () => {
 
         }).catch(error => {
             console.log(error);
-            alert("Error al Obtener Carrito")
+            setShow2(true);
         })
     }
 
@@ -83,13 +83,6 @@ const CarritoCompras = () => {
         })
 
     }
-
-    const productos = [
-        { imagen: 'Arboles', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', codigo: '0000000', dias_entrega: '5', fecha_entrega: '13-10-2023', precio_unitario: '$9000.99', cantidad: '25', m3: '25', precio_total: '$9.99' },
-        { imagen: 'Arboles', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', codigo: '0000000', dias_entrega: '5', fecha_entrega: '13-10-2023', precio_unitario: '$9000.99', cantidad: '25', m3: '25', precio_total: '$9.99' },
-        { imagen: 'Arboles', nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10', codigo: '0000000', dias_entrega: '5', fecha_entrega: '13-10-2023', precio_unitario: '$9000.99', cantidad: '25', m3: '25', precio_total: '$9.99' },
-
-    ];
 
     // Define un estado para los contadores de cada artículo
     const [contadores, setContadores] = useState({});
@@ -111,6 +104,19 @@ const CarritoCompras = () => {
             return nuevoContador;
         });
     };
+
+    //Eliminar linea de carrito 
+    const deleteCarritoLine = (CarLineId) => {
+        ShopingCartLineService.deleteCarline(CarLineId).then(deleteresponse => {
+            console.log(deleteresponse.data);
+            alert("Articulo eliminado")
+            window.location.reload();
+        }).catch(error => {
+            console.log(error);
+            alert("Error al eliminar linea de carrito")
+        })
+
+    }
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -268,8 +274,8 @@ const CarritoCompras = () => {
                                                             <div className='Organiza_entrega'>
                                                                 <div><FaTruck className='tamaño-camion' /></div>
                                                                 <div className='Organiza_entrega_2'>
-                                                                    <tr style={cellStyle2}><strong>ENTREGA EN {productos.dias_entrega} DÍAS</strong></tr>
-                                                                    <tr style={cellStyle2}>Fecha de entrega: {productos.fecha_entrega} </tr>
+                                                                    <tr style={cellStyle2}><strong>ENTREGA EN { } DÍAS</strong></tr>
+                                                                    <tr style={cellStyle2}>Fecha de entrega: { } </tr>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -293,7 +299,7 @@ const CarritoCompras = () => {
                                                 <td style={bannerStyle_carrito2}><div className='precio_tot'>${(carritoline[2].unit_price * carritoline[0].cp_cart_Quantity_units).toLocaleString('es-ES', { style: 'currency', currency: carritoline[2].currency_code })}</div></td>
                                                 <td style={bannerStyle_carrito2}>
                                                     <Button className='btn_eliminar'>
-                                                        <FaTrashAlt />
+                                                        <FaTrashAlt onClick={() => deleteCarritoLine(carritoline[0].cp_cart_line_id)} />
                                                     </Button>
 
                                                 </td>
@@ -327,7 +333,7 @@ const CarritoCompras = () => {
                                     <h5><strong>Tu carrito está vacío</strong></h5>
                                     <h5><strong>_______________________</strong></h5>
                                     <p>En <strong>PRIMADERA</strong> tenemos productos increíbles para que elijas el más adecuado.</p>
-                                    <Button className='btns_carrito_sigue'>Sigue Comprando</Button>
+                                    <Button className='btns_carrito_sigue' onClick={() => navigate("/DataInventario")}>Sigue Comprando</Button>
                                 </div>
                             </Modal.Body>
                         </Modal>

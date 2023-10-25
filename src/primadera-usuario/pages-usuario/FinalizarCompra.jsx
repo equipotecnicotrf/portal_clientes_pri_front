@@ -14,26 +14,40 @@ import UserService from '../../services/UserService';
 import { FaShoppingCart, FaStar, FaTruck, FaUser, FaSearchMinus } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
 import { Modal, Form, Dropdown } from 'react-bootstrap';
+import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 
 const FinalizarCompra = () => {
 
+    //validacion de sesion activa
+
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
+    const [usuarioCustAccountId, setUsuarioCustAccountId] = useState([]);
+    const [usuarioTelefono, setUsuarioTelefono] = useState([]);
+    const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
+    const [direcciones, setDirecciones] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         SesionUsername()
     }, [])
+
+
 
     const SesionUsername = () => {
         if (LoginService.isAuthenticated()) {
             // Renderizar la vista protegida
             const read = Cookies.get()
             //console.log(read)
-            //alert("Bienvenido " + read.portal_sesion);    
+            //alert("Bienvenido " + read.portal_sesion);  
             UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
                 //console.log(responseid.data)
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
+                setUsuarioCustAccountId(responseid.data.cust_account_id);
+                setUsuarioTelefono(responseid.data.cp_cell_phone);
+                setUsuarioEmpresa(responseid.data.cust_name);
+
+                ListDirecciones(responseid.data.cust_account_id);
 
             }).catch(error => {
                 console.log(error)
@@ -44,6 +58,16 @@ const FinalizarCompra = () => {
             LoginService.logout();
             navigate('/')
         }
+
+    }
+
+    const ListDirecciones = (id_direccion) => {
+        SoapServiceDirecciones.getAllDirecciones(id_direccion).then(response => {
+            setDirecciones(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
     const [show, setShow] = useState(false);
@@ -58,13 +82,15 @@ const FinalizarCompra = () => {
         const searchTerm = e.target.value.toLowerCase();
         setSearchTerm(searchTerm);
 
-        const filtered = productos.filter((productos) =>
-            productos.direccion.toLowerCase().includes(searchTerm)
+        const filtered = direcciones.filter((direccion) =>
+            direccion.address1.toLowerCase().includes(searchTerm) && direccion.siteUseCode === 'SHIP_TO'
         );
         setFilteredDirecciones(filtered);
     };
+
+
     const handleDireccionSelect = (direccion) => {
-        setDireccionCliente(direccion);
+        setSelectedDireccion(direccion);
         setSearchTerm('');
 
     };
@@ -202,9 +228,9 @@ const FinalizarCompra = () => {
                             </td>
                             <td>
                                 <tr><th>{usuarioSesion}</th></tr>
-                                <tr> Empresa </tr>
+                                <tr>{usuarioEmpresa}</tr>
                                 <tr>{usuarioCorreo}</tr>
-                                <tr>Telefono</tr>
+                                <tr>{usuarioTelefono}</tr>
                             </td>
                         </tr>
                     </div>
@@ -220,7 +246,7 @@ const FinalizarCompra = () => {
 
                                 <Dropdown>
                                     <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                        {selectedDireccion ? selectedDireccion.accountName : 'Escoge tu dirección'}
+                                        {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         <Form.Control
@@ -231,9 +257,9 @@ const FinalizarCompra = () => {
                                         />
                                         {filteredDirecciones.map((direccion) => (
                                             <Dropdown.Item
-                                                key={productos.direccion}
+                                                key={direccion.siteUseId}
                                                 onClick={() => handleDireccionSelect(direccion)} >
-                                                {direccion.direccion}
+                                                {direccion.address1}
                                             </Dropdown.Item>
                                         ))}
                                     </Dropdown.Menu>

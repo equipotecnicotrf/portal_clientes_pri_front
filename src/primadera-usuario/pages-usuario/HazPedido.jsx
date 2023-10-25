@@ -29,6 +29,7 @@ const DataPedido = () => {
     const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
     const [usuarioId, setUsarioId] = useState([]);
     const [CustAccountId, setCustAccountId] = useState([]);
+    const [PartyId, setPartyId] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,6 +42,8 @@ const DataPedido = () => {
                 setUsuarioEmpresa(responseid.data.cust_name);
                 setUsarioId(responseid.data.cp_user_id);
                 setCustAccountId(responseid.data.cust_account_id);
+                setPartyId(responseid.data.party_id);
+
             } catch (error) {
                 console.log(error);
                 alert("Error obtener usuario de sesion");
@@ -70,10 +73,10 @@ const DataPedido = () => {
 
     const [ArticulosSinDisponibilidad, setArticulosSinDisponibilidad] = useState([]);
     useEffect(() => {
-        if (CustAccountId) {
-            itemsSinDisponibildad(CustAccountId);
+        if (PartyId) {
+            itemsSinDisponibildad(PartyId);
         }
-    }, [CustAccountId]);
+    }, [PartyId]);
 
     const itemsSinDisponibildad = async (custid) => {
         try {
@@ -178,12 +181,18 @@ const DataPedido = () => {
 
                         const cp_cart_id = cart_id;
                         const inventory_item_id = articulo[0].inventory_item_id;
-                        const cp_cart_line_number = obtenerlineasresponse.data.length + 1;
+                        let line_number;
+                        if (obtenerlineasresponse.data.length === 0) {
+                            line_number = 1;
+                        } else {
+                            const length = obtenerlineasresponse.data.length - 1;
+                            line_number = obtenerlineasresponse.data[length].cp_cart_line_number + 1;
+                        }
+                        const cp_cart_line_number = line_number;
                         const cp_cart_Quantity_units = contador;
                         const cp_cart_Quantity_packages = Math.floor(contador / articulo[0].atribute9);
                         const cp_cart_Quantity_volume = contador * articulo[0].atribute8;
                         const lineCarrito = { inventory_item_id, cp_cart_id, cp_cart_line_number, cp_cart_Quantity_volume, cp_cart_Quantity_units, cp_cart_Quantity_packages };
-
 
                         ShopingCartLineService.postLineaCarrito(lineCarrito).then(lineCarritoresponse => {
                             console.log(lineCarritoresponse.data)
