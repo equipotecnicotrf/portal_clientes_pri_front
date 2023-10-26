@@ -5,6 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 import UserService from '../../services/UserService';
 import { useNavigate } from 'react-router-dom';
 import EmailService from '../../services/EmailService';
+import NotificationService from '../../services/NotificationService';
 
 const ConfirmarCorreo = () => {
     const navigate = useNavigate();
@@ -14,25 +15,31 @@ const ConfirmarCorreo = () => {
         UserService.getUserByUsername(username).then((response) => {
             if (response.data.username === username) {
                 const toUser = [username];
-                const subject = "Restablecimiento de contraseña Portal Clientes Primadera";
-                const resetPasswordLink = `http://150.136.119.119:83/ActualizarContrasena/?userId=${response.data.cp_user_id}`;
-                const message = `Hola ${response.data.cp_name},\n\n`
-                    + "Recibes este correo porque solicitaste un restablecimiento de contraseña para tu cuenta en el Portal De clientes Primadera.\n\n"
-                    + `Por favor, [clic aquí](${resetPasswordLink}) para cambiar tu contraseña.\n\n`
-                    + "Si no solicitaste este restablecimiento de contraseña, puedes ignorar este mensaje.\n\n"
-                    + "Gracias,\n"
-                    + "Equipo Primadera";
+                const context = "Olvido Contraseña";
+                NotificationService.getNotificationsContext(context).then((notificatioresponse) => {
+                    const subject = notificatioresponse.data[0].cp_Notification_name;
+                    const resetPasswordLink = `http://150.136.119.119:83/ActualizarPassword/?userId=${response.data.cp_user_id}`;
+                    const notificationMessage = notificatioresponse.data[0].cp_Notification_message;
+                    const message = notificationMessage
+                        .replace('${nombreusuario}', response.data.cp_name)
+                        .replace('${resetPasswordLink}', resetPasswordLink);
+                    const correo = { toUser, subject, message };
+                    EmailService.Sendmessage(correo).then(() => {
+                        console.log("Correo enviado correctamente");
+                        alert("Mensaje Enviado");
+                        navigate('/login');
+                        window.location.reload();
+                    }).catch(error => {
+                        console.log(error);
+                        alert("Error al enviar correo");
+                    });
 
-                const correo = { toUser, subject, message };
-                EmailService.Sendmessage(correo).then(() => {
-                    console.log("Correo enviado correctamente");
-                    alert("Mensaje Enviado");
-                    navigate('/login');
-                    window.location.reload();
                 }).catch(error => {
                     console.log(error);
-                    alert("Error al enviar correo");
-                });
+                    alert("Error obtener contexto de notificacion");
+                })
+
+
             } else {
                 alert("No existe usuario con el correo diligenciado");
             }

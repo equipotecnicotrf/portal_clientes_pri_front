@@ -14,6 +14,8 @@ import CarritoCompras from "../../primadera-usuario/pages-usuario/CarritoCompra"
 import FinalizarCompra from '../../primadera-usuario/pages-usuario/FinalizarCompra';
 import DataIva from '../pages/GestionarIva';
 import GestionarConsecutivos from '../pages/GestionarConsecutivos';
+import ConfirmarCorreo from "../../auth/pages/ConfirmarCorreo";
+import ActualizarPassword from "../../auth/pages/ActualizarContraseña";
 
 const PrimaderaRoutes = () => {
   return (
@@ -35,6 +37,8 @@ const PrimaderaRoutes = () => {
         <Route path="FinalizarCompra" element={<FinalizarCompra />} />
         <Route path="DataIva" element={<DataIva />} />
         <Route path="GestionarConsecutivos" element={<GestionarConsecutivos />} />
+        <Route path="ConfirmarCorreo" element={<ConfirmarCorreo />} />
+        <Route path="ActualizarPassword" element={<ActualizarPassword />} />
 
       </Routes>
     </>

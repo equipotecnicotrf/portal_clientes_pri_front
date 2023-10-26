@@ -161,9 +161,9 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                     </div>
 
                     <div className='Buttons_perfil mt-12'>
-                        <button className='btns_perfil p-2 m-2 btn-sm'><FaUser /> Perfil</button>
-                        <button className='btns_perfil p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
-                        <button className='btns_perfil p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
                         <button className='btns_perfil p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
                     </div>
 

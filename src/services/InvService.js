@@ -7,6 +7,8 @@ class InvService {
     getAllInv() {
         return axios.get(BASE_REST_API_URL);
     }
+
+
 }
 
 export default new InvService();

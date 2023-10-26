@@ -24,6 +24,7 @@ import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import AddressService from '../../services/AddressService';
 import TypeOrderService from '../../services/TypeOrderService';
 import EmailService from '../../services/EmailService';
+import NotificationService from '../../services/NotificationService';
 
 const DataTable = ({ backgroundColor }) => {
   const [selectedOption, setSelectedOption] = useState('Acciones');
@@ -254,24 +255,28 @@ const DataTable = ({ backgroundColor }) => {
             AuditService.CrearAudit(Audit).then((response) => {
               console.log(response.data);
 
-              const toUser = [cp_email];
-              const subject = "Bienvenido al Portal clientes Primadera";
-              const resetPasswordLink = `http://150.136.119.119:83/ActualizarContrasena/?userId=${responsecreate.data.cp_user_id}`;
-              const message = `Hola ${responsecreate.data.cp_name},\n\n`
-                + "Bienvenido a Nuestra Plataforma. Hemos creado una cuenta para ti y asignado una contraseña temporal.\n\n"
-                + "Para configurar tu contraseña y comenzar a usar nuestros servicios, por favor haz clic en el siguiente enlace:\n\n"
-                + `${resetPasswordLink}.\n\n`
-                + "Después de hacer clic en el enlace, podrás establecer una contraseña segura para tu cuenta.\n\n"
-                + "Si no solicitaste esta cuenta o tienes alguna pregunta, por favor contáctanos de inmediato.\n\n"
-                + "Gracias, equipo Primadera";
-              const correo = { toUser, subject, message };
-              EmailService.Sendmessage(correo).then(() => {
-                navigate('/GestionarUsuario');
-                alert("Usuario Creado Exitosamente");
-                window.location.reload();
+              const context = "Creacion Usuario";
+              NotificationService.getNotificationsContext(context).then((notificatioresponse) => {
+                console.log(notificatioresponse.data)
+                const toUser = [cp_email];
+                const subject = notificatioresponse.data[0].cp_Notification_name;
+                const resetPasswordLink = `http://150.136.119.119:83/ActualizarPassword/?userId=${responsecreate.data.cp_user_id}`;
+                const notificationMessage = notificatioresponse.data[0].cp_Notification_message;
+                const message = notificationMessage
+                  .replace('${nombreusuario}', responsecreate.data.cp_name)
+                  .replace('${resetPasswordLink}', resetPasswordLink);
+                const correo = { toUser, subject, message };
+                EmailService.Sendmessage(correo).then(() => {
+                  navigate('/GestionarUsuario');
+                  alert("Usuario Creado Exitosamente");
+                  window.location.reload();
+                }).catch(error => {
+                  console.log(error);
+                  alert("Error al enviar correo");
+                })
               }).catch(error => {
                 console.log(error);
-                alert("Error al enviar correo");
+                alert("Error obtener contexto de notificacion");
               })
             }).catch(error => {
               console.log(error)

@@ -12,12 +12,12 @@ import Image from 'react-bootstrap/Image';
 import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import LoginService from '../../services/LoginService';
-import TypeOrderService from '../../services/TypeOrderService';
 import AuditService from '../../services/AuditService';
 import UserService from '../../services/UserService';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { FaRegEdit } from "react-icons/fa";
+import IvaService from '../../services/IvaService'
 
 
 const DataIva = ({ backgroundColor }) => {
@@ -27,6 +27,8 @@ const DataIva = ({ backgroundColor }) => {
     //validacion de sesion activa
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
+    const [usuariotelefono, setUsuarioTelefono] = useState([]);
+    const [usuarioid, setUsuarioid] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         SesionUsername()
@@ -39,6 +41,8 @@ const DataIva = ({ backgroundColor }) => {
             UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
+                setUsuarioTelefono(responseid.data.cp_cell_phone);
+                setUsuarioid(responseid.data.cp_user_id);
 
             }).catch(error => {
                 console.log(error)
@@ -51,72 +55,70 @@ const DataIva = ({ backgroundColor }) => {
         }
     }
 
-    //listar tipo de pedidos
-    const [tipoPedido, SetTipoPedido] = useState([]);
+    //listar iva
+    const [porcIva, SetPorcIva] = useState([]);
     useEffect(() => {
-        ListarTipoPedido()
+        ListarIva()
     }, [])
 
-    const ListarTipoPedido = () => {
-        TypeOrderService.getAllTypeOrder().then(response => {
-            SetTipoPedido(response.data)
+    const ListarIva = () => {
+        IvaService.getAllIva().then(response => {
+            SetPorcIva(response.data)
             console.log(response.data)
         }).catch(error => {
             console.log(error);
         })
     }
 
-    const [cp_type_order_description, setcp_Type_Order_Description] = useState('');
-    const [cp_type_order_meaning, setcp_Type_Order_Meaning] = useState('');
-    const [cp_type_order_status, setcp_Type_Order_Status] = useState('');
-    const [cp_type_order_id, setcp_Type_Order_Id] = useState('');
-    const [editTypeOrderId, setEditTypeOrderId] = useState(null); // Add a state variable for editing
-    const { typeOrderId } = useParams();
+    const [cpIvaId, setcpIvaId] = useState('');
+    const [cp_IVA, setcpIva] = useState('');
+    const [cp_IVA_date_start, setcpDateStart] = useState('');
+    const [cp_IVA_date_end, setcpDateEnd] = useState('');
+    const [editIvaId, setEditIvaId] = useState(null); // Add a state variable for editing
 
-    const [selectedDate, setSelectedDate] = useState(null);
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
 
     //consulta por ID
-    const ConsultarTipoPedidoPorId = (typeOrderId) => {
-        TypeOrderService.getTypeOrderById(typeOrderId).then((response) => {
-            setcp_Type_Order_Description(response.data.cp_type_order_description);
-            setcp_Type_Order_Meaning(response.data.cp_type_order_meaning);
-            setcp_Type_Order_Status(response.data.cp_type_order_status);
-            // Aquí establece el estado de los checkboxes en función del valor de cp_type_order_status
-            if (response.data.cp_type_order_status === "Activo") {
-                setCheckbox2(true); // Activo
-            } else {
-                setCheckbox2(false); // Activo
-            }
+    const ConsultarIvaPorId = (IvaId) => {
+        IvaService.getIVAById(IvaId).then((response) => {
+            setcpIva(response.data.cp_IVA);
+            setcpDateStart(response.data.cp_IVA_date_start);
+            setcpDateEnd(response.data.cp_IVA_date_end);
         }).catch(error => {
             console.log(error)
         })
     }
 
-    const saveOrUpdateTypeOrder = (e) => {
-        const typeOrder = {
-            cp_type_order_description,
-            cp_type_order_meaning,
-            cp_type_order_status: "Activo",
-        };
+    const [validated, setValidated] = useState(false);
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
+        if (form.checkValidity() === false) {
+            alert("Por favor, complete el formulario correctamente.");
+        } else {
+            saveOrUpdateIva();
+        }
 
-        if (editTypeOrderId) {
-            // Update an existing record
-            TypeOrderService.updateTypEOrder(editTypeOrderId, typeOrder).then((response) => {
+        setValidated(true);
+    }
+
+    const saveOrUpdateIva = (e) => {
+        if (editIvaId) {
+            // Update an existing record            
+            const Iva_edit = { cp_IVA, cp_IVA_date_start, cp_IVA_date_end };
+            IvaService.updateIva(editIvaId, Iva_edit).then((response) => {
                 console.log(response.data);
                 const read = Cookies.get()
                 UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
                     console.log(responseid.data)
                     const cp_id_user = responseid.data.cp_user_id;
-                    const cp_audit_description = "Actualizacion de tipo pedido " + cp_type_order_meaning + " " + cp_type_order_description;
+                    const cp_audit_description = "Actualizacion de IVA " + cp_IVA + " " + cp_IVA_date_start + " " + cp_IVA_date_end;
                     const Audit = { cp_id_user, cp_audit_description };
                     AuditService.CrearAudit(Audit).then((response) => {
                         console.log(response.data);
-                        navigate('/Pedidos');
-                        alert("Tipo Pedido actualizado Exitosamente");
+                        navigate('/DataIva');
+                        alert("IVA actualizado Exitosamente");
                         window.location.reload();
                     }).catch(error => {
                         console.log(error)
@@ -128,37 +130,52 @@ const DataIva = ({ backgroundColor }) => {
                 })
             }).catch((error) => {
                 console.log(error);
-                alert("Error al actualizar Tipo Pedido")
+                alert("Error al actualizar IVA")
             });
         } else {
             // Create a new record
-            TypeOrderService.createTypEOrder(typeOrder).then((response) => {
-                console.log(response.data);
-                const read = Cookies.get()
-                UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
-                    console.log(responseid.data)
-                    const cp_id_user = responseid.data.cp_user_id;
-                    const cp_audit_description = "Creacion de tipo pedido " + cp_type_order_meaning + " " + cp_type_order_description;
-                    const Audit = { cp_id_user, cp_audit_description };
-                    AuditService.CrearAudit(Audit).then((response) => {
-                        console.log(response.data);
-                        navigate('/Pedidos');
-                        alert("Tipo Pedido creado Exitosamente");
-                        window.location.reload();
+            const existingType = porcIva.find(ivalist => ivalist.cp_IVA === cp_IVA);
+
+            if (existingType) {
+                alert("Ya existe un IVA con el mismo porcentaje.");
+            } else {
+                const Iva = { cp_IVA, cp_IVA_date_start, cp_IVA_date_end };
+                IvaService.createIva(Iva).then((response) => {
+                    console.log(response.data);
+                    const read = Cookies.get()
+                    UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
+                        console.log(responseid.data)
+                        const cp_id_user = responseid.data.cp_user_id;
+                        const cp_audit_description = "Creacion de IVA " + cp_IVA + " " + cp_IVA_date_start + " " + cp_IVA_date_end;
+                        const Audit = { cp_id_user, cp_audit_description };
+                        AuditService.CrearAudit(Audit).then((response) => {
+                            console.log(response.data);
+                            navigate('/DataIva');
+                            alert("IVA creado Exitosamente");
+                            window.location.reload();
+                        }).catch(error => {
+                            console.log(error)
+                            alert("Error al crear auditoria")
+                        })
                     }).catch(error => {
                         console.log(error)
-                        alert("Error al crear auditoria")
+                        alert("Error obtener usuario de sesion")
                     })
-                }).catch(error => {
-                    console.log(error)
-                    alert("Error obtener usuario de sesion")
                 })
-            })
-                .catch((error) => {
-                    console.log(error);
-                    alert("Error al crear Tipo Pedido")
-                });
+                    .catch((error) => {
+                        console.log(error);
+                        alert("Error al crear IVA, Por favor diligenciar todos los campos")
+                    });
+            }
         }
+    };
+
+
+    const handleEditClick = (cpIvaId) => {
+        handleEditShow(); // Show the edit modal
+        setcpIvaId(cpIvaId);
+        setEditIvaId(cpIvaId); // Set the cpIVA for editing
+        ConsultarIvaPorId(cpIvaId); // Fetch data for editing
     };
 
     const bannerStyle = {
@@ -210,20 +227,7 @@ const DataIva = ({ backgroundColor }) => {
         marginTop: '-35px'
     };
 
-    const [checkbox1, setCheckbox1] = useState(false);
-    const [checkbox2, setCheckbox2] = useState(false);
-    const [checkbox3, setCheckbox3] = useState(false);
     const [editShow, editSetShow] = useState(false);
-
-    const handleCheckbox1Change = () => {
-        setCheckbox1();
-    };
-    const handleCheckbox2Change = () => {
-        setCheckbox2();
-    };
-    const handleCheckbox3Change = () => {
-        setCheckbox3();
-    };
 
     const handleEditClose = () => editSetShow(false);
     const handleEditShow = () => editSetShow(true);
@@ -231,13 +235,6 @@ const DataIva = ({ backgroundColor }) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const handleEditClick = (typeOrderId) => {
-        handleEditShow(); // Show the edit modal
-        setcp_Type_Order_Id(typeOrderId);
-        setEditTypeOrderId(typeOrderId); // Set the typeOrderId for editing
-        ConsultarTipoPedidoPorId(typeOrderId); // Fetch data for editing
-    };
 
     return (
         <>
@@ -254,7 +251,7 @@ const DataIva = ({ backgroundColor }) => {
                                 </Row>
                             </Container>
                         </td>
-                        <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr></td>
+                        <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr><tr><td>{usuariotelefono}</td></tr></td>
                     </tr>
                 </div>
 
@@ -285,17 +282,16 @@ const DataIva = ({ backgroundColor }) => {
                             </tr>
                         </thead>
                         <tbody style={bannerStyle}>
-                            {tipoPedido
-                                .toSorted((a, b) => a.cp_type_order_id - b.cp_type_order_id) // Ordena el arreglo por cp_type_order_id en orden ascendente
-                                .map((tipoPedido) => (
-                                    <tr className='bordered_iva' style={bannerStyle} key={tipoPedido.cp_type_order_id}>
-                                        <td style={bannerStyle}>{tipoPedido.cp_type_order_id}</td>
-                                        <td style={bannerStyle}>{tipoPedido.cp_type_order_meaning}</td>
-                                        <td style={bannerStyle}>{tipoPedido.cp_type_order_description}</td>
-
+                            {porcIva
+                                .toSorted((a, b) => a.cp_IVA_id - b.cp_IVA_id) // Ordena el arreglo por cp_type_order_id en orden ascendente
+                                .map((porcIva) => (
+                                    <tr className='bordered_iva' style={bannerStyle} key={porcIva.cp_IVA_id}>
+                                        <td style={bannerStyle}>{porcIva.cp_IVA}</td>
+                                        <td style={bannerStyle}>{porcIva.cp_IVA_date_start}</td>
+                                        <td style={bannerStyle}>{porcIva.cp_IVA_date_end}</td>
                                         <td style={bannerStyle2}>
-                                            {/* Call handleEditClick with tipoPedido.cp_type_order_id */}
-                                            <button onClick={() => handleEditClick(tipoPedido.cp_type_order_id)} className='Edit-Iva '>
+                                            {/* Call handleEditClick with porcIva.cp_IVA_date_end */}
+                                            <button onClick={() => handleEditClick(porcIva.cp_IVA_id)} className='Edit-Iva '>
                                                 <FaRegEdit />
                                             </button>
 
@@ -315,103 +311,109 @@ const DataIva = ({ backgroundColor }) => {
                         <Modal.Title>EDITAR IVA</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className='Edit-iva' >
-                        <Form >
+                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" >
                                 <Form.Label>% IVA</Form.Label>
                                 <Form.Control
                                     type="text"
-
+                                    placeholder="IVA"
                                     autoFocus
                                     required // Hacer que este campo sea obligatorio
-                                    value={cp_type_order_meaning}
-                                    onChange={(e) => setcp_Type_Order_Meaning(e.target.value)}
+                                    value={cp_IVA}
+                                    disabled
                                 />
+                                <Form.Control.Feedback type="invalid">Por favor ingresa el valor del IVA</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" >
                                 <Form.Label>Fecha Inicio</Form.Label>
                                 <Form.Control
                                     type="date"
-
+                                    placeholder="Fecha inicio"
                                     autoFocus
                                     required // Hacer que este campo sea obligatorio
-                                    value={cp_type_order_meaning}
-                                    onChange={(e) => setcp_Type_Order_Meaning(e.target.value)}
+                                    value={cp_IVA_date_start}
+                                    onChange={(e) => setcpDateStart(e.target.value)}
                                 />
+                                <Form.Control.Feedback type="invalid">Por favor ingresa la fecha de inicio IVA</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                                 <Form.Label>Fecha Finalización</Form.Label>
                                 <Form.Control
                                     type="date"
-
+                                    placeholder="Fecha finalización"
                                     autoFocus
                                     required // Hacer que este campo sea obligatorio
-                                    value={cp_type_order_description}
-                                    onChange={(e) => setcp_Type_Order_Description(e.target.value)}
+                                    value={cp_IVA_date_end}
+                                    onChange={(e) => setcpDateEnd(e.target.value)}
                                 />
+                                <Form.Control.Feedback type="invalid">Por favor ingresa la fecha de finalización IVA</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
+                            <Modal.Footer className='Edit-iva' >
+                                <Button className='Guardar-btn-iva' type='submit'>
+                                    Guardar
+                                </Button>
+                            </Modal.Footer>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className='Edit-iva' >
-                        <Button className='Guardar-btn-iva' onClick={(e) => saveOrUpdateTypeOrder(setcp_Type_Order_Id)}>
-                            Guardar
-                        </Button>
-                    </Modal.Footer>
                 </Modal>
+
+
+
 
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header className='Crear-iva' closeButton>
                         <Modal.Title>CREAR</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className='Crear-iva' >
-                        <Form >
+                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" >
                                 <Form.Label>% IVA</Form.Label>
                                 <Form.Control
                                     type="text"
-
+                                    placeholder="IVA"
                                     autoFocus
                                     required // Hacer que este campo sea obligatorio
-                                    value={cp_type_order_meaning}
-                                    onChange={(e) => setcp_Type_Order_Meaning(e.target.value)}
+                                    value={cp_IVA}
+                                    onChange={(e) => setcpIva(e.target.value)}
                                 />
+                                <Form.Control.Feedback type="invalid">Por favor ingresa el valor del IVA</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                                 <Form.Label>Fecha Inicio</Form.Label>
                                 <Form.Control
                                     type="date"
-                                    placeholder="Descripción"
+                                    placeholder="Fecha inicio"
                                     autoFocus
                                     required // Hacer que este campo sea obligatorio
-                                    value={cp_type_order_description}
-                                    onChange={(e) => setcp_Type_Order_Description(e.target.value)}
+                                    value={cp_IVA_date_start}
+                                    onChange={(e) => setcpDateStart(e.target.value)}
                                 />
+                                <Form.Control.Feedback type="invalid">Por favor ingresa la fecha de inicio IVA</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                                 <Form.Label>Fecha Finalización</Form.Label>
                                 <Form.Control
                                     type="date"
-                                    placeholder="Descripción"
+                                    placeholder="Fecha finalización"
                                     autoFocus
                                     required // Hacer que este campo sea obligatorio
-                                    value={cp_type_order_description}
-                                    onChange={(e) => setcp_Type_Order_Description(e.target.value)}
+                                    value={cp_IVA_date_end}
+                                    onChange={(e) => setcpDateEnd(e.target.value)}
                                 />
+                                <Form.Control.Feedback type="invalid">Por favor ingresa la fecha de finalización IVA</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
+                            <Modal.Footer className='Crear-iva' >
+                                <Button className='Guardar-btn-iva' type='submit' >
+                                    Guardar
+                                </Button>
+                            </Modal.Footer>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className='Crear-iva' >
-                        <Button className='Guardar-btn-iva' onClick={(e) => saveOrUpdateTypeOrder(e)}>
-                            Guardar
-                        </Button>
-                    </Modal.Footer>
                 </Modal>
                 <Image className='Img-Creamos_iva' src={imagenes.Creamos} />
             </div>
         </>
     );
-    {
-    }
-
 };
 
 export default DataIva;
