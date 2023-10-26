@@ -14,5 +14,19 @@
     height: 100px;
     margin: auto;
     display: block;
+}
 
+.Img-Admin-Dropdown {
+    width: 100px;
+    height: 100px;
+}
+
+.ubica_imagen_dropdown {
+    margin-top: 1%;
+    margin-left: -6%;
+}
+
+.ubica_datos_dropdown {
+    margin-top: -55%;
+    margin-left: 75%;
 }

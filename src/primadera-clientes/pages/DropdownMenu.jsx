@@ -22,8 +22,8 @@ const backgroundStyle = {
 };
 const dropDown = {
   position: 'absolute',
-  top: '250px',
-  left: '14.5%',
+  top: '235px',
+  left: '14%',
   transform: 'translate (-50%, -50%)',
 };
 const backgroundS = {
@@ -36,12 +36,6 @@ const backgroundS = {
 const dropdown_principal = {
   padding: '70px',
   height: '23vh',
-  marginTop: '-47px',
-};
-
-const img_creamos = {
-  padding: '70px',
-  height: '5vh',
   marginTop: '-47px',
 };
 
@@ -91,25 +85,33 @@ function AdminMenu() {
     <>
 
       <div className='Back' style={backgroundS}>
-
         <Banner />
         <div style={dropdown_principal}>
           <tr>
-            <td><Container>
-              <Row>
-                <Col xs={6} md={4}>
-                  <Image className='Img-Admin' src={imagenes.Arboles} roundedCircle />
-                </Col>
-              </Row>
-            </Container>
-            </td>
-            <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr><tr><td>{usuariotelefono}</td></tr></td>
+
+            <div className='ubica_imagen_dropdown'>
+              <td><Container>
+                <Row>
+                  <Col xs={6} md={4}>
+                    <Image className='Img-Admin-Dropdown' src={imagenes.Arboles} roundedCircle />
+                  </Col>
+                </Row>
+              </Container>
+              </td>
+            </div>
+
+            <div className='ubica_datos_dropdown'>
+              <td >
+                <th>{usuarioSesion}</th>
+                <tr><td>{usuarioCorreo}</td></tr>
+                <tr><td>{usuariotelefono}</td></tr>
+              </td>
+            </div>
 
           </tr>
-
         </div>
-        <div className='fondoBlanco'>
 
+        <div className='fondoBlanco'>
           <Dropdown style={dropDown}>
             <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
               {selectedOption}
@@ -125,7 +127,7 @@ function AdminMenu() {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <Image className='Img-Creamos' src={imagenes.Creamos} /> {/*AJUSTE LCPG*/}
+        <Image className='Img-Creamos' src={imagenes.Creamos} />
       </div>
     </>
   );
