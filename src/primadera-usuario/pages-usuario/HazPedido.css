@@ -16,14 +16,16 @@
     margin-right: 2%;
     margin-top: 0%;
     overflow: auto;
+    position: relative;
 }
 
-.organiza_articulos {
+.organiza_articulos_Haz {
     background-color: #F9F7F7;
     width: 800px;
     height: 400px;
     margin: -38%;
     margin-left: 32.9%;
+    margin-top: 2%;
 }
 
 .Borde_imagenes {
@@ -36,30 +38,35 @@
     z-index: auto;
 }
 
-.Buttons_Pedido {
+.Buttons_Pedido_Haz {
     margin-top: -2.5%;
-
-    margin-left: 20.5%;
-
     z-index: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.btns_pedido {
+.btns_pedido_Haz {
     box-shadow: 2px;
     background-color: #BFBFBF;
     color: white;
     position: auto;
     font-size: medium;
-    width: 190px;
+    width: 210px;
     height: 50px;
     border-color: black;
     border-width: 0.5px;
 }
 
-.Filtro {
+.DescripcionHaz {
+    max-width: 220px;
+}
+
+.Filtro_Haz {
     width: 150px;
     margin: 6%;
     margin-left: 2%;
+    position: absolute;
 
 }
 
@@ -106,13 +113,19 @@
 .organiza_btn_carro {
 
     margin-left: 48%;
-
-    margin-top: 10%
+    margin-top: -21%;
+    width: fit-content;
+    text-align: right;
 }
 
 .principal_contador {
-    margin-top: -25%;
-    margin-left: 20%;
+    margin-top: 10%;
+    margin-left: 0%;
+    position: relative;
+    width: 100px;
+    height: 60px;
+    border-radius: 11px;
+    background-color: white;
 }
 
 .contador-box {
@@ -129,12 +142,12 @@
 .organiza_uni_paq {
 
     color: #6D6F6F;
-
+    font-size: 8px;
     width: fit-content;
 
-    padding-top: 5px;
+    padding-top: 15px;
 
-    font-size: small;
+
 
 }
 

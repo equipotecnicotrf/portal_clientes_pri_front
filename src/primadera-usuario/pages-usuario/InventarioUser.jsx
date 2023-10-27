@@ -279,6 +279,9 @@ const DataInventario = () => {
         left: '14.5%',
         transform: 'translate (-50%, -50%)',
     };
+    const organiza_cant_disp = {
+        width: '200px',
+    }
 
     const opcionesDropdown = ['Opción 1', 'Opción 2', 'Opción 3'];
     const opcionesCheckbox = ['Checkbox 1', 'Checkbox 2', 'Checkbox 3'];
@@ -300,7 +303,7 @@ const DataInventario = () => {
                 <BannerUser />
                 <button className='Info_general'><FaShoppingCart className='tamanio_carro_principal' onClick={() => navigate("/CarritoCompras")} />
                     <div className='Info_general_2'>
-                        <table className='table table-borderless' >
+                        <table className='table-borderless' >
                             <thead >
                             </thead>
                             <tbody >
@@ -358,44 +361,73 @@ const DataInventario = () => {
                             />
                             {/* Resto de tu aplicación */}
                         </div>
-                        <div className='organiza_articulos row rows-cols1 row-cols-md-3'>
+                        <div className='organiza_articulos_Inv row rows-cols1 row-cols-md-3'>
                             {ArticulosConDisponibilidad
                                 .toSorted((a, b) => a[0].inventory_item_id - b[0].inventory_item_id) // Ordena el arreglo por cp_user_id en orden ascendente
                                 .map((articulo) => (
                                     <td key={articulo[0].inventory_item_id}>
                                         <div className='organiza_img_y_cont'>
                                             <img className='Borde_imagenes'
-                                                src={imagenes.Arboles}
+                                                src={`/src/Articulos/${articulo[0].item_number}.jpg`}
                                                 alt=""
                                                 style={{ width: '200px', height: '270px' }}
                                             />
                                             <div className='organiza_texto'>
                                                 <tr>CÓDIGO ARTÍCULO: {articulo[0].item_number} </tr>
-                                                <tr><strong>{articulo[0].item_description_long}</strong></tr>
+                                                <div className='DescripcionInv'><tr><strong>{articulo[0].item_description_long}</strong>
+                                                </tr></div>
                                                 <div className='organiza_cant_disp'>
                                                     <tr>Cantidad disponible: {articulo[1].available_to_transact}</tr>
                                                 </div>
-                                                <strong>Precio: ${articulo[2].unit_price.toLocaleString('es-ES', { style: 'currency', currency: articulo[2].currency_code })}</strong>
-                                                <div className='organiza_iva_inc'>
-                                                    <tr>${(articulo[2].unit_price * 0.19).toLocaleString('es-ES', { style: 'currency', currency: articulo[2].currency_code })} IVA INCLUIDO</tr>
+                                                <div className='PrecioInv'>
+                                                    <strong>
+                                                        <table>
+                                                            <tr>
+                                                                <td className="precio-label">Precio:</td>
+                                                                <td className="precio-valor">${articulo[2].unit_price + " " + articulo[2].currency_code}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </strong>
                                                 </div>
-                                                <div className='organiza_btn_carro'>
+                                                <div className='organiza_iva_inc'>
+                                                    <table>
+                                                        <tr>
+                                                            <td style={organiza_cant_disp}>${(articulo[2].unit_price * 0.19).toFixed(2)} {articulo[2].currency_code} IVA INCLUIDO</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div className='principal_contador_Inv' >
+
+                                                    <td>
+
+                                                        <div className="contador-box" >
+
+                                                            {contadores[articulo[0].inventory_item_id] || 0}
+
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <div>
+
+                                                            <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}><strong>+</strong></Button></Col>
+
+                                                            <Col><Button className='decre_incre2' onClick={() => decrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}><strong>-</strong></Button></Col>
+
+                                                        </div>
+
+                                                    </td>
+
+                                                </div>
+                                                <div className='organiza_btn_carro_Inv'>
                                                     <Button onClick={() => carritoCompra(articulo, contadores[articulo[0].inventory_item_id])} className='btn_agregar_carro'>
                                                         <FaShoppingCart /><span> Agregar</span>
                                                     </Button>
                                                 </div>
-                                                <div className='principal_contador'>
-                                                    <td>
-                                                        <div className="contador-box">
-                                                            {contadores[articulo[0].inventory_item_id] || 0}
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}>+</Button></Col>
-                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}>-</Button></Col>
-                                                    </td>
-                                                </div>
-                                                <div className='organiza_uni_paq'>
+
+                                                <div className='organiza_uni_paq_Inv'>
                                                     <tr>Unidades por paquete{" " + articulo[0].atribute9}</tr>
                                                 </div>
                                             </div>

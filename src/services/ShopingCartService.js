@@ -7,6 +7,10 @@ class ShopingCartService {
         return axios.get(BASE_REST_API_URL + "/users?Cust_account_id=" + Cust_account_id + "&CP_user_id=" + CP_user_id)
     }
 
+    getCarritoxUserIdxitemsxprecios(Cust_account_id, CP_user_id) {
+        return axios.get(BASE_REST_API_URL + "/linesanduser?Cust_account_id=" + Cust_account_id + "&CP_user_id=" + CP_user_id)
+    }
+
     InsertarCabecera(data) {
         return axios.post(BASE_REST_API_URL, data);
     }

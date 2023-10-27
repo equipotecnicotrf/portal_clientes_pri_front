@@ -23,10 +23,12 @@ const CarritoCompras = () => {
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
     const [usuarioTelefono, setUsuarioTelefono] = useState([]);
     const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
+    const [PartyId, setPartyId] = useState([]);
     const [usuarioId, setUsarioId] = useState([]);
     const [CustAccountId, setCustAccountId] = useState([]);
     const [carrito, setcarrito] = useState([]);
-    const [carritoline, setcarritoline] = useState([]);
+    const [account_id, setaccount_id] = useState([]);
+
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -39,13 +41,15 @@ const CarritoCompras = () => {
             //console.log(read)
             //alert("Bienvenido " + read.portal_sesion);    
             UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
-                //console.log(responseid.data)
+                console.log(responseid.data)
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
                 setCustAccountId(responseid.data.cust_account_id);
                 setUsarioId(responseid.data.cp_user_id);
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
                 setUsuarioEmpresa(responseid.data.cust_name);
+                setPartyId(responseid.data.party_id);
+                setaccount_id(responseid.data.party_id)
 
                 carritoCompra(responseid.data.cust_account_id, responseid.data.cp_user_id);
 
@@ -61,11 +65,10 @@ const CarritoCompras = () => {
     }
 
     const carritoCompra = (cust_account_id, cp_user_id) => {
-        ShopingCartService.getCarritoxUserId(cust_account_id, cp_user_id).then(carrouseridresponse => {
+        ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
             setcarrito(carrouseridresponse.data);
             console.log(carrouseridresponse.data);
 
-            carritoCompraLine(carrouseridresponse.data[0].cp_cart_id);
 
         }).catch(error => {
             console.log(error);
@@ -73,16 +76,6 @@ const CarritoCompras = () => {
         })
     }
 
-    const carritoCompraLine = (cp_cart_id) => {
-        ShopingCartLineService.getLineCarritoItemsbyCartId(cp_cart_id).then(obtenerlineasresponse => {
-            setcarritoline(obtenerlineasresponse.data);
-            console.log(obtenerlineasresponse.data);
-        }).catch(error => {
-            console.log(error);
-            alert("Error al Obtener lineas de Carrito")
-        })
-
-    }
 
     // Define un estado para los contadores de cada artículo
     const [contadores, setContadores] = useState({});
@@ -151,6 +144,9 @@ const CarritoCompras = () => {
         marginTop: '10px',
         backgroundColor: '#F9F7F7',
 
+
+
+
     };
     const bannerStyle_carrito2 = {
         textAlign: 'center',
@@ -166,6 +162,13 @@ const CarritoCompras = () => {
     const cellStyle2 = {
         border: 'none',
         backgroundColor: '#DDDBDB',
+    };
+
+    const style_precio_unit = {
+        border: 'none',
+        textAlign: 'center',
+        display: 'flex',
+        justifyContent: 'center'
     };
 
     const info_general_items = {
@@ -184,7 +187,7 @@ const CarritoCompras = () => {
                 <button className='Info_general'><FaShoppingCart className='tamanio_carro_principal' onClick={() => navigate("/CarritoCompras")} />
                     <div className='Info_general_2'>
 
-                        <table className='table table-borderless' >
+                        <table className='table-borderless' >
                             <thead >
 
                             </thead>
@@ -251,25 +254,24 @@ const CarritoCompras = () => {
                                 </thead>
 
                                 <tbody >
-                                    {carritoline
-                                        .map((carritoline) => (
-                                            <tr >
+                                    {carrito
+                                        .map((carrito) => (
+                                            <tr key={carrito[3].inventory_item_id}>
                                                 <td style={bannerStyle_carrito2}>
-                                                    <div >
+                                                    <div className='ancho_div'>
                                                         <div className='alinea_imagen'>
-                                                            <td key={carritoline[0].cp_cart_line_id}> <img className='Borde_imagenes_carrito'
-                                                                src={imagenes.Arboles}
+                                                            <td key={carrito[2].cp_cart_line_id}> <img className='Borde_imagenes_carrito'
+                                                                src={`/src/Articulos/${carrito[3].item_number}.jpg`}
                                                                 style={{ width: '180px', height: '190px' }}
                                                             />
                                                             </td>
                                                         </div>
                                                         <td >
                                                             <div className='Organiza_descripción'>
-                                                                <tr style={cellStyle}><strong>{carritoline[1].item_description_long}</strong></tr>
-                                                                <tr style={cellStyle}><strong>{carritoline[1].item_description_long}</strong></tr>
+                                                                <tr style={cellStyle}><strong>{carrito[3].item_description_long}</strong></tr>
                                                             </div>
                                                             <div className='Organiza_articulo'>
-                                                                <tr style={cellStyle}>CÓDIGO ARTíCULO: {carritoline[1].item_number}</tr>
+                                                                <tr style={cellStyle}>CÓDIGO ARTíCULO: {carrito[3].item_number}</tr>
                                                             </div>
                                                             <div className='Organiza_entrega'>
                                                                 <div><FaTruck className='tamaño-camion' /></div>
@@ -279,27 +281,49 @@ const CarritoCompras = () => {
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                    </div></td>
+                                                    </div>
+                                                </td>
 
-                                                <td style={bannerStyle_carrito2}> <div className='precio_unit'>${(carritoline[2].unit_price).toLocaleString('es-ES', { style: 'currency', currency: carritoline[2].currency_code })}</div></td>
+                                                <td style={bannerStyle_carrito2}>
+                                                    <div style={bannerStyle_carrito} className='precio_unit'>
+                                                        <tr style={style_precio_unit}>
+
+                                                            <td >  ${(carrito[4].unit_price).toFixed(2) + " " + carrito[4].currency_code}
+                                                            </td>
+
+                                                        </tr>
+                                                    </div>
+                                                </td>
+
                                                 <td style={bannerStyle_carrito2}>
                                                     <div className='principal_contador_carrito'>
                                                         <td>
                                                             <div className="contador-box-carrito">
-                                                                {contadores[carritoline[1].inventory_item_id] || carritoline[0].cp_cart_Quantity_units}
+                                                                {contadores[carrito[2].inventory_item_id] || carrito[2].cp_cart_Quantity_units}
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <Col><Button className='decre_incre_carrito' onClick={() => incrementarContador(carritoline[1].inventory_item_id, carritoline[1].atribute9)}>+</Button></Col>
-                                                            <Col><Button className='decre_incre_carrito' onClick={() => decrementarContador(carritoline[1].inventory_item_id, carritoline[1].atribute9)}>-</Button></Col>
+                                                            <div>
+                                                                <Col><Button className='decre_incre_carrito' onClick={() => incrementarContador(carrito[4].inventory_item_id, carrito[4].atribute9)}>+</Button></Col>
+                                                                <Col><Button className='decre_incre_carrito2' onClick={() => decrementarContador(carrito[4].inventory_item_id, carrito[4].atribute9)}>-</Button></Col>
+                                                            </div>
                                                         </td>
                                                     </div>
                                                 </td>
-                                                <td style={bannerStyle_carrito2}><div className='metro_cubico'>{carritoline[0].cp_cart_Quantity_volume} </div></td>
-                                                <td style={bannerStyle_carrito2}><div className='precio_tot'>${(carritoline[2].unit_price * carritoline[0].cp_cart_Quantity_units).toLocaleString('es-ES', { style: 'currency', currency: carritoline[2].currency_code })}</div></td>
+
+                                                <td style={bannerStyle_carrito2}><div className='metro_cubico'>{carrito[2].cp_cart_Quantity_volume} </div></td>
+                                                <td style={bannerStyle_carrito2}>
+                                                    <div style={bannerStyle_carrito} className='precio_tot'>
+
+                                                        <tr style={style_precio_unit}>
+                                                            <td> ${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toFixed(2) + " " + carrito[4].currency_code}</td>
+                                                        </tr>
+
+                                                    </div>
+                                                </td>
                                                 <td style={bannerStyle_carrito2}>
                                                     <Button className='btn_eliminar'>
-                                                        <FaTrashAlt onClick={() => deleteCarritoLine(carritoline[0].cp_cart_line_id)} />
+                                                        <FaTrashAlt onClick={() => deleteCarritoLine(carrito[2].cp_cart_line_id)} />
                                                     </Button>
 
                                                 </td>

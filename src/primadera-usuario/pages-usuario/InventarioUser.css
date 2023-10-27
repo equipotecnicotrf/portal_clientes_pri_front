@@ -20,14 +20,16 @@
     margin-right: 2%;
     margin-top: 0%;
     overflow: auto;
+    position: relative;
 }
 
-.organiza_articulos {
+.organiza_articulos_Inv {
     background-color: #F9F7F7;
     width: 800px;
     height: 400px;
     margin: -38%;
     margin-left: 32.9%;
+    margin-top: 2%;
 }
 
 .Borde_imagenes {
@@ -43,9 +45,10 @@
 .Buttons_Inventario {
     margin-top: -2.5%;
 
-    margin-left: 20.5%;
-
     z-index: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btns_inventario {
@@ -54,7 +57,7 @@
     color: white;
     position: auto;
     font-size: medium;
-    width: 190px;
+    width: 210px;
     height: 50px;
     border-color: black;
     border-width: 0.5px;
@@ -64,6 +67,7 @@
     width: 150px;
     margin: 6%;
     margin-left: 2%;
+    position: absolute;
 
 }
 
@@ -75,21 +79,22 @@
 
 .organiza_iva_inc {
     color: #6D6F6F;
-    font: bold;
-    width: fit-content;
-    justify-content: center;
 
-    display: flex;
-    margin: auto;
+    width: 200px;
+
 }
 
 .organiza_texto {
     width: fit-content;
     padding-top: 5px;
+    height: 10px;
 }
 
 .organiza_img_y_cont {
     font-size: 90%;
+    height: 550px;
+
+
 }
 
 .btn_agregar_carro {
@@ -101,33 +106,70 @@
     border: none;
 }
 
-.decre_incre {
-    width: 30px;
-    height: 30px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    background-color: #DDDBDB;
-    color: #323333;
-    margin-left: 10px;
-    border: none;
-}
 
-.organiza_btn_carro {
+
+.organiza_btn_carro_Inv {
 
     margin-left: 48%;
-
-    margin-top: 10%
+    margin-top: -21%;
+    width: fit-content;
+    text-align: right;
 }
 
-.principal_contador {
-    margin-top: -25%;
-    margin-left: 20%;
+.principal_contador_Inv {
+    margin-top: 10%;
+    margin-left: 0%;
+    position: relative;
+    width: 100px;
+    height: 60px;
+    border-radius: 11px;
+    background-color: white;
 }
 
 .contador-box {
-    transform: translate(50%, 50%);
+    text-align: left;
+    margin-left: -17%;
+    margin-top: 8%;
+    width: 55px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background-color: white;
 }
+
+.decre_incre {
+    width: 20px;
+    height: 18px;
+    margin-top: 0%;
+    left: 120%;
+    background-color: #DDDBDB;
+    color: #323333;
+    border: none;
+    position: relative;
+    border-radius: 30%;
+    border-bottom-left-radius: 0%;
+    border-bottom-right-radius: 0%;
+}
+
+.decre_incre2 {
+    width: 30px;
+    height: 29px;
+    margin-top: 2.5%;
+    left: 145%;
+    background-color: #DDDBDB;
+    color: #323333;
+    border: none;
+    position: relative;
+    border-radius: 30%;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    line-height: 0;
+}
+
+
+
+
 
 .Img-Creamos_Inv {
     width: 200px;
@@ -136,15 +178,15 @@
     display: block;
 }
 
-.organiza_uni_paq {
+.organiza_uni_paq_Inv {
 
     color: #6D6F6F;
-
+    font-size: 8px;
     width: fit-content;
 
-    padding-top: 5px;
+    padding-top: 12px;
 
-    font-size: small;
+
 
 }
 
@@ -211,4 +253,27 @@
     margin-left: 12%;
     margin-top: 10%;
     color: white;
+}
+
+.DescripcionInv {
+
+    max-width: 220px;
+}
+
+.PrecioInv {
+    max-width: 200px;
+}
+
+table {
+    display: inline-table;
+}
+
+td {
+    padding: 0 5px;
+}
+
+.precio-label,
+.precio-valor,
+.precio-moneda {
+    vertical-align: middle;
 }

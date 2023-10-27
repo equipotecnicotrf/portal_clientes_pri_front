@@ -296,7 +296,7 @@ const DataPedido = () => {
                 <button className='Info_general'><FaShoppingCart className='tamanio_carro_principal' onClick={() => navigate("/CarritoCompras")} />
                     <div className='Info_general_2'>
 
-                        <table className='table table-borderless' >
+                        <table className='table-borderless' >
                             <thead >
                             </thead>
                             <tbody >
@@ -316,11 +316,11 @@ const DataPedido = () => {
                     </div>
                 </button>
                 <div className='FondoBlanco_Pedi'>
-                    <div className='Buttons_Pedido mt-12'>
-                        <button className='btns_pedido p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
-                        <button className='btns_pedido p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}> <FaSearchMinus /> Inventario Disponible</button>
-                        <button className='btns_pedido p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}> <FaShoppingCart /> Haz tu pedido</button>
-                        <button className='btns_pedido p-2 m-2 btn-sm'> <FaTruck /> Consulta tu pedido</button>
+                    <div className='Buttons_Pedido_Haz mt-12'>
+                        <button className='btns_pedido_Haz p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
+                        <button className='btns_pedido_Haz p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}> <FaSearchMinus /> Inventario Disponible</button>
+                        <button className='btns_pedido_Haz p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}> <FaShoppingCart /> Haz tu pedido</button>
+                        <button className='btns_pedido_Haz p-2 m-2 btn-sm'> <FaTruck /> Consulta tu pedido</button>
                     </div>
 
                     <div style={PediDatosUser}>
@@ -344,7 +344,7 @@ const DataPedido = () => {
                         </tr>
                     </div>
                     <div className='ContenedorPadrePedi'>
-                        <div className='Filtro'>
+                        <div className='Filtro_Haz'>
                             <h3>Filtros</h3>
                             <FiltroInven
                                 opciones={opcionesDropdown}
@@ -352,38 +352,66 @@ const DataPedido = () => {
                                 onFilter={handleFilter}
                             />
                         </div>
-                        <div className='organiza_articulos row rows-cols1 row-cols-md-3'>
+                        <div className='organiza_articulos_Haz row rows-cols1 row-cols-md-3'>
                             {ArticulosSinDisponibilidad
                                 .map(articulo => (
                                     <td key={articulo[0].inventory_item_id}>
                                         <div className='organiza_img_y_cont'>
                                             <img className='Borde_imagenes'
-                                                src={imagenes.Arboles}
+                                                src={`/src/Articulos/${articulo[0].item_number}.jpg`}
                                                 alt=""
                                                 style={{ width: '200px', height: '270px' }}
                                             />
                                             <div className='organiza_texto'>
                                                 <tr>CÓDIGO ARTÍCULO:{articulo[0].item_number}</tr>
-                                                <tr><strong>{articulo[0].item_description_long}</strong></tr>
-                                                <tr><strong>Precio: ${articulo[1].unit_price.toLocaleString('es-ES', { style: 'currency', currency: articulo[1].currency_code })}</strong></tr>
+                                                <div className='DescripcionHaz'>
+                                                    <tr><strong>{articulo[0].item_description_long}</strong></tr></div>
+                                                <div className='PrecioHaz'>
+                                                    <strong>
+                                                        <table>
+                                                            <tr>
+                                                                <td className="precio-label">Precio:</td>
+                                                                <td className="precio-valor">${articulo[1].unit_price + " " + articulo[1].currency_code}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </strong>
+                                                </div>
                                                 <div className='organiza_iva_inc'>
-                                                    <tr>${(articulo[1].unit_price * 0.19).toLocaleString('es-ES', { style: 'currency', currency: articulo[1].currency_code })} IVA INCLUIDO</tr>
+                                                    <table>
+                                                        <tr>
+                                                            <td >${(articulo[1].unit_price * 0.19).toFixed(2)} {articulo[1].currency_code} IVA INCLUIDO</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div className='principal_contador_Inv' >
+
+                                                    <td>
+
+                                                        <div className="contador-box" >
+
+                                                            {contadores[articulo[0].inventory_item_id] || 0}
+
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <div>
+
+                                                            <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}><strong>+</strong></Button></Col>
+
+                                                            <Col><Button className='decre_incre2' onClick={() => decrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}><strong>-</strong></Button></Col>
+
+                                                        </div>
+
+                                                    </td>
+
                                                 </div>
                                                 <div className='organiza_btn_carro'>
                                                     <Button onClick={() => carritoCompra(articulo, contadores[articulo[0].inventory_item_id])} className='btn_agregar_carro'>
                                                         <FaShoppingCart /><span> Agregar</span>
                                                     </Button>
-                                                </div>
-                                                <div className='principal_contador'>
-                                                    <td>
-                                                        <div className="contador-box">
-                                                            {contadores[articulo[0].inventory_item_id] || 0}
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}>+</Button></Col>
-                                                        <Col><Button className='decre_incre' onClick={() => decrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}>-</Button></Col>
-                                                    </td>
                                                 </div>
                                                 <div className='organiza_uni_paq'>
 

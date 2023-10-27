@@ -15,6 +15,7 @@ import { FaShoppingCart, FaStar, FaTruck, FaUser, FaSearchMinus } from "react-ic
 import Button from 'react-bootstrap/Button';
 import { Modal, Form, Dropdown } from 'react-bootstrap';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
+import ShopingCartService from '../../services/ShopingCartService';
 
 const FinalizarCompra = () => {
 
@@ -22,32 +23,37 @@ const FinalizarCompra = () => {
 
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
-    const [usuarioCustAccountId, setUsuarioCustAccountId] = useState([]);
     const [usuarioTelefono, setUsuarioTelefono] = useState([]);
     const [usuarioEmpresa, setUsuarioEmpresa] = useState([]);
+    const [PartyId, setPartyId] = useState([]);
+    const [usuarioId, setUsarioId] = useState([]);
+    const [CustAccountId, setCustAccountId] = useState([]);
+    const [carrito, setcarrito] = useState([]);
+    const [account_id, setaccount_id] = useState([]);
     const [direcciones, setDirecciones] = useState([]);
+
+
     const navigate = useNavigate();
     useEffect(() => {
-        SesionUsername()
+        SesionUsername();
     }, [])
-
-
 
     const SesionUsername = () => {
         if (LoginService.isAuthenticated()) {
-            // Renderizar la vista protegida
             const read = Cookies.get()
-            //console.log(read)
-            //alert("Bienvenido " + read.portal_sesion);  
             UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
-                //console.log(responseid.data)
+                console.log(responseid.data)
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
-                setUsuarioCustAccountId(responseid.data.cust_account_id);
+                setCustAccountId(responseid.data.cust_account_id);
+                setUsarioId(responseid.data.cp_user_id);
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
                 setUsuarioEmpresa(responseid.data.cust_name);
+                setPartyId(responseid.data.party_id);
+                setaccount_id(responseid.data.party_id)
 
                 ListDirecciones(responseid.data.cust_account_id);
+                carritoCompra(responseid.data.cust_account_id, responseid.data.cp_user_id);
 
             }).catch(error => {
                 console.log(error)
@@ -58,7 +64,18 @@ const FinalizarCompra = () => {
             LoginService.logout();
             navigate('/')
         }
+    }
 
+    const carritoCompra = (cust_account_id, cp_user_id) => {
+        ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
+            setcarrito(carrouseridresponse.data);
+            console.log(carrouseridresponse.data);
+
+
+        }).catch(error => {
+            console.log(error);
+            setShow2(true);
+        })
     }
 
     const ListDirecciones = (id_direccion) => {
@@ -281,16 +298,15 @@ const FinalizarCompra = () => {
                                         </tr>
                                     </thead>
                                     <tbody >
-                                        {productos
-                                            .map((productos) => (
-                                                <tr>
+                                        {carrito
+                                            .map((carrito) => (
+                                                <tr key={carrito[3].inventory_item_id}>
                                                     <td style={Style_tables}>< FaStar /></td>
                                                     <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>
-                                                        <tr style={Style_tables}>{productos.nombre}</tr>
-                                                        <tr style={Style_tables}>{productos.descripcion}</tr>
-                                                        <tr style={Style_tables} >CANTIDADES: {productos.cantidad}</tr>
+                                                        <tr style={Style_tables}>{carrito[3].item_description_long}</tr>
+                                                        <tr style={Style_tables} >CANTIDADES: {carrito[2].cp_cart_Quantity_units}</tr>
                                                     </td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{productos.precio}
+                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toFixed(2) + " " + carrito[4].currency_code}
                                                     </td>
 
                                                 </tr>

@@ -308,7 +308,7 @@ const DataTable = ({ backgroundColor }) => {
   const ListClientes = () => {
     SoapService.getAllClientes().then(response => {
       setClientes(response.data);
-      //console.log(response.data);
+      console.log(response.data);
     }).catch(error => {
       console.log(error);
     })

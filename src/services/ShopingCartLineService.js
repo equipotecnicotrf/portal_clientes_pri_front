@@ -11,8 +11,8 @@ class ShoppingCartLines {
         return axios.get(BASE_REST_API_URL + '/cartid/' + CartId);
     }
 
-    getLineCarritoItemsbyCartId(CartId) {
-        return axios.get(BASE_REST_API_URL + '/items/' + CartId);
+    getLineCarritoItemsbyCartId(CartId, Cust_account_id) {
+        return axios.get(BASE_REST_API_URL + '/items/?cartid=' + CartId + '&Cust_account_id=' + Cust_account_id);
     }
 
     deleteCarline(CarLineId) {

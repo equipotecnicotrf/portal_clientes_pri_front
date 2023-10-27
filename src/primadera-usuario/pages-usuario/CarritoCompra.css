@@ -47,7 +47,7 @@
     color: white;
     position: auto;
     font-size: medium;
-    width: 188px;
+    width: 210px;
     height: 50px;
     border-color: black;
     border-width: 0.5px;
@@ -79,8 +79,10 @@
 
 .Buttons_Carrito {
     margin-top: -2.5%;
-    margin-left: 20.5%;
     z-index: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .Organiza_descripción {
@@ -134,8 +136,63 @@
 
 .principal_contador_carrito {
     margin-top: 5.5%;
-    margin-left: 20%;
+    margin-left: 17%;
+    position: relative;
+    width: 100px;
+    height: 50px;
+    border-radius: 11px;
+    background-color: white;
 }
+
+.contador-box-carrito {
+    transform: translate(50%, 50%);
+    margin-left: -21%;
+    text-align: left;
+    margin-top: 1%;
+    width: 55px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: absolute;
+    background-color: white;
+}
+
+
+.decre_incre_carrito {
+    width: 20px;
+    height: 24px;
+    margin-top: 0%;
+    left: 254%;
+    background-color: #DDDBDB;
+    color: #323333;
+    border: none;
+    position: relative;
+    border-radius: 30%;
+    border-bottom-left-radius: 0%;
+    border-bottom-right-radius: 0%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.decre_incre_carrito2 {
+    width: 20px;
+    height: 24px;
+    margin-top: 8.5%;
+    left: 254%;
+    background-color: #DDDBDB;
+    color: #323333;
+    border: none;
+    position: relative;
+    border-radius: 30%;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
 
 .eliminar_prod {
     margin-top: 10%;
@@ -153,28 +210,11 @@
     margin-top: 41%;
 }
 
-.decre_incre_carrito {
-    width: 20px;
-    height: 20px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    background-color: #DDDBDB;
-    color: #323333;
-    margin-left: 25px;
-    border: none;
-}
-
 .tamanio_carro_principal {
     font-size: 40px;
     margin-left: 12%;
     margin-top: 10%;
     color: white;
-}
-
-.contador-box-carrito {
-    transform: translate(50%, 50%);
-    margin-left: 200%;
 }
 
 .modal_principal_carrito {
@@ -293,4 +333,8 @@
     text-align: center;
     font-size: smaller;
     color: white;
+}
+
+.ancho_div {
+    width: 370px;
 }
