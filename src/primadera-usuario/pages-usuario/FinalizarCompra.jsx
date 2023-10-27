@@ -241,7 +241,7 @@ const FinalizarCompra = () => {
                                             <Dropdown.Item
                                                 key={direccion.siteUseId}
                                                 onClick={() => handleDireccionSelect(direccion)} >
-                                                {direccion.address1}
+                                                {direccion.address1 + " - " + direccion.city}
                                             </Dropdown.Item>
                                         ))}
                                     </Dropdown.Menu>
