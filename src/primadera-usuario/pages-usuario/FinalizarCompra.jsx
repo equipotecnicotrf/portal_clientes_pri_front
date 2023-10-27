@@ -150,41 +150,6 @@ const FinalizarCompra = () => {
 
     };
 
-    const productos = [
-        {
-            nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10',
-            precio: '$9000.99', cantidad: '25',
-            direccion: 'calle 128 f 000', num_orden: '123456'
-        }, {
-            nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10',
-            precio: '$9000.99', cantidad: '25',
-            direccion: 'calle 300 f 000', num_orden: '123456'
-        }, {
-            nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10',
-            precio: '$9000.99', cantidad: '25',
-            direccion: 'calle 400 f 000', num_orden: '123456'
-        }, {
-            nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10',
-            precio: '$9000.99', cantidad: '25',
-            direccion: 'calle 500 f 000', num_orden: '123456'
-        }, {
-            nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10',
-            precio: '$9000.99', cantidad: '25',
-            direccion: 'calle 600 f 000', num_orden: '123456'
-        }, {
-            nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10',
-            precio: '$9000.99', cantidad: '25',
-            direccion: 'carrera 700 f 000', num_orden: '123456'
-        }, {
-            nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10',
-            precio: '$9000.99', cantidad: '25',
-            direccion: 'calle 800 f 000', num_orden: '123456'
-        }, {
-            nombre: 'Primacor Jayka Luna 1', descripcion: '2 caras ST18mm 1,83x2,44m10',
-            precio: '$9000.99', cantidad: '25',
-            direccion: 'avenida 900 f 000', num_orden: '123456'
-        }
-    ];
 
     const totales = [
         { subtotal: '$18.00000000000000000', iva: '$5.5555555555', total: '20.000000000' },
@@ -202,7 +167,7 @@ const FinalizarCompra = () => {
                 <button className='Info_general_compra'><FaShoppingCart className='tamano_carro_principal_compra' />
                     <div className='Info_general_compra_2'>
 
-                        <table className='table table-borderless' >
+                        <table className='table-borderless' >
                             <thead >
 
                             </thead>
