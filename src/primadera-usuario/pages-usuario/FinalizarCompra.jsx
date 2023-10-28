@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import { Modal, Form, Dropdown } from 'react-bootstrap';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import ShopingCartService from '../../services/ShopingCartService';
+import PedidoService from '../../services/PedidoService';
 
 const FinalizarCompra = () => {
 
@@ -28,8 +29,15 @@ const FinalizarCompra = () => {
     const [PartyId, setPartyId] = useState([]);
     const [usuarioId, setUsarioId] = useState([]);
     const [CustAccountId, setCustAccountId] = useState([]);
+    const [payment_terms, setpayment_terms] = useState([]);
+    const [transactional_currency_code, settransactional_currency_code] = useState([]);
+    const [siteUseIdpedido, setsiteUseIdpedido] = useState([]);
+    const [nameVendedor, setnameVendedor] = useState([]);
+    const [partySiteId, setpartySiteId] = useState([]);
+
+
+
     const [carrito, setcarrito] = useState([]);
-    const [account_id, setaccount_id] = useState([]);
     const [direcciones, setDirecciones] = useState([]);
 
 
@@ -50,7 +58,9 @@ const FinalizarCompra = () => {
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
                 setUsuarioEmpresa(responseid.data.cust_name);
                 setPartyId(responseid.data.party_id);
-                setaccount_id(responseid.data.party_id)
+                setpayment_terms(responseid.data.payment_terms);
+                settransactional_currency_code(responseid.data.transactional_currency_code);
+
 
                 ListDirecciones(responseid.data.cust_account_id);
                 carritoCompra(responseid.data.cust_account_id, responseid.data.cp_user_id);
@@ -70,12 +80,25 @@ const FinalizarCompra = () => {
         ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
             setcarrito(carrouseridresponse.data);
             console.log(carrouseridresponse.data);
-
-
         }).catch(error => {
             console.log(error);
-            setShow2(true);
         })
+    }
+
+    let sumaTotal = 0;
+    let sumavolumen = 0;
+
+    for (const elemento of carrito) {
+        // Accedemos a las propiedades específicas de cada elemento
+        const unitPrice = elemento[4].unit_price;
+        const quantityUnits = elemento[2].cp_cart_Quantity_units;
+        const quantityvolume = elemento[2].cp_cart_Quantity_volume;
+
+        // Realizamos la multiplicación y sumamos al total
+        const subtotal = unitPrice * quantityUnits;
+        sumaTotal += subtotal;
+
+        sumavolumen += quantityvolume;
     }
 
     const ListDirecciones = (id_direccion) => {
@@ -86,10 +109,6 @@ const FinalizarCompra = () => {
             console.log(error);
         })
     }
-
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const [selectedDireccion, setSelectedDireccion] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -108,9 +127,78 @@ const FinalizarCompra = () => {
 
     const handleDireccionSelect = (direccion) => {
         setSelectedDireccion(direccion);
+        setnameVendedor(direccion.nameVendedor)
+        setpartySiteId(direccion.partySiteId)
         setSearchTerm('');
 
     };
+
+    const [selectedDireccionBillto, setSelectedDireccionBillto] = useState(null);
+    const [searchTermBillto, setSearchTermBillto] = useState('');
+    const [filteredDireccionesBillto, setFilteredDireccionesBillto] = useState([]);
+
+    const handleSearchChangeBillto = (e) => {
+        const searchTermBillto = e.target.value.toLowerCase();
+        setSearchTermBillto(searchTermBillto);
+
+        const filteredBillto = direcciones.filter((direccion) =>
+            direccion.address1.toLowerCase().includes(searchTerm) && direccion.siteUseCode === 'BILL_TO'
+        );
+        setFilteredDireccionesBillto(filteredBillto);
+    };
+
+
+    const handleDireccionSelectBillto = (direccion) => {
+        setSelectedDireccionBillto(direccion);
+        setsiteUseIdpedido(direccion.siteUseId)
+        setSearchTermBillto('');
+
+    };
+
+    const [crearpedidoERP, setCrearpedidoERP] = useState([]);
+    const [ordenCompra, setordenCompra] = useState([]);
+
+    const lineItemsPedido = carrito.map((carritoItem) => ({
+        productNumber: carritoItem[3].item_number,
+        orderedQuantity: carritoItem[2].cp_cart_Quantity_units,
+        orderedUom: carritoItem[3].unit_of_measure
+    }));
+
+
+    const enviopedido = {
+        consecutive: "PCP022",
+        buyingPartyName: usuarioEmpresa,
+        transactionType: "LOCAL ORDER",
+        paymentTerms: payment_terms,
+        transactionalCurrencyCode: transactional_currency_code,
+        salesperson: nameVendedor,
+        customerPONumber: ordenCompra,
+        customerAccountId: CustAccountId,
+        siteUseId: parseInt(siteUseIdpedido),
+        partyId: PartyId,
+        siteId: parseInt(partySiteId),
+        lineItems: lineItemsPedido
+    }
+
+    console.log(enviopedido);
+
+    const pedidoERP = (enviopedido) => {
+        PedidoService.Insertarpedido(enviopedido).then(responsepedidoERP => {
+            setCrearpedidoERP(responsepedidoERP.data);
+            console.log(responsepedidoERP.data)
+            setShow(true);
+            alert(responsepedidoERP.data)
+        }).catch(error => {
+            console.log(error);
+            alert("Error al Crear pedido en el ERP")
+        })
+    }
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => {
+        pedidoERP(enviopedido);
+    }
 
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
@@ -151,41 +239,28 @@ const FinalizarCompra = () => {
     };
 
 
-    const totales = [
-        { subtotal: '$18.00000000000000000', iva: '$5.5555555555', total: '20.000000000' },
-    ]
-
-    const items = [
-        { total: '$1.000.000', cantidad_items: '55', m3: '2020' },
-    ]
+    const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
 
     return (
         <>
             <div className='Back' style={backgroundStyle}>
                 <BannerUser />
 
-                <button className='Info_general_compra'><FaShoppingCart className='tamano_carro_principal_compra' />
+                <button className='Info_general_compra'><FaShoppingCart className='tamano_carro_principal_compra' onClick={() => navigate("/CarritoCompras")} />
                     <div className='Info_general_compra_2'>
-
                         <table className='table-borderless' >
                             <thead >
-
                             </thead>
                             <tbody >
-                                {items
-                                    .map((items) => (
-                                        <tr style={info_general_items}>
-
-                                            <td style={info_general_items}>
-                                                <tr style={info_general_items}><strong>{items.total}</strong></tr>
-                                                <tr style={info_general_items}><strong>{items.cantidad_items} items(s)</strong></tr>
-                                                <tr style={info_general_items}><strong>m3 </strong></tr>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                <tr style={info_general_items}>
+                                    <td style={info_general_items}>
+                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
+                                        <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
+                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones) + " "}m3 </strong></tr>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-
                     </div>
                 </button>
 
@@ -222,31 +297,70 @@ const FinalizarCompra = () => {
                         <FaShoppingCart className='tamano_carro_compra' />
 
                         <div className='direccion_envio'>
-                            <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCIÓN DE ENVÍO</strong></h5>
+                            <div className='direccion_busca'>
+                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE ENVIO</strong></h5>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                    <Dropdown>
+                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
+                                            {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Buscar dirección"
+                                                value={searchTerm}
+                                                onChange={handleSearchChange}
+                                            />
+                                            {filteredDirecciones.map((direccion) => (
+                                                <Dropdown.Item
+                                                    key={direccion.siteUseId}
+                                                    onClick={() => handleDireccionSelect(direccion)} >
+                                                    {direccion.address1 + " - " + direccion.city}
+                                                </Dropdown.Item>
+                                            ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
 
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                </Form.Group>
+                            </div>
+                            <div className='direccion_busca'>
+                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE FACTURACION</strong></h5>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                    <Dropdown>
+                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
+                                            {selectedDireccionBillto ? selectedDireccionBillto.address1 : 'Escoge tu dirección'}
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Buscar dirección"
+                                                value={searchTermBillto}
+                                                onChange={handleSearchChangeBillto}
+                                            />
+                                            {filteredDireccionesBillto.map((direccion) => (
+                                                <Dropdown.Item
+                                                    key={direccion.siteUseId}
+                                                    onClick={() => handleDireccionSelectBillto(direccion)} >
+                                                    {direccion.address1 + " - " + direccion.city}
+                                                </Dropdown.Item>
+                                            ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
 
-                                <Dropdown>
-                                    <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                        {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Buscar dirección"
-                                            value={searchTerm}
-                                            onChange={handleSearchChange}
-                                        />
-                                        {filteredDirecciones.map((direccion) => (
-                                            <Dropdown.Item
-                                                key={direccion.siteUseId}
-                                                onClick={() => handleDireccionSelect(direccion)} >
-                                                {direccion.address1 + " - " + direccion.city}
-                                            </Dropdown.Item>
-                                        ))}
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </Form.Group>
+                                </Form.Group>
+                            </div>
+                            <div className='orden_compra'>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                    <Form.Label ><strong>Orden de Compra</strong></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Orden de Compra"
+                                        autoFocus
+                                        value={ordenCompra}
+                                        onChange={(e) => setordenCompra(e.target.value)}
+                                    />
+                                </Form.Group>
+                            </div>
                         </div>
 
                         <div className='resumen_pedido'>
@@ -271,12 +385,10 @@ const FinalizarCompra = () => {
                                                         <tr style={Style_tables}>{carrito[3].item_description_long}</tr>
                                                         <tr style={Style_tables} >CANTIDADES: {carrito[2].cp_cart_Quantity_units}</tr>
                                                     </td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toFixed(2) + " " + carrito[4].currency_code}
+                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toLocaleString(undefined, opciones) + " " + carrito[4].currency_code}
                                                     </td>
-
                                                 </tr>
                                             ))}
-
                                     </tbody>
                                 </table>
 
@@ -287,29 +399,23 @@ const FinalizarCompra = () => {
                                         <tr></tr>
                                     </thead>
                                     <tbody>
-                                        {totales.map((totales, index) => (
-                                            <React.Fragment key={index}>
-                                                <tr className="borde_horizontal" >
-                                                </tr>
-                                                <tr >
-                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Subtotal</td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{totales.subtotal}</td>
-                                                </tr>
-                                                <tr className="borde_horizontal">
-                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>IVA</td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{totales.iva}</td>
-                                                </tr>
-                                                <tr >
-                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Total</td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{totales.total}</td>
-                                                </tr>
-                                                {index === 1 && (
-                                                    <tr className="borde_horizontal" key="borde_horizontal">
-                                                        <td colSpan="3"></td>
-                                                    </tr>
-                                                )}
-                                            </React.Fragment>
-                                        ))}
+                                        <React.Fragment>
+                                            <tr className="borde_horizontal" >
+                                            </tr>
+                                            <tr >
+                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Subtotal</td>
+                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{sumaTotal.toLocaleString(undefined, opciones)}</td>
+                                            </tr>
+                                            <tr className="borde_horizontal">
+                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>IVA</td>
+                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal * 0.19).toLocaleString(undefined, opciones)}</td>
+                                            </tr>
+                                            <tr >
+                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Total</td>
+                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal + (sumaTotal * 0.19)).toLocaleString(undefined, opciones)}</td>
+                                            </tr>
+                                        </React.Fragment>
+
                                     </tbody>
                                 </table>
 
@@ -318,6 +424,8 @@ const FinalizarCompra = () => {
                                 <Button onClick={handleShow} className='btns_carrito_conf_compra' >Confirmar orden   </Button>
                             </div>
                         </div>
+
+
 
                         <Modal show={show} onHide={handleClose} centered className='ancho_modal_finalizar' >
                             <Modal.Header closeButton></Modal.Header>

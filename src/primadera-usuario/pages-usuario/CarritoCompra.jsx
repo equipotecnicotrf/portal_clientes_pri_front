@@ -51,7 +51,7 @@ const CarritoCompras = () => {
                 setPartyId(responseid.data.party_id);
                 setaccount_id(responseid.data.party_id)
 
-                carritoCompra(responseid.data.cust_account_id, responseid.data.cp_user_id);
+                carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
 
             }).catch(error => {
                 console.log(error)
@@ -64,7 +64,7 @@ const CarritoCompras = () => {
         }
     }
 
-    const carritoCompra = (cust_account_id, cp_user_id) => {
+    const carritoComprausuario = (cust_account_id, cp_user_id) => {
         ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
             setcarrito(carrouseridresponse.data);
             console.log(carrouseridresponse.data);
@@ -74,6 +74,22 @@ const CarritoCompras = () => {
             console.log(error);
             setShow2(true);
         })
+    }
+
+    let sumaTotal = 0;
+    let sumavolumen = 0;
+
+    for (const elemento of carrito) {
+        // Accedemos a las propiedades específicas de cada elemento
+        const unitPrice = elemento[4].unit_price;
+        const quantityUnits = elemento[2].cp_cart_Quantity_units;
+        const quantityvolume = elemento[2].cp_cart_Quantity_volume;
+
+        // Realizamos la multiplicación y sumamos al total
+        const subtotal = unitPrice * quantityUnits;
+        sumaTotal += subtotal;
+
+        sumavolumen += quantityvolume;
     }
 
 
@@ -177,9 +193,9 @@ const CarritoCompras = () => {
         color: 'white',
     };
 
-    const items = [
-        { total: '$0.000.000', cantidad_items: '55', m3: '2020' },
-    ];
+    const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
+
+
     return (
         <>
             <div className='Back' style={backgroundStyle}>
@@ -192,17 +208,14 @@ const CarritoCompras = () => {
 
                             </thead>
                             <tbody >
-                                {items
-                                    .map((items) => (
-                                        <tr style={info_general_items}>
+                                <tr style={info_general_items}>
+                                    <td style={info_general_items}>
+                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
+                                        <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
+                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones) + " "}m3 </strong></tr>
+                                    </td>
+                                </tr>
 
-                                            <td style={info_general_items}>
-                                                <tr style={info_general_items}><strong>{items.total}</strong></tr>
-                                                <tr style={info_general_items}><strong>{items.cantidad_items} items(s)</strong></tr>
-                                                <tr style={info_general_items}><strong>m3 </strong></tr>
-                                            </td>
-                                        </tr>
-                                    ))}
 
                             </tbody>
                         </table>
@@ -288,7 +301,7 @@ const CarritoCompras = () => {
                                                     <div style={bannerStyle_carrito} className='precio_unit'>
                                                         <tr style={style_precio_unit}>
 
-                                                            <td >  ${(carrito[4].unit_price).toFixed(2) + " " + carrito[4].currency_code}
+                                                            <td >  ${(carrito[4].unit_price).toLocaleString(undefined, opciones) + " " + carrito[4].currency_code}
                                                             </td>
 
                                                         </tr>
@@ -316,7 +329,7 @@ const CarritoCompras = () => {
                                                     <div style={bannerStyle_carrito} className='precio_tot'>
 
                                                         <tr style={style_precio_unit}>
-                                                            <td> ${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toFixed(2) + " " + carrito[4].currency_code}</td>
+                                                            <td> ${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toLocaleString(undefined, opciones) + " " + carrito[4].currency_code}</td>
                                                         </tr>
 
                                                     </div>

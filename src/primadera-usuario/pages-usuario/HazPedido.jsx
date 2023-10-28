@@ -30,6 +30,7 @@ const DataPedido = () => {
     const [usuarioId, setUsarioId] = useState([]);
     const [CustAccountId, setCustAccountId] = useState([]);
     const [PartyId, setPartyId] = useState([]);
+    const [carrito, setcarrito] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,6 +45,7 @@ const DataPedido = () => {
                 setCustAccountId(responseid.data.cust_account_id);
                 setPartyId(responseid.data.party_id);
 
+                carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
             } catch (error) {
                 console.log(error);
                 alert("Error obtener usuario de sesion");
@@ -70,6 +72,31 @@ const DataPedido = () => {
             throw new Error("Usuario no autenticado");
         }
     };
+
+    const carritoComprausuario = (cust_account_id, cp_user_id) => {
+        ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
+            setcarrito(carrouseridresponse.data);
+            console.log(carrouseridresponse.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    let sumaTotal = 0;
+    let sumavolumen = 0;
+
+    for (const elemento of carrito) {
+        // Accedemos a las propiedades específicas de cada elemento
+        const unitPrice = elemento[4].unit_price;
+        const quantityUnits = elemento[2].cp_cart_Quantity_units;
+        const quantityvolume = elemento[2].cp_cart_Quantity_volume;
+
+        // Realizamos la multiplicación y sumamos al total
+        const subtotal = unitPrice * quantityUnits;
+        sumaTotal += subtotal;
+
+        sumavolumen += quantityvolume;
+    }
 
     const [ArticulosSinDisponibilidad, setArticulosSinDisponibilidad] = useState([]);
     useEffect(() => {
@@ -110,7 +137,7 @@ const DataPedido = () => {
     };
 
     //Crear Carrito de Compra
-    const [carrito, setcarrito] = useState([]);
+    const [carritocrear, setcarritocrear] = useState([]);
     const [orden, setorden] = useState([]);
     const carritoCompra = (articulo, contador) => {
         if (contador == undefined) {
@@ -124,7 +151,7 @@ const DataPedido = () => {
             const cp_cart_status = 'En Proceso';
             const carrocabecera = { cust_account_id, site_use_id, cp_user_id, cp_cart_status }
             ShopingCartService.getCarritoxUserId(cust_account_id, cp_user_id).then(carrouseridresponse => {
-                setcarrito(carrouseridresponse.data);
+                setcarritocrear(carrouseridresponse.data);
                 console.log(carrouseridresponse.data);
                 if (carrouseridresponse.data.length == 0) {
                     ShopingCartService.InsertarCabecera(carrocabecera).then(carrocabeceraresponse => {
@@ -175,7 +202,7 @@ const DataPedido = () => {
                         alert("Error al crear carrito de compra")
                     })
                 } else {
-                    const cart_id = carrito[0].cp_cart_id;
+                    const cart_id = carritocrear[0].cp_cart_id;
                     ShopingCartLineService.getLineCarritobyCartId(cart_id).then(obtenerlineasresponse => {
                         console.log(obtenerlineasresponse.data);
 
@@ -282,11 +309,7 @@ const DataPedido = () => {
         color: 'white',
     };
 
-    const items = [
-        { total: '$0.000.000', cantidad_items: '55', m3: '2020' },
-    ];
-
-
+    const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
 
 
     return (
@@ -300,17 +323,13 @@ const DataPedido = () => {
                             <thead >
                             </thead>
                             <tbody >
-                                {items
-                                    .map((items) => (
-                                        <tr style={info_general_items}>
-
-                                            <td style={info_general_items}>
-                                                <tr style={info_general_items}><strong>{items.total}</strong></tr>
-                                                <tr style={info_general_items}><strong>{items.cantidad_items} items(s)</strong></tr>
-                                                <tr style={info_general_items}><strong>m3 </strong></tr>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                <tr style={info_general_items}>
+                                    <td style={info_general_items}>
+                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
+                                        <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
+                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones) + " "}m3 </strong></tr>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -371,7 +390,7 @@ const DataPedido = () => {
                                                         <table>
                                                             <tr>
                                                                 <td className="precio-label">Precio:</td>
-                                                                <td className="precio-valor">${articulo[1].unit_price + " " + articulo[1].currency_code}</td>
+                                                                <td className="precio-valor">${articulo[1].unit_price.toLocaleString(undefined, opciones) + " " + articulo[1].currency_code}</td>
                                                             </tr>
                                                         </table>
                                                     </strong>
@@ -379,7 +398,7 @@ const DataPedido = () => {
                                                 <div className='organiza_iva_inc'>
                                                     <table>
                                                         <tr>
-                                                            <td >${(articulo[1].unit_price * 0.19).toFixed(2)} {articulo[1].currency_code} IVA INCLUIDO</td>
+                                                            <td >${(articulo[1].unit_price * 0.19).toLocaleString(undefined, opciones)} {articulo[1].currency_code} IVA INCLUIDO</td>
                                                         </tr>
                                                     </table>
                                                 </div>
