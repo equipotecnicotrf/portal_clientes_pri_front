@@ -13,6 +13,8 @@ import Cookies from 'js-cookie';
 import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
 import { FaRegEdit } from "react-icons/fa";
+import NotificationService from '../../services/NotificationService';
+import AuditService from '../../services/AuditService';
 
 const DataTable = ({ backgroundColor }) => {
     const [selectedOption, setSelectedOption] = useState('Acciones');
@@ -21,6 +23,12 @@ const DataTable = ({ backgroundColor }) => {
     const [usuarioSesion, setUarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
     const [usuariotelefono, setUsuarioTelefono] = useState([]);
+    const [usuarioid, setUsuarioid] = useState([]);
+    const [cpnotificationId, setcpnotificationId] = useState([]);
+    const [cpnotificationcontext, setcpnotificationcontext] = useState([]);
+    const [cpnotificationName, setcpnotificationName] = useState([]);
+    const [cpnotificationMessage, setcpnotificationMessage] = useState([]);
+    const [selectedNotification, setSelectedNotification] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {
         SesionUsername()
@@ -37,6 +45,7 @@ const DataTable = ({ backgroundColor }) => {
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
+                setUsuarioid(responseid.data.cp_user_id);
 
             }).catch(error => {
                 console.log(error)
@@ -48,6 +57,29 @@ const DataTable = ({ backgroundColor }) => {
             navigate('/')
         }
     }
+
+    const [Notificacion, setNotificacion] = useState([]);
+    useEffect(() => {
+        ListNotificaciones()
+    }, [])
+
+    const ListNotificaciones = () => {
+        NotificationService.getAllNotifications().then(response => {
+            setNotificacion(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+
+    const handleEditClick = (id_noti, NotiContext, NotiName, NotiMessage) => {
+        handleShow(); // Show the edit modal
+        setcpnotificationId(id_noti);
+        setcpnotificationcontext(NotiContext);
+        setcpnotificationName(NotiName);
+        setcpnotificationMessage(NotiMessage);
+    };
 
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
@@ -70,7 +102,7 @@ const DataTable = ({ backgroundColor }) => {
     };
     const dropDown = {
         position: 'absolute',
-        marginTop: '-25px',
+        top: '27.2%',
         left: '75%',
         transform: 'translate (-50%, -50%)',
     };
@@ -80,17 +112,46 @@ const DataTable = ({ backgroundColor }) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
     const [validated, setValidated] = useState(false);
-
     const handleSubmit = (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+            alert("Por favor, complete el formulario correctamente.");
+        } else {
+            updateNoti();
         }
 
         setValidated(true);
+    }
+
+    const updateNoti = (e) => {
+        if (cpnotificationId) {
+            const cp_Notification_name = cpnotificationName;
+            const cp_Notification_message = cpnotificationMessage;
+            const UserEdit = { cp_Notification_name, cp_Notification_message };
+            NotificationService.updateNoti(cpnotificationId, UserEdit)
+                .then((response) => {
+                    console.log(response.data);
+                    const cp_id_user = usuarioid;
+                    const cp_audit_description = "Actualizacion Notificacion " + cp_Notification_name;
+                    const Audit = { cp_id_user, cp_audit_description };
+                    AuditService.CrearAudit(Audit).then((response) => {
+                        console.log(response.data);
+                        navigate('/Notificaciones');
+                        alert("La Notificacion se han actualizado correctamente");
+                        window.location.reload();
+                    }).catch(error => {
+                        console.log(error)
+                        alert("Error al crear auditoria")
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Error al actualizar Notificacion, Por favor diligenciar todos los campos");
+                });
+        }
     };
 
     const bannerStyle = {
@@ -113,16 +174,6 @@ const DataTable = ({ backgroundColor }) => {
         padding: '20px',
     };
 
-    const notificaciones =
-        [
-            {
-                codigo: '01', tipo: 'Cambio contraseña', asunto: 'Se ha cambiado su contraseña', cuerpo_not: '1234556'
-            }, {
-                codigo: '02', tipo: 'Nuevo usuario', asunto: 'Se ha creado usuario', cuerpo_not: '1234556'
-            }, {
-                codigo: '03', tipo: 'Envio pedido', asunto: 'Se ha creado pedido', cuerpo_not: '1234556'
-            }
-        ]
     {/*AJUSTES 19-10-2023 FIN*/ }
 
     return (
@@ -178,16 +229,15 @@ const DataTable = ({ backgroundColor }) => {
 
                         </thead>
                         <tbody style={bannerStyle}>
-                            {notificaciones
-                                .map((notificaciones) => (
-                                    <tr className='borderless_noti' style={bannerStyle} key={notificaciones.codigo}>
-                                        <td style={bannerStyle}>{notificaciones.codigo}</td>
-
-                                        <td style={bannerStyle}>{notificaciones.tipo}</td>
-                                        <td style={bannerStyle}>{notificaciones.asunto}</td>
+                            {Notificacion
+                                .map((Notificacion) => (
+                                    <tr className='borderless_noti' key={Notificacion.cp_Notification_id} onClick={() => setSelectedNotification(notificacion)}>
+                                        <td style={bannerStyle}>{Notificacion.cp_Notification_id}</td>
+                                        <td style={bannerStyle}>{Notificacion.cp_Notification_context}</td>
+                                        <td style={bannerStyle}>{Notificacion.cp_Notification_name}</td>
                                         <td style={bannerStyle2}>
                                             {/* Call handleEditClick with tipoPedido.cp_type_order_id */}
-                                            <Button onClick={handleShow} className='Edit_noti'>
+                                            <Button onClick={() => handleEditClick(Notificacion.cp_Notification_id, Notificacion.cp_Notification_context, Notificacion.cp_Notification_name, Notificacion.cp_Notification_message)} className='Edit_noti'>
                                                 <FaRegEdit />
                                             </Button>
                                         </td>
@@ -195,9 +245,9 @@ const DataTable = ({ backgroundColor }) => {
                                 ))}
                         </tbody>
                     </table>
-
-
                 </div>
+
+
 
 
                 <Modal show={show} onHide={handleClose}>
@@ -206,7 +256,6 @@ const DataTable = ({ backgroundColor }) => {
                     </Modal.Header>
                     <Modal.Body className='Edit_noti' >
                         <Form noValidate validated={validated} onSubmit={handleSubmit}  >
-
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Código</Form.Label>
                                 <Form.Control
@@ -214,6 +263,7 @@ const DataTable = ({ backgroundColor }) => {
                                     placeholder="Código"
                                     autoFocus
                                     disabled
+                                    value={cpnotificationId}
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" disabled>
@@ -223,6 +273,7 @@ const DataTable = ({ backgroundColor }) => {
                                     placeholder="Tipo de Notificación"
                                     autoFocus
                                     disabled
+                                    value={cpnotificationcontext}
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
@@ -232,6 +283,8 @@ const DataTable = ({ backgroundColor }) => {
                                     placeholder="Asunto"
                                     autoFocus
                                     required
+                                    value={cpnotificationName}
+                                    onChange={(e) => setcpnotificationName(e.target.value)}
                                 />
                                 <Form.Control.Feedback type="invalid">Por favor ingresa el asunto</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
@@ -243,6 +296,8 @@ const DataTable = ({ backgroundColor }) => {
                                     placeholder="Cuerpo del correo"
                                     autoFocus
                                     required
+                                    value={cpnotificationMessage}
+                                    onChange={(e) => setcpnotificationMessage(e.target.value)}
                                 />
                                 <Form.Control.Feedback type="invalid">Por favor ingresa el cuerpo del correo</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>
@@ -257,7 +312,7 @@ const DataTable = ({ backgroundColor }) => {
 
                 {/*AJUSTES 19-10-2023 FIN*/}
 
-                <Image className='Img-Creamos_inv' src={imagenes.Creamos} />
+                <Image className='Img-Creamos_ped' src={imagenes.Creamos} />
             </div > {/*AJUSTE LCPG*/}
         </>
     );
