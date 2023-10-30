@@ -75,7 +75,7 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '40px',
+        marginTop: '60px',
 
     };
     const backgroundStyle = {
@@ -104,7 +104,7 @@ const DataTable = ({ backgroundColor }) => {
     };
     const dropDown = {
         position: 'absolute',
-        top: '27.2%',
+        marginTop: '-25px',
         left: '75%',
         transform: 'translate (-50%, -50%)',
     };

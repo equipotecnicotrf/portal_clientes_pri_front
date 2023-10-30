@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import imagenes from "../../assets/imagenes";
 import { FaHome, FaRegEdit } from "react-icons/fa";
 import LoginService from '../../services/LoginService';
+import '../pages/BannerAdmin.css';
 
 
 const Banner = ({ backgroundColor }) => {

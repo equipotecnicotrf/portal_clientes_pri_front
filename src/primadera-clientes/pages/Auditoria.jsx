@@ -111,7 +111,7 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '40px'
+        marginTop: '60px'
 
     };
     const backgroundStyle = {
@@ -128,7 +128,8 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '30px'
+        marginTop: '30px',
+
     };
 
     const dropDownbackgroundStyle = {
@@ -138,13 +139,14 @@ const DataTable = ({ backgroundColor }) => {
         borderColor: 'Black',
         width: '250px'
     };
+
     const dropDown = {
         position: 'absolute',
-        top: '27.2%',
+        marginTop: '185px',
         left: '75%',
         transform: 'translate (-50%, -50%)',
-
     };
+
 
     const audit = {
         padding: '20px',
@@ -154,7 +156,6 @@ const DataTable = ({ backgroundColor }) => {
         padding: '60px',
         height: '23vh',
         marginTop: '-35px'
-
     };
 
     return (
@@ -192,7 +193,7 @@ const DataTable = ({ backgroundColor }) => {
                 </Dropdown>
 
 
-                <div className='DataTable' style={bannerStyle}>
+                <div className='DataTableAudi' style={bannerStyle}>
                     <th style={audit}><BsFillEyeFill /> AUDITORIA </th>
                     <div className="SearchAuditoria">
                         <Form inline>
@@ -212,7 +213,7 @@ const DataTable = ({ backgroundColor }) => {
                             </Row>
                         </Form>
                     </div>
-                    <table className='table table-bordered' style={bannerStyle2} >
+                    <table className='table_table-bordered' style={bannerStyle2} >
 
                         <thead style={bannerStyle}>
                             <tr style={bannerStyle} className='borderless_audit'>

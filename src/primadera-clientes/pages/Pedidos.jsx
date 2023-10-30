@@ -213,7 +213,7 @@ const DataTable = ({ backgroundColor }) => {
     };
     const dropDown = {
         position: 'absolute',
-        top: '27.2%',
+        marginTop: '185px',
         left: '75%',
         transform: 'translate (-50%, -50%)',
 

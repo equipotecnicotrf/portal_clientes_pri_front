@@ -1,0 +1,7 @@
+@media (max-width: 572px) {
+    .Logo-Admin {
+        position: relative;
+        transform: scale(0.7);
+        left: -50px;
+    }
+}

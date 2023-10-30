@@ -24,7 +24,6 @@ import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import AddressService from '../../services/AddressService';
 import TypeOrderService from '../../services/TypeOrderService';
 import EmailService from '../../services/EmailService';
-import NotificationService from '../../services/NotificationService';
 
 const DataTable = ({ backgroundColor }) => {
   const [selectedOption, setSelectedOption] = useState('Acciones');
@@ -255,28 +254,24 @@ const DataTable = ({ backgroundColor }) => {
             AuditService.CrearAudit(Audit).then((response) => {
               console.log(response.data);
 
-              const context = "Creacion Usuario";
-              NotificationService.getNotificationsContext(context).then((notificatioresponse) => {
-                console.log(notificatioresponse.data)
-                const toUser = [cp_email];
-                const subject = notificatioresponse.data[0].cp_Notification_name;
-                const resetPasswordLink = `http://150.136.119.119:83/ActualizarPassword/?userId=${responsecreate.data.cp_user_id}`;
-                const notificationMessage = notificatioresponse.data[0].cp_Notification_message;
-                const message = notificationMessage
-                  .replace('${nombreusuario}', responsecreate.data.cp_name)
-                  .replace('${resetPasswordLink}', resetPasswordLink);
-                const correo = { toUser, subject, message };
-                EmailService.Sendmessage(correo).then(() => {
-                  navigate('/GestionarUsuario');
-                  alert("Usuario Creado Exitosamente");
-                  window.location.reload();
-                }).catch(error => {
-                  console.log(error);
-                  alert("Error al enviar correo");
-                })
+              const toUser = [cp_email];
+              const subject = "Bienvenido al Portal clientes Primadera";
+              const resetPasswordLink = `http://150.136.119.119:83/ActualizarContrasena/?userId=${responsecreate.data.cp_user_id}`;
+              const message = `Hola ${responsecreate.data.cp_name},\n\n`
+                + "Bienvenido a Nuestra Plataforma. Hemos creado una cuenta para ti y asignado una contraseña temporal.\n\n"
+                + "Para configurar tu contraseña y comenzar a usar nuestros servicios, por favor haz clic en el siguiente enlace:\n\n"
+                + `${resetPasswordLink}.\n\n`
+                + "Después de hacer clic en el enlace, podrás establecer una contraseña segura para tu cuenta.\n\n"
+                + "Si no solicitaste esta cuenta o tienes alguna pregunta, por favor contáctanos de inmediato.\n\n"
+                + "Gracias, equipo Primadera";
+              const correo = { toUser, subject, message };
+              EmailService.Sendmessage(correo).then(() => {
+                navigate('/GestionarUsuario');
+                alert("Usuario Creado Exitosamente");
+                window.location.reload();
               }).catch(error => {
                 console.log(error);
-                alert("Error obtener contexto de notificacion");
+                alert("Error al enviar correo");
               })
             }).catch(error => {
               console.log(error)
@@ -308,7 +303,7 @@ const DataTable = ({ backgroundColor }) => {
   const ListClientes = () => {
     SoapService.getAllClientes().then(response => {
       setClientes(response.data);
-      console.log(response.data);
+      //console.log(response.data);
     }).catch(error => {
       console.log(error);
     })
@@ -612,7 +607,7 @@ const DataTable = ({ backgroundColor }) => {
     color: '#fff',
     padding: '20px',
     textAlign: 'center',
-    marginTop: '60px'
+    marginTop: '80px'
   };
 
   const bannerStyle2 = {
@@ -670,7 +665,7 @@ const DataTable = ({ backgroundColor }) => {
   };
   const dropDown = {
     position: 'absolute',
-    top: '27.2%',
+    marginTop: '185px',
     left: '75%',
     transform: 'translate (-50%, -50%)',
 
@@ -806,7 +801,7 @@ const DataTable = ({ backgroundColor }) => {
         </div>
 
         <Dropdown style={dropDown}>
-          <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
+          <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" classNamePrefix='mi-'>
             {selectedOption}
           </Dropdown.Toggle>
           <Dropdown.Menu style={dropDownbackgroundStyle}>
@@ -838,7 +833,7 @@ const DataTable = ({ backgroundColor }) => {
             </Row>
           </Form>
         </div>
-        <div className='DataTable' style={bannerStyle} >
+        <div className='DataTable_Usu' style={bannerStyle} >
           <th style={gestion}>GESTIÓN DE USUARIO </th>
           <table className='table table-bordered' style={bannerStyle6} >
             <thead style={bannerStyle}>
@@ -878,13 +873,10 @@ const DataTable = ({ backgroundColor }) => {
             </tbody>
           </table>
         </div>
-        <div className='Buttons mt-12'>
+        <div className='Botones_gest mt-12'>
           <button onClick={handleShow} className='btns p-2 m-2 btn-sm'>Gestionar Roles</button>
           <button onClick={handleCrtUserShow} className='btns p-2 m-2 btn-sm'>Crear usuario</button>
         </div>
-
-
-
 
         <Modal size="lg" show={show} onHide={handleClose}>
           <Modal.Header className="Gestion_roles" closeButton>
@@ -1366,8 +1358,10 @@ const DataTable = ({ backgroundColor }) => {
             </Form>
           </Modal.Body>
         </Modal>
-        <Image className='Img_gest_usua' src={imagenes.Creamos} />
+
+        <Image className='Img_gest_usuar' src={imagenes.Creamos} />
       </div >
+
     </>
 
   );

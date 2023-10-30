@@ -3,10 +3,7 @@
     height: 100px;
 }
 
-.SearchInventario {
-    margin-top: -45px;
-    margin-left: 850px;
-}
+
 
 .inventario {
     background-color: #323333;
@@ -25,6 +22,10 @@
     padding: 5%;
     margin: 5%;
     border-radius: 29px;
+    width: auto;
+    border-collapse: collapse;
+    max-height: 350px;
+    overflow-y: auto;
 }
 
 .Edit_noti {
@@ -59,4 +60,45 @@
 
 .borderless_noti td:last-child {
     border: none;
+}
+
+@media (max-width: 730px) {
+    .DataTable_noti {
+        position: absolute;
+        top: 250px;
+        max-width: 600px;
+        overflow: scroll;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
+
+}
+
+@media (max-width: 510px) {
+
+    .DataTable_noti {
+        position: absolute;
+        top: 280px;
+        max-width: 500px;
+        overflow: scroll;
+        max-width: 430px;
+    }
+}
+
+@media (max-width: 1140px) {
+    .Img-Creamos_inv {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .Img-Creamos_inv {
+        margin-top: 0px;
+    }
+}
+
+@media (max-width: 730px) {
+    .Img-Creamos_inv {
+        margin-top: 460px;
+    }
 }

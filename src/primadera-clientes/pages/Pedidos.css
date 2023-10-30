@@ -12,25 +12,36 @@
 }
 
 @media (max-width: 768px) {
-    .botones {
-        flex-direction: column;
-        align-items: flex-end;
+
+    .DataTable {
+        position: absolute;
+        top: 220px;
+        max-width: 600px;
+        overflow: scroll;
+        transition: all 0.3s ease;
     }
+
+    .boton_crear_pedi {
+        position: absolute;
+        top: 620px;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
+
 }
 
 .boton_crear_pedi {
     /*23-10-2023 se cambia nombre*/
     background-color: #323333;
+
+    width: 200px;
     border-radius: 30px;
     display: block;
     padding: 0.5rem 1rem;
     margin: 0.5rem;
     color: white;
     font-size: medium;
-    /*23-10-2023 INI*/
     border: none;
-    width: 140px;
-    height: 44px;
     /*23-10-2023 FIN*/
 }
 
@@ -105,4 +116,54 @@
     align-items: flex-end;
     justify-content: center;
     margin: 1%;
+}
+
+@media (max-width: 730px) {
+    .DataTable {
+        position: absolute;
+        top: 250px;
+        max-width: 600px;
+        overflow: scroll;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
+
+    .boton_crear_pedi {
+        position: absolute;
+        top: 890px;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
+}
+
+@media (max-width: 510px) {
+
+
+    .DataTable {
+        position: absolute;
+        top: 280px;
+        max-width: 500px;
+        overflow: scroll;
+        max-width: 430px;
+    }
+
+    .boton_crear_pedi {
+        position: absolute;
+        top: 910px;
+    }
+}
+
+
+@media (max-width: 1140px) {
+    .Img-Creamos_ped {
+        position: relative;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .Img-Creamos_ped {
+        position: relative;
+        Top: 600px;
+    }
 }

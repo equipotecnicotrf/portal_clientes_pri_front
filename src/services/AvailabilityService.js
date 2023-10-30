@@ -7,5 +7,9 @@ class AvailabilityService {
         return axios.get(BASE_REST_API_URL);
     }
 
+    getAvailabilityItem(Itemid) {
+        return axios.get(BASE_REST_API_URL + "/Item?inventory_item_id=" + Itemid);
+    }
+
 }
 export default new AvailabilityService();

@@ -323,7 +323,22 @@
     border-radius: 10px;
     border-width: 0.5px;
     border-color: black;
+
 }
+
+@media (max-width: 768px) {
+    .Info_general {
+        width: 220px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+
+    }
+}
+
+
+
+
+
 
 .Info_general_2 {
     background-color: #767373;

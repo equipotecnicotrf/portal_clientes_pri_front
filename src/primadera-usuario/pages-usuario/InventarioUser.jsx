@@ -412,7 +412,7 @@ const DataInventario = () => {
                                                 <div className='organiza_iva_inc'>
                                                     <table>
                                                         <tr>
-                                                            <td style={organiza_cant_disp}>${(articulo[2].unit_price * 0.19).toLocaleString(undefined, opciones)} {articulo[2].currency_code} IVA INCLUIDO</td>
+                                                            <td>${(articulo[2].unit_price * 0.19).toLocaleString(undefined, opciones)} {articulo[2].currency_code} IVA INCLUIDO</td>
                                                         </tr>
                                                     </table>
                                                 </div>

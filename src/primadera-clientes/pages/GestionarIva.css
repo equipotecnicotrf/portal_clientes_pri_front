@@ -12,8 +12,10 @@
 }
 
 .botones-Iva {
-    margin-top: -30px;
-    margin-right: 5%;
+    margin-top: -4%;
+    /*25-10-2023*/
+    margin-right: 4.4%;
+    /*25-10-2023*/
     display: flex;
     justify-content: flex-end;
 }
@@ -37,7 +39,8 @@
     font-size: medium;
 }
 
-.imagen-circular {
+.imagen-circular-iva {
+    /*25-10-2023 se ajusta nombre*/
     width: 100px;
     height: 100px;
 }
@@ -59,14 +62,14 @@
 }
 
 .Guardar-btn-iva {
+    /*25-10-2023 Se ajustan todos los atributos*/
     background-color: #323333;
     border-radius: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 20px;
     font-size: medium;
     border: none;
     width: 150px;
+    margin-right: -2.5%;
+    margin-top: 1%;
 }
 
 .Img-Creamos_ped {
@@ -78,7 +81,8 @@
 
 .Crear-btn-iva {
     background-color: #323333;
-    width: 150px;
+    width: 200px;
+    /*25-10-2023*/
     border-radius: 30px;
     display: block;
     padding: 0.5rem 1rem;
@@ -104,4 +108,87 @@
     background-color: #878787;
     color: white;
     border: none;
+}
+
+
+/*25-10-2023 adiciones ini*/
+
+.ubica_imagen_iva {
+    margin-top: 0%;
+    margin-left: 0%;
+}
+
+.ubica_datos_iva {
+    margin-top: -60%;
+    margin-left: 70%;
+}
+
+/*25-10-2023 adiciones fin*/
+
+@media (min-width: 511px) and (max-width: 600px) {
+    .ubica_datos_iva {
+        margin-top: -40%;
+        margin-left: 55%;
+
+    }
+
+    .ubica_imagen_iva {
+        margin-top: 10%;
+        margin-left: 0%;
+    }
+
+    .DataTableIva {
+        position: absolute;
+
+        top: 280px;
+
+        max-width: 600px;
+
+        overflow: scroll;
+
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
+
+    .botones-Iva {
+
+        position: relative;
+
+        top: 670px;
+
+    }
+}
+
+@media (max-width: 510px) {
+    .ubica_datos_iva {
+        margin-top: -40%;
+        margin-left: 55%;
+
+    }
+
+    .ubica_imagen_iva {
+        margin-top: 10%;
+        margin-left: 0%;
+    }
+
+    .DataTableIva {
+        position: absolute;
+
+        top: 280px;
+
+        max-width: 600px;
+
+        overflow: scroll;
+
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
+
+    .botones-Iva {
+
+        position: relative;
+
+        top: 670px;
+
+    }
 }

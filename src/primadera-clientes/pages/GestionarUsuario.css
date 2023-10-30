@@ -1,4 +1,4 @@
-.DataTable {
+.DataTable_Usu {
     padding: 5%;
     margin: 5%;
     border-radius: 29px;
@@ -6,8 +6,6 @@
     border-collapse: collapse;
     max-height: 350px;
     overflow-y: auto;
-
-
 }
 
 
@@ -52,16 +50,12 @@
 
 
 
-.Buttons {
+.Botones_gest {
 
     margin-top: -50px;
-
     margin-right: 5%;
-
     display: flex;
-
     justify-content: flex-end;
-
 
 }
 
@@ -109,7 +103,6 @@
 
 .Btn_contexto {
     background-color: #323333;
-
     border-radius: 30px;
     display: block;
     padding: 0.1rem 1rem;
@@ -163,7 +156,7 @@
     border: none;
 }
 
-.Img_gest_usua {
+.Img_gest_usuar {
     width: 200px;
     height: 100px;
     margin: auto;
@@ -172,8 +165,8 @@
 
 .busc_gest_usua {
     position: absolute;
-    top: 35%;
-    right: 5%;
+    top: 37%;
+    right: 4.5%;
 }
 
 .gest_usua {
@@ -184,13 +177,7 @@
 }
 
 
-@media (max-width: 768px) {
-    .busc_gest_usua {
-        position: sticky;
-        margin-top: 10px;
-        margin-left: 0;
-    }
-}
+
 
 .Edit-estado-ges-rol {
     background-color: #878787;
@@ -288,4 +275,87 @@
     border: none;
     width: 160px;
 
+}
+
+@media (max-width: 1190px) {
+    .Botones_gest {
+        margin-top: 0px;
+
+    }
+}
+
+@media (max-width: 1025px) {
+    .busc_gest_usua {
+        margin-top: 10px;
+        transition: all 0.3s ease;
+    }
+}
+
+@media (max-width: 768px) {
+    .busc_gest_usua {
+        margin-top: 80px;
+        left: 90px;
+    }
+
+    .DataTable_Usu {
+        position: absolute;
+        top: 300px;
+        max-width: 670px;
+        overflow: scroll;
+    }
+
+    .Botones_gest {
+
+        margin-top: 530px;
+        margin-left: 40px;
+
+    }
+
+}
+
+@media (max-width: 510px) {
+    .DataTable_Usu {
+        position: absolute;
+        top: 290px;
+        max-width: 420px;
+        overflow: scroll;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
+}
+
+@media (min-width: 511px) and (max-width: 550px) {
+    .DataTable_Usu {
+        position: absolute;
+        top: 290px;
+        max-width: 460px;
+        overflow: scroll;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+
+    }
+}
+
+@media (min-width: 551px) and (max-width: 630px) {
+    .DataTable_Usu {
+        position: absolute;
+        top: 290px;
+        max-width: 530px;
+        overflow: scroll;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+
+    }
+}
+
+@media (min-width: 631px) and (max-width: 700px) {
+    .DataTable_Usu {
+        position: absolute;
+        top: 290px;
+        max-width: 590px;
+        overflow: scroll;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+
+    }
 }

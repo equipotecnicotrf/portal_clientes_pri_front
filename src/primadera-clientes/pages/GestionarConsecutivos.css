@@ -8,12 +8,21 @@
     height: 100px;
     margin: auto;
     display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
 }
 
 .DataTable_cons {
     padding: 5%;
     margin: 5%;
     border-radius: 29px;
+    width: auto;
+    border-collapse: collapse;
+    max-height: 350px;
+    overflow-y: auto;
+
 }
 
 .Edit_cons {
@@ -45,8 +54,9 @@
     border: none;
 }
 
+
 .botones_cons {
-    margin-top: -30px;
+    margin-top: -10px;
     margin-right: 5%;
     display: flex;
     justify-content: flex-end;
@@ -67,4 +77,73 @@
 
 .btn_faEdit_cons {
     margin-top: -3%;
+}
+
+
+@media (max-width: 1140px) {
+    .Img-Creamos_cons {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .Img-Creamos_cons {
+        margin-top: 100px;
+    }
+}
+
+
+@media (max-width: 730px) {
+    .DataTable_cons {
+        position: absolute;
+        top: 250px;
+        max-width: 600px;
+        overflow: scroll;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
+
+    .boton_cons {
+        position: absolute;
+        top: 670px;
+
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    /* Adjust spacing or layout as needed to prevent overlapping on the x-axis */
+    .botones_cons {
+        margin-top: 10px;
+        margin-right: 2%;
+    }
+
+    .Guardar-btn-cons {
+        width: 100px;
+    }
+
+    .boton_cons {
+        width: 150px;
+    }
+}
+
+
+
+@media (max-width: 510px) {
+
+
+    .DataTable_cons {
+        position: absolute;
+        top: 260px;
+        max-width: 500px;
+        overflow: scroll;
+        max-width: 430px;
+    }
+
+    .boton_cons {
+        position: absolute;
+
+        top: 680px;
+    }
 }

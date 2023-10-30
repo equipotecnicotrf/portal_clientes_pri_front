@@ -6,13 +6,15 @@ import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Dropdown, Button, Form, Modal, Table } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import Cookies from 'js-cookie';
 import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
 import { FaRegEdit } from "react-icons/fa";
+import PromesasServices from '../../services/PromesasServices';
+import AuditService from '../../services/AuditService';
 
 const Promesas = ({ backgroundColor }) => {
     const [selectedOption, setSelectedOption] = useState('Acciones');
@@ -30,10 +32,7 @@ const Promesas = ({ backgroundColor }) => {
         if (LoginService.isAuthenticated()) {
             // Renderizar la vista protegida
             const read = Cookies.get()
-            //console.log(read)
-            //alert("Bienvenido " + read.portal_sesion);    
             UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
-                //console.log(responseid.data)
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
@@ -48,6 +47,89 @@ const Promesas = ({ backgroundColor }) => {
             navigate('/')
         }
     }
+
+    const [listPromesas, setListPromesas] = useState([]);
+    useEffect(() => {
+        ListPromesas()
+    }, [])
+
+    const ListPromesas = () => {
+        PromesasServices.getAllpromises().then(response => {
+            setListPromesas(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const [cp_type_promise, setcp_type_promise] = useState('');
+    const [cp_description_promise, setcp_description_promise] = useState('');
+    const [cp_id_promises, setcp_id_promises] = useState('');
+    const [editpromisesId, setEditpromisesId] = useState(null); // Add a state variable for editing
+    const { Promisesid } = useParams();
+
+    //consulta por ID
+    const ConsultarpromisePorId = (Promisesid) => {
+        PromesasServices.getpromisesById(Promisesid).then((response) => {
+            setcp_id_promises(response.data.cp_id_promises);
+            setcp_type_promise(response.data.cp_type_promise);
+            setcp_description_promise(response.data.cp_description_promise);
+
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+    const [validated, setValidated] = useState(false);
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
+        if (form.checkValidity() === false) {
+            alert("Por favor, complete el formulario correctamente.");
+        } else {
+            saveOrUpdatepromise();
+        }
+
+        setValidated(true);
+    }
+
+    const saveOrUpdatepromise = (e) => {
+
+        if (editpromisesId) {
+            // Update an existing record
+            const promise_edit = { cp_type_promise, cp_description_promise };
+            PromesasServices.updatepromises(editpromisesId, promise_edit).then((response) => {
+                console.log(response.data);
+                const read = Cookies.get()
+                UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
+                    console.log(responseid.data)
+                    const cp_id_user = responseid.data.cp_user_id;
+                    const cp_audit_description = "Actualizacion de promesa " + cp_type_promise + " " + cp_description_promise;
+                    const Audit = { cp_id_user, cp_audit_description };
+                    AuditService.CrearAudit(Audit).then((response) => {
+                        console.log(response.data);
+                        navigate('/Promesas');
+                        alert("Promesa de servicio actualizada Exitosamente");
+                        window.location.reload();
+                    }).catch(error => {
+                        console.log(error)
+                        alert("Error al crear promesa de servicio")
+                    })
+                }).catch(error => {
+                    console.log(error)
+                    alert("Error obtener usuario de sesion")
+                })
+            }).catch((error) => {
+                console.log(error);
+                alert("Error al actualizar promesa de servicio")
+            });
+        } else {
+            alert("Error no obtuvo id de promesa")
+        }
+
+    };
+
 
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
@@ -69,8 +151,8 @@ const Promesas = ({ backgroundColor }) => {
     };
     const dropDown = {
         position: 'absolute',
-        top: '30%',
-        left: '76.4%',
+        marginTop: '-25px',
+        left: '75%',
         transform: 'translate (-50%, -50%)',
     };
 
@@ -78,16 +160,11 @@ const Promesas = ({ backgroundColor }) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [validated, setValidated] = useState(false);
-
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
-        setValidated(true);
+    const handleEditClick = (Promisesid) => {
+        handleShow(); // Show the edit modal
+        setcp_id_promises(Promisesid);
+        setEditpromisesId(Promisesid); // Set the typeOrderId for editing
+        ConsultarpromisePorId(Promisesid); // Fetch data for editing
     };
 
     const bannerStyle = {
@@ -95,7 +172,7 @@ const Promesas = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '40px',
+        marginTop: '60px',
         maxHeight: '500px',
         overflow: 'auto',
     };
@@ -120,24 +197,6 @@ const Promesas = ({ backgroundColor }) => {
         padding: '20px',
     };
 
-    const notificaciones =
-        [
-            {
-                codigo: '01', tipo: 'Cambio contraseña', asunto: 'Se ha cambiado su contraseña', cuerpo_not: '1234556'
-            }, {
-                codigo: '02', tipo: 'Nuevo usuario', asunto: 'Se ha creado usuario', cuerpo_not: '1234556'
-            }, {
-                codigo: '03', tipo: 'Envio pedido', asunto: 'Se ha creado pedido', cuerpo_not: '1234556'
-            }, {
-                codigo: '02', tipo: 'Nuevo usuario', asunto: 'Se ha creado usuario', cuerpo_not: '1234556'
-            }, {
-                codigo: '03', tipo: 'Envio pedido', asunto: 'Se ha creado pedido', cuerpo_not: '1234556'
-            }, {
-                codigo: '02', tipo: 'Nuevo usuario', asunto: 'Se ha creado usuario', cuerpo_not: '1234556'
-            }, {
-                codigo: '03', tipo: 'Envio pedido', asunto: 'Se ha creado pedido', cuerpo_not: '1234556'
-            }
-        ]
 
 
     return (
@@ -156,15 +215,10 @@ const Promesas = ({ backgroundColor }) => {
                                 </Row>
                             </Container>
                             </td>
+                            <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr><tr><td>{usuariotelefono}</td></tr></td>
                         </div>
 
-                        <div className='ubica_datos_pro'>
-                            <td>
-                                <th>{usuarioSesion}</th>
-                                <tr><td>{usuarioCorreo}</td></tr>
-                                <tr><td>{usuariotelefono}</td></tr>
-                            </td>
-                        </div>
+
                     </tr>
                 </div>
                 <Dropdown style={dropDown}>
@@ -195,16 +249,16 @@ const Promesas = ({ backgroundColor }) => {
                             </tr>
                         </thead>
                         <tbody style={bannerStyle}>
-                            {notificaciones
-                                .map((notificaciones) => (
-                                    <tr className='borderless_pro' style={bannerStyle} key={notificaciones.codigo}>
-                                        <td style={bannerStyle}>{notificaciones.codigo}</td>
+                            {listPromesas
+                                .map((listPromesas) => (
+                                    <tr className='borderless_pro' style={bannerStyle} key={listPromesas.cp_id_promises}>
+                                        <td style={bannerStyle}>{listPromesas.cp_id_promises}</td>
 
-                                        <td style={bannerStyle}>{notificaciones.tipo}</td>
-                                        <td style={bannerStyle}>{notificaciones.asunto}</td>
+                                        <td style={bannerStyle}>{listPromesas.cp_type_promise}</td>
+                                        <td style={bannerStyle}>{listPromesas.cp_description_promise}</td>
                                         <td style={bannerStyle2}>
                                             {/* Call handleEditClick with tipoPedido.cp_type_order_id */}
-                                            <Button onClick={handleShow} className='Edit_pro'>
+                                            <Button onClick={() => handleEditClick(listPromesas.cp_id_promises)} className='Edit_pro'>
                                                 <FaRegEdit />
                                             </Button>
                                         </td>
@@ -226,6 +280,7 @@ const Promesas = ({ backgroundColor }) => {
                                     type="text"
                                     placeholder="Código"
                                     autoFocus
+                                    value={cp_id_promises}
                                     disabled
                                 />
                             </Form.Group>
@@ -235,6 +290,7 @@ const Promesas = ({ backgroundColor }) => {
                                     type="text"
                                     placeholder="Tipo de Promesa"
                                     autoFocus
+                                    value={cp_type_promise}
                                     disabled
                                 />
                             </Form.Group>
@@ -245,6 +301,8 @@ const Promesas = ({ backgroundColor }) => {
                                     placeholder="Descripción"
                                     autoFocus
                                     required
+                                    value={cp_description_promise}
+                                    onChange={(e) => setcp_description_promise(e.target.value)}
                                 />
                                 <Form.Control.Feedback type="invalid">Por favor ingresa la descripción</Form.Control.Feedback>
                             </Form.Group>

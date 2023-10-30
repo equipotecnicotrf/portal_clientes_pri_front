@@ -3,21 +3,12 @@
     height: 100px;
 }
 
-.SearchInventario {
-    margin-top: -45px;
-    margin-left: 850px;
-}
 
 .inventario {
     background-color: #323333;
 }
 
-.Img-Creamos_inv {
-    width: 200px;
-    height: 100px;
-    margin: auto;
-    display: block;
-}
+
 
 .DataTable_pro {
     padding: 5%;
@@ -62,7 +53,15 @@
     margin-left: 0%;
 }
 
-.ubica_datos_pro {
-    margin-top: -55%;
-    margin-left: 81%;
+
+@media (max-width: 730px) {
+
+    .DataTable_pro {
+        position: absolute;
+        top: 250px;
+        max-width: 600px;
+        overflow: scroll;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
 }

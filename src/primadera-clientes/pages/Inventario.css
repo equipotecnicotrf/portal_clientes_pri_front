@@ -3,9 +3,17 @@
     height: 100px;
 }
 
+
+.DataTable {
+    position: relative;
+    padding: 5%;
+    border-radius: 29px;
+
+}
+
 .SearchInventario {
     position: absolute;
-    top: 35%;
+    top: 40px;
     right: 10px;
 }
 
@@ -38,4 +46,22 @@
 
 .borderless_inv td:last-child {
     border: none;
+}
+
+@media (max-width: 768px) {
+
+    .SearchInventario {
+        position: static;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    .DataTable {
+        position: absolute;
+        top: 250px;
+        max-width: 600px;
+        overflow: scroll;
+        transition: all 0.3s ease;
+        /* Añade una animación de transición de 0.3 segundos */
+    }
 }

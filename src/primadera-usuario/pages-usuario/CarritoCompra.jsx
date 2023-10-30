@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import { Modal } from 'react-bootstrap';
 import ShopingCartService from '../../services/ShopingCartService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
+import AvailabilityService from '../../services/AvailabilityService';
 
 const CarritoCompras = () => {
 
@@ -27,6 +28,7 @@ const CarritoCompras = () => {
     const [usuarioId, setUsarioId] = useState([]);
     const [CustAccountId, setCustAccountId] = useState([]);
     const [carrito, setcarrito] = useState([]);
+    const [itemdisponibilidad, setItemdisponibilidad] = useState([]);
     const [account_id, setaccount_id] = useState([]);
 
 
@@ -75,6 +77,14 @@ const CarritoCompras = () => {
             setShow2(true);
         })
     }
+
+    const disponibilidad = (ItemId) => {
+        AvailabilityService.getAvailabilityItem(ItemId).then(disponibilidadResponse => {
+            setItemdisponibilidad(disponibilidadResponse.data);
+            console.log(disponibilidadResponse.data);
+        })
+    }
+
 
     let sumaTotal = 0;
     let sumavolumen = 0;
