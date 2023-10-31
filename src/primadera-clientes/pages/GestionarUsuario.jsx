@@ -24,6 +24,7 @@ import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import AddressService from '../../services/AddressService';
 import TypeOrderService from '../../services/TypeOrderService';
 import EmailService from '../../services/EmailService';
+import NotificationService from '../../services/NotificationService';
 
 const DataTable = ({ backgroundColor }) => {
   const [selectedOption, setSelectedOption] = useState('Acciones');
@@ -113,13 +114,14 @@ const DataTable = ({ backgroundColor }) => {
   const [cp_password, setCp_Password] = useState('');
   const [cp_cell_phone, setCp_Cell_Phone] = useState('');
   const [cp_email, setcp_Email] = useState('');
+  const [payment_terms, setpayment_terms] = useState('');
+  const [transactional_currency_code, settransactional_currency_code] = useState('');
   const [cp_estatus, setcp_Estatus] = useState('');
   const [cp_name, setcp_Name] = useState('');
   const [cp_rol_id, setcp_Rol_Id] = useState('');
   const [cust_account_id, set_CustAccount_Id] = useState('');
   const [cust_name, set_Cust_Name] = useState('');
   const [party_id, set_Party_Id] = useState('');
-  const [cp_username, setcp_username] = useState('');
   const [cp_user_id, setcp_User_Id] = useState('');
   const [editUserId, setEditUserId] = useState(null); // Add a state variable for editing
   const [isChecked, setIsChecked] = useState(false); // Estado inicial
@@ -135,6 +137,8 @@ const DataTable = ({ backgroundColor }) => {
       set_Party_Id(response.data.party_id);
       setcp_Rol_Id(response.data.cp_rol_id);
       setcp_Estatus(response.data.cp_estatus);
+      setpayment_terms(response.data.payment_terms);
+      settransactional_currency_code(response.data.transactional_currency_code);
       if (response.data.cp_estatus === "Activo") {
         setCheckbox2(true); // Activo
         setCheckbox1(false)
@@ -185,7 +189,7 @@ const DataTable = ({ backgroundColor }) => {
           else {
             const username = cp_email;
             const cp_estatus = (checkbox2 ? "Activo" : checkbox1 ? "Inactivo" : cp_estatus);
-            const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone }
+            const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code }
             UserService.updateUser(editUserId, UserEdit).then((response) => {
               console.log(responseid.data)
               const cp_id_user = responseid.data.cp_user_id;
@@ -208,7 +212,7 @@ const DataTable = ({ backgroundColor }) => {
         } else {
           const username = cp_email;
           const cp_estatus = (checkbox2 ? "Activo" : checkbox1 ? "Inactivo" : cp_estatus);
-          const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone }
+          const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code }
           UserService.updateUser(editUserId, UserEdit).then((response) => {
             console.log(responseid.data)
             const cp_id_user = responseid.data.cp_user_id;
@@ -242,7 +246,7 @@ const DataTable = ({ backgroundColor }) => {
         const cp_Password = "PortalClientes";
         const username = cp_email;
         const cp_estatus = "Activo";
-        const userCreate = { username, cust_account_id, cust_name, party_id, cp_name, cp_Password, cp_email, cp_estatus, cp_rol_id, cp_cell_phone };
+        const userCreate = { username, cust_account_id, cust_name, party_id, cp_name, cp_Password, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code };
         UserService.createUsers(userCreate).then((responsecreate) => {
           console.log(responsecreate.data);
           const read = Cookies.get()
@@ -254,24 +258,28 @@ const DataTable = ({ backgroundColor }) => {
             AuditService.CrearAudit(Audit).then((response) => {
               console.log(response.data);
 
-              const toUser = [cp_email];
-              const subject = "Bienvenido al Portal clientes Primadera";
-              const resetPasswordLink = `http://150.136.119.119:83/ActualizarContrasena/?userId=${responsecreate.data.cp_user_id}`;
-              const message = `Hola ${responsecreate.data.cp_name},\n\n`
-                + "Bienvenido a Nuestra Plataforma. Hemos creado una cuenta para ti y asignado una contraseña temporal.\n\n"
-                + "Para configurar tu contraseña y comenzar a usar nuestros servicios, por favor haz clic en el siguiente enlace:\n\n"
-                + `${resetPasswordLink}.\n\n`
-                + "Después de hacer clic en el enlace, podrás establecer una contraseña segura para tu cuenta.\n\n"
-                + "Si no solicitaste esta cuenta o tienes alguna pregunta, por favor contáctanos de inmediato.\n\n"
-                + "Gracias, equipo Primadera";
-              const correo = { toUser, subject, message };
-              EmailService.Sendmessage(correo).then(() => {
-                navigate('/GestionarUsuario');
-                alert("Usuario Creado Exitosamente");
-                window.location.reload();
+              const context = "Creacion Usuario";
+              NotificationService.getNotificationsContext(context).then((notificatioresponse) => {
+                console.log(notificatioresponse.data)
+                const toUser = [cp_email];
+                const subject = notificatioresponse.data[0].cp_Notification_name;
+                const resetPasswordLink = `http://150.136.119.119:83/ActualizarPassword/?userId=${responsecreate.data.cp_user_id}`;
+                const notificationMessage = notificatioresponse.data[0].cp_Notification_message;
+                const message = notificationMessage
+                  .replace('${nombreusuario}', responsecreate.data.cp_name)
+                  .replace('${resetPasswordLink}', resetPasswordLink);
+                const correo = { toUser, subject, message };
+                EmailService.Sendmessage(correo).then(() => {
+                  navigate('/GestionarUsuario');
+                  alert("Usuario Creado Exitosamente");
+                  window.location.reload();
+                }).catch(error => {
+                  console.log(error);
+                  alert("Error al enviar correo");
+                })
               }).catch(error => {
                 console.log(error);
-                alert("Error al enviar correo");
+                alert("Error obtener contexto de notificacion");
               })
             }).catch(error => {
               console.log(error)
@@ -303,7 +311,7 @@ const DataTable = ({ backgroundColor }) => {
   const ListClientes = () => {
     SoapService.getAllClientes().then(response => {
       setClientes(response.data);
-      //console.log(response.data);
+      console.log(response.data);
     }).catch(error => {
       console.log(error);
     })
@@ -315,6 +323,8 @@ const DataTable = ({ backgroundColor }) => {
     set_CustAccount_Id(cliente.custAccountId);
     set_Cust_Name(cliente.accountName);
     set_Party_Id(cliente.partyId);
+    setpayment_terms(cliente.paymentTerms);
+    settransactional_currency_code(cliente.transactionalCurrencyCode);
   };
 
   const handleSearchChange = (e) => {
@@ -496,6 +506,7 @@ const DataTable = ({ backgroundColor }) => {
       saveOrUpdaterol();
     }
   };
+
   ///crear o actualizar rol
   const saveOrUpdaterol = (e) => {
     if (editrolId) {
@@ -607,7 +618,7 @@ const DataTable = ({ backgroundColor }) => {
     color: '#fff',
     padding: '20px',
     textAlign: 'center',
-    marginTop: '80px'
+    marginTop: '60px'
   };
 
   const bannerStyle2 = {
@@ -665,7 +676,7 @@ const DataTable = ({ backgroundColor }) => {
   };
   const dropDown = {
     position: 'absolute',
-    marginTop: '185px',
+    top: '27.2%',
     left: '75%',
     transform: 'translate (-50%, -50%)',
 
@@ -801,7 +812,7 @@ const DataTable = ({ backgroundColor }) => {
         </div>
 
         <Dropdown style={dropDown}>
-          <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" classNamePrefix='mi-'>
+          <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
             {selectedOption}
           </Dropdown.Toggle>
           <Dropdown.Menu style={dropDownbackgroundStyle}>
@@ -833,7 +844,7 @@ const DataTable = ({ backgroundColor }) => {
             </Row>
           </Form>
         </div>
-        <div className='DataTable_Usu' style={bannerStyle} >
+        <div className='DataTable' style={bannerStyle} >
           <th style={gestion}>GESTIÓN DE USUARIO </th>
           <table className='table table-bordered' style={bannerStyle6} >
             <thead style={bannerStyle}>
@@ -873,10 +884,13 @@ const DataTable = ({ backgroundColor }) => {
             </tbody>
           </table>
         </div>
-        <div className='Botones_gest mt-12'>
+        <div className='Buttons mt-12'>
           <button onClick={handleShow} className='btns p-2 m-2 btn-sm'>Gestionar Roles</button>
           <button onClick={handleCrtUserShow} className='btns p-2 m-2 btn-sm'>Crear usuario</button>
         </div>
+
+
+
 
         <Modal size="lg" show={show} onHide={handleClose}>
           <Modal.Header className="Gestion_roles" closeButton>
@@ -1358,10 +1372,8 @@ const DataTable = ({ backgroundColor }) => {
             </Form>
           </Modal.Body>
         </Modal>
-
-        <Image className='Img_gest_usuar' src={imagenes.Creamos} />
+        <Image className='Img_gest_usua' src={imagenes.Creamos} />
       </div >
-
     </>
 
   );

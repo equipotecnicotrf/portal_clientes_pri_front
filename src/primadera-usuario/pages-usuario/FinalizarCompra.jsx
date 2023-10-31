@@ -17,6 +17,7 @@ import { Modal, Form, Dropdown } from 'react-bootstrap';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import ShopingCartService from '../../services/ShopingCartService';
 import PedidoService from '../../services/PedidoService';
+import ConsecutiveService from '../../services/ConsecutiveService';
 
 const FinalizarCompra = () => {
 
@@ -114,6 +115,14 @@ const FinalizarCompra = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredDirecciones, setFilteredDirecciones] = useState([]);
 
+    const handleDireccionSelect = (direccion) => {
+        setSelectedDireccion(direccion);
+        setSearchTerm('');
+        setnameVendedor(direccion.nameVendedor);
+        setpartySiteId(direccion.partySiteId);
+
+    };
+
     const handleSearchChange = (e) => {
         const searchTerm = e.target.value.toLowerCase();
         setSearchTerm(searchTerm);
@@ -125,34 +134,25 @@ const FinalizarCompra = () => {
     };
 
 
-    const handleDireccionSelect = (direccion) => {
-        setSelectedDireccion(direccion);
-        setnameVendedor(direccion.nameVendedor)
-        setpartySiteId(direccion.partySiteId)
-        setSearchTerm('');
-
-    };
-
     const [selectedDireccionBillto, setSelectedDireccionBillto] = useState(null);
     const [searchTermBillto, setSearchTermBillto] = useState('');
     const [filteredDireccionesBillto, setFilteredDireccionesBillto] = useState([]);
+
+
+    const handleDireccionSelectBillto = (direccionbillto) => {
+        setSelectedDireccionBillto(direccionbillto);
+        setSearchTermBillto('');
+        setsiteUseIdpedido(direccionbillto.siteUseId);
+    };
 
     const handleSearchChangeBillto = (e) => {
         const searchTermBillto = e.target.value.toLowerCase();
         setSearchTermBillto(searchTermBillto);
 
-        const filteredBillto = direcciones.filter((direccion) =>
-            direccion.address1.toLowerCase().includes(searchTerm) && direccion.siteUseCode === 'BILL_TO'
+        const filteredBillto = direcciones.filter((direccionbillto) =>
+            direccionbillto.address1.toLowerCase().includes(searchTerm) && direccionbillto.siteUseCode === 'BILL_TO'
         );
         setFilteredDireccionesBillto(filteredBillto);
-    };
-
-
-    const handleDireccionSelectBillto = (direccion) => {
-        setSelectedDireccionBillto(direccion);
-        setsiteUseIdpedido(direccion.siteUseId)
-        setSearchTermBillto('');
-
     };
 
     const [crearpedidoERP, setCrearpedidoERP] = useState([]);
@@ -165,40 +165,92 @@ const FinalizarCompra = () => {
     }));
 
 
-    const enviopedido = {
-        consecutive: "PCP022",
-        buyingPartyName: usuarioEmpresa,
-        transactionType: "LOCAL ORDER",
-        paymentTerms: payment_terms,
-        transactionalCurrencyCode: transactional_currency_code,
-        salesperson: nameVendedor,
-        customerPONumber: ordenCompra,
-        customerAccountId: CustAccountId,
-        siteUseId: parseInt(siteUseIdpedido),
-        partyId: PartyId,
-        siteId: parseInt(partySiteId),
-        lineItems: lineItemsPedido
+    //listar consecutivos
+    const [consecutivo, Setconsecutivo] = useState([]);
+    useEffect(() => {
+        ListarConsecutivo()
+    }, [])
+
+    const ListarConsecutivo = () => {
+        ConsecutiveService.getAllConsecutives().then(response => {
+            Setconsecutivo(response.data)
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
-    console.log(enviopedido);
 
-    const pedidoERP = (enviopedido) => {
+
+    const pedidoERP = () => {
+
+        const fechaHoy = new Date(); // Obtén la fecha actual
+
+        const consecutivosFiltrados = consecutivo.filter(consecutivo => {
+            const fechaInicio = new Date(consecutivo.cp_Consecutive_date_start);
+            const fechaFin = new Date(consecutivo.cp_Consecutive_date_end);
+
+            return fechaHoy >= fechaInicio && fechaHoy <= fechaFin;
+        })
+
+
+        const enviopedido = {
+            consecutive: consecutivosFiltrados.cp_Consecutive_code + consecutivosFiltrados.cp_Consecutive_num,
+            buyingPartyName: usuarioEmpresa,
+            transactionType: "LOCAL ORDER",
+            paymentTerms: payment_terms,
+            transactionalCurrencyCode: transactional_currency_code,
+            salesperson: nameVendedor,
+            customerPONumber: ordenCompra,
+            customerAccountId: CustAccountId,
+            siteUseId: parseInt(siteUseIdpedido),
+            partyId: PartyId,
+            siteId: parseInt(partySiteId),
+            lineItems: lineItemsPedido
+        }
+
         PedidoService.Insertarpedido(enviopedido).then(responsepedidoERP => {
             setCrearpedidoERP(responsepedidoERP.data);
             console.log(responsepedidoERP.data)
-            setShow(true);
-            alert(responsepedidoERP.data)
+
+            //Actualizar Consecutivo
+            const cp_Consecutive_code = consecutivosFiltrados.cp_Consecutive_code;
+            const cp_Consecutive_num = consecutivosFiltrados.cp_Consecutive_num + 1;
+            const cp_Consecutive_date_start = consecutivosFiltrados.cp_Consecutive_date_start;
+            const cp_Consecutive_date_end = consecutivosFiltrados.cp_Consecutive_date_end;
+            const cp_Consecutive_id = consecutivosFiltrados.cp_Consecutive_id;
+            const consecutive_edit = { cp_Consecutive_code, cp_Consecutive_num, cp_Consecutive_date_start, cp_Consecutive_date_end };
+
+            ConsecutiveService.updateConsecutive(cp_Consecutive_id, consecutive_edit).then((responseConsecutive) => {
+                console.log(responseConsecutive.data);
+                setShow(true);
+                alert(responsepedidoERP.data)
+            }).catch((error) => {
+                console.log(error);
+                alert("Error al actualizar Consecutivo")
+            });
         }).catch(error => {
             console.log(error);
             alert("Error al Crear pedido en el ERP")
         })
     }
 
+    const [validated, setValidated] = useState(false);
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
+        if (form.checkValidity() === false) {
+            alert("Por favor, complete el formulario correctamente.");
+        } else {
+            pedidoERP();
+        }
+
+        setValidated(true);
+    }
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => {
-        pedidoERP(enviopedido);
-    }
 
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
@@ -240,6 +292,7 @@ const FinalizarCompra = () => {
 
 
     const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
+    const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
     return (
         <>
@@ -256,7 +309,7 @@ const FinalizarCompra = () => {
                                     <td style={info_general_items}>
                                         <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
                                         <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones) + " "}m3 </strong></tr>
+                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
                                     </td>
                                 </tr>
                             </tbody>
@@ -292,156 +345,155 @@ const FinalizarCompra = () => {
                         </tr>
                     </div>
 
-
-                    <div className='ContenedorPadre_compra'>
-                        <FaShoppingCart className='tamano_carro_compra' />
-
-                        <div className='direccion_envio'>
-                            <div className='direccion_busca'>
-                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE ENVIO</strong></h5>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                    <Dropdown>
-                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                            {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="Buscar dirección"
-                                                value={searchTerm}
-                                                onChange={handleSearchChange}
-                                            />
-                                            {filteredDirecciones.map((direccion) => (
-                                                <Dropdown.Item
-                                                    key={direccion.siteUseId}
-                                                    onClick={() => handleDireccionSelect(direccion)} >
-                                                    {direccion.address1 + " - " + direccion.city}
-                                                </Dropdown.Item>
-                                            ))}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-
-                                </Form.Group>
-                            </div>
-                            <div className='direccion_busca'>
-                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE FACTURACION</strong></h5>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                    <Dropdown>
-                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                            {selectedDireccionBillto ? selectedDireccionBillto.address1 : 'Escoge tu dirección'}
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="Buscar dirección"
-                                                value={searchTermBillto}
-                                                onChange={handleSearchChangeBillto}
-                                            />
-                                            {filteredDireccionesBillto.map((direccion) => (
-                                                <Dropdown.Item
-                                                    key={direccion.siteUseId}
-                                                    onClick={() => handleDireccionSelectBillto(direccion)} >
-                                                    {direccion.address1 + " - " + direccion.city}
-                                                </Dropdown.Item>
-                                            ))}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-
-                                </Form.Group>
-                            </div>
-                            <div className='orden_compra'>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                    <Form.Label ><strong>Orden de Compra</strong></Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Orden de Compra"
-                                        autoFocus
-                                        value={ordenCompra}
-                                        onChange={(e) => setordenCompra(e.target.value)}
-                                    />
-                                </Form.Group>
-                            </div>
-                        </div>
-
-                        <div className='resumen_pedido'>
-                            <div>
-                                <FaShoppingCart className='tamano_carro_resumen' /><h5 className='tamano_resumen'> <strong>RESUMEN DE TU PEDIDO</strong></h5>
-                            </div>
-                            <div className='tables'>
-                                <table className='table table-borderless' style={bannerStyle_compra}>
-                                    <thead >
-                                        <tr style={{ textAlign: 'center' }}>
-                                            <th style={Style_tables}></th>
-                                            <th style={Style_tables}></th>
-                                            <th style={Style_tables}>Precio</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody >
-                                        {carrito
-                                            .map((carrito) => (
-                                                <tr key={carrito[3].inventory_item_id}>
-                                                    <td style={Style_tables}>< FaStar /></td>
-                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>
-                                                        <tr style={Style_tables}>{carrito[3].item_description_long}</tr>
-                                                        <tr style={Style_tables} >CANTIDADES: {carrito[2].cp_cart_Quantity_units}</tr>
-                                                    </td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toLocaleString(undefined, opciones) + " " + carrito[4].currency_code}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <div className='tables'>
-                                <table className='table table-borderless' style={bannerStyle_compra}>
-                                    <thead>
-                                        <tr></tr>
-                                    </thead>
-                                    <tbody>
-                                        <React.Fragment>
-                                            <tr className="borde_horizontal" >
-                                            </tr>
-                                            <tr >
-                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Subtotal</td>
-                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{sumaTotal.toLocaleString(undefined, opciones)}</td>
-                                            </tr>
-                                            <tr className="borde_horizontal">
-                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>IVA</td>
-                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal * 0.19).toLocaleString(undefined, opciones)}</td>
-                                            </tr>
-                                            <tr >
-                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Total</td>
-                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal + (sumaTotal * 0.19)).toLocaleString(undefined, opciones)}</td>
-                                            </tr>
-                                        </React.Fragment>
-
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <div className='centrar_boton_confirmar'>
-                                <Button onClick={handleShow} className='btns_carrito_conf_compra' >Confirmar orden   </Button>
-                            </div>
-                        </div>
-
-
-
-                        <Modal show={show} onHide={handleClose} centered className='ancho_modal_finalizar' >
-                            <Modal.Header closeButton></Modal.Header>
-                            <Modal.Body className='modal_principal_finalizar' >
-                                <div className='modal-frase-finalizar'>
-                                    <FaTruck className='centrar_carrito_finalizar' />
-                                    <h5><strong>Su ORDEN # 12345658 </strong></h5>
-                                    <h5><strong> HA SIDO CREADA</strong></h5>
-                                    <h5><strong>_______________________</strong></h5>
-                                    <p><strong>Su pedido será confirmado después de las validaciones de cupo y cartera por medio de un correo electrónico.</strong></p>
+                    <Form noValidate validated={validated} onSubmit={handleSubmit} >
+                        <div className='ContenedorPadre_compra'>
+                            <div className='direccion_envio'>
+                                <div className='direccion_busca'>
+                                    <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE ENVIO</strong></h5>
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                        <Dropdown>
+                                            <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
+                                                {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu>
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Buscar dirección"
+                                                    value={searchTerm}
+                                                    onChange={handleSearchChange}
+                                                    required
+                                                />
+                                                {filteredDirecciones.map((direccion) => (
+                                                    <Dropdown.Item
+                                                        key={direccion.siteUseId}
+                                                        onClick={() => handleDireccionSelect(direccion)} >
+                                                        {direccion.address1 + " - " + direccion.city}
+                                                    </Dropdown.Item>
+                                                ))}
+                                                <Form.Control.Feedback type="invalid">Por favor ingresa dirección de envió</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </Form.Group>
                                 </div>
-                            </Modal.Body>
-                            <Modal.Footer ></Modal.Footer>
-                        </Modal>
+                                <div className='direccion_busca'>
+                                    <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE FACTURACION</strong></h5>
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                        <Dropdown>
+                                            <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
+                                                {selectedDireccionBillto ? selectedDireccionBillto.address1 : 'Escoge tu dirección'}
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu>
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Buscar dirección"
+                                                    value={searchTermBillto}
+                                                    onChange={handleSearchChangeBillto}
+                                                    required
+                                                />
+                                                {filteredDireccionesBillto.map((direccionbillto) => (
+                                                    <Dropdown.Item
+                                                        key={direccionbillto.siteUseId}
+                                                        onClick={() => handleDireccionSelectBillto(direccionbillto)} >
+                                                        {direccionbillto.address1 + " - " + direccionbillto.city}
+                                                    </Dropdown.Item>
+                                                ))}
+                                                <Form.Control.Feedback type="invalid">Por favor ingresa dirección de facturación </Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </Form.Group>
+                                </div>
+                                <div className='orden_compra'>
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                        <Form.Label ><strong>Orden de Compra</strong></Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Orden de Compra"
+                                            autoFocus
+                                            value={ordenCompra}
+                                            onChange={(e) => setordenCompra(e.target.value)}
+                                            required
+                                        />
+                                        <Form.Control.Feedback type="invalid">Por favor ingresa orden de compra</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
+                                    </Form.Group>
+                                </div>
+                            </div>
 
-                    </div>
+                            <div className='resumen_pedido'>
+                                <div>
+                                    <FaShoppingCart className='tamano_carro_resumen' /><h5 className='tamano_resumen'> <strong>RESUMEN DE TU PEDIDO</strong></h5>
+                                </div>
+                                <div className='tables'>
+                                    <table className='table table-borderless' style={bannerStyle_compra}>
+                                        <thead >
+                                            <tr style={{ textAlign: 'center' }}>
+                                                <th style={Style_tables}></th>
+                                                <th style={Style_tables}></th>
+                                                <th style={Style_tables}>Precio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody >
+                                            {carrito
+                                                .map((carrito) => (
+                                                    <tr key={carrito[3].inventory_item_id}>
+                                                        <td style={Style_tables}>< FaStar /></td>
+                                                        <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>
+                                                            <tr style={Style_tables}>{carrito[3].item_description_long}</tr>
+                                                            <tr style={Style_tables} >CANTIDADES: {carrito[2].cp_cart_Quantity_units}</tr>
+                                                        </td>
+                                                        <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toLocaleString(undefined, opciones) + " " + carrito[4].currency_code}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className='tables'>
+                                    <table className='table table-borderless' style={bannerStyle_compra}>
+                                        <thead>
+                                            <tr></tr>
+                                        </thead>
+                                        <tbody>
+                                            <React.Fragment>
+                                                <tr className="borde_horizontal" >
+                                                </tr>
+                                                <tr >
+                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Subtotal</td>
+                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{sumaTotal.toLocaleString(undefined, opciones)}</td>
+                                                </tr>
+                                                <tr className="borde_horizontal">
+                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>IVA</td>
+                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal * 0.19).toLocaleString(undefined, opciones)}</td>
+                                                </tr>
+                                                <tr >
+                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Total</td>
+                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal + (sumaTotal * 0.19)).toLocaleString(undefined, opciones)}</td>
+                                                </tr>
+                                            </React.Fragment>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className='centrar_boton_confirmar'>
+                                    <Button type='submit' className='btns_carrito_conf_compra' >Confirmar orden   </Button>
+                                </div>
+                            </div>
+
+
+
+                            <Modal show={show} onHide={handleClose} centered className='ancho_modal_finalizar' >
+                                <Modal.Header closeButton></Modal.Header>
+                                <Modal.Body className='modal_principal_finalizar' >
+                                    <div className='modal-frase-finalizar'>
+                                        <FaTruck className='centrar_carrito_finalizar' />
+                                        <h5><strong>Su ORDEN # 12345658 </strong></h5>
+                                        <h5><strong> HA SIDO CREADA</strong></h5>
+                                        <h5><strong>_______________________</strong></h5>
+                                        <p><strong>Su pedido será confirmado después de las validaciones de cupo y cartera por medio de un correo electrónico.</strong></p>
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer ></Modal.Footer>
+                            </Modal>
+                        </div>
+                    </Form>
 
                 </div >
 

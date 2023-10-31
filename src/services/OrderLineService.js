@@ -8,5 +8,9 @@ class OrderLineService {
         return axios.post(BASE_REST_API_URL, OrderLines);
     }
 
+    updateOrderline(orderLineId, orderLine) {
+        return axios.put(BASE_REST_API_URL + '/' + orderLineId, orderLine);
+    }
+
 }
 export default new OrderLineService();

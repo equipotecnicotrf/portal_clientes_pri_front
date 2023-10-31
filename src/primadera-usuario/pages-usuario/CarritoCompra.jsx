@@ -17,6 +17,7 @@ import { Modal } from 'react-bootstrap';
 import ShopingCartService from '../../services/ShopingCartService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
 import AvailabilityService from '../../services/AvailabilityService';
+import PromesasServices from '../../services/PromesasServices';
 
 const CarritoCompras = () => {
 
@@ -28,13 +29,14 @@ const CarritoCompras = () => {
     const [usuarioId, setUsarioId] = useState([]);
     const [CustAccountId, setCustAccountId] = useState([]);
     const [carrito, setcarrito] = useState([]);
-    const [itemdisponibilidad, setItemdisponibilidad] = useState([]);
+    const [itempromesa, setItempromesa] = useState([]);
     const [account_id, setaccount_id] = useState([]);
 
 
     const navigate = useNavigate();
     useEffect(() => {
         SesionUsername();
+        listarpromesas();
     }, [])
 
     const SesionUsername = () => {
@@ -70,21 +72,49 @@ const CarritoCompras = () => {
         ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
             setcarrito(carrouseridresponse.data);
             console.log(carrouseridresponse.data);
-
-
         }).catch(error => {
             console.log(error);
             setShow2(true);
         })
     }
 
-    const disponibilidad = (ItemId) => {
-        AvailabilityService.getAvailabilityItem(ItemId).then(disponibilidadResponse => {
-            setItemdisponibilidad(disponibilidadResponse.data);
-            console.log(disponibilidadResponse.data);
+    const listarpromesas = () => {
+        PromesasServices.getAllpromises().then(promesasresponde => {
+            setItempromesa(promesasresponde.data);
+            console.log(promesasresponde.data);
+
         })
     }
 
+    const calculateEntrega = (carritoItem) => {
+        if (carritoItem[5] === null) {
+            const promesaFiltrada = itempromesa.find(promesa => promesa.cp_type_promise === "Sin disponibilidad");
+            return promesaFiltrada.cp_description_promise;
+        } else if (carritoItem[2].cp_cart_Quantity_units > carritoItem[5].available_to_transact) {
+            const promesaFiltrada = itempromesa.find(promesa => promesa.cp_type_promise === "Sin disponibilidad");
+            return promesaFiltrada.cp_description_promise;
+        } else {
+            const promesaFiltrada = itempromesa.find(promesa => promesa.cp_type_promise === "Disponibilidad");
+            return promesaFiltrada.cp_description_promise;
+        }
+    };
+
+    const calcularFechaEntrega = (diasLaborales) => {
+        const fechaHoy = new Date(); // Fecha actual
+        let fechaEntrega = new Date(fechaHoy);
+
+        while (diasLaborales > 0) {
+            fechaEntrega.setDate(fechaEntrega.getDate() + 1); // Sumamos un día
+
+            // Si el día de la semana no es sábado (6) ni domingo (0), descontamos un día laboral
+            if (fechaEntrega.getDay() !== 0 && fechaEntrega.getDay() !== 6) {
+                diasLaborales--;
+            }
+        }
+
+        const opcionesFecha = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        return fechaEntrega.toLocaleDateString(undefined, opcionesFecha);
+    };
 
     let sumaTotal = 0;
     let sumavolumen = 0;
@@ -106,23 +136,53 @@ const CarritoCompras = () => {
     // Define un estado para los contadores de cada artículo
     const [contadores, setContadores] = useState({});
 
-    const incrementarContador = (inventory_item_id, atribute9) => {
+    const incrementarContador = (inventory_item_id, atribute9, Quantity_units, CardlineId, atribute8) => {
         setContadores(prevContadores => {
             const nuevoContador = { ...prevContadores };
-            nuevoContador[inventory_item_id] = (nuevoContador[inventory_item_id] || 0) + atribute9;
+            nuevoContador[inventory_item_id] = (nuevoContador[inventory_item_id] || Quantity_units) + atribute9;
+
+            const cp_cart_Quantity_units = (Quantity_units + atribute9);
+            const cp_cart_Quantity_packages = Math.floor((Quantity_units + atribute9) / atribute9);
+            const cp_cart_Quantity_volume = (Quantity_units + atribute9) * atribute8;
+            const Cardline = { cp_cart_Quantity_units, cp_cart_Quantity_packages, cp_cart_Quantity_volume };
+            ActualizarLinea(CardlineId, Cardline);
+
             return nuevoContador;
         });
     };
 
-    const decrementarContador = (inventory_item_id, atribute9) => {
+    const decrementarContador = (inventory_item_id, atribute9, Quantity_units, CardlineId, atribute8) => {
         setContadores(prevContadores => {
             const nuevoContador = { ...prevContadores };
-            if (nuevoContador[inventory_item_id] > 0) {
+            if (nuevoContador[inventory_item_id] > Quantity_units) {
                 nuevoContador[inventory_item_id] -= atribute9;
+            }
+
+            if (Quantity_units - atribute9 == 0) {
+                alert("No se puede disminuir a 0 Unidades");
+            } else {
+                const cp_cart_Quantity_units = (Quantity_units - atribute9);
+                const cp_cart_Quantity_packages = Math.floor((Quantity_units - atribute9) / atribute9);
+                const cp_cart_Quantity_volume = (Quantity_units - atribute9) * atribute8;
+                const Cardline = { cp_cart_Quantity_units, cp_cart_Quantity_packages, cp_cart_Quantity_volume };
+                ActualizarLinea(CardlineId, Cardline);
             }
             return nuevoContador;
         });
     };
+
+
+
+    const ActualizarLinea = (CardlineId, Cardline) => {
+        ShopingCartLineService.updateCarline(CardlineId, Cardline).then(Actualizalinearesponse => {
+            console.log(Actualizalinearesponse.data);
+            window.location.reload();
+        }).catch(error => {
+            console.log(error);
+            alert("Error al actualizar cantidad")
+        })
+    }
+
 
     //Eliminar linea de carrito 
     const deleteCarritoLine = (CarLineId) => {
@@ -137,13 +197,46 @@ const CarritoCompras = () => {
 
     }
 
+
+    //eliminar carrito 
+
+    const deleteCarrito = () => {
+        if (carrito && carrito.length > 0) {
+            // Recorremos las líneas del carrito y las eliminamos una por una
+            Promise.all(
+                carrito.map((carritoItem) => {
+                    // Eliminar la línea del carrito actual
+                    ShopingCartService.deleteCar(carritoItem[1].cp_cart_id).then(deleteCarresponse => {
+                        console.log(deleteCarresponse.data);
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                    return ShopingCartLineService.deleteCarline(carritoItem[2].cp_cart_line_id);
+                }))
+                .then((deletelineresponse) => {
+                    // Todas las líneas se eliminaron con éxito
+                    console.log(deletelineresponse.data)
+                })
+                .catch((error) => {
+                    console.log("Error al eliminar una o más líneas del carrito", error);
+                    setShow2(true);
+                });
+        }
+
+
+    }
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const [show2, setShow2] = useState(false);
-    const handleClose2 = () => setShow2(false);
+    const handleClose2 = () => {
+        setShow2(false);
+        window.location.reload();
+    }
     const handleShow2 = () => {
+        deleteCarrito();
         setShow(false);
         setShow2(true);
     }
@@ -204,6 +297,7 @@ const CarritoCompras = () => {
     };
 
     const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
+    const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
 
     return (
@@ -222,7 +316,7 @@ const CarritoCompras = () => {
                                     <td style={info_general_items}>
                                         <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
                                         <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones) + " "}m3 </strong></tr>
+                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
                                     </td>
                                 </tr>
 
@@ -299,8 +393,8 @@ const CarritoCompras = () => {
                                                             <div className='Organiza_entrega'>
                                                                 <div><FaTruck className='tamaño-camion' /></div>
                                                                 <div className='Organiza_entrega_2'>
-                                                                    <tr style={cellStyle2}><strong>ENTREGA EN { } DÍAS</strong></tr>
-                                                                    <tr style={cellStyle2}>Fecha de entrega: { } </tr>
+                                                                    <tr style={cellStyle2}><strong>ENTREGA EN  {calculateEntrega(carrito) + " DIAS"}</strong></tr>
+                                                                    <tr style={cellStyle2}>Fecha de entrega: {calcularFechaEntrega(calculateEntrega(carrito))} </tr>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -327,8 +421,8 @@ const CarritoCompras = () => {
                                                         </td>
                                                         <td>
                                                             <div>
-                                                                <Col><Button className='decre_incre_carrito' onClick={() => incrementarContador(carrito[4].inventory_item_id, carrito[4].atribute9)}>+</Button></Col>
-                                                                <Col><Button className='decre_incre_carrito2' onClick={() => decrementarContador(carrito[4].inventory_item_id, carrito[4].atribute9)}>-</Button></Col>
+                                                                <Col><Button className='decre_incre_carrito' onClick={() => incrementarContador(carrito[3].inventory_item_id, carrito[3].atribute9, carrito[2].cp_cart_Quantity_units, carrito[2].cp_cart_line_id, carrito[3].atribute8)}>+</Button></Col>
+                                                                <Col><Button className='decre_incre_carrito2' onClick={() => decrementarContador(carrito[3].inventory_item_id, carrito[3].atribute9, carrito[2].cp_cart_Quantity_units, carrito[2].cp_cart_line_id, carrito[3].atribute8)}>-</Button></Col>
                                                             </div>
                                                         </td>
                                                     </div>
@@ -359,14 +453,18 @@ const CarritoCompras = () => {
 
                         <div >
                             <Button className='btns_carrito_seguir' onClick={() => navigate("/DataInventario")}>Seguir comprando   </Button>
-                            <Button onClick={handleShow} className='btns_carrito_borrar' >Borrar carrito   </Button>
-                            <Button onClick={() => navigate("/FinalizarCompra")} className='btns_carrito_finalizar'>Finalizar compra   </Button>
+                            {carrito.length !== 0 && (
+                                <>
+                                    <Button onClick={handleShow} className='btns_carrito_borrar'>Borrar carrito</Button>
+                                    <Button onClick={() => navigate("/FinalizarCompra")} className='btns_carrito_finalizar'>Finalizar compra</Button>
+                                </>
+                            )}
                         </div>
 
                         <Modal show={show} onHide={handleClose} centered >
                             <Modal.Body className='modal_principal_carrito' >
                                 <div className='modal-frase-carrito'>
-                                    <h6><strong>¿Estás seguro de que deseas vaciar tu carrito?</strong></h6>
+                                    <h6><strong>¿Está seguro de que deseas vaciar tu carrito?</strong></h6>
                                     <Button onClick={handleClose} className='btns_carrito_cancelar' >Cancelar</Button>
                                     <Button onClick={handleShow2} className='btns_carrito_confirmar'>Confirmar</Button>
                                 </div>

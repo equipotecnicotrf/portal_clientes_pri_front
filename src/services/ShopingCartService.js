@@ -14,5 +14,9 @@ class ShopingCartService {
     InsertarCabecera(data) {
         return axios.post(BASE_REST_API_URL, data);
     }
+
+    deleteCar(CarId) {
+        return axios.delete(BASE_REST_API_URL + '/' + CarId)
+    }
 }
 export default new ShopingCartService();

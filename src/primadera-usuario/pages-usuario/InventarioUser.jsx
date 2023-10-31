@@ -153,8 +153,6 @@ const DataInventario = () => {
         if (contador == undefined) {
             alert("Por Favor seleccionar cantidad")
         } else {
-
-
             const cp_user_id = usuarioId;
             const cust_account_id = CustAccountId;
             const site_use_id = 0;
@@ -195,6 +193,7 @@ const DataInventario = () => {
                                     console.log(lineOrderresponse.data)
                                     //alert("Carrito creado exitosamente")
                                     setShow(true);
+
                                 }).catch(error => {
                                     console.log(error);
                                     alert("Error al crear linea de orden")
@@ -244,7 +243,7 @@ const DataInventario = () => {
 
                                 OrderLineService.InsertarOrderLine(lineOrder).then(lineOrderresponse => {
                                     console.log(lineOrderresponse.data)
-                                    //alert("Carrito creado exitosamente")
+                                    //alert("Carrito creado exitosamente")                                    
                                     setShow(true);
                                 }).catch(error => {
                                     console.log(error);
@@ -313,12 +312,16 @@ const DataInventario = () => {
     };
 
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        window.location.reload();
+    }
     const handleShow = () => {
         setShow(true);
     }
 
     const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
+    const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
     return (
         <>
@@ -334,7 +337,7 @@ const DataInventario = () => {
                                     <td style={info_general_items}>
                                         <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
                                         <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones) + " "}m3 </strong></tr>
+                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
                                     </td>
                                 </tr>
                             </tbody>

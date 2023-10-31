@@ -58,9 +58,10 @@
     height: 590px;
     margin-left: 2%;
     margin-right: 2%;
-    margin-top: 0%;
+    margin-top: 1%;
     overflow: auto;
     display: flex;
+    justify-content: center;
 }
 
 .btns_carrito_conf_compra {
@@ -94,6 +95,7 @@
     flex-direction: column;
     margin-bottom: auto;
     overflow: auto;
+    margin-bottom: 10%;
 }
 
 .tamano_carro_compra_2 {
@@ -167,10 +169,10 @@
 
 .direccion_envio {
     background-color: #D9D9D9;
-    margin-top: 10%;
+    margin-top: 5%;
     margin-left: 2%;
     width: 500px;
-    height: 300px;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: left;
@@ -178,10 +180,10 @@
 
 .resumen_pedido {
     background-color: #D9D9D9;
-    margin-top: 10%;
+    margin-top: 5%;
     margin-left: 2%;
     width: 405px;
-    height: 450px;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     margin-bottom: auto;
@@ -202,6 +204,7 @@
     margin-left: 21%;
     background-color: #D9D9D9;
     width: 320px;
+    margin-bottom: 10%;
 }
 
 .direccion_busca {

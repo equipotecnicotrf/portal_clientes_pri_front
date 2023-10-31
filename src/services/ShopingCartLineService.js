@@ -19,5 +19,9 @@ class ShoppingCartLines {
         return axios.delete(BASE_REST_API_URL + '/' + CarLineId)
     }
 
+    updateCarline(CarLineId, CarLine) {
+        return axios.put(BASE_REST_API_URL + '/' + CarLineId, CarLine);
+    }
+
 }
 export default new ShoppingCartLines();
