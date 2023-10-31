@@ -1,4 +1,4 @@
-.Img_gest_usua {
+.Img_audit {
   width: 200px;
   height: 100px;
   margin: auto;
@@ -19,7 +19,8 @@
 .SearchAuditoria {
   position: absolute;
   top: 40px;
-  right: 10px;
+  /* 30-10-2023 se ajusta rigth*/
+  right: 12px;
 }
 
 .auditoria {
@@ -115,3 +116,21 @@
     /* Añade una animación de transición de 0.3 segundos */
   }
 }
+
+/*30-10-2023 adiciones ini*/
+.Img-Admin-audit {
+  width: 100px;
+  height: 100px;
+}
+
+.ubica_imagen_audit {
+  margin-top: 0%;
+  margin-left: 0%;
+}
+
+.ubica_datos_audit {
+  margin-top: -50%;
+  margin-left: 70%;
+}
+
+/*30-10-2023 adiciones fin*/

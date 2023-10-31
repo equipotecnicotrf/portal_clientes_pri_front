@@ -111,7 +111,9 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '60px'
+        marginTop: '40px', /*30-10-2023*/
+        maxHeight: '500px',/*30-10-2023*/
+        overflow: 'auto', /*30-10-2023*/
 
     };
     const backgroundStyle = {
@@ -126,9 +128,8 @@ const DataTable = ({ backgroundColor }) => {
     const bannerStyle2 = {
         backgroundColor: backgroundColor || '#878787',
         color: '#fff',
-        padding: '20px',
         textAlign: 'center',
-        marginTop: '30px',
+        marginTop: '26px', /*30-10-2023*/
 
     };
 
@@ -142,8 +143,8 @@ const DataTable = ({ backgroundColor }) => {
 
     const dropDown = {
         position: 'absolute',
-        marginTop: '185px',
-        left: '75%',
+        top: '30%', /*30-10-2023 se ajusta top*/
+        left: '76.4%',  /*30-10-2023 se ajusta left*/
         transform: 'translate (-50%, -50%)',
     };
 
@@ -162,20 +163,29 @@ const DataTable = ({ backgroundColor }) => {
         <>
             <div className='Back' style={backgroundStyle}>
                 <Banner />
-
+                {/*30-10-2023 se ajusta DIV completo*/}
                 <div style={audit2}>
                     <tr>
-                        <td><Container>
-                            <Row>
-                                <Col xs={6} md={4}>
-                                    <Image className='Img-Admin' src={imagenes.Arboles} roundedCircle />
-                                </Col>
-                            </Row>
-                        </Container>
-                        </td>
-                        <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr><tr><td>{usuariotelefono}</td></tr></td>
+                        <div className='ubica_imagen_audit'>
+                            <td><Container>
+                                <Row>
+                                    <Col xs={6} md={4}>
+                                        <Image className='Img-Admin-audit' src={imagenes.Arboles} roundedCircle />  {/*30-10-2023 se ajusta className*/}
+                                    </Col>
+                                </Row>
+                            </Container>
+                            </td>
+                        </div>
+                        <div className='ubica_datos_audit'> {/*30-10-2023 se agrega class name*/}
+                            <td>
+                                <th>{usuarioSesion}</th>
+                                <tr><td>{usuarioCorreo}</td></tr>
+                                <tr><td>{usuariotelefono}</td></tr>
+                            </td>
+                        </div>
                     </tr>
                 </div>
+                {/*30-10-2023 se ajusta DIV completo*/}
                 <Dropdown style={dropDown}>
                     <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
                         {selectedOption}
@@ -213,7 +223,7 @@ const DataTable = ({ backgroundColor }) => {
                             </Row>
                         </Form>
                     </div>
-                    <table className='table_table-bordered' style={bannerStyle2} >
+                    <table className='table table-bordered' style={bannerStyle2} >
 
                         <thead style={bannerStyle}>
                             <tr style={bannerStyle} className='borderless_audit'>
@@ -237,7 +247,7 @@ const DataTable = ({ backgroundColor }) => {
                         </tbody>
                     </table>
                 </div>
-                <Image className='Img_gest_usua' src={imagenes.Creamos} />
+                <Image className='Img_audit' src={imagenes.Creamos} />
             </div>
         </>
     );

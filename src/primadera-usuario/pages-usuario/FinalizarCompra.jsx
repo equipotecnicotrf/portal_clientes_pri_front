@@ -111,49 +111,6 @@ const FinalizarCompra = () => {
         })
     }
 
-    const [selectedDireccion, setSelectedDireccion] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filteredDirecciones, setFilteredDirecciones] = useState([]);
-
-    const handleDireccionSelect = (direccion) => {
-        setSelectedDireccion(direccion);
-        setSearchTerm('');
-        setnameVendedor(direccion.nameVendedor);
-        setpartySiteId(direccion.partySiteId);
-
-    };
-
-    const handleSearchChange = (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        setSearchTerm(searchTerm);
-
-        const filtered = direcciones.filter((direccion) =>
-            direccion.address1.toLowerCase().includes(searchTerm) && direccion.siteUseCode === 'SHIP_TO'
-        );
-        setFilteredDirecciones(filtered);
-    };
-
-
-    const [selectedDireccionBillto, setSelectedDireccionBillto] = useState(null);
-    const [searchTermBillto, setSearchTermBillto] = useState('');
-    const [filteredDireccionesBillto, setFilteredDireccionesBillto] = useState([]);
-
-
-    const handleDireccionSelectBillto = (direccionbillto) => {
-        setSelectedDireccionBillto(direccionbillto);
-        setSearchTermBillto('');
-        setsiteUseIdpedido(direccionbillto.siteUseId);
-    };
-
-    const handleSearchChangeBillto = (e) => {
-        const searchTermBillto = e.target.value.toLowerCase();
-        setSearchTermBillto(searchTermBillto);
-
-        const filteredBillto = direcciones.filter((direccionbillto) =>
-            direccionbillto.address1.toLowerCase().includes(searchTerm) && direccionbillto.siteUseCode === 'BILL_TO'
-        );
-        setFilteredDireccionesBillto(filteredBillto);
-    };
 
     const [crearpedidoERP, setCrearpedidoERP] = useState([]);
     const [ordenCompra, setordenCompra] = useState([]);
@@ -179,6 +136,23 @@ const FinalizarCompra = () => {
             console.log(error);
         })
     }
+
+
+    const [validated, setValidated] = useState(false);
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
+        if (form.checkValidity() === false) {
+            alert("Por favor, complete el formulario correctamente.");
+        } else {
+            //pedidoERP();
+            alert("Validacion Correcta.");
+        }
+
+        setValidated(true);
+    }
+
 
 
 
@@ -235,19 +209,6 @@ const FinalizarCompra = () => {
         })
     }
 
-    const [validated, setValidated] = useState(false);
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        event.preventDefault();
-        event.stopPropagation();
-        if (form.checkValidity() === false) {
-            alert("Por favor, complete el formulario correctamente.");
-        } else {
-            pedidoERP();
-        }
-
-        setValidated(true);
-    }
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -353,23 +314,21 @@ const FinalizarCompra = () => {
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
                                         <Dropdown>
                                             <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                                {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
+
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu>
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="Buscar dirección"
-                                                    value={searchTerm}
-                                                    onChange={handleSearchChange}
                                                     required
                                                 />
-                                                {filteredDirecciones.map((direccion) => (
-                                                    <Dropdown.Item
-                                                        key={direccion.siteUseId}
-                                                        onClick={() => handleDireccionSelect(direccion)} >
-                                                        {direccion.address1 + " - " + direccion.city}
-                                                    </Dropdown.Item>
-                                                ))}
+
+                                                <Dropdown.Item
+
+                                                >
+
+                                                </Dropdown.Item>
+
                                                 <Form.Control.Feedback type="invalid">Por favor ingresa dirección de envió</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                                             </Dropdown.Menu>
                                         </Dropdown>
@@ -380,23 +339,21 @@ const FinalizarCompra = () => {
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
                                         <Dropdown>
                                             <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                                {selectedDireccionBillto ? selectedDireccionBillto.address1 : 'Escoge tu dirección'}
+
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu>
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="Buscar dirección"
-                                                    value={searchTermBillto}
-                                                    onChange={handleSearchChangeBillto}
                                                     required
                                                 />
-                                                {filteredDireccionesBillto.map((direccionbillto) => (
-                                                    <Dropdown.Item
-                                                        key={direccionbillto.siteUseId}
-                                                        onClick={() => handleDireccionSelectBillto(direccionbillto)} >
-                                                        {direccionbillto.address1 + " - " + direccionbillto.city}
-                                                    </Dropdown.Item>
-                                                ))}
+
+                                                <Dropdown.Item
+
+                                                >
+
+                                                </Dropdown.Item>
+
                                                 <Form.Control.Feedback type="invalid">Por favor ingresa dirección de facturación </Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                                             </Dropdown.Menu>
                                         </Dropdown>

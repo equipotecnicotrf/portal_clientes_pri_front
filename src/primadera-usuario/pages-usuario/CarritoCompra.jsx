@@ -72,6 +72,9 @@ const CarritoCompras = () => {
         ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
             setcarrito(carrouseridresponse.data);
             console.log(carrouseridresponse.data);
+            if (carrouseridresponse.data.length === 0) {
+                setShow2(true);
+            }
         }).catch(error => {
             console.log(error);
             setShow2(true);
