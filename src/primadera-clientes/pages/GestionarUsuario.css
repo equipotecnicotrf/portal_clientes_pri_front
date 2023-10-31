@@ -6,20 +6,33 @@
     border-collapse: collapse;
     max-height: 350px;
     overflow-y: auto;
+    overflow-x: auto;
+    margin-right: 20px;
 }
 
+.DropGest {}
 
 .CheckBox {
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
     margin: 1%;
+    margin-top: -2%;
+    /*31-10-2023 se agrega margin-top*/
+}
 
+.CheckBox_2 {
+    /*se agrega 31-10-2023*/
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin: 1%;
+    margin-top: 1%;
+    /*31-10-2023 se agrega margin-top*/
 }
 
 .Checkbox_estado {
     padding: 5px;
-
 }
 
 .home-btn {
@@ -33,7 +46,6 @@
     background-color: #878787;
     color: white;
     border: none;
-
 }
 
 .btns {
@@ -43,33 +55,28 @@
     position: auto;
     font-size: medium;
     border: none;
-    width: 194px;
-
-
+    width: 200px;
+    /*31-10-2023*/
 }
-
-
 
 .Botones_gest {
 
-    margin-top: -50px;
-    margin-right: 5%;
+    margin-top: -4%;
+    /*31-10-2023*/
+    margin-right: 4.4%;
+    /*31-10-2023*/
     display: flex;
     justify-content: flex-end;
-
 }
 
-
-
 .Create-User {
-
     background-color: #878787;
     border: none;
     color: white;
-
 }
 
 .Crear-btn {
+    /*eliminar 31-10-2023*/
     background-color: #323333;
     border-radius: 30px;
     padding-left: 20px;
@@ -79,13 +86,10 @@
     border: none;
 }
 
-
 .menu {
     width: 100%;
     background-color: white;
 }
-
-
 
 .Create-Rol {
     background-color: #878787;
@@ -99,45 +103,40 @@
     border: none;
 }
 
-
-
 .Btn_contexto {
     background-color: #323333;
     border-radius: 30px;
     display: block;
     padding: 0.1rem 1rem;
-    width: 100px;
+    width: 120px;
+    /*31-10-2023*/
     margin: 0 auto;
     font-size: medium;
     border: none;
 }
 
-
-
 .Btn_guardar_context {
+    /*31-10-2023 Se ajustan todos los atributos*/
     background-color: #323333;
-
     border-radius: 30px;
-    display: block;
-    padding: 0.5rem 1rem;
     width: 150px;
-    margin: 0 auto;
     font-size: medium;
     border: none;
+    margin-right: 1%;
+    margin-top: -1.5%;
+    margin-bottom: 3.7%;
 }
 
 .boton_crear_rol {
+    /*31-10-2023 Se ajustan todos los atributos*/
     background-color: #323333;
-
-    width: 150px;
     border-radius: 30px;
-    display: block;
-    padding: 0.5rem 1rem;
-    margin: 0 auto;
-    color: white;
     font-size: medium;
-    position: auto;
     border: none;
+    width: 150px;
+    margin-right: -2.5%;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 
@@ -148,15 +147,18 @@
 }
 
 .boton_ges_usua {
+    /*31-10-2023 Se ajustan todos los atributos*/
     background-color: #323333;
-    padding: 0.4rem 0.8rem;
     border-radius: 30px;
-    margin-right: 20px;
     width: 150px;
     border: none;
+    margin-right: 2%;
+    margin-bottom: 2.5%;
+    margin-top: -1%;
 }
 
-.Img_gest_usuar {
+.Img_gest_usuario {
+    /*quitar R 31/10/2023*/
     width: 200px;
     height: 100px;
     margin: auto;
@@ -165,11 +167,14 @@
 
 .busc_gest_usua {
     position: absolute;
-    top: 37%;
-    right: 4.5%;
+    top: 40.5%;
+    /*31-10-2023*/
+    right: 3.5%;
+    /*31-10-2023*/
 }
 
 .gest_usua {
+    /*eliminar 31-10-2023*/
     background-color: #323333;
     padding: 0.4rem 0.8rem;
     border-radius: 5px;
@@ -222,14 +227,14 @@
 }
 
 .Crear-btn-usua {
+    /*31-10-2023 Se ajustan todos los atributos*/
     background-color: #323333;
     border-radius: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 20px;
     font-size: medium;
     border: none;
-    width: 160px;
+    width: 150px;
+    margin-right: -2.5%;
+    margin-top: -2.7%;
 
 }
 
@@ -266,14 +271,14 @@
 }
 
 .Save-btn-usua {
+    /*se asjutan todos los valores 31-10-2023*/
     background-color: #323333;
     border-radius: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 20px;
     font-size: medium;
     border: none;
-    width: 160px;
+    width: 150px;
+    margin-right: -2.5%;
+    margin-top: -2%;
 
 }
 
@@ -297,12 +302,7 @@
         left: 90px;
     }
 
-    .DataTable_Usu {
-        position: absolute;
-        top: 300px;
-        max-width: 670px;
-        overflow: scroll;
-    }
+
 
     .Botones_gest {
 
@@ -313,49 +313,45 @@
 
 }
 
-@media (max-width: 510px) {
-    .DataTable_Usu {
-        position: absolute;
-        top: 290px;
-        max-width: 420px;
-        overflow: scroll;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
-    }
+@media (max-width: 510px) {}
+
+@media (min-width: 511px) and (max-width: 550px) {}
+
+@media (min-width: 551px) and (max-width: 630px) {}
+
+@media (min-width: 631px) and (max-width: 700px) {}
+
+
+.Guardar-btn-usua {
+    /*31-10-2023 Se ajustan todos los atributos*/
+    background-color: #323333;
+    border-radius: 30px;
+    font-size: medium;
+    border: none;
+    width: 150px;
+    margin-right: -1%;
+    margin-top: -1%;
+    margin-bottom: 2.3%;
 }
 
-@media (min-width: 511px) and (max-width: 550px) {
-    .DataTable_Usu {
-        position: absolute;
-        top: 290px;
-        max-width: 460px;
-        overflow: scroll;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
 
-    }
+/*31-10-2023 adiciones ini*/
+
+.Img-Admin-gest-usua {
+    width: 100px;
+    height: 100px;
 }
 
-@media (min-width: 551px) and (max-width: 630px) {
-    .DataTable_Usu {
-        position: absolute;
-        top: 290px;
-        max-width: 530px;
-        overflow: scroll;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
-
-    }
+.ubica_imagen_gest_usua {
+    margin-top: 0%;
+    margin-left: 0%;
 }
 
-@media (min-width: 631px) and (max-width: 700px) {
-    .DataTable_Usu {
-        position: absolute;
-        top: 290px;
-        max-width: 590px;
-        overflow: scroll;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
-
-    }
+.ubica_datos_gest_usua {
+    margin-top: -50%;
+    margin-left: 70%;
 }
+
+
+
+/*33-10-2023 adiciones fin*/

@@ -1,7 +1,65 @@
-@media (max-width: 572px) {
-    .Logo-Admin {
-        position: relative;
-        transform: scale(0.7);
-        left: -50px;
+.Btn_Cerrar {
+    padding: 10px 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 0%;
+    right: 10px;
+    background-color: #323333;
+    z-index: 1;
+    color: white;
+    border: none;
+    width: 150px;
+}
+
+.LogoReciclaje {
+
+    max-width: 150px;
+    padding: 10px 20 px;
+    position: absolute;
+    top: 43px;
+    right: 10.5px;
+    background-color: #323333;
+    border-radius: 0px 0px 60px 60px;
+    color: white;
+
+}
+
+.Logo_Pri_Blanco {
+    max-width: 478px;
+    margin-top: -40px;
+}
+
+.Btn_Home {
+    padding: 10px 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 170px;
+    background-color: #323333;
+    border-radius: 20px;
+    color: white;
+    border: none;
+}
+
+
+@media (max-width: 480px) {
+    .Btn_Cerrar {
+        max-width: 100px;
+        font-size: 15px;
+    }
+
+    .LogoReciclaje {
+        width: 100px;
+        top: 64px
+    }
+
+    .Logo_Pri_Blanco {
+        width: 120px;
+        margin-left: -10%;
+        margin-top: -5%;
+    }
+
+    .Btn_Home {
+        right: 120px;
     }
 }

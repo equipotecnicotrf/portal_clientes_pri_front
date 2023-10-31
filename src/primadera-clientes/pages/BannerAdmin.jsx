@@ -21,64 +21,26 @@ const Banner = ({ backgroundColor }) => {
     padding: '50px',
     height: '20px'
   };
-  const logoStyle = {
-    maxWidth: '478px', // Ajusta según tus necesidades
-    marginTop: '-40px',
-  };
-  const btnCrrSesion = {
-    padding: '10px 20px',
-    cursor: 'pointer',
-    position: 'absolute',
-    top: '0%',
-    right: '10px',
-    backgroundColor: backgroundColor || '#323333',
-    zIndex: '1',
-    color: 'white',
-    border: 'none',
-    width: '150px',
 
-  }
-  {/*AJUSTE LCPG INI*/ }
-  const btnHome = {
-    padding: '10px 20px',
-    cursor: 'pointer',
-    position: 'absolute',
-    top: '20px',
-    right: '170px',
-    backgroundColor: backgroundColor || '#323333',
-    borderRadius: '20px',
-    color: 'white',
-    border: 'none',
-
-  }
-  {/*AJUSTE LCPG FIN*/ }
-  const logoStyle2 = {
-    maxWidth: '150px',
-    padding: '10px 20px',
-    position: 'absolute',
-    top: '43px',
-    right: '10.5px',
-    backgroundColor: backgroundColor || '#323333',
-    borderRadius: '0px 0px 60px 60px',
-    color: 'white',
-
-
-  };
 
 
   return (
     <>
 
       <div style={bannerStyle}>
-        <img src={imagenes.LogoBlanco} alt="Logo" style={logoStyle} />
+        <img className="Logo_Pri_Blanco"
+          src={imagenes.LogoBlanco} alt="Logo" />
       </div>
       <div >
-        <button style={btnCrrSesion} onClick={((e) => logout(e))}>Cerrar Sesión</button>
-        <img style={logoStyle2} src={imagenes.ReciclajeBlanco} />
+        <button className="Btn_Cerrar"
+          onClick={((e) => logout(e))}>Cerrar Sesión</button>
+        <img className="LogoReciclaje"
+          src={imagenes.ReciclajeBlanco} />
       </div>
       {/*AJUSTE LCPG INI*/}
       <div >
-        <button style={btnHome} onClick={() => navigate("/DropdownMenu")}> <FaHome /></button>
+        <button className="Btn_Home"
+          onClick={() => navigate("/DropdownMenu")}> <FaHome /></button>
       </div>
       {/*AJUSTE LCPG FIN*/}
 
@@ -86,4 +48,4 @@ const Banner = ({ backgroundColor }) => {
   );
 };
 
-export default Banner;
+export default Banner

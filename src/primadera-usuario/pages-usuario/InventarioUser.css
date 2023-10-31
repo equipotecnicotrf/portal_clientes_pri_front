@@ -6,19 +6,7 @@
     margin-top: 3%;
 }
 
-@media (max-width: 768px) {
-    .FondoBlanco_inv {
 
-        height: auto;
-    }
-}
-
-@media (min-width: 500px) and (max-width: 690px) {
-    .ContenedorPadre {
-
-        margin-top: 10%;
-    }
-}
 
 .Agregar-btn {
     margin: 20px;
@@ -48,11 +36,8 @@
 
 
 
-@media (max-width: 700px) {
-    .organiza_articulos_Inv {
-        margin-left: 40%;
-    }
-}
+
+
 
 
 .Borde_imagenes {
@@ -74,21 +59,6 @@
     justify-content: center;
 }
 
-@media (max-width: 800px) {
-    .Buttons_Inventario {
-        flex-direction: column;
-
-    }
-}
-
-@media (max-width: 300px) {
-    .Buttons_Inventario {
-        flex-direction: column;
-
-    }
-}
-
-
 
 
 .btns_inventario {
@@ -104,13 +74,19 @@
 }
 
 .Filtro {
-    width: 150px;
 
-    margin: 6%;
+    max-width: 100%;
+    margin: 2%;
     margin-left: 2%;
     position: absolute;
 
+
+
+
 }
+
+
+
 
 
 
@@ -128,6 +104,9 @@
     width: 200px;
 
 }
+
+
+
 
 .organiza_texto {
     width: fit-content;
@@ -305,7 +284,6 @@
 
 
 
-
 .tamanio_carro_principal {
     font-size: 40px;
     margin-left: 12%;
@@ -336,4 +314,99 @@ td {
 .precio-valor,
 .precio-moneda {
     vertical-align: middle;
+}
+
+/* VISTA CELULAR */
+@media (max-width: 480px) {
+    .Filtro {
+        transform: scale(0.8) translateX(-10%);
+    }
+}
+
+@media (max-width: 480px) {
+    .Inv_perfil {
+        margin-left: -20%;
+
+    }
+}
+
+@media (max-width: 480px) {
+    .ContenedorPadre {
+        width: 100%;
+
+    }
+}
+
+@media (max-width: 480px) {
+    .Buttons_Inventario {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .organiza_articulos_Inv {
+        margin-left: 40%;
+        transform: scale(0.8) translateX(-10%);
+
+    }
+}
+
+
+
+
+/* CELULAR O PANTALLA REDUCIDA */
+@media (min-width: 480px) and (max-width: 767px) {
+    .ContenedorPadre {
+        margin-top: 10%;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+    .organiza_articulos_Inv {
+        margin-left: 40%;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .Buttons_Inventario {
+        flex-direction: column;
+    }
+}
+
+/* TABLET */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .FondoBlanco_inv {
+        height: auto;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .ContenedorPadre {
+        margin-top: 10%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .organiza_articulos_Inv {
+        margin-left: 20%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .organiza_articulos_Inv {
+        margin-left: 20%;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .FondoBlanco_inv {
+        height: auto;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .organiza_articulos_Inv {
+        margin-left: 20%;
+    }
 }

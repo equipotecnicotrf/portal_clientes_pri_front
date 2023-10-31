@@ -5,6 +5,22 @@
   display: block;
 }
 
+.table {
+  width: 100%;
+  max-width: none;
+}
+
+.DropAcAudi {
+  overflow-x: auto;
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+}
+
 .DataTableAudi {
   position: relative;
   padding: 5%;
@@ -14,6 +30,13 @@
   border-collapse: collapse;
   max-height: 350px;
   overflow-y: auto;
+  text-align: center;
+  margin-top: 40px;
+  /*30-10-2023*/
+  max-height: 500px;
+  /*30-10-2023*/
+  overflow-x: auto;
+  margin-right: 20px;
 }
 
 .SearchAuditoria {
@@ -33,13 +56,7 @@
 
 /* Media queries */
 
-@media (max-width: 768px) {
-  .SearchAuditoria {
-    position: static;
-    margin-top: 10px;
-    margin-left: 10px;
-  }
-}
+
 
 .borderless_audit {
   border: none;
@@ -54,68 +71,7 @@
 }
 
 /* Acomoda el dropdown y la tabla para cuando se achique de anchura*/
-@media (max-width: 730px) {
-  .dropdown-toggle {
-    position: relative;
-    top: 0;
-    left: -350px;
-    ;
-    margin-top: 60px;
-    margin-left: 15px;
-    z-index: 1;
-    transition: all 0.3s ease;
-    /* Añade una animación de transición de 0.3 segundos */
-  }
 
-  .boton_cons {
-    Top: 20px;
-  }
-
-  .DataTableAudi {
-    position: absolute;
-    top: 250px;
-    max-width: 600px;
-    overflow: scroll;
-    transition: all 0.3s ease;
-    /* Añade una animación de transición de 0.3 segundos */
-  }
-}
-
-/* Para la imagen de abajo, quedaria "Cuadrada"*/
-@media (max-width: 1140px) {
-  .Img_gest_usua {
-    margin-top: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .Img_gest_usua {
-    margin-top: 470px;
-  }
-}
-
-@media (max-width: 510px) {
-  .dropdown-toggle {
-    position: relative;
-    top: 0;
-    left: -350px;
-    margin-top: 80px;
-    margin-left: 80px;
-    z-index: 1;
-    transition: all 0.3s ease;
-    /* Añade una animación de transición de 0.3 segundos */
-
-  }
-
-  .DataTableAudi {
-    position: absolute;
-    top: 250px;
-    max-width: 420px;
-    overflow: scroll;
-    transition: all 0.3s ease;
-    /* Añade una animación de transición de 0.3 segundos */
-  }
-}
 
 /*30-10-2023 adiciones ini*/
 .Img-Admin-audit {
@@ -128,9 +84,158 @@
   margin-left: 0%;
 }
 
-.ubica_datos_audit {
-  margin-top: -50%;
-  margin-left: 70%;
+/*30-10-2023 adiciones fin*/
+
+/*@MEDIAS*/
+
+@media (max-width: 480px) {
+
+  .Datos_Aud {
+
+    margin-left: -10%;
+
+  }
+
+  .ubica_imagen_audit {
+
+    width: 80px;
+
+    height: 80px;
+
+  }
+
+  .Datos {
+
+    font-size: 12px;
+
+    padding-left: 40px;
+
+  }
+
+
+
+  .Img_audit {
+
+    width: 200px;
+
+    height: 100px;
+
+    margin: auto;
+
+    display: block;
+
+    margin-top: 580px;
+
+  }
+
+
+
+
+
 }
 
-/*30-10-2023 adiciones fin*/
+
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+  .SearchAuditoria {
+
+    position: static;
+
+    margin-top: 10px;
+
+    margin-left: 10px;
+
+  }
+
+  .DropAcAudi {
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-top: 10px;
+
+    transform: translate(-90%, 210%);
+
+
+
+  }
+
+  .DataTableAudi {
+    margin-top: 100;
+  }
+
+
+
+}
+
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+  .dropdown-toggle {
+
+    position: relative;
+
+    top: 0;
+
+    left: -350px;
+
+    ;
+
+    margin-top: 60px;
+
+    margin-left: 15px;
+
+    z-index: 1;
+
+    transition: all 0.3s ease;
+
+    /* Añade una animación de transición de 0.3 segundos */
+
+  }
+
+
+
+  .boton_cons {
+
+    Top: 20px;
+
+  }
+
+
+
+
+
+}
+
+
+
+/* Para la imagen de abajo, quedaria "Cuadrada"*/
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+
+  .Img_gest_usua {
+
+    margin-top: 20px;
+
+  }
+
+}
+
+
+
+@media (min-width: 1200px) {
+
+  .Img_gest_usua {
+
+    margin-top: 470px;
+
+  }
+
+}

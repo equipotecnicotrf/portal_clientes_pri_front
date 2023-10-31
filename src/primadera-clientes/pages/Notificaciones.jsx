@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Dropdown, Button, Form, Modal, Table } from 'react-bootstrap';
+import { Dropdown, Button, Form, Modal } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';

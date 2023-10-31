@@ -391,7 +391,7 @@ const CarritoCompras = () => {
                                                                 <tr style={cellStyle}><strong>{carrito[3].item_description_long}</strong></tr>
                                                             </div>
                                                             <div className='Organiza_articulo'>
-                                                                <tr style={cellStyle}>CÓDIGO ARTíCULO: {carrito[3].item_number}</tr>
+                                                                <tr style={cellStyle}>CODIGO ARTICULO: {carrito[3].item_number}</tr>
                                                             </div>
                                                             <div className='Organiza_entrega'>
                                                                 <div><FaTruck className='tamaño-camion' /></div>

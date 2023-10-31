@@ -122,6 +122,7 @@ const DataTable = ({ backgroundColor }) => {
   const [cust_account_id, set_CustAccount_Id] = useState('');
   const [cust_name, set_Cust_Name] = useState('');
   const [party_id, set_Party_Id] = useState('');
+  const [cp_type_order_id, setcp_type_order_id] = useState('');
   const [cp_user_id, setcp_User_Id] = useState('');
   const [editUserId, setEditUserId] = useState(null); // Add a state variable for editing
   const [isChecked, setIsChecked] = useState(false); // Estado inicial
@@ -139,6 +140,7 @@ const DataTable = ({ backgroundColor }) => {
       setcp_Estatus(response.data.cp_estatus);
       setpayment_terms(response.data.payment_terms);
       settransactional_currency_code(response.data.transactional_currency_code);
+      setcp_type_order_id(response.data.cp_type_order_id)
       if (response.data.cp_estatus === "Activo") {
         setCheckbox2(true); // Activo
         setCheckbox1(false)
@@ -189,7 +191,7 @@ const DataTable = ({ backgroundColor }) => {
           else {
             const username = cp_email;
             const cp_estatus = (checkbox2 ? "Activo" : checkbox1 ? "Inactivo" : cp_estatus);
-            const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code }
+            const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code, cp_type_order_id }
             UserService.updateUser(editUserId, UserEdit).then((response) => {
               console.log(responseid.data)
               const cp_id_user = responseid.data.cp_user_id;
@@ -212,7 +214,7 @@ const DataTable = ({ backgroundColor }) => {
         } else {
           const username = cp_email;
           const cp_estatus = (checkbox2 ? "Activo" : checkbox1 ? "Inactivo" : cp_estatus);
-          const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code }
+          const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code, cp_type_order_id }
           UserService.updateUser(editUserId, UserEdit).then((response) => {
             console.log(responseid.data)
             const cp_id_user = responseid.data.cp_user_id;
@@ -246,7 +248,7 @@ const DataTable = ({ backgroundColor }) => {
         const cp_Password = "PortalClientes";
         const username = cp_email;
         const cp_estatus = "Activo";
-        const userCreate = { username, cust_account_id, cust_name, party_id, cp_name, cp_Password, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code };
+        const userCreate = { username, cust_account_id, cust_name, party_id, cp_name, cp_Password, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code, cp_type_order_id };
         UserService.createUsers(userCreate).then((responsecreate) => {
           console.log(responsecreate.data);
           const read = Cookies.get()
@@ -351,6 +353,7 @@ const DataTable = ({ backgroundColor }) => {
     })
   }
 
+  /*
   //Función para guardar las direcciones
   function guardarDireccion() {
     for (let i = 0; i < direcciones.length; i++) {
@@ -395,14 +398,15 @@ const DataTable = ({ backgroundColor }) => {
       })
     }
   }
+  */
 
   //listar tipo de pedidos
   const [tipoPedido, setTipoPedido] = useState([]);
   const [filteredTipoPedido, setFilteredTipoPedido] = useState([]);
   const [selectedTipoPedido, setSelectedTipoPedido] = useState(null);
   const [searchTermTipoPedido, setSearchTermTipoPedido] = useState('');
-  const [cp_type_order_id, setcp_type_order_id] = useState('');
-  const [cp_type_order_description, setcp_type_order_description] = useState('');
+
+
 
   // consulta de tipos de pedido
   useEffect(() => {
@@ -433,6 +437,22 @@ const DataTable = ({ backgroundColor }) => {
     );
     setFilteredTipoPedido(filteredTipoPedido);
   };
+
+  const [descripcionTipoPedido, setDescripcionTipoPedido] = useState('');
+
+  useEffect(() => {
+    if (cp_type_order_id && tipoPedido && tipoPedido.length > 0) {
+      // Busca el objeto TipoPedido con el cp_type_order_id correspondiente.
+      const tipoPedidoEncontrado = tipoPedido.find(item => item.cp_type_order_id === cp_type_order_id);
+
+      if (tipoPedidoEncontrado) {
+        // Si se encuentra el tipo de pedido, establece su descripción en algún lugar que necesites, por ejemplo, en un estado.
+        setDescripcionTipoPedido(tipoPedidoEncontrado.cp_type_order_description);
+      }
+    }
+  }, [cp_type_order_id, tipoPedido]);
+
+
 
   // seccion de servicios de roles
   const [roles, setRoles] = useState([]);
@@ -618,13 +638,15 @@ const DataTable = ({ backgroundColor }) => {
     color: '#fff',
     padding: '20px',
     textAlign: 'center',
-    marginTop: '60px'
+    marginTop: '90px',/*31-10-2023*/
+    maxHeight: '500px',/*31-10-2023*/
+    overflow: 'auto', /*31-10-2023*/
   };
 
   const bannerStyle2 = {
     backgroundColor: backgroundColor || '#878787',
     color: '#fff',
-    padding: '1.5%',
+    padding: '1.6%', /*31-10-2023*/
     textAlign: 'center',
   };
 
@@ -646,15 +668,14 @@ const DataTable = ({ backgroundColor }) => {
     backgroundColor: backgroundColor || '#878787',
     color: '#fff',
     textAlign: 'center',
-    marginTop: '10px'
+    marginTop: '-15px' /*31-10-2023 se ajusta margin top*/
   };
 
   const bannerStyle6 = {
     backgroundColor: backgroundColor || '#878787',
     color: '#fff',
-    padding: '20px',
     textAlign: 'center',
-    marginTop: '20px'
+    marginTop: '12px' //31-10-2023 se ajusta
   };
 
   const backgroundStyle = {
@@ -676,8 +697,8 @@ const DataTable = ({ backgroundColor }) => {
   };
   const dropDown = {
     position: 'absolute',
-    top: '27.2%',
-    left: '75%',
+    top: '33%', /*31-10-2023 se ajusta top*/
+    left: '76.4%',  /*31-10-2023 se ajusta left*/
     transform: 'translate (-50%, -50%)',
 
   };
@@ -797,19 +818,44 @@ const DataTable = ({ backgroundColor }) => {
     <>
       <div className='Back' style={backgroundStyle}>
         <Banner />
+        {/*31-10-2023 se ajusta DIV completo*/}
         <div style={gestion_usua}>
-          <tr>
-            <td><Container>
-              <Row>
-                <Col xs={6} md={4}>
-                  <Image className='Img-Admin' src={imagenes.Arboles} roundedCircle />
-                </Col>
-              </Row>
-            </Container>
-            </td>
-            <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr><tr><td>{usuariotelefono}</td></tr></td>
-          </tr>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <div  >
+                    <Container>
+                      <Row>
+                        <Col xs={6} md={4}>
+                          <Image className='Img-Admin-gest-usua' src={imagenes.Arboles} roundedCircle />
+                        </Col>
+                      </Row>
+                    </Container>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <th>{usuarioSesion}</th>
+                        </tr>
+                        <tr>
+                          <td>{usuarioCorreo}</td>
+                        </tr>
+                        <tr>
+                          <td>{usuariotelefono}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        {/*31-10-2023 se ajusta DIV completo*/}
 
         <Dropdown style={dropDown}>
           <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
@@ -844,7 +890,7 @@ const DataTable = ({ backgroundColor }) => {
             </Row>
           </Form>
         </div>
-        <div className='DataTable' style={bannerStyle} >
+        <div className='DataTable_Usu' style={bannerStyle} >  {/*31-10-2023 ajuste classname*/}
           <th style={gestion}>GESTIÓN DE USUARIO </th>
           <table className='table table-bordered' style={bannerStyle6} >
             <thead style={bannerStyle}>
@@ -884,7 +930,7 @@ const DataTable = ({ backgroundColor }) => {
             </tbody>
           </table>
         </div>
-        <div className='Buttons mt-12'>
+        <div className='Botones_gest mt-12'> {/*31-10-2023 cambiar classname*/}
           <button onClick={handleShow} className='btns p-2 m-2 btn-sm'>Gestionar Roles</button>
           <button onClick={handleCrtUserShow} className='btns p-2 m-2 btn-sm'>Crear usuario</button>
         </div>
@@ -936,7 +982,7 @@ const DataTable = ({ backgroundColor }) => {
             </Form>
           </Modal.Body>
           <Modal.Footer className="Gestion_roles">
-            <Button className="boton_ges_usua p-1 m-1" onClick={handleShow2}>Crear Rol</Button>
+            <Button className="boton_ges_usua " onClick={handleShow2}>Crear Rol</Button>  {/*31-10-2023 se quita p1*/}
           </Modal.Footer>
         </Modal>
 
@@ -973,7 +1019,7 @@ const DataTable = ({ backgroundColor }) => {
                 <Form.Control.Feedback type="invalid">Por favor ingresa la Descripción del rol</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
               </Form.Group>
               <Modal.Footer className='Create-Rol'>
-                <Button className="boton_crear_rol p-1 m-1 btn-sm" type='submit'> Crear</Button>
+                <Button className="boton_crear_rol" type='submit'> Crear</Button> {/*31-10-2023 se ajusta p-2 m-2*/}
               </Modal.Footer>
             </Form>
           </Modal.Body>
@@ -1015,7 +1061,7 @@ const DataTable = ({ backgroundColor }) => {
             </Form>
           </Modal.Body>
           <Modal.Footer className="Contexto">
-            <Button className="Btn_guardar_context p-1 m-1 btn-sm" >
+            <Button className="Btn_guardar_context " > {/*31-10-2023*/}
               Guardar
             </Button>
           </Modal.Footer>
@@ -1116,6 +1162,31 @@ const DataTable = ({ backgroundColor }) => {
                   </Dropdown.Menu>
                 </Dropdown>
               </Form.Group>
+              {/*AJUSTE 31-10-2023 INICIO*/}
+              <Form.Group className="mb-3" controlid="exampleForm.ControlInput5">
+                <Form.Label>Tipo de Pedido</Form.Label>
+                <Dropdown>
+                  <Dropdown.Toggle className="menu mb-3" style={{ color: 'black' }} controlid="exampleForm.ControlInput5" id="dropdown-basic">
+                    {selectedTipoPedido ? selectedTipoPedido.cp_type_order_description : 'Seleccionar'}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Form.Control
+                      type="text"
+                      placeholder="Buscar"
+                      value={searchTermTipoPedido}
+                      onChange={handleSearchChangeTipoPedido}
+                    />
+                    {filteredTipoPedido.map((Pedido) => (
+                      <Dropdown.Item
+                        key={Pedido.cp_type_order_id}
+                        onClick={() => handleTipoPedidoSelect(Pedido)}                     >
+                        {Pedido.cp_type_order_description}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
+              {/*AJUSTE 31-10-2023 fin*/}
               <Modal.Footer className='Create-User' >
                 <Button className='Crear-btn-usua' type='submit' >
                   Crear
@@ -1135,10 +1206,10 @@ const DataTable = ({ backgroundColor }) => {
           <Modal.Body style={bannerStyle3} className='Edit-User'>
             <Form noValidate validated={validated} onSubmit={handleSubmit} > {/*AJUSTE LCPG 9-10*/}
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label>Nombre de usuario</Form.Label>
+                <Form.Label>Nombre de Usuario</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Nombre de usuario"
+                  placeholder="Nombre de Usuario"
                   autoFocus
                   value={cp_name}
                   onChange={(e) => setcp_Name(e.target.value)}
@@ -1147,10 +1218,10 @@ const DataTable = ({ backgroundColor }) => {
                 <Form.Control.Feedback type="invalid">Por favor ingresa el Nombre de usuario</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
               </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput2" disabled>
-                <Form.Label>Correo Usuario</Form.Label>
+                <Form.Label>Correo de Usuario</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Correo Usuario" /*AJUSTE LCPG 9-10*/
+                  placeholder="Correo de Usuario" /*AJUSTE LCPG 9-10*/
                   autoFocus
                   value={cp_email}
                   onChange={(e) => setcp_Email(e.target.value)}
@@ -1171,7 +1242,7 @@ const DataTable = ({ backgroundColor }) => {
                 <Form.Control.Feedback type="invalid">Por favor ingresa el Teléfono de usuario</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
               </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                <Form.Label>Nombre cliente</Form.Label>
+                <Form.Label>Nombre de Cliente</Form.Label>
                 <Dropdown>
                   <Dropdown.Toggle className="menu mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
                     {selectedCliente ? selectedCliente.accountName : set_Cust_Name ? cust_name : ''}
@@ -1202,7 +1273,7 @@ const DataTable = ({ backgroundColor }) => {
                   <Dropdown.Menu>
                     <Form.Control
                       type="text"
-                      placeholder="Buscar rol"
+                      placeholder="Buscar Rol"
                       value={searchTermRoles}
                       onChange={handleSearchChangeRoles}
                       required /*AJUSTE LCPG 9-10*/
@@ -1218,6 +1289,31 @@ const DataTable = ({ backgroundColor }) => {
                   </Dropdown.Menu>
                 </Dropdown>
               </Form.Group>
+              {/*AJUSTE 31-10-2023 INICIO*/}
+              <Form.Group className="mb-3" controlid="exampleForm.ControlInput5">
+                <Form.Label>Tipo de Pedido</Form.Label>
+                <Dropdown>
+                  <Dropdown.Toggle className="menu mb-3" style={{ color: 'black' }} controlid="exampleForm.ControlInput5" id="dropdown-basic">
+                    {selectedTipoPedido ? selectedTipoPedido.cp_type_order_description : setcp_type_order_id ? descripcionTipoPedido : ''}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Form.Control
+                      type="text"
+                      placeholder="Buscar"
+                      value={searchTermTipoPedido}
+                      onChange={handleSearchChangeTipoPedido}
+                    />
+                    {filteredTipoPedido.map((Pedido) => (
+                      <Dropdown.Item
+                        key={Pedido.cp_type_order_id}
+                        onClick={() => handleTipoPedidoSelect(Pedido)}                     >
+                        {Pedido.cp_type_order_description}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
+              {/*AJUSTE 31-10-2023 fin*/}
               <div className='CheckBox'> {/*AJUSTE LCPG INICIO*/}
                 <Form className='CheckBox'>
 
@@ -1238,7 +1334,7 @@ const DataTable = ({ backgroundColor }) => {
               </div> {/*AJUSTE LCPG FIN*/}
               {/*AJUSTE LCPG 9-10 cambio ubicación footer*/}
               <Modal.Footer className='Create-User'>
-                <Button type="submit" className='Crear-btn-usua' >
+                <Button type="submit" className='Guardar-btn-usua' > {/*se cambia nombre classname 31-10-2023*/}
                   Guardar
                 </Button>
               </Modal.Footer>
@@ -1262,10 +1358,9 @@ const DataTable = ({ backgroundColor }) => {
                     <th >Dirección</th>
                     <th >Dpt</th>
                     <th >Ciudad</th>
-                    <th >Pais</th>
+                    <th >País</th>
                     <th >Vendedor</th>
                     <th >Uso</th>
-                    <th >Tipo de pedido</th>
                   </tr>
                 </thead>
                 <tbody >
@@ -1279,29 +1374,6 @@ const DataTable = ({ backgroundColor }) => {
                         <td >{direcciones.country}</td>
                         <td >{direcciones.siteUseCode}</td>
                         <td >{direcciones.nameVendedor}</td>
-                        <td ><Form.Group className="mb-3" controlid="exampleForm.ControlInput5">
-                          <Dropdown>
-                            <Dropdown.Toggle className="menu mb-3" style={{ color: 'black' }} controlid="exampleForm.ControlInput5" id="dropdown-basic">
-                              {selectedTipoPedido ? selectedTipoPedido.cp_type_order_description : 'Seleccionar'}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                              <Form.Control
-                                type="text"
-                                placeholder="Buscar"
-                                value={searchTermTipoPedido}
-                                onChange={handleSearchChangeTipoPedido}
-                              />
-                              {filteredTipoPedido.map((Pedido) => (
-                                <Dropdown.Item
-                                  key={Pedido.cp_type_order_id}
-                                  onClick={() => handleTipoPedidoSelect(Pedido)}                     >
-                                  {Pedido.cp_type_order_description}
-                                </Dropdown.Item>
-                              ))}
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </Form.Group>
-                        </td>
                       </tr>
                     ))}
                 </tbody>
@@ -1309,9 +1381,6 @@ const DataTable = ({ backgroundColor }) => {
             </div>
           </ModalBody>
           <Modal.Footer className='Create-User' >
-            <Button className='Save-btn-usua' onClick={(e) => guardarDireccion(e)}>
-              Guardar
-            </Button>
           </Modal.Footer>
         </Modal>
 
@@ -1346,8 +1415,8 @@ const DataTable = ({ backgroundColor }) => {
                 <Form.Control.Feedback type="invalid">Por favor ingresa la descripcon del Rol</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
               </Form.Group>
               <Form className='CheckBox_estado_rol'>
-                <div className='CheckBox'> {/*AJUSTE LCPG INICIO*/}
-                  <Form className='CheckBox'>
+                <div className='CheckBox_2'> {/*AJUSTE 31-10-2023*/}
+                  <Form className='CheckBox_2'> {/*AJUSTE 31-10-2023*/}
                     <Form.Group className='Checkbox_estado'>
                       <Form.Check type="checkbox">
                         <Form.Check.Label>Inactivo</Form.Check.Label>
@@ -1372,7 +1441,7 @@ const DataTable = ({ backgroundColor }) => {
             </Form>
           </Modal.Body>
         </Modal>
-        <Image className='Img_gest_usua' src={imagenes.Creamos} />
+        <Image className='Img_gest_usuario' src={imagenes.Creamos} />
       </div >
     </>
 

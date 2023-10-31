@@ -1,4 +1,4 @@
-.Img-Admin {
+.Img-Admin-Cons {
     width: 100px;
     height: 100px;
 }
@@ -14,6 +14,15 @@
 
 }
 
+.DropCons {
+    overflow-x: auto;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
 .DataTable_cons {
     padding: 5%;
     margin: 5%;
@@ -22,6 +31,8 @@
     border-collapse: collapse;
     max-height: 350px;
     overflow-y: auto;
+    overflow-x: auto;
+    margin-right: 20px;
 
 }
 
@@ -94,14 +105,7 @@
 
 
 @media (max-width: 730px) {
-    .DataTable_cons {
-        position: absolute;
-        top: 250px;
-        max-width: 600px;
-        overflow: scroll;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
-    }
+
 
     .boton_cons {
         position: absolute;
@@ -133,17 +137,12 @@
 @media (max-width: 510px) {
 
 
-    .DataTable_cons {
-        position: absolute;
-        top: 260px;
-        max-width: 500px;
-        overflow: scroll;
-        max-width: 430px;
-    }
+
 
     .boton_cons {
         position: absolute;
 
         top: 680px;
     }
+
 }

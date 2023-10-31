@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Dropdown from 'react-bootstrap/Dropdown';
 import { useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
@@ -13,7 +12,6 @@ import Cookies from 'js-cookie';
 import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
 import ItemService from '../../services/ItemService';
-import TypeOrderService from '../../services/TypeOrderService';
 import Button from 'react-bootstrap/Button';
 import FiltroInven from './Filtro';
 import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck } from "react-icons/fa";
@@ -22,6 +20,7 @@ import ShopingCartService from '../../services/ShopingCartService';
 import OrderService from '../../services/OrderService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
 import OrderLineService from '../../services/OrderLineService';
+import IvaService from '../../services/IvaService';
 
 const DataInventario = () => {
     const [usuarioSesion, setUarioSesion] = useState([]);
@@ -35,44 +34,36 @@ const DataInventario = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const responseid = await SesionUsername();
+        SesionUsername();
+        ListarIva();
+    }, [])
+
+    const SesionUsername = () => {
+        if (LoginService.isAuthenticated()) {
+            const read = Cookies.get()
+            UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
+                console.log(responseid.data)
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
+                setCustAccountId(responseid.data.cust_account_id);
+                setUsarioId(responseid.data.cp_user_id);
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
                 setUsuarioEmpresa(responseid.data.cust_name);
-                setUsarioId(responseid.data.cp_user_id);
-                setCustAccountId(responseid.data.cust_account_id);
                 setPartyId(responseid.data.party_id);
 
                 carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
-            } catch (error) {
-                console.log(error);
-                alert("Error obtener usuario de sesion");
-                // Manejar el error apropiadamente, por ejemplo, redirigir o mostrar un mensaje de error.
-            }
-        };
+                ListArticulosConDisponibilidad(responseid.data.party_id);
 
-        fetchData();
-    }, [navigate]);
-
-    const SesionUsername = async () => {
-        if (LoginService.isAuthenticated()) {
-            const read = Cookies.get();
-            try {
-                const responseid = await UserService.getUserByUsername(read.portal_sesion);
-                return responseid;
-            } catch (error) {
-                console.log(error);
-                throw error;
-            }
+            }).catch(error => {
+                console.log(error)
+                alert("Error obtener usuario de sesion")
+            })
         } else {
+            // Redirigir al inicio de sesión u otra acción
             LoginService.logout();
-            navigate('/');
-            throw new Error("Usuario no autenticado");
+            navigate('/')
         }
-    };
+    }
 
     const carritoComprausuario = (cust_account_id, cp_user_id) => {
         ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
@@ -101,12 +92,6 @@ const DataInventario = () => {
 
     // Traer información de disponibilidad y unirla con los artículos disponibles
     const [ArticulosConDisponibilidad, setArticulosConDisponibilidad] = useState([]);
-    useEffect(() => {
-        if (PartyId) {
-            ListArticulosConDisponibilidad(PartyId);
-        }
-    }, [PartyId]);
-
     const ListArticulosConDisponibilidad = async (custid) => {
         try {
             const response = await ItemService.getItemsConDisponibilidad(custid);
@@ -143,6 +128,31 @@ const DataInventario = () => {
             return nuevoContador;
         });
     };
+
+    //listar iva
+    useEffect(() => {
+        ListarIva();
+    }, [])
+
+    const [porcIva, setPorcIva] = useState([]);
+    const ListarIva = () => {
+        IvaService.getAllIva()
+            .then(response => {
+                setPorcIva(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const fechaHoy = new Date(); // Obtén la fecha actual
+    const ivaFiltrados = porcIva.filter(porcIva => {
+        const fechaInicio = new Date(porcIva.cp_IVA_date_start);
+        const fechaFin = new Date(porcIva.cp_IVA_date_end);
+
+        return fechaHoy >= fechaInicio && fechaHoy <= fechaFin;
+    });
 
 
 
@@ -415,7 +425,7 @@ const DataInventario = () => {
                                                 <div className='organiza_iva_inc'>
                                                     <table>
                                                         <tr>
-                                                            <td>${(articulo[2].unit_price * 0.19).toLocaleString(undefined, opciones)} {articulo[2].currency_code} IVA INCLUIDO</td>
+                                                            <td>${(articulo[2].unit_price * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100)).toLocaleString(undefined, opciones)} {articulo[2].currency_code} IVA INCLUIDO</td>
                                                         </tr>
                                                     </table>
                                                 </div>

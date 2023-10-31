@@ -2,8 +2,9 @@
     background-color: white;
     margin: 40px;
     margin-top: 3%;
-    height: 785px;
+    height: 700px;
 }
+
 
 .Img-Creamos_carrito {
     width: 200px;
@@ -14,13 +15,14 @@
 
 .ContenedorPadre_carrito {
     background-color: #F9F7F7;
-    width: 950x;
-    height: 590px;
+    /* width: 950px; */
+    height: 500px;
     margin-left: 2%;
     margin-right: 2%;
-    margin-top: 0%;
-    overflow: auto;
+    margin-top: 4%;
+    overflow: scroll;
 }
+
 
 .Borde_imagenes_carrito {
     border-radius: 5%;
@@ -53,6 +55,10 @@
     border-width: 0.5px;
 }
 
+.btns_carrito_finalizar {
+    margin-left: 10%;
+}
+
 .btns_carrito_seguir {
     background-color: #323333;
     border-radius: 30px;
@@ -72,10 +78,11 @@
 .btns_carrito_finalizar {
     background-color: #941C1D;
     border-radius: 30px;
-    margin-left: 45%;
+    margin-left: 40%;
     width: 200px;
     border: none;
 }
+
 
 .Buttons_Carrito {
     margin-top: -2.5%;
@@ -87,31 +94,34 @@
 
 .Organiza_descripción {
     background-color: #F9F7F7;
-    width: fit-content;
     text-align: left;
+    /* Texto alineado, no cambia movimiento */
     margin-left: 75%;
-    margin-top: -71%;
-    width: 270px;
+    /* posición */
+    margin-top: -70%;
+    /* posición */
+    width: 200px;
+    overflow-x: auto;
 }
+
 
 .Organiza_articulo {
     background-color: #F9F7F7;
-    width: fit-content;
+    display: block;
     text-align: left;
     margin-left: 75%;
-    margin-top: 10%;
-    width: 270px;
-    margin-top: 50;
+    width: 200px;
+    margin-top: 50px;
+    overflow-x: auto;
 }
 
 .Organiza_entrega {
     background-color: #DDDBDB;
-    width: fit-content;
+    overflow-x: auto;
     text-align: left;
     margin-left: 75%;
-    margin-top: 10%;
     width: 260px;
-    margin-top: 50;
+    margin-top: 50px;
 }
 
 .tamaño-camion {
@@ -126,7 +136,7 @@
     background-color: #DDDBDB;
     margin-left: 14%;
     margin-top: -13.5%;
-    width: 217px;
+    width: 200px;
 }
 
 .alinea_imagen {
@@ -316,7 +326,7 @@
 .Info_general {
     background-color: #767373;
     text-align: left;
-    margin-left: 80%;
+    margin-left: 75%;
     width: 220px;
     height: 80px;
     margin-top: 2%;
@@ -325,17 +335,6 @@
     border-color: black;
 
 }
-
-@media (max-width: 768px) {
-    .Info_general {
-        width: 220px;
-        margin-left: 50%;
-        transform: translateX(-50%);
-
-    }
-}
-
-
 
 
 
@@ -352,4 +351,133 @@
 
 .ancho_div {
     width: 370px;
+}
+
+@media (max-width: 1000px) and (min-width: 769px) {
+    .ContenedorPadre_carrito {
+        margin-top: 4%;
+    }
+
+    .Img-Creamos_carrito {
+        margin-top: 38%;
+    }
+}
+
+
+@media (max-width: 1000px) and (min-width: 800px) {
+    .Img-Creamos_carrito {
+        margin-top: 5%;
+    }
+}
+
+@media (max-width: 800px) {
+    .ContenedorPadre_carrito {
+        height: auto;
+    }
+
+}
+
+@media (max-width: 1150px) {
+    .Organiza_entrega {
+        transform: scale(0.8) translateX(-30%);
+        transition: transform 0.5s ease-in-out;
+    }
+}
+
+@media (max-width: 768px) {
+    .ContenedorPadre_carrito {
+        height: auto;
+    }
+
+    .FondoBlanco_carrito {
+        height: auto;
+    }
+
+    .ContenedorPadre_carrito {
+        flex-direction: column;
+        /* Stack buttons vertically on smaller screens */
+    }
+
+    .btns_carrito_seguir,
+    .btns_carrito_borrar,
+    .btns_carrito_finalizar {
+        width: 100%;
+        /* Make buttons take up full width on smaller screens */
+        margin: 2% 0;
+        /* Adjust the margin for spacing between buttons */
+    }
+
+    .Info_general {
+        width: 220px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 800px) {
+    .Buttons_Carrito {
+        flex-direction: column;
+
+    }
+}
+
+@media (max-width: 800px) {
+    .ContenedorPadre_carrito {
+        flex-direction: column;
+        /* Stack buttons vertically on smaller screens */
+    }
+
+    .btns_carrito_seguir,
+    .btns_carrito_borrar,
+    .btns_carrito_finalizar {
+        width: 100%;
+        /* Make buttons take up full width on smaller screens */
+        margin: 2% 0;
+        /* Adjust the margin for spacing between buttons */
+    }
+
+}
+
+@media (max-width: 300px) {
+    .Buttons_Carrito {
+        flex-direction: column;
+
+    }
+}
+
+@media (max-width: 620px) {
+    .ContenedorPadre_carrito {
+        margin-top: 6%;
+    }
+}
+
+@media (max-width: 1194px) and (min-width: 801px) {
+    .btns_carrito_finalizar {
+        transition: all 0.3s ease;
+        margin-left: 6%;
+    }
+
+}
+
+
+@media (max-width: 1170px) {
+    .principal_contador_carrito {
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 1300px) {
+    .alinea_imagen {
+        border: none;
+
+        display: flex;
+
+
+    }
+}
+
+@media (max-width: 576px) {
+    .Datos {
+        margin-left: -60px;
+    }
 }

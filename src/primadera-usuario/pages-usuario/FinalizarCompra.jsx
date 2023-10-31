@@ -18,6 +18,9 @@ import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import ShopingCartService from '../../services/ShopingCartService';
 import PedidoService from '../../services/PedidoService';
 import ConsecutiveService from '../../services/ConsecutiveService';
+import IvaService from '../../services/IvaService';
+import ShopingCartLineService from '../../services/ShopingCartLineService';
+import TypeOrderService from '../../services/TypeOrderService';
 
 const FinalizarCompra = () => {
 
@@ -32,6 +35,7 @@ const FinalizarCompra = () => {
     const [CustAccountId, setCustAccountId] = useState([]);
     const [payment_terms, setpayment_terms] = useState([]);
     const [transactional_currency_code, settransactional_currency_code] = useState([]);
+    const [cp_type_order_id, setcp_type_order_id] = useState('');
     const [siteUseIdpedido, setsiteUseIdpedido] = useState([]);
     const [nameVendedor, setnameVendedor] = useState([]);
     const [partySiteId, setpartySiteId] = useState([]);
@@ -45,6 +49,7 @@ const FinalizarCompra = () => {
     const navigate = useNavigate();
     useEffect(() => {
         SesionUsername();
+        ListarIva();
     }, [])
 
     const SesionUsername = () => {
@@ -61,10 +66,11 @@ const FinalizarCompra = () => {
                 setPartyId(responseid.data.party_id);
                 setpayment_terms(responseid.data.payment_terms);
                 settransactional_currency_code(responseid.data.transactional_currency_code);
-
+                setcp_type_order_id(responseid.data.cp_type_order_id);
 
                 ListDirecciones(responseid.data.cust_account_id);
                 carritoCompra(responseid.data.cust_account_id, responseid.data.cp_user_id);
+                ConsultarTipoPedidoPorId(responseid.data.cp_type_order_id)
 
             }).catch(error => {
                 console.log(error)
@@ -76,6 +82,29 @@ const FinalizarCompra = () => {
             navigate('/')
         }
     }
+
+
+    const [porcIva, setPorcIva] = useState([]);
+    const ListarIva = () => {
+        IvaService.getAllIva()
+            .then(response => {
+                setPorcIva(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const fechaHoy = new Date(); // Obtén la fecha actual
+    const ivaFiltrados = porcIva.filter(porcIva => {
+        const fechaInicio = new Date(porcIva.cp_IVA_date_start);
+        const fechaFin = new Date(porcIva.cp_IVA_date_end);
+
+        return fechaHoy >= fechaInicio && fechaHoy <= fechaFin;
+    });
+
+    console.log("ivaFiltrados:", ivaFiltrados[0]);
 
     const carritoCompra = (cust_account_id, cp_user_id) => {
         ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
@@ -102,6 +131,34 @@ const FinalizarCompra = () => {
         sumavolumen += quantityvolume;
     }
 
+
+    //Eliminar carrito
+
+    const deleteCarrito = () => {
+        if (carrito && carrito.length > 0) {
+            // Recorremos las líneas del carrito y las eliminamos una por una
+            Promise.all(
+                carrito.map((carritoItem) => {
+                    // Eliminar la línea del carrito actual
+                    ShopingCartService.deleteCar(carritoItem[1].cp_cart_id).then(deleteCarresponse => {
+                        console.log(deleteCarresponse.data);
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                    return ShopingCartLineService.deleteCarline(carritoItem[2].cp_cart_line_id);
+                }))
+                .then((deletelineresponse) => {
+                    // Todas las líneas se eliminaron con éxito
+                    console.log(deletelineresponse.data)
+                })
+                .catch((error) => {
+                    console.log("Error al eliminar una o más líneas del carrito", error);
+                });
+        }
+
+
+    }
+
     const ListDirecciones = (id_direccion) => {
         SoapServiceDirecciones.getAllDirecciones(id_direccion).then(response => {
             setDirecciones(response.data);
@@ -111,6 +168,49 @@ const FinalizarCompra = () => {
         })
     }
 
+    const [selectedDireccion, setSelectedDireccion] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredDirecciones, setFilteredDirecciones] = useState([]);
+
+    const handleDireccionSelect = (direccion) => {
+        setSelectedDireccion(direccion);
+        setSearchTerm('');
+        setnameVendedor(direccion.nameVendedor);
+        setpartySiteId(direccion.partySiteId);
+
+    };
+
+    const handleSearchChange = (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        setSearchTerm(searchTerm);
+
+        const filtered = direcciones.filter((direccion) =>
+            direccion.address1.toLowerCase().includes(searchTerm) && direccion.siteUseCode === 'SHIP_TO'
+        );
+        setFilteredDirecciones(filtered);
+    };
+
+
+    const [selectedDireccionBillto, setSelectedDireccionBillto] = useState(null);
+    const [searchTermBillto, setSearchTermBillto] = useState('');
+    const [filteredDireccionesBillto, setFilteredDireccionesBillto] = useState([]);
+
+
+    const handleDireccionSelectBillto = (direccionbillto) => {
+        setSelectedDireccionBillto(direccionbillto);
+        setSearchTermBillto('');
+        setsiteUseIdpedido(direccionbillto.siteUseId);
+    };
+
+    const handleSearchChangeBillto = (e) => {
+        const searchTermBillto = e.target.value.toLowerCase();
+        setSearchTermBillto(searchTermBillto);
+
+        const filteredBillto = direcciones.filter((direccionbillto) =>
+            direccionbillto.address1.toLowerCase().includes(searchTerm) && direccionbillto.siteUseCode === 'BILL_TO'
+        );
+        setFilteredDireccionesBillto(filteredBillto);
+    };
 
     const [crearpedidoERP, setCrearpedidoERP] = useState([]);
     const [ordenCompra, setordenCompra] = useState([]);
@@ -138,6 +238,22 @@ const FinalizarCompra = () => {
     }
 
 
+    const [cp_type_order_meaning, setcp_Type_Order_Meaning] = useState('');
+
+    //consulta por ID
+    const ConsultarTipoPedidoPorId = (typeOrderId) => {
+        TypeOrderService.getTypeOrderById(typeOrderId).then((response) => {
+            setcp_Type_Order_Meaning(response.data.cp_type_order_meaning);
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+
+
+    //creacion pedido
+
+
     const [validated, setValidated] = useState(false);
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -146,8 +262,7 @@ const FinalizarCompra = () => {
         if (form.checkValidity() === false) {
             alert("Por favor, complete el formulario correctamente.");
         } else {
-            //pedidoERP();
-            alert("Validacion Correcta.");
+            pedidoERP();
         }
 
         setValidated(true);
@@ -157,61 +272,71 @@ const FinalizarCompra = () => {
 
 
     const pedidoERP = () => {
+        if (selectedDireccionBillto === null || selectedDireccion === null) {
+            alert("Por favor, seleccione dirección de envío y de facturación.");
+        } else {
+            const fechaHoy = new Date(); // Obtén la fecha actual
 
-        const fechaHoy = new Date(); // Obtén la fecha actual
+            const consecutivosFiltrados = consecutivo.filter(consecutivo => {
+                const fechaInicio = new Date(consecutivo.cp_Consecutive_date_start);
+                const fechaFin = new Date(consecutivo.cp_Consecutive_date_end);
 
-        const consecutivosFiltrados = consecutivo.filter(consecutivo => {
-            const fechaInicio = new Date(consecutivo.cp_Consecutive_date_start);
-            const fechaFin = new Date(consecutivo.cp_Consecutive_date_end);
-
-            return fechaHoy >= fechaInicio && fechaHoy <= fechaFin;
-        })
+                return fechaHoy >= fechaInicio && fechaHoy <= fechaFin;
+            })
 
 
-        const enviopedido = {
-            consecutive: consecutivosFiltrados.cp_Consecutive_code + consecutivosFiltrados.cp_Consecutive_num,
-            buyingPartyName: usuarioEmpresa,
-            transactionType: "LOCAL ORDER",
-            paymentTerms: payment_terms,
-            transactionalCurrencyCode: transactional_currency_code,
-            salesperson: nameVendedor,
-            customerPONumber: ordenCompra,
-            customerAccountId: CustAccountId,
-            siteUseId: parseInt(siteUseIdpedido),
-            partyId: PartyId,
-            siteId: parseInt(partySiteId),
-            lineItems: lineItemsPedido
-        }
+            const enviopedido = {
+                consecutive: consecutivosFiltrados[0].cp_Consecutive_code + consecutivosFiltrados[0].cp_Consecutive_num,
+                buyingPartyName: usuarioEmpresa,
+                transactionType: cp_type_order_meaning,
+                paymentTerms: payment_terms,
+                transactionalCurrencyCode: transactional_currency_code,
+                salesperson: nameVendedor,
+                customerPONumber: ordenCompra,
+                customerAccountId: CustAccountId,
+                siteUseId: parseInt(siteUseIdpedido),
+                partyId: PartyId,
+                siteId: parseInt(partySiteId),
+                lineItems: lineItemsPedido
+            }
 
-        PedidoService.Insertarpedido(enviopedido).then(responsepedidoERP => {
-            setCrearpedidoERP(responsepedidoERP.data);
-            console.log(responsepedidoERP.data)
+            console.log("enviopedido:", enviopedido);
 
-            //Actualizar Consecutivo
-            const cp_Consecutive_code = consecutivosFiltrados.cp_Consecutive_code;
-            const cp_Consecutive_num = consecutivosFiltrados.cp_Consecutive_num + 1;
-            const cp_Consecutive_date_start = consecutivosFiltrados.cp_Consecutive_date_start;
-            const cp_Consecutive_date_end = consecutivosFiltrados.cp_Consecutive_date_end;
-            const cp_Consecutive_id = consecutivosFiltrados.cp_Consecutive_id;
-            const consecutive_edit = { cp_Consecutive_code, cp_Consecutive_num, cp_Consecutive_date_start, cp_Consecutive_date_end };
+            PedidoService.Insertarpedido(enviopedido).then(responsepedidoERP => {
+                setCrearpedidoERP(enviopedido);
+                //console.log(responsepedidoERP.data)
 
-            ConsecutiveService.updateConsecutive(cp_Consecutive_id, consecutive_edit).then((responseConsecutive) => {
-                console.log(responseConsecutive.data);
-                setShow(true);
-                alert(responsepedidoERP.data)
-            }).catch((error) => {
+                //Actualizar Consecutivo
+                const cp_Consecutive_code = consecutivosFiltrados[0].cp_Consecutive_code;
+                const cp_Consecutive_num = consecutivosFiltrados[0].cp_Consecutive_num + 1;
+                const cp_Consecutive_date_start = consecutivosFiltrados[0].cp_Consecutive_date_start;
+                const cp_Consecutive_date_end = consecutivosFiltrados[0].cp_Consecutive_date_end;
+                const cp_Consecutive_id = consecutivosFiltrados[0].cp_Consecutive_id;
+                const consecutive_edit = { cp_Consecutive_code, cp_Consecutive_num, cp_Consecutive_date_start, cp_Consecutive_date_end };
+
+                ConsecutiveService.updateConsecutive(cp_Consecutive_id, consecutive_edit).then((responseConsecutive) => {
+                    console.log(responseConsecutive.data);
+                    setShow(true);
+                    alert(responsepedidoERP.data)
+                    deleteCarrito();
+                }).catch((error) => {
+                    console.log(error);
+                    alert("Error al actualizar Consecutivo")
+                });
+            }).catch(error => {
                 console.log(error);
-                alert("Error al actualizar Consecutivo")
-            });
-        }).catch(error => {
-            console.log(error);
-            alert("Error al Crear pedido en el ERP")
-        })
+                alert("Error al Crear pedido en el ERP")
+            })
+        }
     }
 
 
+
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        navigate("/CarritoCompras")
+    }
 
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
@@ -314,22 +439,22 @@ const FinalizarCompra = () => {
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
                                         <Dropdown>
                                             <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-
+                                                {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu>
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="Buscar dirección"
-                                                    required
+                                                    value={searchTerm}
+                                                    onChange={handleSearchChange}
                                                 />
-
-                                                <Dropdown.Item
-
-                                                >
-
-                                                </Dropdown.Item>
-
-                                                <Form.Control.Feedback type="invalid">Por favor ingresa dirección de envió</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
+                                                {filteredDirecciones.map((direccion) => (
+                                                    <Dropdown.Item
+                                                        key={direccion.siteUseId}
+                                                        onClick={() => handleDireccionSelect(direccion)} >
+                                                        {direccion.address1 + " - " + direccion.city}
+                                                    </Dropdown.Item>
+                                                ))}
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </Form.Group>
@@ -339,22 +464,22 @@ const FinalizarCompra = () => {
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
                                         <Dropdown>
                                             <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-
+                                                {selectedDireccionBillto ? selectedDireccionBillto.address1 : 'Escoge tu dirección'}
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu>
                                                 <Form.Control
                                                     type="text"
                                                     placeholder="Buscar dirección"
-                                                    required
+                                                    value={searchTermBillto}
+                                                    onChange={handleSearchChangeBillto}
                                                 />
-
-                                                <Dropdown.Item
-
-                                                >
-
-                                                </Dropdown.Item>
-
-                                                <Form.Control.Feedback type="invalid">Por favor ingresa dirección de facturación </Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
+                                                {filteredDireccionesBillto.map((direccionbillto) => (
+                                                    <Dropdown.Item
+                                                        key={direccionbillto.siteUseId}
+                                                        onClick={() => handleDireccionSelectBillto(direccionbillto)} >
+                                                        {direccionbillto.address1 + " - " + direccionbillto.city}
+                                                    </Dropdown.Item>
+                                                ))}
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </Form.Group>
@@ -419,11 +544,11 @@ const FinalizarCompra = () => {
                                                 </tr>
                                                 <tr className="borde_horizontal">
                                                     <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>IVA</td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal * 0.19).toLocaleString(undefined, opciones)}</td>
+                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100)).toLocaleString(undefined, opciones)}</td>
                                                 </tr>
                                                 <tr >
                                                     <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Total</td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal + (sumaTotal * 0.19)).toLocaleString(undefined, opciones)}</td>
+                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal + (sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)}</td>
                                                 </tr>
                                             </React.Fragment>
                                         </tbody>
@@ -441,7 +566,7 @@ const FinalizarCompra = () => {
                                 <Modal.Body className='modal_principal_finalizar' >
                                     <div className='modal-frase-finalizar'>
                                         <FaTruck className='centrar_carrito_finalizar' />
-                                        <h5><strong>Su ORDEN # 12345658 </strong></h5>
+                                        <h5><strong>Su ORDEN # {crearpedidoERP.consecutive} </strong></h5>
                                         <h5><strong> HA SIDO CREADA</strong></h5>
                                         <h5><strong>_______________________</strong></h5>
                                         <p><strong>Su pedido será confirmado después de las validaciones de cupo y cartera por medio de un correo electrónico.</strong></p>

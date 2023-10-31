@@ -21,6 +21,7 @@ import ShopingCartService from '../../services/ShopingCartService';
 import OrderService from '../../services/OrderService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
 import OrderLineService from '../../services/OrderLineService';
+import IvaService from '../../services/IvaService';
 
 const DataPedido = () => {
     const [usuarioSesion, setUarioSesion] = useState([]);
@@ -34,44 +35,58 @@ const DataPedido = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const responseid = await SesionUsername();
+        SesionUsername();
+        ListarIva();
+    }, [])
+
+    const SesionUsername = () => {
+        if (LoginService.isAuthenticated()) {
+            const read = Cookies.get()
+            UserService.getUserByUsername(read.portal_sesion).then((responseid) => {
+                console.log(responseid.data)
                 setUarioSesion(responseid.data.cp_name);
                 setUsuarioCorreo(responseid.data.username);
+                setCustAccountId(responseid.data.cust_account_id);
+                setUsarioId(responseid.data.cp_user_id);
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
                 setUsuarioEmpresa(responseid.data.cust_name);
-                setUsarioId(responseid.data.cp_user_id);
-                setCustAccountId(responseid.data.cust_account_id);
                 setPartyId(responseid.data.party_id);
 
                 carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
-            } catch (error) {
-                console.log(error);
-                alert("Error obtener usuario de sesion");
-                // Manejar el error apropiadamente, por ejemplo, redirigir o mostrar un mensaje de error.
-            }
-        };
+                itemsSinDisponibildad(responseid.data.party_id);
 
-        fetchData();
-    }, [navigate]);
-
-    const SesionUsername = async () => {
-        if (LoginService.isAuthenticated()) {
-            const read = Cookies.get();
-            try {
-                const responseid = await UserService.getUserByUsername(read.portal_sesion);
-                return responseid;
-            } catch (error) {
-                console.log(error);
-                throw error;
-            }
+            }).catch(error => {
+                console.log(error)
+                alert("Error obtener usuario de sesion")
+            })
         } else {
+            // Redirigir al inicio de sesión u otra acción
             LoginService.logout();
-            navigate('/');
-            throw new Error("Usuario no autenticado");
+            navigate('/')
         }
-    };
+    }
+
+    //listar iva
+
+    const [porcIva, setPorcIva] = useState([]);
+    const ListarIva = () => {
+        IvaService.getAllIva()
+            .then(response => {
+                setPorcIva(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const fechaHoy = new Date(); // Obtén la fecha actual
+    const ivaFiltrados = porcIva.filter(porcIva => {
+        const fechaInicio = new Date(porcIva.cp_IVA_date_start);
+        const fechaFin = new Date(porcIva.cp_IVA_date_end);
+
+        return fechaHoy >= fechaInicio && fechaHoy <= fechaFin;
+    });
 
     const carritoComprausuario = (cust_account_id, cp_user_id) => {
         ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
@@ -99,11 +114,6 @@ const DataPedido = () => {
     }
 
     const [ArticulosSinDisponibilidad, setArticulosSinDisponibilidad] = useState([]);
-    useEffect(() => {
-        if (PartyId) {
-            itemsSinDisponibildad(PartyId);
-        }
-    }, [PartyId]);
 
     const itemsSinDisponibildad = async (custid) => {
         try {
@@ -401,7 +411,7 @@ const DataPedido = () => {
                                                 <div className='organiza_iva_inc'>
                                                     <table>
                                                         <tr>
-                                                            <td >${(articulo[1].unit_price * 0.19).toLocaleString(undefined, opciones)} {articulo[1].currency_code} IVA INCLUIDO</td>
+                                                            <td >${(articulo[1].unit_price * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100)).toLocaleString(undefined, opciones)} {articulo[1].currency_code} IVA INCLUIDO</td>
                                                         </tr>
                                                     </table>
                                                 </div>

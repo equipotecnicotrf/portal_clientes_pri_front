@@ -1,12 +1,6 @@
-.Img-Admin {
+.Img-Admin-Noti {
     width: 100px;
     height: 100px;
-}
-
-
-
-.inventario {
-    background-color: #323333;
 }
 
 .Img-Creamos_inv {
@@ -16,8 +10,6 @@
     display: block;
 }
 
-/*AJUSTES 19-10-23*/
-
 .DataTable_noti {
     padding: 5%;
     margin: 5%;
@@ -26,6 +18,8 @@
     border-collapse: collapse;
     max-height: 350px;
     overflow-y: auto;
+    overflow-x: auto;
+    margin-right: 20px;
 }
 
 .Edit_noti {
@@ -35,19 +29,17 @@
 }
 
 .Guardar-btn-noti {
+    /*30-10-2023 Se ajustan todos los atributos*/
     background-color: #323333;
     border-radius: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 20px;
     font-size: medium;
     border: none;
+    width: 150px;
+    margin-right: -2.5%;
 }
 
 .btn_faregedit_noti {
-
     margin-top: -2.61%;
-
 }
 
 .borderless_noti {
@@ -62,28 +54,9 @@
     border: none;
 }
 
-@media (max-width: 730px) {
-    .DataTable_noti {
-        position: absolute;
-        top: 250px;
-        max-width: 600px;
-        overflow: scroll;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
-    }
+@media (max-width: 730px) {}
 
-}
-
-@media (max-width: 510px) {
-
-    .DataTable_noti {
-        position: absolute;
-        top: 280px;
-        max-width: 500px;
-        overflow: scroll;
-        max-width: 430px;
-    }
-}
+@media (max-width: 510px) {}
 
 @media (max-width: 1140px) {
     .Img-Creamos_inv {
@@ -102,3 +75,18 @@
         margin-top: 460px;
     }
 }
+
+
+/*30-10-2023 adiciones ini*/
+
+.ubica_imagen_noti {
+    margin-top: 0%;
+    margin-left: 0%;
+}
+
+.ubica_datos_noti {
+    margin-top: -50%;
+    margin-left: 70%;
+}
+
+/*30-10-2023 adiciones fin*/
