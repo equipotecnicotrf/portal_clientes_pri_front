@@ -17,7 +17,7 @@ import UserService from '../../services/UserService';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { FaRegEdit } from "react-icons/fa";
-import IvaService from '../../services/IvaService'
+import IvaService from '../../services/IVAService';
 
 
 const DataIva = ({ backgroundColor }) => {
@@ -94,7 +94,9 @@ const DataIva = ({ backgroundColor }) => {
         const form = event.currentTarget;
         event.preventDefault();
         event.stopPropagation();
-        if (form.checkValidity() === false) {
+        if (cp_IVA.length > 2) {
+            alert("El IVA solo puede ser de dos digitos.");
+        } else if (form.checkValidity() === false) {
             alert("Por favor, complete el formulario correctamente.");
         } else {
             saveOrUpdateIva();
@@ -375,7 +377,12 @@ const DataIva = ({ backgroundColor }) => {
                                     autoFocus
                                     required // Hacer que este campo sea obligatorio
                                     value={cp_IVA}
-                                    onChange={(e) => setcpIva(e.target.value)}
+                                    onChange={(e) => {
+                                        const inputValue = e.target.value;
+                                        // Utiliza una expresión regular para permitir solo dígitos numéricos
+                                        const numericValue = inputValue.replace(/[^0-9]/g, '');
+                                        setcpIva(numericValue);
+                                    }}
                                 />
                                 <Form.Control.Feedback type="invalid">Por favor ingresa el valor del IVA</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                             </Form.Group>

@@ -18,9 +18,11 @@ import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import ShopingCartService from '../../services/ShopingCartService';
 import PedidoService from '../../services/PedidoService';
 import ConsecutiveService from '../../services/ConsecutiveService';
-import IvaService from '../../services/IvaService';
+import IvaService from '../../services/IVAService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
 import TypeOrderService from '../../services/TypeOrderService';
+import NotificationService from '../../services/NotificationService';
+import EmailService from '../../services/EmailService';
 
 const FinalizarCompra = () => {
 
@@ -303,7 +305,7 @@ const FinalizarCompra = () => {
             console.log("enviopedido:", enviopedido);
 
             PedidoService.Insertarpedido(enviopedido).then(responsepedidoERP => {
-                setCrearpedidoERP(enviopedido);
+                setCrearpedidoERP(responsepedidoERP.data.substring(41, 1000));
                 //console.log(responsepedidoERP.data)
 
                 //Actualizar Consecutivo
@@ -316,9 +318,34 @@ const FinalizarCompra = () => {
 
                 ConsecutiveService.updateConsecutive(cp_Consecutive_id, consecutive_edit).then((responseConsecutive) => {
                     console.log(responseConsecutive.data);
-                    setShow(true);
-                    alert(responsepedidoERP.data)
-                    deleteCarrito();
+                    //alert(responsepedidoERP.data)   
+
+                    const context = "Creacion Pedido";
+                    NotificationService.getNotificationsContext(context).then((notificatioresponse) => {
+                        console.log(notificatioresponse.data)
+                        const toUser = [usuarioCorreo];
+                        const subject = notificatioresponse.data[0].cp_Notification_name
+                            .replace('${pedidooracle}', responsepedidoERP.data.substring(41, 1000))
+                        const notificationMessage = notificatioresponse.data[0].cp_Notification_message;
+                        const message = notificationMessage
+                            .replace('${fechapedido}', fechaHoy)
+                            .replace('${nombreusuario}', usuarioSesion)
+                            .replace('${pedidooracle}', responsepedidoERP.data.substring(41, 1000))
+                            .replace('${pedidooraclecuerpo}', responsepedidoERP.data.substring(41, 1000))
+                        const correo = { toUser, subject, message };
+                        EmailService.Sendmessage(correo).then(() => {
+                            setShow(true);
+                            deleteCarrito();
+                        }).catch(error => {
+                            console.log(error);
+                            alert("Error al enviar correo");
+                        })
+
+                    }).catch(error => {
+                        console.log(error);
+                        alert("Error obtener contexto de notificacion");
+                    })
+
                 }).catch((error) => {
                     console.log(error);
                     alert("Error al actualizar Consecutivo")
@@ -381,207 +408,207 @@ const FinalizarCompra = () => {
     const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
     return (
-        <>
-            <div className='Back' style={backgroundStyle}>
-                <BannerUser />
 
-                <button className='Info_general_compra'><FaShoppingCart className='tamano_carro_principal_compra' onClick={() => navigate("/CarritoCompras")} />
-                    <div className='Info_general_compra_2'>
-                        <table className='table-borderless' >
-                            <thead >
-                            </thead>
-                            <tbody >
-                                <tr style={info_general_items}>
-                                    <td style={info_general_items}>
-                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
-                                        <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </button>
+        <div className='Back' style={backgroundStyle}>
+            <BannerUser />
 
-                <div className='FondoBlanco_compra'>
+            <button className='Info_general_compra'><FaShoppingCart className='tamano_carro_principal_compra' onClick={() => navigate("/CarritoCompras")} />
+                <div className='Info_general_compra_2'>
+                    <table className='table-borderless' >
+                        <thead >
+                        </thead>
+                        <tbody >
+                            <tr style={info_general_items}>
+                                <td style={info_general_items}>
+                                    <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
+                                    <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
+                                    <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </button>
 
-                    <div className='Buttons_compra mt-12'>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
-                    </div>
+            <div className='FondoBlanco_compra'>
 
-                    <div style={FinalizarDatosUser}>
-                        <tr>
-                            <td style={{ verticalAlign: 'middle' }}><Container>
-                                <Row>
-                                    <Col xs={6} md={4}>
-                                        <Image className='Img-Admin' src={imagenes.Arboles} roundedCircle />
-                                    </Col>
-                                </Row>
-                            </Container>
-                            </td>
-                            <td>
-                                <tr><th>{usuarioSesion}</th></tr>
-                                <tr>{usuarioEmpresa}</tr>
-                                <tr>{usuarioCorreo}</tr>
-                                <tr>{usuarioTelefono}</tr>
-                            </td>
-                        </tr>
-                    </div>
+                <div className='Buttons_compra mt-12'>
+                    <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
+                    <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
+                    <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
+                    <button className='btns_inventario p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
+                </div>
 
-                    <Form noValidate validated={validated} onSubmit={handleSubmit} >
-                        <div className='ContenedorPadre_compra'>
-                            <div className='direccion_envio'>
-                                <div className='direccion_busca'>
-                                    <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE ENVIO</strong></h5>
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                        <Dropdown>
-                                            <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                                {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                                <Form.Control
-                                                    type="text"
-                                                    placeholder="Buscar dirección"
-                                                    value={searchTerm}
-                                                    onChange={handleSearchChange}
-                                                />
-                                                {filteredDirecciones.map((direccion) => (
-                                                    <Dropdown.Item
-                                                        key={direccion.siteUseId}
-                                                        onClick={() => handleDireccionSelect(direccion)} >
-                                                        {direccion.address1 + " - " + direccion.city}
-                                                    </Dropdown.Item>
-                                                ))}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </Form.Group>
-                                </div>
-                                <div className='direccion_busca'>
-                                    <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE FACTURACION</strong></h5>
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                        <Dropdown>
-                                            <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                                {selectedDireccionBillto ? selectedDireccionBillto.address1 : 'Escoge tu dirección'}
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                                <Form.Control
-                                                    type="text"
-                                                    placeholder="Buscar dirección"
-                                                    value={searchTermBillto}
-                                                    onChange={handleSearchChangeBillto}
-                                                />
-                                                {filteredDireccionesBillto.map((direccionbillto) => (
-                                                    <Dropdown.Item
-                                                        key={direccionbillto.siteUseId}
-                                                        onClick={() => handleDireccionSelectBillto(direccionbillto)} >
-                                                        {direccionbillto.address1 + " - " + direccionbillto.city}
-                                                    </Dropdown.Item>
-                                                ))}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </Form.Group>
-                                </div>
-                                <div className='orden_compra'>
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                        <Form.Label ><strong>Orden de Compra</strong></Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Orden de Compra"
-                                            autoFocus
-                                            value={ordenCompra}
-                                            onChange={(e) => setordenCompra(e.target.value)}
-                                            required
-                                        />
-                                        <Form.Control.Feedback type="invalid">Por favor ingresa orden de compra</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
-                                    </Form.Group>
-                                </div>
+                <div style={FinalizarDatosUser}>
+                    <tr>
+                        <td style={{ verticalAlign: 'middle' }}><Container>
+                            <Row>
+                                <Col xs={6} md={4}>
+                                    <Image className='Img-Admin' src={imagenes.Arboles} roundedCircle />
+                                </Col>
+                            </Row>
+                        </Container>
+                        </td>
+                        <td>
+                            <tr><th>{usuarioSesion}</th></tr>
+                            <tr>{usuarioEmpresa}</tr>
+                            <tr>{usuarioCorreo}</tr>
+                            <tr>{usuarioTelefono}</tr>
+                        </td>
+                    </tr>
+                </div>
+
+                <Form noValidate validated={validated} onSubmit={handleSubmit} >
+                    <div className='ContenedorPadre_compra'>
+                        <div className='direccion_envio'>
+                            <div className='direccion_busca'>
+                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE ENVIO</strong></h5>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                    <Dropdown>
+                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
+                                            {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Buscar dirección"
+                                                value={searchTerm}
+                                                onChange={handleSearchChange}
+                                            />
+                                            {filteredDirecciones.map((direccion) => (
+                                                <Dropdown.Item
+                                                    key={direccion.siteUseId}
+                                                    onClick={() => handleDireccionSelect(direccion)} >
+                                                    {direccion.address1 + " - " + direccion.city}
+                                                </Dropdown.Item>
+                                            ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Form.Group>
                             </div>
-
-                            <div className='resumen_pedido'>
-                                <div>
-                                    <FaShoppingCart className='tamano_carro_resumen' /><h5 className='tamano_resumen'> <strong>RESUMEN DE TU PEDIDO</strong></h5>
-                                </div>
-                                <div className='tables'>
-                                    <table className='table table-borderless' style={bannerStyle_compra}>
-                                        <thead >
-                                            <tr style={{ textAlign: 'center' }}>
-                                                <th style={Style_tables}></th>
-                                                <th style={Style_tables}></th>
-                                                <th style={Style_tables}>Precio</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody >
-                                            {carrito
-                                                .map((carrito) => (
-                                                    <tr key={carrito[3].inventory_item_id}>
-                                                        <td style={Style_tables}>< FaStar /></td>
-                                                        <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>
-                                                            <tr style={Style_tables}>{carrito[3].item_description_long}</tr>
-                                                            <tr style={Style_tables} >CANTIDADES: {carrito[2].cp_cart_Quantity_units}</tr>
-                                                        </td>
-                                                        <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toLocaleString(undefined, opciones) + " " + carrito[4].currency_code}
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div className='tables'>
-                                    <table className='table table-borderless' style={bannerStyle_compra}>
-                                        <thead>
-                                            <tr></tr>
-                                        </thead>
-                                        <tbody>
-                                            <React.Fragment>
-                                                <tr className="borde_horizontal" >
-                                                </tr>
-                                                <tr >
-                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Subtotal</td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{sumaTotal.toLocaleString(undefined, opciones)}</td>
-                                                </tr>
-                                                <tr className="borde_horizontal">
-                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>IVA</td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100)).toLocaleString(undefined, opciones)}</td>
-                                                </tr>
-                                                <tr >
-                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Total</td>
-                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal + (sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)}</td>
-                                                </tr>
-                                            </React.Fragment>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div className='centrar_boton_confirmar'>
-                                    <Button type='submit' className='btns_carrito_conf_compra' >Confirmar orden   </Button>
-                                </div>
+                            <div className='direccion_busca'>
+                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE FACTURACION</strong></h5>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                    <Dropdown>
+                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
+                                            {selectedDireccionBillto ? selectedDireccionBillto.address1 : 'Escoge tu dirección'}
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Buscar dirección"
+                                                value={searchTermBillto}
+                                                onChange={handleSearchChangeBillto}
+                                            />
+                                            {filteredDireccionesBillto.map((direccionbillto) => (
+                                                <Dropdown.Item
+                                                    key={direccionbillto.siteUseId}
+                                                    onClick={() => handleDireccionSelectBillto(direccionbillto)} >
+                                                    {direccionbillto.address1 + " - " + direccionbillto.city}
+                                                </Dropdown.Item>
+                                            ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Form.Group>
                             </div>
-
-
-
-                            <Modal show={show} onHide={handleClose} centered className='ancho_modal_finalizar' >
-                                <Modal.Header closeButton></Modal.Header>
-                                <Modal.Body className='modal_principal_finalizar' >
-                                    <div className='modal-frase-finalizar'>
-                                        <FaTruck className='centrar_carrito_finalizar' />
-                                        <h5><strong>Su ORDEN # {crearpedidoERP.consecutive} </strong></h5>
-                                        <h5><strong> HA SIDO CREADA</strong></h5>
-                                        <h5><strong>_______________________</strong></h5>
-                                        <p><strong>Su pedido será confirmado después de las validaciones de cupo y cartera por medio de un correo electrónico.</strong></p>
-                                    </div>
-                                </Modal.Body>
-                                <Modal.Footer ></Modal.Footer>
-                            </Modal>
+                            <div className='orden_compra'>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+                                    <Form.Label ><strong>Orden de Compra</strong></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Orden de Compra"
+                                        autoFocus
+                                        value={ordenCompra}
+                                        onChange={(e) => setordenCompra(e.target.value)}
+                                        required
+                                    />
+                                    <Form.Control.Feedback type="invalid">Por favor ingresa orden de compra</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
+                                </Form.Group>
+                            </div>
                         </div>
-                    </Form>
 
-                </div >
+                        <div className='resumen_pedido'>
+                            <div>
+                                <FaShoppingCart className='tamano_carro_resumen' /><h5 className='tamano_resumen'> <strong>RESUMEN DE TU PEDIDO</strong></h5>
+                            </div>
+                            <div className='tables'>
+                                <table className='table table-borderless' style={bannerStyle_compra}>
+                                    <thead >
+                                        <tr style={{ textAlign: 'center' }}>
+                                            <th style={Style_tables}></th>
+                                            <th style={Style_tables}></th>
+                                            <th style={Style_tables}>Precio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        {carrito
+                                            .map((carrito) => (
+                                                <tr key={carrito[3].inventory_item_id}>
+                                                    <td style={Style_tables}>< FaStar /></td>
+                                                    <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>
+                                                        <tr style={Style_tables}>{carrito[3].item_description_long}</tr>
+                                                        <tr style={Style_tables} >CANTIDADES: {carrito[2].cp_cart_Quantity_units}</tr>
+                                                    </td>
+                                                    <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>${(carrito[4].unit_price * carrito[2].cp_cart_Quantity_units).toLocaleString(undefined, opciones) + " " + carrito[4].currency_code}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className='tables'>
+                                <table className='table table-borderless' style={bannerStyle_compra}>
+                                    <thead>
+                                        <tr></tr>
+                                    </thead>
+                                    <tbody>
+                                        <React.Fragment>
+                                            <tr className="borde_horizontal" >
+                                            </tr>
+                                            <tr >
+                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Subtotal</td>
+                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{sumaTotal.toLocaleString(undefined, opciones)}</td>
+                                            </tr>
+                                            <tr className="borde_horizontal">
+                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>IVA</td>
+                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100)).toLocaleString(undefined, opciones)}</td>
+                                            </tr>
+                                            <tr >
+                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Total</td>
+                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal + (sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)}</td>
+                                            </tr>
+                                        </React.Fragment>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className='centrar_boton_confirmar'>
+                                <Button type='submit' className='btns_carrito_conf_compra' >Confirmar orden   </Button>
+                            </div>
+                        </div>
 
-                <Image className='Img-Creamos_carrito' src={imagenes.Creamos} />
+
+
+                        <Modal show={show} onHide={handleClose} centered className='ancho_modal_finalizar' >
+                            <Modal.Header closeButton></Modal.Header>
+                            <Modal.Body className='modal_principal_finalizar' >
+                                <div className='modal-frase-finalizar'>
+                                    <FaTruck className='centrar_carrito_finalizar' />
+                                    <h5><strong>Su ORDEN # {crearpedidoERP} </strong></h5>
+                                    <h5><strong> HA SIDO CREADA</strong></h5>
+                                    <h5><strong>_______________________</strong></h5>
+                                    <p><strong>Su pedido será confirmado después de las validaciones de cupo y cartera por medio de un correo electrónico.</strong></p>
+                                </div>
+                            </Modal.Body>
+                            <Modal.Footer ></Modal.Footer>
+                        </Modal>
+                    </div>
+                </Form>
+
             </div >
-        </>
+
+            <Image className='Img-Creamos_carrito' src={imagenes.Creamos} />
+        </div >
+
     );
 };
 

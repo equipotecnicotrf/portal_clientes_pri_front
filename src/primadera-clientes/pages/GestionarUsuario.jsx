@@ -1175,6 +1175,7 @@ const DataTable = ({ backgroundColor }) => {
                       placeholder="Buscar"
                       value={searchTermTipoPedido}
                       onChange={handleSearchChangeTipoPedido}
+                      required
                     />
                     {filteredTipoPedido.map((Pedido) => (
                       <Dropdown.Item
@@ -1183,6 +1184,7 @@ const DataTable = ({ backgroundColor }) => {
                         {Pedido.cp_type_order_description}
                       </Dropdown.Item>
                     ))}
+                    <Form.Control.Feedback type="invalid">Por favor ingresa el tipo de pedido</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                   </Dropdown.Menu>
                 </Dropdown>
               </Form.Group>
@@ -1302,6 +1304,7 @@ const DataTable = ({ backgroundColor }) => {
                       placeholder="Buscar"
                       value={searchTermTipoPedido}
                       onChange={handleSearchChangeTipoPedido}
+                      required
                     />
                     {filteredTipoPedido.map((Pedido) => (
                       <Dropdown.Item
@@ -1310,6 +1313,7 @@ const DataTable = ({ backgroundColor }) => {
                         {Pedido.cp_type_order_description}
                       </Dropdown.Item>
                     ))}
+                    <Form.Control.Feedback type="invalid">Por favor ingresa el tipo de pedido</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                   </Dropdown.Menu>
                 </Dropdown>
               </Form.Group>

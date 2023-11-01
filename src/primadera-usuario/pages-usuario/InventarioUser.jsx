@@ -20,7 +20,7 @@ import ShopingCartService from '../../services/ShopingCartService';
 import OrderService from '../../services/OrderService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
 import OrderLineService from '../../services/OrderLineService';
-import IvaService from '../../services/IvaService';
+import IvaService from '../../services/IVAService';
 
 const DataInventario = () => {
     const [usuarioSesion, setUarioSesion] = useState([]);
@@ -401,7 +401,7 @@ const DataInventario = () => {
                                     <td key={articulo[0].inventory_item_id}>
                                         <div className='organiza_img_y_cont'>
                                             <img className='Borde_imagenes'
-                                                src={`/src/Articulos/${articulo[0].item_number}.jpg`}
+                                                src={`/home/opc/programs/pruebas/portalclientessprint2/portalclientesfront/articulos/${articulo[0].item_number}.png`}
                                                 alt=""
                                                 style={{ width: '200px', height: '270px' }}
                                             />

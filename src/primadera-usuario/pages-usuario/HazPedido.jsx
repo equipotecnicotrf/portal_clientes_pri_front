@@ -21,7 +21,7 @@ import ShopingCartService from '../../services/ShopingCartService';
 import OrderService from '../../services/OrderService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
 import OrderLineService from '../../services/OrderLineService';
-import IvaService from '../../services/IvaService';
+import IvaService from '../../services/IVAService';
 
 const DataPedido = () => {
     const [usuarioSesion, setUarioSesion] = useState([]);
