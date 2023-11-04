@@ -13,8 +13,7 @@ import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
 import ItemService from '../../services/ItemService';
 import Button from 'react-bootstrap/Button';
-import FiltroInven from './Filtro';
-import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaSearch } from "react-icons/fa";
 import { Modal } from 'react-bootstrap';
 import ShopingCartService from '../../services/ShopingCartService';
 import OrderService from '../../services/OrderService';
@@ -31,6 +30,7 @@ const DataInventario = () => {
     const [CustAccountId, setCustAccountId] = useState([]);
     const [PartyId, setPartyId] = useState([]);
     const [carrito, setcarrito] = useState([]);
+    const [transactional_currency_code, settransactional_currency_code] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,6 +50,7 @@ const DataInventario = () => {
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
                 setUsuarioEmpresa(responseid.data.cust_name);
                 setPartyId(responseid.data.party_id);
+                settransactional_currency_code(responseid.data.transactional_currency_code);
 
                 carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
                 ListArticulosConDisponibilidad(responseid.data.party_id);
@@ -275,6 +276,281 @@ const DataInventario = () => {
         }
     }
 
+
+
+
+
+    const [articulos, setArticulos] = useState([]);
+    const [acabado, setAcabado] = useState([]);
+    const [caras, setCaras] = useState([]);
+    const [diseno, setDiseno] = useState([]);
+    const [sustrato, setSustrato] = useState([]);
+    const [espesor, setEspesor] = useState([]);
+    const [formato, setFormato] = useState([]);
+    const [searchText, setSearchText] = useState(''); // Nuevo estado para el texto de búsqueda
+
+    useEffect(() => {
+        ListArticulos();
+        ListAcabado();
+        ListCaras();
+        ListDiseno();
+        ListSustrato();
+        ListEspesor();
+        ListFormato();
+    }, []);
+
+    const ListArticulos = () => {
+        ItemService.getItemsLinea()
+            .then(response => {
+                setArticulos(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const ListAcabado = () => {
+        ItemService.getItemsAcabado()
+            .then(response => {
+                setAcabado(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const ListCaras = () => {
+        ItemService.getItemsCaras()
+            .then(response => {
+                setCaras(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const ListDiseno = () => {
+        ItemService.getItemsDiseno()
+            .then(response => {
+                setDiseno(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const ListSustrato = () => {
+        ItemService.getItemsSustrato()
+            .then(response => {
+                setSustrato(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const ListEspesor = () => {
+        ItemService.getItemsEspesor()
+            .then(response => {
+                setEspesor(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const ListFormato = () => {
+        ItemService.getItemsFormato()
+            .then(response => {
+                setFormato(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    // Función para filtrar diseño según el texto de búsqueda
+    const filterDiseño = () => {
+        return diseno.filter((disenoitems) => {
+            const diseñoText = `${disenoitems}`;
+            return diseñoText.toLowerCase().includes(searchText.toLowerCase());
+        });
+    };
+
+
+
+
+
+    const products = [
+        { id: 1, name: 'Linea', category: 'Linea' },
+        { id: 2, name: 'Acabados', category: 'Acabados' },
+        { id: 3, name: 'Caras', category: 'Caras' },
+        { id: 4, name: 'Diseños', category: 'Diseños' },
+        { id: 5, name: 'Sustrato', category: 'Sustrato' },
+        { id: 6, name: 'Espesor', category: 'Espesor' },
+        { id: 7, name: 'Formato', category: 'Formato' },
+        // ...
+    ];
+
+    const categories = ['Linea', 'Acabados', 'Caras', 'Diseños', 'Sustrato', 'Espesor', 'Formato'];
+
+    const [selectedFilters, setSelectedFilters] = useState([]);
+    const [expandedSections, setExpandedSections] = useState([]);
+
+    const handleSectionToggle = (category) => {
+        setExpandedSections((prevSections) => {
+            if (prevSections.includes(category)) {
+                return prevSections.filter((section) => section !== category);
+            } else {
+                return [...prevSections, category];
+            }
+        });
+    };
+
+    const [selectedLinea, setSelectedLinea] = useState(new Set());
+    const [selectedAcabados, setSelectedAcabados] = useState(new Set());
+    const [selectedCaras, setSelectedCaras] = useState(new Set());
+    const [selectedDiseños, setSelectedDiseños] = useState(new Set());
+    const [selectedSustrato, setSelectedSustrato] = useState(new Set());
+    const [selectedEspesor, setSelectedEspesor] = useState(new Set());
+    const [selectedFormato, setSelectedFormato] = useState(new Set());
+
+    const handleOptionSelect = (category, value) => {
+        switch (category) {
+            case 'Linea':
+                setSelectedLinea((prevSelected) => {
+                    const updatedSelected = new Set(prevSelected);
+                    if (prevSelected.has(value)) {
+                        updatedSelected.delete(value);
+                    } else {
+                        updatedSelected.add(value);
+                    }
+                    return updatedSelected;
+                });
+                break;
+            case 'Acabados':
+                setSelectedAcabados((prevSelected) => {
+                    const updatedSelected = new Set(prevSelected);
+                    if (prevSelected.has(value)) {
+                        updatedSelected.delete(value);
+                    } else {
+                        updatedSelected.add(value);
+                    }
+                    return updatedSelected;
+                });
+                break;
+            case 'Caras':
+                setSelectedCaras((prevSelected) => {
+                    const updatedSelected = new Set(prevSelected);
+                    if (prevSelected.has(value)) {
+                        updatedSelected.delete(value);
+                    } else {
+                        updatedSelected.add(value);
+                    }
+                    return updatedSelected;
+                });
+                break;
+            case 'Diseños':
+                setSelectedDiseños((prevSelected) => {
+                    const updatedSelected = new Set(prevSelected);
+                    if (prevSelected.has(value)) {
+                        updatedSelected.delete(value);
+                    } else {
+                        updatedSelected.add(value);
+                    }
+                    return updatedSelected;
+                });
+                break;
+            case 'Sustrato':
+                setSelectedSustrato((prevSelected) => {
+                    const updatedSelected = new Set(prevSelected);
+                    if (prevSelected.has(value)) {
+                        updatedSelected.delete(value);
+                    } else {
+                        updatedSelected.add(value);
+                    }
+                    return updatedSelected;
+                });
+                break;
+            case 'Espesor':
+                setSelectedEspesor((prevSelected) => {
+                    const updatedSelected = new Set(prevSelected);
+                    if (prevSelected.has(value)) {
+                        updatedSelected.delete(value);
+                    } else {
+                        updatedSelected.add(value);
+                    }
+                    return updatedSelected;
+                });
+                break;
+            case 'Formato':
+                setSelectedFormato((prevSelected) => {
+                    const updatedSelected = new Set(prevSelected);
+                    if (prevSelected.has(value)) {
+                        updatedSelected.delete(value);
+                    } else {
+                        updatedSelected.add(value);
+                    }
+                    return updatedSelected;
+                });
+                break;
+            // Añadir más casos para otras categorías si es necesario
+            default:
+                break;
+        }
+    };
+
+
+    const StyleFilter = {
+        fontColor: '#717171',
+        fontSize: '20px',
+        marginBottom: '-20px',
+    };
+    const StyleProducts = {
+        fontColor: '#717171',
+        fontSize: '15px',
+        marginTop: '-10px',
+        marginBottom: '15px',
+        maxHeight: '150px', // Altura máxima del contenedor de desplazamiento
+        overflow: 'auto', // Habilitar el desplazamiento cuando los productos excedan la altura del contenedor
+
+    };
+
+    const StyleUpArrows = {
+        fontSize: '15px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        transform: 'translate(30px, -21px)',
+    };
+
+    const StyleDownArrows = {
+        fontSize: '10px',
+
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        transform: 'translate(30px, -21px)',
+    };
+
+    const CategoriasStyle = {
+        width: '160px',
+    }
+    const StyleSearchBar = {
+
+    }
+
+    const StyleProductList = {
+        display: 'flex',
+        flexDirection: 'column', // Muestra los checkbox de manera vertical
+    }
+
+
+
+
+
+
+
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
         backgroundSize: 'cover',
@@ -290,45 +566,14 @@ const DataInventario = () => {
         height: '27vh',
         marginTop: '-40px'
     };
-    const dropDownbackgroundStyle = {
-        backgroundColor: 'white',
-        color: 'Black',
-        borderRadius: '10px',
-        borderColor: 'Black',
-        width: '250px'
-    };
-    const dropDown = {
-        position: 'absolute',
-        top: '27.2%',
-        left: '75%',
-        transform: 'translate (-50%, -50%)',
-    };
-    const Datos_usuario = {
-        position: 'absolute',
-        top: '50%',
-        left: '14.5%',
-        transform: 'translate (-50%, -50%)',
-    };
-    const organiza_cant_disp = {
-        width: '200px',
-    }
 
-    const opcionesDropdown = ['Opción 1', 'Opción 2', 'Opción 3'];
-    const opcionesCheckbox = ['Checkbox 1', 'Checkbox 2', 'Checkbox 3'];
-
-    const handleFilter = (filtros) => {
-        // Aquí debes implementar la lógica para filtrar según las opciones seleccionadas
-        console.log('Filtros seleccionados:', filtros);
-    };
 
     const [show, setShow] = useState(false);
     const handleClose = () => {
         setShow(false);
         window.location.reload();
     }
-    const handleShow = () => {
-        setShow(true);
-    }
+
 
     const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
     const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -345,7 +590,7 @@ const DataInventario = () => {
                             <tbody >
                                 <tr style={info_general_items}>
                                     <td style={info_general_items}>
-                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
+                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
                                         <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
                                         <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
                                     </td>
@@ -387,21 +632,192 @@ const DataInventario = () => {
                     <div className='ContenedorPadre'>
                         <div className='Filtro'>
                             <h3>Filtros</h3>
-                            <FiltroInven
-                                opciones={opcionesDropdown}
-                                checkboxOpciones={opcionesCheckbox}
-                                onFilter={handleFilter}
-                            />
-                            {/* Resto de tu aplicación */}
+                            <div style={CategoriasStyle}>
+                                {categories.map((category) => (
+                                    <div key={category}>
+                                        {category === 'Diseños' && !expandedSections.includes(category) ? (
+                                            <div style={StyleFilter} onClick={() => handleSectionToggle(category)}>
+                                                {category}
+                                                <strong>
+                                                    {expandedSections.includes(category) ? (
+                                                        <span style={StyleUpArrows}>&#94;</span>
+                                                    ) : (
+                                                        <span style={StyleDownArrows}>&#5167;</span>
+                                                    )}
+                                                </strong>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div style={StyleFilter} onClick={() => handleSectionToggle(category)}>
+                                                    {category}
+                                                    <strong>
+                                                        {expandedSections.includes(category) ? (
+                                                            <span style={StyleUpArrows}>&#94;</span>
+                                                        ) : (
+                                                            <span style={StyleDownArrows}>&#5167;</span>
+                                                        )}
+                                                    </strong>
+                                                </div>
+                                                {expandedSections.includes(category) && (
+                                                    <div style={StyleProducts}>
+                                                        {category === 'Diseños' ? (
+                                                            <>
+                                                                <div style={StyleSearchBar}>
+                                                                    <input
+                                                                        type="text"
+                                                                        placeholder="Buscar productos de diseño..."
+                                                                        value={searchText}
+                                                                        onChange={(e) => setSearchText(e.target.value)}
+                                                                    />
+                                                                    <FaSearch />
+                                                                </div>
+                                                                <div style={StyleProductList}>
+                                                                    {filterDiseño()
+                                                                        .map((disenoValue) => (
+                                                                            <label key={disenoValue}>
+                                                                                <input
+                                                                                    type="checkbox"
+                                                                                    onChange={() => handleOptionSelect('Diseños', disenoValue)}
+                                                                                    value={disenoValue}
+                                                                                />
+                                                                                {disenoValue}
+                                                                            </label>
+                                                                        ))}
+                                                                </div>
+                                                            </>
+                                                        ) : category === 'Linea' ? (
+                                                            <div style={StyleProductList}>
+                                                                {articulos.map((lineaValue) => (
+                                                                    <label key={lineaValue}>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            onChange={() => handleOptionSelect('Linea', lineaValue)}
+                                                                            value={lineaValue}
+                                                                        />
+                                                                        {lineaValue}
+                                                                    </label>
+
+                                                                ))}
+                                                            </div>
+                                                        ) : category === 'Acabados' ? (
+                                                            <div style={StyleProductList}>
+                                                                {acabado.map((acabadosValue) => (
+                                                                    <label key={acabadosValue}>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            value={acabadosValue}
+                                                                            onChange={() => handleOptionSelect('Acabados', acabadosValue)}
+                                                                        />
+                                                                        {acabadosValue}
+                                                                    </label>
+                                                                ))}
+                                                            </div>
+                                                        ) : category === 'Caras' ? (
+                                                            <div style={StyleProductList}>
+                                                                {caras.map((carasValue) => (
+                                                                    <label key={carasValue}>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            value={carasValue}
+                                                                            onChange={() => handleOptionSelect('Caras', carasValue)}
+                                                                        />
+                                                                        {carasValue}
+                                                                    </label>
+                                                                ))}
+                                                            </div>
+                                                        ) : category === 'Sustrato' ? (
+                                                            <div style={StyleProductList}>
+                                                                {sustrato.map((sustratoValue) => (
+                                                                    <label key={sustratoValue}>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            value={sustratoValue}
+                                                                            onChange={() => handleOptionSelect('Sustrato', sustratoValue)}
+                                                                        />
+                                                                        {sustratoValue}
+                                                                    </label>
+                                                                ))}
+                                                            </div>
+                                                        ) : category === 'Espesor' ? (
+                                                            <div style={StyleProductList}>
+                                                                {espesor.map((espesorValue) => (
+                                                                    <label key={espesorValue}>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            value={espesorValue}
+                                                                            onChange={() => handleOptionSelect('Espesor', espesorValue.toString())}
+                                                                        />
+                                                                        {espesorValue}
+                                                                    </label>
+                                                                ))}
+                                                            </div>
+                                                        ) : category === 'Formato' ? (
+                                                            <div style={StyleProductList}>
+                                                                {formato.map((formatoValue) => (
+                                                                    <label key={formatoValue}>
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            value={formatoValue}
+                                                                            onChange={() => handleOptionSelect('Formato', formatoValue)}
+                                                                        />
+                                                                        {formatoValue}
+                                                                    </label>
+                                                                ))}
+                                                            </div>
+                                                        ) : (
+                                                            products
+                                                                .filter((product) => product.category === category)
+                                                                .map((product) => (
+                                                                    <label key={product.id}>
+                                                                        <input type="checkbox" />
+                                                                        {product.name}
+                                                                    </label>
+                                                                ))
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </>
+                                        )}
+                                        <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         <div className='organiza_articulos_Inv row rows-cols1 row-cols-md-3'>
                             {ArticulosConDisponibilidad
-                                .toSorted((a, b) => a[0].inventory_item_id - b[0].inventory_item_id) // Ordena el arreglo por cp_user_id en orden ascendente
+                                .filter(articulo => {
+                                    if (
+                                        selectedLinea.size === 0 &&
+                                        selectedAcabados.size === 0 &&
+                                        selectedCaras.size === 0 &&
+                                        selectedDiseños.size === 0 &&
+                                        selectedSustrato.size === 0 &&
+                                        selectedEspesor.size === 0 &&
+                                        selectedFormato.size === 0
+                                        // Añade más condiciones para otras categorías si es necesario
+                                    ) {
+                                        return true; // Ningún filtro seleccionado, incluir todos los elementos
+                                    }
+
+                                    const matchLinea = selectedLinea.size === 0 || selectedLinea.has(articulo[0].atribute1);
+                                    const matchAcabados = selectedAcabados.size === 0 || selectedAcabados.has(articulo[0].atribute2);
+                                    const matchCaras = selectedCaras.size === 0 || selectedCaras.has(articulo[0].atribute3);
+                                    const matchDiseños = selectedDiseños.size === 0 || selectedDiseños.has(articulo[0].atribute4);
+                                    const matchSustrato = selectedSustrato.size === 0 || selectedSustrato.has(articulo[0].atribute5);
+                                    const matchEspesor = selectedEspesor.size === 0 || selectedEspesor.has(articulo[0].atribute6);
+                                    const matchFormato = selectedFormato.size === 0 || selectedFormato.has(articulo[0].atribute7);
+
+                                    // Añade más condiciones de coincidencia para otras categorías si es necesario
+
+                                    return matchLinea && matchAcabados && matchCaras && matchDiseños && matchSustrato && matchEspesor && matchFormato;
+
+                                })
+                                .toSorted((a, b) => a[0].item_description_long - b[0].item_description_long) // Ordena el arreglo por cp_user_id en orden ascendente
                                 .map((articulo) => (
                                     <td key={articulo[0].inventory_item_id}>
                                         <div className='organiza_img_y_cont'>
                                             <img className='Borde_imagenes'
-                                                src={`/home/opc/programs/pruebas/portalclientessprint2/portalclientesfront/articulos/${articulo[0].item_number}.png`}
+                                                src={`/public/Articulos/${articulo[0].item_number}.jpg`}
                                                 alt=""
                                                 style={{ width: '200px', height: '270px' }}
                                             />
@@ -410,7 +826,7 @@ const DataInventario = () => {
                                                 <div className='DescripcionInv'><tr><strong>{articulo[0].item_description_long}</strong>
                                                 </tr></div>
                                                 <div className='organiza_cant_disp'>
-                                                    <tr>Cantidad disponible: {articulo[1].available_to_transact}</tr>
+                                                    <tr>Cantidad disponible: {articulo[1].available_to_transact} uds.</tr>
                                                 </div>
                                                 <div className='PrecioInv'>
                                                     <strong>
@@ -425,7 +841,7 @@ const DataInventario = () => {
                                                 <div className='organiza_iva_inc'>
                                                     <table>
                                                         <tr>
-                                                            <td>${(articulo[2].unit_price * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100)).toLocaleString(undefined, opciones)} {articulo[2].currency_code} IVA INCLUIDO</td>
+                                                            <td>${(articulo[2].unit_price + (articulo[2].unit_price * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)} {articulo[2].currency_code} IVA INCLUIDO</td>
                                                         </tr>
                                                     </table>
                                                 </div>

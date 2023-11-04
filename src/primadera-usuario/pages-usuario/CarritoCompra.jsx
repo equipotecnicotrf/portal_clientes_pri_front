@@ -31,7 +31,7 @@ const CarritoCompras = () => {
     const [carrito, setcarrito] = useState([]);
     const [itempromesa, setItempromesa] = useState([]);
     const [account_id, setaccount_id] = useState([]);
-
+    const [transactional_currency_code, settransactional_currency_code] = useState([]);
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -54,6 +54,7 @@ const CarritoCompras = () => {
                 setUsuarioEmpresa(responseid.data.cust_name);
                 setPartyId(responseid.data.party_id);
                 setaccount_id(responseid.data.party_id)
+                settransactional_currency_code(responseid.data.transactional_currency_code);
 
                 carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
 
@@ -317,7 +318,7 @@ const CarritoCompras = () => {
                             <tbody >
                                 <tr style={info_general_items}>
                                     <td style={info_general_items}>
-                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
+                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
                                         <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
                                         <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
                                     </td>
@@ -381,7 +382,7 @@ const CarritoCompras = () => {
                                                     <div className='ancho_div'>
                                                         <div className='alinea_imagen'>
                                                             <td key={carrito[2].cp_cart_line_id}> <img className='Borde_imagenes_carrito'
-                                                                src={`/src/Articulos/${carrito[3].item_number}.jpg`}
+                                                                src={`/public/articulos/${carrito[3].item_number}.jpg`}
                                                                 style={{ width: '180px', height: '190px' }}
                                                             />
                                                             </td>

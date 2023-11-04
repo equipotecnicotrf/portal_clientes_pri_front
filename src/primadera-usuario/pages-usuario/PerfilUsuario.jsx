@@ -208,8 +208,8 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                                                             <td >{direcciones.state}</td>
                                                             <td >{direcciones.city}</td>
                                                             <td >{direcciones.country}</td>
-                                                            <td >{direcciones.siteUseCode}</td>
                                                             <td >{direcciones.nameVendedor}</td>
+                                                            <td >{direcciones.siteUseCode}</td>
                                                         </tr>
                                                     ))}
                                             </tbody>

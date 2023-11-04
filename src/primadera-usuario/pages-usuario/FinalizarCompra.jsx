@@ -420,7 +420,7 @@ const FinalizarCompra = () => {
                         <tbody >
                             <tr style={info_general_items}>
                                 <td style={info_general_items}>
-                                    <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones)}</strong></tr>
+                                    <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
                                     <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
                                     <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
                                 </td>
@@ -513,7 +513,7 @@ const FinalizarCompra = () => {
                             </div>
                             <div className='orden_compra'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                    <Form.Label ><strong>Orden de Compra</strong></Form.Label>
+                                    <Form.Label ><strong>Orden de Compra/Referencia</strong></Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder="Orden de Compra"

@@ -4,7 +4,7 @@ import ItemService from '../../services/ItemService';
 
 const FiltroInven = () => {
     const [articulos, setArticulos] = useState([]);
-    const [acabado, setAcabados] = useState([]);
+    const [acabado, setAcabado] = useState([]);
     const [caras, setCaras] = useState([]);
     const [diseno, setDiseno] = useState([]);
     const [sustrato, setSustrato] = useState([]);
@@ -35,7 +35,7 @@ const FiltroInven = () => {
     const ListAcabado = () => {
         ItemService.getItemsAcabado()
             .then(response => {
-                setAcabados(response.data);
+                setAcabado(response.data);
             })
             .catch(error => {
                 console.log(error);
