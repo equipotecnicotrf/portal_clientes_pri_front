@@ -817,7 +817,7 @@ const DataInventario = () => {
                                     <td key={articulo[0].inventory_item_id}>
                                         <div className='organiza_img_y_cont'>
                                             <img className='Borde_imagenes'
-                                                src={`/public/Articulos/${articulo[0].item_number}.jpg`}
+                                                src={`http://150.136.119.119:443/articulos/${articulo[0].item_number}.jpg`}
                                                 alt=""
                                                 style={{ width: '200px', height: '270px' }}
                                             />

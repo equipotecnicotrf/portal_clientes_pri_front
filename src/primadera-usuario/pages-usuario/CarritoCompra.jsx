@@ -382,7 +382,7 @@ const CarritoCompras = () => {
                                                     <div className='ancho_div'>
                                                         <div className='alinea_imagen'>
                                                             <td key={carrito[2].cp_cart_line_id}> <img className='Borde_imagenes_carrito'
-                                                                src={`/public/articulos/${carrito[3].item_number}.jpg`}
+                                                                src={`http://150.136.119.119:443/articulos/${carrito[3].item_number}.jpg`}
                                                                 style={{ width: '180px', height: '190px' }}
                                                             />
                                                             </td>
