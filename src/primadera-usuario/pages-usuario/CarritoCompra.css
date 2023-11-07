@@ -51,7 +51,7 @@
     font-size: medium;
     width: 210px;
     height: 50px;
-    border-color: black;
+    border: none;
     border-width: 0.5px;
 }
 
@@ -332,7 +332,7 @@
     margin-top: 2%;
     border-radius: 10px;
     border-width: 0.5px;
-    border-color: black;
+    border: none;
 
 }
 
@@ -353,34 +353,33 @@
     width: 370px;
 }
 
-@media (max-width: 1000px) and (min-width: 769px) {
+@media (max-width: 300px) {
+    .Buttons_Carrito {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .bordes_tabla {
+        transform: scale(0.7) translateX(-20%);
+        transition: all 0.3s ease;
+    }
+
+    .PerfilCarro {
+        transform: scale(0.9) translateX(2%);
+        margin-left: -90px;
+    }
+}
+
+@media (max-width: 576px) {
+    .Datos {
+        margin-left: -60px;
+    }
+}
+
+@media (max-width: 620px) {
     .ContenedorPadre_carrito {
-        margin-top: 4%;
-    }
-
-    .Img-Creamos_carrito {
-        margin-top: 38%;
-    }
-}
-
-
-@media (max-width: 1000px) and (min-width: 800px) {
-    .Img-Creamos_carrito {
-        margin-top: 5%;
-    }
-}
-
-@media (max-width: 800px) {
-    .ContenedorPadre_carrito {
-        height: auto;
-    }
-
-}
-
-@media (max-width: 1150px) {
-    .Organiza_entrega {
-        transform: scale(0.8) translateX(-30%);
-        transition: transform 0.5s ease-in-out;
+        margin-top: 12%;
     }
 }
 
@@ -415,16 +414,12 @@
 }
 
 @media (max-width: 800px) {
+    .ContenedorPadre_carrito {
+        height: auto;
+    }
+
     .Buttons_Carrito {
         flex-direction: column;
-
-    }
-}
-
-@media (max-width: 800px) {
-    .ContenedorPadre_carrito {
-        flex-direction: column;
-        /* Stack buttons vertically on smaller screens */
     }
 
     .btns_carrito_seguir,
@@ -435,19 +430,28 @@
         margin: 2% 0;
         /* Adjust the margin for spacing between buttons */
     }
-
 }
 
-@media (max-width: 300px) {
-    .Buttons_Carrito {
-        flex-direction: column;
+@media (max-width: 1000px) and (min-width: 769px) {
+    .ContenedorPadre_carrito {
+        margin-top: 4%;
+    }
 
+    .Img-Creamos_carrito {
+        margin-top: 38%;
     }
 }
 
-@media (max-width: 620px) {
-    .ContenedorPadre_carrito {
-        margin-top: 6%;
+@media (max-width: 1000px) and (min-width: 800px) {
+    .Img-Creamos_carrito {
+        margin-top: 5%;
+    }
+}
+
+@media (max-width: 1150px) {
+    .Organiza_entrega {
+        transform: scale(0.8) translateX(-30%);
+        transition: transform 0.5s ease-in-out;
     }
 }
 
@@ -456,9 +460,7 @@
         transition: all 0.3s ease;
         margin-left: 6%;
     }
-
 }
-
 
 @media (max-width: 1170px) {
     .principal_contador_carrito {
@@ -469,15 +471,6 @@
 @media (max-width: 1300px) {
     .alinea_imagen {
         border: none;
-
         display: flex;
-
-
-    }
-}
-
-@media (max-width: 576px) {
-    .Datos {
-        margin-left: -60px;
     }
 }

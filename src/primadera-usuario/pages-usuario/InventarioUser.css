@@ -33,13 +33,6 @@
     margin-top: 2%;
 }
 
-
-
-
-
-
-
-
 .Borde_imagenes {
     border-radius: 5%;
 }
@@ -69,7 +62,7 @@
     font-size: medium;
     width: 210px;
     height: 50px;
-    border-color: black;
+    border: none;
     border-width: 0.5px;
 }
 
@@ -80,17 +73,7 @@
     margin-left: 2%;
     position: absolute;
 
-
-
-
 }
-
-
-
-
-
-
-
 
 .organiza_cant_disp {
     background-color: #D9D9D9;
@@ -105,9 +88,6 @@
 
 }
 
-
-
-
 .organiza_texto {
     width: fit-content;
     padding-top: 5px;
@@ -118,10 +98,7 @@
     font-size: 90%;
     height: 550px;
 
-
 }
-
-
 
 .btn_agregar_carro {
     background-color: #941C1D;
@@ -132,8 +109,6 @@
     border: none;
 }
 
-
-
 .organiza_btn_carro_Inv {
 
     margin-left: 48%;
@@ -141,8 +116,6 @@
     width: fit-content;
     text-align: right;
 }
-
-
 
 .principal_contador_Inv {
     margin-top: 10%;
@@ -195,15 +168,12 @@
     line-height: 0;
 }
 
-
-
-
-
 .Img-Creamos_ped {
     width: 200px;
     height: 100px;
     margin: auto;
     display: block;
+    margin-top: 40px;
 }
 
 .organiza_uni_paq_Inv {
@@ -265,7 +235,7 @@
     margin-top: 2%;
     border-radius: 10px;
     border-width: 0.5px;
-    border-color: black;
+    border: none;
 
 }
 

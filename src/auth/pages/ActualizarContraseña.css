@@ -13,18 +13,19 @@
     background-color: white;
     border-radius: 10px;
     width: 482px;
-    height: 482px;
+    height: auto;
     margin: auto;
     display: block;
 }
 
 .Actua_contra_content {
     text-align: center;
+    margin-top: 0px;
 }
 
 .logo-rojo_actua_contra {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 .email-form-actua {
@@ -46,4 +47,21 @@
     height: 50.74px;
     border-radius: 30px;
     margin-top: 10px;
+}
+
+@media screen and (max-width: 480px) {
+
+    .logo-rojo_actua_contra,
+    .Actua_contra_content {
+        margin-top: 0px;
+        margin-left: -15px;
+        transform: scale(0.9);
+
+    }
+
+    .Actua_contra-head {
+        height: auto;
+        width: 400px;
+        transform: scale(0.7) translateX(0%);
+    }
 }

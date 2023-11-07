@@ -1,4 +1,4 @@
-.Img-Admin {
+.Img_usua_Per {
     width: 100px;
     height: 100px;
 }
@@ -11,13 +11,13 @@
 }
 
 .Buttons_perfil {
-    margin-top: -239px;
-    margin-left: 20.5%;
+    margin-top: -20px;
+    margin-left: 15%;
     z-index: auto;
 }
 
 .Buttons_perfil2 {
-    margin-top: -8%;
+    margin-top: -1%;
     margin-left: 2%;
     padding-bottom: 15%;
     justify-content: space-between;
@@ -60,12 +60,11 @@
 
 .CuadroInfo {
     background-color: #EFEEEE;
-    ;
     width: 621px;
     height: 649px;
     margin: -24%;
-    margin-left: 35%;
-    margin-top: 5%;
+    margin-left: 25%;
+    margin-top: 2%;
     z-index: 1;
     position: relative
 }
@@ -76,7 +75,7 @@
     width: 621px;
     height: 649px;
     margin: -24%;
-    margin-left: 32.9%;
+    margin-left: 32%;
     margin-top: -25.55%;
     z-index: 2;
     position: absolute;
@@ -86,7 +85,6 @@
 
 .CuadroInfo_dir2 {
     background-color: #EFEEEE;
-    ;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,7 +104,7 @@
     background-color: #EFEEEE;
     width: 621px;
     height: 649px;
-    margin-left: 32.9%;
+    margin-left: 32%;
     margin-top: -25.55%;
     z-index: 2;
     position: absolute;
@@ -152,7 +150,7 @@
 
 
 .perfil {
-    margin-top: 105px;
+    margin-top: 5px;
     margin-left: 2%;
     z-index: auto;
 }
@@ -166,3 +164,162 @@
     font-size: 20px;
     color: white;
 }
+
+/* VISTA CELULAR */
+@media screen and (max-width: 480px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        margin-left: 31%;
+    }
+
+    .parrafos {
+        margin-top: 80px;
+        padding: 20.5%;
+        transform: scale(1.2);
+    }
+
+    .CuadroInfo {
+        width: 674px;
+        margin-left: 30%;
+    }
+
+    .CuadroInfo_ayuda,
+    .CuadroInfo_dir,
+    .CuadroInfo {
+        transform: scale(0.5) translateX(-80%);
+        margin-top: 5%;
+        position: absolute;
+        left: 2%;
+    }
+
+    .Buttons_perfil2 {
+        position: absolute;
+        top: 78%;
+        left: 45%;
+        transform: scale(0.6) translateX(-80%);
+    }
+
+    .Img-Creamos_perfil {
+        margin-top: 20%;
+    }
+
+    .perfil {
+        margin-left: 0px;
+        transform: scale(0.9) translateX(0%);
+    }
+}
+
+/* CELULAR O PANTALLA REDUCIDA */
+@media screen and (min-width: 481px) and (max-width: 767px) {
+
+    .CuadroInfo_ayuda,
+    .CuadroInfo_dir,
+    .CuadroInfo {
+        transform: scale(0.7) translateX(-30%);
+        margin-top: -5%;
+        position: absolute;
+        left: 10%;
+    }
+
+    .Buttons_perfil2 {
+        position: absolute;
+        top: 152%;
+        left: 5%;
+        transform: scale(0.7) translateX(-30%);
+    }
+
+    .Img-Creamos_perfil {
+        margin-top: 20%;
+    }
+}
+
+/* CONFIGURACION CUANDO LOS BOTONES DE ARRIBA SE MUEVEN */
+@media screen and (min-width: 606px) and (max-width: 627px) {
+    .Buttons_perfil2 {
+        position: absolute;
+        margin-top: -30%;
+    }
+
+    .Img-Creamos_perfil {
+        margin-top: 5%;
+    }
+
+    .CuadroInfo_ayuda,
+    .CuadroInfo_dir,
+    .CuadroInfo {
+        margin-top: -5%;
+    }
+}
+
+/* CONFIGURACION CUANDO LOS BOTONES DE ARRIBA SE MUEVEN */
+@media screen and (min-width: 628px) and (max-width: 767px) {
+    .Buttons_perfil2 {
+        position: absolute;
+        margin-top: -30%;
+    }
+
+    .Img-Creamos_perfil {
+        margin-top: 5%;
+        z-index: 5;
+    }
+
+    .CuadroInfo_ayuda,
+    .CuadroInfo_dir,
+    .CuadroInfo {
+        margin-top: -5%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .Img-Creamos_perfil {
+        margin-top: 15%;
+    }
+
+    .CuadroInfo {
+        margin-top: 5%;
+    }
+
+    .Buttons_perfil2 {
+        position: absolute;
+        top: 150%;
+        left: 20%;
+        transform: scale(0.8) translateX(-30%);
+    }
+
+    .CuadroInfo_ayuda,
+    .CuadroInfo_dir {
+        position: absolute;
+        top: 117%;
+    }
+
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1199px) {
+    .Img-Creamos_perfil {
+        margin-top: 20%;
+    }
+
+    .CuadroInfo_ayuda,
+    .CuadroInfo_dir {
+        position: absolute;
+        top: 118%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .Img-Creamos_perfil {
+        margin-top: 10%;
+    }
+
+
+}
+
+/*
+@media screen and (max-width: 1150px) and (max-height: 650px) {
+    .CuadroInfo,
+    .btns_perfil2 {
+      transform: scale(0.8) translateX(-30%);
+      transition: transform 0.5s ease-in-out;
+    }
+  } */

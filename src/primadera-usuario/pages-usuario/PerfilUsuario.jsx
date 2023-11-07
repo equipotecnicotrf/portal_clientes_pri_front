@@ -85,9 +85,10 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
 
     const Datos_usuario = {
         position: 'absolute',
-        top: '54%',
-        left: '14.5%',
-        transform: 'translate (-50%, -50%)',
+        padding: '60px',
+        height: '27vh',
+        marginTop: '-50px',
+        marginLeft: '-60px'
     };
 
     const bannerStyle = {
@@ -137,6 +138,12 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
             <div className='Back' style={backgroundStyle}>
                 <BannerUser />
                 <div className='FondoBlanco'>
+                    <div className='Buttons_perfil mt-12'>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
+                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/ConsultaPedido")}><FaTruck /> Consulta tu pedido</button>
+                    </div>
                     {/*AJUSTE LCPG 11-10 fin*/}
                     <div className='perfil'>
                         <tr>
@@ -148,23 +155,15 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                                 </Row>
                             </Container>
                             </td>
+                            <div style={Datos_usuario} className='DatosPer'>
+                                <td >
+                                    <tr><th>{usuarioSesion}</th></tr>
+                                    <tr>{usuarioEmpresa}</tr>
+                                    <tr>{usuarioCorreo}</tr>
+                                    <tr>{usuarioTelefono}</tr>
+                                </td>
+                            </div>
                         </tr>
-                    </div>
-
-                    <div style={Datos_usuario}>
-                        <td >
-                            <tr><th>{usuarioSesion}</th></tr>
-                            <tr>{usuarioEmpresa}</tr>
-                            <tr>{usuarioCorreo}</tr>
-                            <tr>{usuarioTelefono}</tr>
-                        </td>
-                    </div>
-
-                    <div className='Buttons_perfil mt-12'>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
-                        <button className='btns_perfil p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
                     </div>
 
                     <div>

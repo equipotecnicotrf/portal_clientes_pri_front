@@ -17,7 +17,7 @@ const BannerUser = ({ backgroundColor }) => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         textAling: 'center',
-        height: '20vh'
+        height: '342px'
     };
 
     const backgroundS = {
