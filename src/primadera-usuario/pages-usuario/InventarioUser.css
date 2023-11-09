@@ -188,42 +188,35 @@
 
 }
 
+.checkbox_categorias {
+    margin-right: 5%;
+    margin-top: 4%
+}
+
+
 
 
 .modal_principal {
-
-
-
     background-color: #474444;
-
     color: white;
-
 }
-
-
-
 
 .modal-carrito {
-
     align-items: center;
-
     justify-content: center;
-
     display: flex;
-
+    width: 130px;
+    background-color: #474444;
+    margin-right: 0%;
 }
 
-
-
-
 .modal-frase {
-
     align-items: center;
-
     justify-content: center;
-
     display: flex;
-
+    text-align: center;
+    width: 300px;
+    background-color: #474444;
 }
 
 .Info_general {
@@ -241,6 +234,7 @@
 
 
 
+
 .Info_general_2 {
     background-color: #767373;
     margin-left: 40%;
@@ -252,7 +246,11 @@
 }
 
 
-
+.perfil_inv {
+    margin-top: 5px;
+    margin-left: 2%;
+    z-index: auto;
+}
 
 .tamanio_carro_principal {
     font-size: 40px;
@@ -289,7 +287,7 @@ td {
 /* VISTA CELULAR */
 @media (max-width: 480px) {
     .Filtro {
-        transform: scale(0.8) translateX(-10%);
+        transform: scale(0.6) translateX(-10%);
     }
 }
 
@@ -301,8 +299,16 @@ td {
 }
 
 @media (max-width: 480px) {
+    .perfil_inv {
+        margin-left: -18%;
+        transform: scale(0.9) translateX(0%);
+    }
+}
+
+@media (max-width: 480px) {
     .ContenedorPadre {
-        width: 100%;
+        width: auto;
+
 
     }
 }
@@ -315,8 +321,8 @@ td {
 
 @media (max-width: 480px) {
     .organiza_articulos_Inv {
-        margin-left: 40%;
-        transform: scale(0.8) translateX(-10%);
+        margin-left: 15%;
+        transform: scale(0.7) translateX(-10%);
 
     }
 }
@@ -345,38 +351,29 @@ td {
 
 /* TABLET */
 
-@media (min-width: 768px) and (max-width: 1023px) {
-    .FondoBlanco_inv {
-        height: auto;
-    }
-}
 
-@media (min-width: 768px) and (max-width: 1023px) {
+
+@media (min-width: 768px) and (max-width: 800px) {
     .ContenedorPadre {
         margin-top: 10%;
     }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 800px) {
     .organiza_articulos_Inv {
         margin-left: 20%;
     }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 800px) {
     .organiza_articulos_Inv {
         margin-left: 20%;
     }
 }
 
-@media (min-width: 1024px) and (max-width: 1199px) {
-    .FondoBlanco_inv {
-        height: auto;
-    }
-}
-
-@media (min-width: 1024px) and (max-width: 1199px) {
-    .organiza_articulos_Inv {
-        margin-left: 20%;
-    }
+.cerrar_modal {
+    border: none;
+    background-color: #474444;
+    color: white;
+    width: 10px;
 }

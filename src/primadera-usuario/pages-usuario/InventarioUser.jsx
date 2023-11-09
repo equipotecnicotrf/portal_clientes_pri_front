@@ -13,7 +13,7 @@ import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
 import ItemService from '../../services/ItemService';
 import Button from 'react-bootstrap/Button';
-import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaSearch } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaSearch, FaAngleDown } from "react-icons/fa";
 import { Modal } from 'react-bootstrap';
 import ShopingCartService from '../../services/ShopingCartService';
 import OrderService from '../../services/OrderService';
@@ -105,8 +105,9 @@ const DataInventario = () => {
 
     const info_general_items = {
         border: 'none',
-        backgroundColor: '#767373',
+        backgroundColor: '#767373', //Arreglo 8 Nov*/}
         color: 'white',
+        fontSize: '12.5px', //Arreglo 8 Nov*/}
     };
 
     // Define un estado para los contadores de cada artículo
@@ -501,10 +502,11 @@ const DataInventario = () => {
     };
 
 
+    //{/*Arreglo 8 Nov*/}
     const StyleFilter = {
         fontColor: '#717171',
         fontSize: '20px',
-        marginBottom: '-20px',
+        marginBottom: '-10px',
     };
     const StyleProducts = {
         fontColor: '#717171',
@@ -536,7 +538,11 @@ const DataInventario = () => {
     const CategoriasStyle = {
         width: '160px',
     }
+    //{/*Arreglo 8 Nov*/}
     const StyleSearchBar = {
+        width: '130px',
+        marginRight: '10px',
+        marginBottom: '10px',
 
     }
 
@@ -582,7 +588,7 @@ const DataInventario = () => {
         <>
             <div className='Back' style={backgroundStyle}>
                 <BannerUser />
-                <button className='Info_general'><FaShoppingCart className='tamanio_carro_principal' onClick={() => navigate("/CarritoCompras")} />
+                <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
                     <div className='Info_general_2'>
                         <table className='table-borderless' >
                             <thead >
@@ -600,13 +606,29 @@ const DataInventario = () => {
                     </div>
                 </button>
                 <div className='FondoBlanco_inv'>
-                    <div className='Buttons_Inventario mt-12'>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
+                    <div className='Buttons_perfil mt-12 d-flex align-items-center'>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
+                            <div className='FaUser_perfil'><FaUser /></div>
+                            <div className='Palabra_perfil'>Perfil </div>
+                            <div className='FaAngleDown_perfil '><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                            <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
+                            <div className='Palabra_inv'>Inventario disponible</div>
+                            <div className='FaAngleDown_inv'><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                            <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
+                            <div className='Palabra_haz'>Haz tu pedido </div>
+                            <div className='FaAngleDown_haz'><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                            <div className='FaTruck_cons'><FaTruck /></div>
+                            <div className='Palabra_cons'>Consulta tu pedido</div>
+                            <div className='FaAngleDown_cons'><FaAngleDown /></div>
+                        </button>
                     </div>
-                    <div style={InveDatosUser}>
+                    <div style={InveDatosUser} className='perfil_inv'>
                         <tr>
                             <td style={{ verticalAlign: 'middle' }}><Container>
                                 <Row>
@@ -625,10 +647,6 @@ const DataInventario = () => {
                         </tr>
                     </div>
 
-
-
-
-
                     <div className='ContenedorPadre'>
                         <div className='Filtro'>
                             <h3>Filtros</h3>
@@ -645,6 +663,8 @@ const DataInventario = () => {
                                                         <span style={StyleDownArrows}>&#5167;</span>
                                                     )}
                                                 </strong>
+                                                {/*Arreglo 8 Nov*/}  <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
+
                                             </div>
                                         ) : (
                                             <>
@@ -657,19 +677,25 @@ const DataInventario = () => {
                                                             <span style={StyleDownArrows}>&#5167;</span>
                                                         )}
                                                     </strong>
+                                                    {/*Arreglo 8 Nov*/}     <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
                                                 </div>
                                                 {expandedSections.includes(category) && (
                                                     <div style={StyleProducts}>
                                                         {category === 'Diseños' ? (
                                                             <>
-                                                                <div style={StyleSearchBar}>
-                                                                    <input
+                                                                <div >
+
+                                                                    <input style={StyleSearchBar}
+
                                                                         type="text"
                                                                         placeholder="Buscar productos de diseño..."
                                                                         value={searchText}
                                                                         onChange={(e) => setSearchText(e.target.value)}
+
+
                                                                     />
                                                                     <FaSearch />
+
                                                                 </div>
                                                                 <div style={StyleProductList}>
                                                                     {filterDiseño()
@@ -679,6 +705,7 @@ const DataInventario = () => {
                                                                                     type="checkbox"
                                                                                     onChange={() => handleOptionSelect('Diseños', disenoValue)}
                                                                                     value={disenoValue}
+                                                                                    className='checkbox_categorias'
                                                                                 />
                                                                                 {disenoValue}
                                                                             </label>
@@ -693,6 +720,7 @@ const DataInventario = () => {
                                                                             type="checkbox"
                                                                             onChange={() => handleOptionSelect('Linea', lineaValue)}
                                                                             value={lineaValue}
+                                                                            className='checkbox_categorias'
                                                                         />
                                                                         {lineaValue}
                                                                     </label>
@@ -707,6 +735,7 @@ const DataInventario = () => {
                                                                             type="checkbox"
                                                                             value={acabadosValue}
                                                                             onChange={() => handleOptionSelect('Acabados', acabadosValue)}
+                                                                            className='checkbox_categorias'
                                                                         />
                                                                         {acabadosValue}
                                                                     </label>
@@ -720,6 +749,7 @@ const DataInventario = () => {
                                                                             type="checkbox"
                                                                             value={carasValue}
                                                                             onChange={() => handleOptionSelect('Caras', carasValue)}
+                                                                            className='checkbox_categorias'
                                                                         />
                                                                         {carasValue}
                                                                     </label>
@@ -733,6 +763,7 @@ const DataInventario = () => {
                                                                             type="checkbox"
                                                                             value={sustratoValue}
                                                                             onChange={() => handleOptionSelect('Sustrato', sustratoValue)}
+                                                                            className='checkbox_categorias'
                                                                         />
                                                                         {sustratoValue}
                                                                     </label>
@@ -746,6 +777,7 @@ const DataInventario = () => {
                                                                             type="checkbox"
                                                                             value={espesorValue}
                                                                             onChange={() => handleOptionSelect('Espesor', espesorValue.toString())}
+                                                                            className='checkbox_categorias'
                                                                         />
                                                                         {espesorValue}
                                                                     </label>
@@ -759,6 +791,7 @@ const DataInventario = () => {
                                                                             type="checkbox"
                                                                             value={formatoValue}
                                                                             onChange={() => handleOptionSelect('Formato', formatoValue)}
+                                                                            className='checkbox_categorias'
                                                                         />
                                                                         {formatoValue}
                                                                     </label>
@@ -778,7 +811,7 @@ const DataInventario = () => {
                                                 )}
                                             </>
                                         )}
-                                        <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
+
                                     </div>
                                 ))}
                             </div>
@@ -884,18 +917,18 @@ const DataInventario = () => {
                                     </td>
                                 ))}
                         </div>
-                        <Modal show={show} onHide={handleClose} backdrop="static" centered size='sm'>
-                            <Modal.Header className='modal_principal' closeButton>
-                            </Modal.Header>
-                            <Modal.Body className='modal_principal'  >
+                        <Modal show={show} onHide={handleClose} backdrop="static" centered size='m' >
+                            <Modal.Body className='modal_principal d-flex align-items-center '  >
                                 <div className='modal-frase' >
                                     <h5>Artículo agregado al carrito</h5>
                                 </div>
-                                <div className='modal-carrito' >
+                                <div className='modal-carrito ' >
                                     <a onClick={() => navigate("/CarritoCompras")} target="_blank" rel="noopener noreferrer">
-                                        <th>Ver carrito</th>
+                                        <h5><th>Ver carrito</th></h5>
                                     </a>
                                 </div>
+                                <h5><Modal.Header className='cerrar_modal' closeButton>
+                                </Modal.Header></h5>
                             </Modal.Body>
                         </Modal>
                     </div>

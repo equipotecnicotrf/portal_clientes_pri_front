@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
 import Button from 'react-bootstrap/Button';
-import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaSearch } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaSearch, FaAngleDown } from "react-icons/fa";
 import { Modal } from 'react-bootstrap';
 import ItemService from '../../services/ItemService';
 import ShopingCartService from '../../services/ShopingCartService';
@@ -493,7 +493,7 @@ const DataPedido = () => {
     const StyleFilter = {
         fontColor: '#717171',
         fontSize: '20px',
-        marginBottom: '-20px',
+        marginBottom: '-10px',
     };
     const StyleProducts = {
         fontColor: '#717171',
@@ -526,7 +526,9 @@ const DataPedido = () => {
         width: '160px',
     }
     const StyleSearchBar = {
-
+        width: '120px',
+        marginRight: '10px',
+        marginBottom: '10px',
     }
 
     const StyleProductList = {
@@ -563,6 +565,7 @@ const DataPedido = () => {
         border: 'none',
         backgroundColor: '#767373',
         color: 'white',
+        fontSize: '12.5px',
     };
 
     const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
@@ -572,13 +575,13 @@ const DataPedido = () => {
         <>
             <div className='Back-Pedi' style={backgroundStyle}>
                 <BannerUser />
-                <button className='Info_general'><FaShoppingCart className='tamanio_carro_principal' onClick={() => navigate("/CarritoCompras")} />
-                    <div className='Info_general_2'>
+                <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
+                    <div className='Info_general_2' >
 
                         <table className='table-borderless' >
                             <thead >
                             </thead>
-                            <tbody >
+                            <tbody  >
                                 <tr style={info_general_items}>
                                     <td style={info_general_items}>
                                         <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
@@ -591,14 +594,30 @@ const DataPedido = () => {
                     </div>
                 </button>
                 <div className='FondoBlanco_Pedi'>
-                    <div className='Buttons_Pedido_Haz mt-12'>
-                        <button className='btns_pedido_Haz p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
-                        <button className='btns_pedido_Haz p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}> <FaSearchMinus /> Inventario Disponible</button>
-                        <button className='btns_pedido_Haz p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}> <FaShoppingCart /> Haz tu pedido</button>
-                        <button className='btns_pedido_Haz p-2 m-2 btn-sm'> <FaTruck /> Consulta tu pedido</button>
+                    <div className='Buttons_perfil mt-12 d-flex align-items-center'>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
+                            <div className='FaUser_perfil'><FaUser /></div>
+                            <div className='Palabra_perfil'>Perfil </div>
+                            <div className='FaAngleDown_perfil '><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                            <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
+                            <div className='Palabra_inv'>Inventario disponible</div>
+                            <div className='FaAngleDown_inv'><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                            <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
+                            <div className='Palabra_haz'>Haz tu pedido </div>
+                            <div className='FaAngleDown_haz'><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                            <div className='FaTruck_cons'><FaTruck /></div>
+                            <div className='Palabra_cons'>Consulta tu pedido</div>
+                            <div className='FaAngleDown_cons'><FaAngleDown /></div>
+                        </button>
                     </div>
 
-                    <div style={PediDatosUser}>
+                    <div style={PediDatosUser} className='perfil_pedi'>
                         <tr>
                             <td style={{ verticalAlign: 'middle' }}><Container>
                                 <Row>
@@ -634,6 +653,7 @@ const DataPedido = () => {
                                                         <span style={StyleDownArrows}>&#5167;</span>
                                                     )}
                                                 </strong>
+                                                <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
                                             </div>
                                         ) : (
                                             <>
@@ -646,16 +666,18 @@ const DataPedido = () => {
                                                             <span style={StyleDownArrows}>&#5167;</span>
                                                         )}
                                                     </strong>
+                                                    <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
                                                 </div>
                                                 {expandedSections.includes(category) && (
                                                     <div style={StyleProducts}>
                                                         {category === 'Diseños' ? (
                                                             <>
-                                                                <div style={StyleSearchBar}>
-                                                                    <input
+                                                                <div>
+                                                                    <input style={StyleSearchBar}
                                                                         type="text"
                                                                         placeholder="Buscar productos de diseño..."
                                                                         value={searchText}
+                                                                        className='checkbox_categorias'
                                                                         onChange={(e) => setSearchText(e.target.value)}
                                                                     />
                                                                     <FaSearch />
@@ -668,6 +690,7 @@ const DataPedido = () => {
                                                                                     type="checkbox"
                                                                                     onChange={() => handleOptionSelect('Diseños', disenoValue)}
                                                                                     value={disenoValue}
+                                                                                    className='checkbox_categorias'
                                                                                 />
                                                                                 {disenoValue}
                                                                             </label>
@@ -682,6 +705,7 @@ const DataPedido = () => {
                                                                             type="checkbox"
                                                                             onChange={() => handleOptionSelect('Linea', lineaValue)}
                                                                             value={lineaValue}
+                                                                            className='checkbox_categorias'
                                                                         />
                                                                         {lineaValue}
                                                                     </label>
@@ -695,6 +719,7 @@ const DataPedido = () => {
                                                                         <input
                                                                             type="checkbox"
                                                                             value={acabadosValue}
+                                                                            className='checkbox_categorias'
                                                                             onChange={() => handleOptionSelect('Acabados', acabadosValue)}
                                                                         />
                                                                         {acabadosValue}
@@ -708,6 +733,7 @@ const DataPedido = () => {
                                                                         <input
                                                                             type="checkbox"
                                                                             value={carasValue}
+                                                                            className='checkbox_categorias'
                                                                             onChange={() => handleOptionSelect('Caras', carasValue)}
                                                                         />
                                                                         {carasValue}
@@ -721,6 +747,7 @@ const DataPedido = () => {
                                                                         <input
                                                                             type="checkbox"
                                                                             value={sustratoValue}
+                                                                            className='checkbox_categorias'
                                                                             onChange={() => handleOptionSelect('Sustrato', sustratoValue)}
                                                                         />
                                                                         {sustratoValue}
@@ -734,6 +761,7 @@ const DataPedido = () => {
                                                                         <input
                                                                             type="checkbox"
                                                                             value={espesorValue}
+                                                                            className='checkbox_categorias'
                                                                             onChange={() => handleOptionSelect('Espesor', espesorValue.toString())}
                                                                         />
                                                                         {espesorValue}
@@ -747,6 +775,7 @@ const DataPedido = () => {
                                                                         <input
                                                                             type="checkbox"
                                                                             value={formatoValue}
+                                                                            className='checkbox_categorias'
                                                                             onChange={() => handleOptionSelect('Formato', formatoValue)}
                                                                         />
                                                                         {formatoValue}
@@ -767,7 +796,7 @@ const DataPedido = () => {
                                                 )}
                                             </>
                                         )}
-                                        <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
+
                                     </div>
                                 ))}
                             </div>
@@ -871,18 +900,18 @@ const DataPedido = () => {
                                     </td>
                                 ))}
                         </div>
-                        <Modal show={show} onHide={handleClose} backdrop="static" centered size='sm'>
-                            <Modal.Header className='modal_principal' closeButton>
-                            </Modal.Header>
-                            <Modal.Body className='modal_principal'  >
+                        <Modal show={show} onHide={handleClose} backdrop="static" centered size='m' >
+                            <Modal.Body className='modal_principal d-flex align-items-center '  >
                                 <div className='modal-frase' >
                                     <h5>Artículo agregado al carrito</h5>
                                 </div>
-                                <div className='modal-carrito' >
+                                <div className='modal-carrito ' >
                                     <a onClick={() => navigate("/CarritoCompras")} target="_blank" rel="noopener noreferrer">
-                                        <th>Ver carrito</th>
+                                        <h5><th>Ver carrito</th></h5>
                                     </a>
                                 </div>
+                                <h5><Modal.Header className='cerrar_modal' closeButton>
+                                </Modal.Header></h5>
                             </Modal.Body>
                         </Modal>
                     </div>

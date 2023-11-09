@@ -11,7 +11,7 @@ import Image from 'react-bootstrap/Image';
 import Cookies from 'js-cookie';
 import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
-import { FaShoppingCart, FaTrashAlt, FaTruck, FaUser, FaSearchMinus } from "react-icons/fa";
+import { FaShoppingCart, FaTrashAlt, FaTruck, FaUser, FaSearchMinus, FaAngleDown } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
 import { Modal } from 'react-bootstrap';
 import ShopingCartService from '../../services/ShopingCartService';
@@ -262,13 +262,18 @@ const CarritoCompras = () => {
         marginTop: '-40px'
     };
 
+    const bannerStyle_carrito_inicial = {
+        textAlign: 'left',
+        marginTop: '10px',
+        backgroundColor: '#F9F7F7',
+        fontSize: '20px',
+
+    };
     const bannerStyle_carrito = {
         textAlign: 'center',
         marginTop: '10px',
         backgroundColor: '#F9F7F7',
-
-
-
+        fontSize: '12px',
 
     };
     const bannerStyle_carrito2 = {
@@ -277,6 +282,9 @@ const CarritoCompras = () => {
         backgroundColor: '#F9F7F7',
 
     };
+    const bannerStyle_precio = {
+        fontSize: '18px',
+    }
     const cellStyle = {
         border: 'none',
         backgroundColor: '#F9F7F7',
@@ -298,6 +306,7 @@ const CarritoCompras = () => {
         border: 'none',
         backgroundColor: '#767373',
         color: 'white',
+        fontSize: '12.5px',
     };
 
     const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
@@ -308,7 +317,7 @@ const CarritoCompras = () => {
         <>
             <div className='Back' style={backgroundStyle}>
                 <BannerUser />
-                <button className='Info_general'><FaShoppingCart className='tamanio_carro_principal' onClick={() => navigate("/CarritoCompras")} />
+                <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
                     <div className='Info_general_2'>
 
                         <table className='table-borderless' >
@@ -332,14 +341,28 @@ const CarritoCompras = () => {
                 </button>
 
                 <div className='FondoBlanco_carrito'>
-
-                    <div className='Buttons_Carrito mt-12'>
-                        <button className='btns_carrito p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
-                        <button className='btns_carrito p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
-                        <button className='btns_carrito p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
-                        <button className='btns_carrito p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
+                    <div className='Buttons_perfil mt-12 d-flex align-items-center'>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
+                            <div className='FaUser_perfil'><FaUser /></div>
+                            <div className='Palabra_perfil'>Perfil </div>
+                            <div className='FaAngleDown_perfil '><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                            <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
+                            <div className='Palabra_inv'>Inventario disponible</div>
+                            <div className='FaAngleDown_inv'><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                            <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
+                            <div className='Palabra_haz'>Haz tu pedido </div>
+                            <div className='FaAngleDown_haz'><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                            <div className='FaTruck_cons'><FaTruck /></div>
+                            <div className='Palabra_cons'>Consulta tu pedido</div>
+                            <div className='FaAngleDown_cons'><FaAngleDown /></div>
+                        </button>
                     </div>
-
                     <div style={CarritoDatosUser}>
                         <tr>
                             <td style={{ verticalAlign: 'middle' }}><Container>
@@ -365,7 +388,7 @@ const CarritoCompras = () => {
                             <table className='table' style={bannerStyle_carrito} >
                                 <thead >
                                     <tr style={bannerStyle_carrito} >
-                                        <th style={bannerStyle_carrito}><FaShoppingCart className='tamaño_carro' />  CARRITO DE COMPRAS</th>
+                                        <th style={bannerStyle_carrito_inicial}><FaShoppingCart className='tamaño_carro' />  CARRITO DE COMPRAS</th>
                                         <th style={bannerStyle_carrito}>Precio Unitario</th>
                                         <th style={bannerStyle_carrito}>Cantidad</th>
                                         <th style={bannerStyle_carrito}>M3</th>
@@ -406,7 +429,7 @@ const CarritoCompras = () => {
                                                 </td>
 
                                                 <td style={bannerStyle_carrito2}>
-                                                    <div style={bannerStyle_carrito} className='precio_unit'>
+                                                    <div style={bannerStyle_precio} className='precio_unit'>
                                                         <tr style={style_precio_unit}>
 
                                                             <td >  ${(carrito[4].unit_price).toLocaleString(undefined, opciones) + " " + carrito[4].currency_code}

@@ -17,6 +17,7 @@ import GestionarConsecutivos from '../pages/GestionarConsecutivos';
 import ConfirmarCorreo from "../../auth/pages/ConfirmarCorreo";
 import ActualizarPassword from "../../auth/pages/ActualizarContraseña";
 import Promesas from '../pages/Promesas';
+import ConsultaPedido from '../../primadera-usuario/pages-usuario/ConsultaPedido';
 
 const PrimaderaRoutes = () => {
   return (
@@ -41,6 +42,7 @@ const PrimaderaRoutes = () => {
         <Route path="ConfirmarCorreo" element={<ConfirmarCorreo />} />
         <Route path="ActualizarPassword" element={<ActualizarPassword />} />
         <Route path="Promesas" element={<Promesas />} />
+        <Route path="ConsultaPedido" element={<ConsultaPedido />} />
 
       </Routes>
     </>

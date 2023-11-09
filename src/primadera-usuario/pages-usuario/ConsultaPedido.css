@@ -1,0 +1,89 @@
+.FondoBlancoConsul {
+    background-color: white;
+    margin: 40px;
+    top: 30%;
+    height: auto;
+    margin-top: 3%;
+}
+
+.Tabla_info_Consul {
+    overflow-x: auto;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 5%;
+    max-height: 1000px;
+}
+
+.Img_Creamos_Consul {
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    display: block;
+    margin-top: 40px;
+}
+
+
+.Buttons_Consul {
+    margin-top: -30px;
+    margin-left: 15%;
+    z-index: auto;
+
+}
+
+.btns_Consul {
+    box-shadow: 2px;
+    background-color: #BFBFBF;
+    color: white;
+    position: auto;
+    font-size: medium;
+    width: 210px;
+    height: 50px;
+    border: none;
+    border-width: 0.5px;
+}
+
+.ContenedorPadreConsul {
+    background-color: #F9F7F7;
+    width: auto;
+    height: auto;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 1.5%;
+    overflow: auto;
+    position: relative;
+}
+
+.Info_general_Consul {
+    background-color: #767373;
+    text-align: left;
+    margin-left: 80%;
+    width: 220px;
+    height: 80px;
+    margin-top: 2%;
+    border-radius: 10px;
+    border-width: 0.5px;
+    border: none;
+
+}
+
+
+
+.Info_general_2_Consul {
+    background-color: #767373;
+    margin-left: 40%;
+    margin-top: -29.5%;
+    width: 100px;
+    text-align: center;
+    font-size: smaller;
+    color: white;
+}
+
+
+
+
+.tamanio_carro_principal_Consul {
+    font-size: 40px;
+    margin-left: 12%;
+    margin-top: 10%;
+    color: white;
+}

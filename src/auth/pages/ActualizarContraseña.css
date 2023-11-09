@@ -65,3 +65,14 @@
         transform: scale(0.7) translateX(0%);
     }
 }
+
+
+@media screen and (max-width: 576px) and (max-height: 605px) {
+
+    .logo-rojo_actua_contra,
+    .Actua_contra_content,
+    .Actua_contra-head {
+        transform: scale(0.7);
+    }
+
+}

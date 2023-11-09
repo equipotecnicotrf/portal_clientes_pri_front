@@ -11,7 +11,7 @@ import Image from 'react-bootstrap/Image';
 import Cookies from 'js-cookie';
 import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
-import { FaShoppingCart, FaStar, FaTruck, FaUser, FaSearchMinus } from "react-icons/fa";
+import { FaShoppingCart, FaStar, FaTruck, FaUser, FaSearchMinus, FaAngleDown } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
 import { Modal, Form, Dropdown } from 'react-bootstrap';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
@@ -384,8 +384,9 @@ const FinalizarCompra = () => {
 
     const info_general_items = {
         border: 'none',
-        backgroundColor: '#BFBFBF',
-        color: 'white'
+        backgroundColor: '#767373',
+        color: 'white',
+        fontSize: '12.5px',
     };
 
     const bannerStyle_compra = {
@@ -412,7 +413,7 @@ const FinalizarCompra = () => {
         <div className='Back' style={backgroundStyle}>
             <BannerUser />
 
-            <button className='Info_general_compra'><FaShoppingCart className='tamano_carro_principal_compra' onClick={() => navigate("/CarritoCompras")} />
+            <button className='Info_general_compra' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamano_carro_principal_compra' />
                 <div className='Info_general_compra_2'>
                     <table className='table-borderless' >
                         <thead >
@@ -432,11 +433,27 @@ const FinalizarCompra = () => {
 
             <div className='FondoBlanco_compra'>
 
-                <div className='Buttons_compra mt-12'>
-                    <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
-                    <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
-                    <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
-                    <button className='btns_inventario p-2 m-2 btn-sm'><FaTruck /> Consulta tu pedido</button>
+                <div className='Buttons_perfil mt-12 d-flex align-items-center'>
+                    <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
+                        <div className='FaUser_perfil'><FaUser /></div>
+                        <div className='Palabra_perfil'>Perfil </div>
+                        <div className='FaAngleDown_perfil '><FaAngleDown /></div>
+                    </button>
+                    <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                        <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
+                        <div className='Palabra_inv'>Inventario disponible</div>
+                        <div className='FaAngleDown_inv'><FaAngleDown /></div>
+                    </button>
+                    <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                        <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
+                        <div className='Palabra_haz'>Haz tu pedido </div>
+                        <div className='FaAngleDown_haz'><FaAngleDown /></div>
+                    </button>
+                    <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                        <div className='FaTruck_cons'><FaTruck /></div>
+                        <div className='Palabra_cons'>Consulta tu pedido</div>
+                        <div className='FaAngleDown_cons'><FaAngleDown /></div>
+                    </button>
                 </div>
 
                 <div style={FinalizarDatosUser}>
@@ -544,7 +561,7 @@ const FinalizarCompra = () => {
                                         {carrito
                                             .map((carrito) => (
                                                 <tr key={carrito[3].inventory_item_id}>
-                                                    <td style={Style_tables}>< FaStar /></td>
+                                                    <td style={Style_tables}>< FaStar className='Estrella' /></td>
                                                     <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>
                                                         <tr style={Style_tables}>{carrito[3].item_description_long}</tr>
                                                         <tr style={Style_tables} >CANTIDADES: {carrito[2].cp_cart_Quantity_units}</tr>

@@ -14,6 +14,7 @@
     margin-top: -20px;
     margin-left: 15%;
     z-index: auto;
+    width: fit-content;
 }
 
 .Buttons_perfil2 {
@@ -33,7 +34,7 @@
     font-size: medium;
     width: 190px;
     height: 50px;
-    border-color: black;
+    border: none;
     border-width: 0.5px;
 }
 
@@ -60,10 +61,10 @@
 
 .CuadroInfo {
     background-color: #EFEEEE;
-    width: 621px;
+    width: 675px;
     height: 649px;
     margin: -24%;
-    margin-left: 25%;
+    margin-left: 36%;
     margin-top: 2%;
     z-index: 1;
     position: relative
@@ -75,7 +76,7 @@
     width: 621px;
     height: 649px;
     margin: -24%;
-    margin-left: 32%;
+    margin-left: 36%;
     margin-top: -25.55%;
     z-index: 2;
     position: absolute;
@@ -104,7 +105,7 @@
     background-color: #EFEEEE;
     width: 621px;
     height: 649px;
-    margin-left: 32%;
+    margin-left: 36%;
     margin-top: -25.55%;
     z-index: 2;
     position: absolute;
@@ -256,7 +257,8 @@
 @media screen and (min-width: 628px) and (max-width: 767px) {
     .Buttons_perfil2 {
         position: absolute;
-        margin-top: -30%;
+        margin-top: 20%;
+        transform: scale(0.6) translateX(-44%);
     }
 
     .Img-Creamos_perfil {
@@ -282,15 +284,15 @@
 
     .Buttons_perfil2 {
         position: absolute;
-        top: 150%;
-        left: 20%;
-        transform: scale(0.8) translateX(-30%);
+        top: 220%;
+        left: -84px;
+        transform: scale(0.7);
     }
 
     .CuadroInfo_ayuda,
     .CuadroInfo_dir {
         position: absolute;
-        top: 117%;
+        top: 194%;
     }
 
 }
@@ -303,7 +305,12 @@
     .CuadroInfo_ayuda,
     .CuadroInfo_dir {
         position: absolute;
-        top: 118%;
+        top: 190%;
+    }
+
+    .Buttons_perfil2 {
+        transform: scale(0.9);
+        left: 0px;
     }
 }
 
@@ -313,6 +320,66 @@
     }
 
 
+}
+
+.FaUser_perfil {
+    width: fit-content;
+    margin-left: 10%;
+}
+
+.Palabra_perfil {
+    width: fit-content;
+    margin-left: 23%;
+}
+
+.FaAngleDown_perfil {
+    width: fit-content;
+    margin-left: 22%;
+}
+
+.FaSearchMinus_inv {
+    width: fit-content;
+    margin-left: 10%;
+}
+
+.Palabra_inv {
+    width: fit-content;
+    margin-left: 0%;
+}
+
+.FaAngleDown_inv {
+    width: fit-content;
+    margin-right: 7%;
+}
+
+.FaShoppingCart_haz {
+    width: fit-content;
+    margin-left: 10%;
+}
+
+.Palabra_haz {
+    width: fit-content;
+    margin-left: 5%;
+}
+
+.FaAngleDown_haz {
+    width: fit-content;
+    margin-left: 4%;
+}
+
+.FaTruck_cons {
+    width: fit-content;
+    margin-left: 10%;
+}
+
+.Palabra_cons {
+    width: fit-content;
+    margin-left: 2%;
+}
+
+.FaAngleDown_cons {
+    width: fit-content;
+    margin-right: 8%;
 }
 
 /*

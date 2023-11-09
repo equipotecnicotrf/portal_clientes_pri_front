@@ -14,7 +14,7 @@ import UserService from '../../services/UserService';
 import { Form, Button } from 'react-bootstrap';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import AddressService from '../../services/AddressService';
-import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaAngleDown } from "react-icons/fa";
 
 const DataTablePerfilUser = ({ backgroundColor }) => {
 
@@ -138,11 +138,27 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
             <div className='Back' style={backgroundStyle}>
                 <BannerUser />
                 <div className='FondoBlanco'>
-                    <div className='Buttons_perfil mt-12'>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataTablePerfilUser")}><FaUser /> Perfil</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataInventario")}><FaSearchMinus /> Inventario Disponible</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/DataPedido")}><FaShoppingCart /> Haz tu pedido</button>
-                        <button className='btns_inventario p-2 m-2 btn-sm' onClick={() => navigate("/ConsultaPedido")}><FaTruck /> Consulta tu pedido</button>
+                    <div className='Buttons_perfil mt-12 d-flex align-items-center'>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
+                            <div className='FaUser_perfil'><FaUser /></div>
+                            <div className='Palabra_perfil'>Perfil </div>
+                            <div className='FaAngleDown_perfil '><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                            <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
+                            <div className='Palabra_inv'>Inventario disponible</div>
+                            <div className='FaAngleDown_inv'><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                            <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
+                            <div className='Palabra_haz'>Haz tu pedido </div>
+                            <div className='FaAngleDown_haz'><FaAngleDown /></div>
+                        </button>
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                            <div className='FaTruck_cons'><FaTruck /></div>
+                            <div className='Palabra_cons'>Consulta tu pedido</div>
+                            <div className='FaAngleDown_cons'><FaAngleDown /></div>
+                        </button>
                     </div>
                     {/*AJUSTE LCPG 11-10 fin*/}
                     <div className='perfil'>
