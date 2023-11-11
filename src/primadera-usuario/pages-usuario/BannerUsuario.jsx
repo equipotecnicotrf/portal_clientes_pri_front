@@ -66,19 +66,7 @@ const BannerUser = ({ backgroundColor }) => {
     };
 
     {/*AJUSTE LCPG INI*/ }
-    const btnHome = {
-        padding: '10px 20px',
-        cursor: 'pointer',
-        position: 'absolute',
-        top: '20px',
-        right: '170px',
-        backgroundColor: backgroundColor || '#323333',
-        borderRadius: '20px',
-        color: 'white',
-        border: 'none',
-        zIndex: '1',
 
-    }
     {/*AJUSTE LCPG FIN*/ }
     const styles = {
         container: {
@@ -86,6 +74,8 @@ const BannerUser = ({ backgroundColor }) => {
             bottom: '30%',
             right: '0',
             transform: 'translateY(-50%)',
+            zIndex: '5',
+
         },
         icon: {
             width: '50px',
@@ -105,28 +95,28 @@ const BannerUser = ({ backgroundColor }) => {
                 <Carousel >
                     <Carousel.Item style={bannerStyle}>
                         <img
-                            className="img1 "
+                            className="img1_img-fluid"
                             src={imagenes.BannerSenior}
                             alt="Primera diapositiva"
                         />
                     </Carousel.Item>
                     <Carousel.Item style={bannerStyle}>
                         <img
-                            className="img2 img-fluid"
+                            className="img2_img-fluid"
                             src={imagenes.BannerArboles}
                             alt="Segunda diapositiva"
                         />
                     </Carousel.Item >
                     <Carousel.Item style={bannerStyle}>
                         <img
-                            className="img2 img-fluid"
+                            className="img3_img-fluid"
                             src={imagenes.BannerTroncos}
                             alt="Tercera diapositiva"
                         />
                     </Carousel.Item>
                     <Carousel.Item style={bannerStyle}>
                         <img
-                            className="img2 img-fluid"
+                            className="img4_img-fluid"
                             src={imagenes.BannerIndustria}
                             alt="Cuarta diapositiva"
                         />

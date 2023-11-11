@@ -819,33 +819,33 @@ const DataTable = ({ backgroundColor }) => {
       <div className='Back' style={backgroundStyle}>
         <Banner />
         {/*31-10-2023 se ajusta DIV completo*/}
-        <div style={gestion_usua}>
+        <div className='Datos_Aud' style={gestion_usua}>
           <table>
             <tbody>
               <tr>
                 <td>
-                  <div  >
+                  <div className='ubica_imagen_audit' >
                     <Container>
                       <Row>
                         <Col xs={6} md={4}>
-                          <Image className='Img-Admin-gest-usua' src={imagenes.Arboles} roundedCircle />
+                          <Image className='Img-Admin-audit' src={imagenes.Arboles} roundedCircle />
                         </Col>
                       </Row>
                     </Container>
                   </div>
                 </td>
                 <td>
-                  <div>
+                  <div className='ubica_datos_audit'>
                     <table>
                       <tbody>
                         <tr>
-                          <th>{usuarioSesion}</th>
+                          <th className='Datos' style={{ fontFamily: 'Bold', fontSize: '14px' }}>{usuarioSesion}</th>
                         </tr>
                         <tr>
-                          <td>{usuarioCorreo}</td>
+                          <td className='Datos' style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioCorreo}</td>
                         </tr>
                         <tr>
-                          <td>{usuariotelefono}</td>
+                          <td className='Datos' style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuariotelefono}</td>
                         </tr>
                       </tbody>
                     </table>

@@ -1,8 +1,19 @@
 @font-face {
-    font-family: 'Gotham';
+    font-family: 'Ligera';
     src: url('./fonts/Gotham-Light.otf');
 }
 
+@font-face {
+    font-family: 'Bold';
+    src: url('./fonts/Gotham-Bold.otf');
+}
+
+@font-face {
+    font-family: 'Medium';
+    src: url('./fonts/Gotham-Medium.otf');
+}
+
 body {
-    font-family: 'Gotham';
+    font-family: 'Ligera', 'Bold', 'Medium';
+
 }

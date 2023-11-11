@@ -15,6 +15,7 @@ import { Form, Button } from 'react-bootstrap';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import AddressService from '../../services/AddressService';
 import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaAngleDown } from "react-icons/fa";
+import '../../Styles.css';
 
 const DataTablePerfilUser = ({ backgroundColor }) => {
 
@@ -166,17 +167,17 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                             <td><Container>
                                 <Row>
                                     <Col xs={6} md={4}>
-                                        <Image className='Img-Admin' src={imagenes.Arboles} roundedCircle />
+                                        <Image className='Img_usua_Per' src={imagenes.Arboles} roundedCircle />
                                     </Col>
                                 </Row>
                             </Container>
                             </td>
                             <div style={Datos_usuario} className='DatosPer'>
                                 <td >
-                                    <tr><th>{usuarioSesion}</th></tr>
-                                    <tr>{usuarioEmpresa}</tr>
-                                    <tr>{usuarioCorreo}</tr>
-                                    <tr>{usuarioTelefono}</tr>
+                                    <tr><th style={{ fontFamily: 'Bold', fontSize: '14px' }}>{usuarioSesion}</th></tr>
+                                    <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioEmpresa}</tr>
+                                    <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioCorreo}</tr>
+                                    <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioTelefono}</tr>
                                 </td>
                             </div>
                         </tr>
@@ -196,8 +197,8 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                             {isOverlayVisible && (
 
                                 <div className='CuadroInfo_dir'>
-                                    <div className='titulo_dir'>
-                                        <th>Direcciones</th>
+                                    <div className='titulo_dir' >
+                                        <th style={{ fontFamily: 'Bold' }}>Direcciones</th>
                                     </div>
                                     <div className='CuadroInfo_dir2'>
 
@@ -209,8 +210,6 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                                                     <th style={bannerStyle}>Dpt</th>
                                                     <th style={bannerStyle}>Ciudad</th>
                                                     <th style={bannerStyle}>País</th>
-                                                    <th style={bannerStyle}>Vendedor</th>
-                                                    <th style={bannerStyle}>Uso</th>
                                                 </tr>
                                             </thead>
 
@@ -219,12 +218,10 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                                                     .toSorted((a, b) => a.siteUseId - b.siteUseId) // Ordena el arreglo por cp_rol_id en orden ascendente
                                                     .map((direcciones) => (
                                                         <tr key={direcciones.siteUseId}>
-                                                            <td> {direcciones.address1}</td>
-                                                            <td >{direcciones.state}</td>
-                                                            <td >{direcciones.city}</td>
-                                                            <td >{direcciones.country}</td>
-                                                            <td >{direcciones.nameVendedor}</td>
-                                                            <td >{direcciones.siteUseCode}</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px' }}> {direcciones.address1}</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px' }}>{direcciones.state}</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px' }}>{direcciones.city}</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px' }}>{direcciones.country}</td>
                                                         </tr>
                                                     ))}
                                             </tbody>
@@ -240,7 +237,7 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                                 <div className='CuadroInfo_ayuda'>
                                     <div className='parrafos'>
                                         <Form.Group className='parrafo_espacio'>
-                                            <Form.Text><h3><th>Tienes algún comentario, duda o reclamo CONTÁCTANOS</th></h3></Form.Text>
+                                            <Form.Text style={{ fontFamily: 'Medium' }}><h3><th>Tienes algún comentario, duda o reclamo CONTÁCTANOS</th></h3></Form.Text>
                                             <div >
                                                 <Row>
                                                     <Col>
@@ -260,10 +257,10 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                     <div className='Buttons_perfil2 mt-12'>
                         <Row>
 
-                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' onClick={toggleOverlay}><td><th>Direcciones</th>{direcciones.length + " "}direcciones agregadas</td></button></Col>
+                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' onClick={toggleOverlay}><td><th style={{ fontFamily: 'Bold' }}>Direcciones</th>{direcciones.length + " "}direcciones agregadas</td></button></Col>
                         </Row>
                         <Row>
-                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' onClick={toggleOverlay2}><th>Servicio de ayuda</th></button></Col>
+                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' style={{ fontFamily: 'Bold' }} onClick={toggleOverlay2}><th>Servicio de ayuda</th></button></Col>
                         </Row>
                     </div>
 

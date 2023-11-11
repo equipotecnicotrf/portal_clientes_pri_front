@@ -150,11 +150,9 @@ const DataPedido = () => {
     const [carritocrear, setcarritocrear] = useState([]);
     const [orden, setorden] = useState([]);
     const carritoCompra = (articulo, contador) => {
-        if (contador == undefined) {
+        if (contador === undefined || contador === 0) {
             alert("Por Favor seleccionar cantidad")
         } else {
-
-
             const cp_user_id = usuarioId;
             const cust_account_id = CustAccountId;
             const site_use_id = 0;
@@ -195,6 +193,7 @@ const DataPedido = () => {
                                     console.log(lineOrderresponse.data)
                                     //alert("Carrito creado exitosamente")
                                     setShow(true);
+
                                 }).catch(error => {
                                     console.log(error);
                                     alert("Error al crear linea de orden")
@@ -212,7 +211,7 @@ const DataPedido = () => {
                         alert("Error al crear carrito de compra")
                     })
                 } else {
-                    const cart_id = carritocrear[0].cp_cart_id;
+                    const cart_id = carrouseridresponse.data[0].cp_cart_id;
                     ShopingCartLineService.getLineCarritobyCartId(cart_id).then(obtenerlineasresponse => {
                         console.log(obtenerlineasresponse.data);
 
@@ -225,39 +224,70 @@ const DataPedido = () => {
                             const length = obtenerlineasresponse.data.length - 1;
                             line_number = obtenerlineasresponse.data[length].cp_cart_line_number + 1;
                         }
-                        const cp_cart_line_number = line_number;
-                        const cp_cart_Quantity_units = contador;
-                        const cp_cart_Quantity_packages = Math.floor(contador / articulo[0].atribute9);
-                        const cp_cart_Quantity_volume = contador * articulo[0].atribute8;
-                        const lineCarrito = { inventory_item_id, cp_cart_id, cp_cart_line_number, cp_cart_Quantity_volume, cp_cart_Quantity_units, cp_cart_Quantity_packages };
 
-                        ShopingCartLineService.postLineaCarrito(lineCarrito).then(lineCarritoresponse => {
-                            console.log(lineCarritoresponse.data)
-                            OrderService.getorderbyCartId(cart_id).then(obtenerordencaridresponse => {
-                                console.log(obtenerordencaridresponse.data)
-                                const cp_order_id = obtenerordencaridresponse.data[0].cp_order_id;
-                                const cp_order_Quantity_units = lineCarritoresponse.data.cp_cart_Quantity_units;
-                                const cp_order_line_number = lineCarritoresponse.data.cp_cart_line_number;
-                                const cp_order_Quantity_volume = lineCarritoresponse.data.cp_cart_Quantity_volume;
-                                const cp_order_Quantity_packages = lineCarritoresponse.data.cp_cart_Quantity_packages;
-                                const lineOrder = { inventory_item_id, cp_order_id, cp_order_Quantity_units, cp_order_line_number, cp_order_Quantity_volume, cp_order_Quantity_packages };
 
-                                OrderLineService.InsertarOrderLine(lineOrder).then(lineOrderresponse => {
-                                    console.log(lineOrderresponse.data)
-                                    //alert("Carrito creado exitosamente")
+                        const arreglo = obtenerlineasresponse.data;
+                        let encontrado = false;
+                        for (const elemento of arreglo) {
+                            if (elemento.inventory_item_id === inventory_item_id) {
+                                // El atributo "inventory_item_id" existe y es igual al valor del primer elemento del arreglo
+                                const cpCartLineId = elemento.cp_cart_line_id;
+                                console.log(`El atributo "inventory_item_id" existe en el elemento del arreglo y su valor es ${cpCartLineId}.`);
+                                encontrado = true; // Se ha encontrado el elemento, establece la bandera como verdadera
+                                const cp_cart_Quantity_units = (elemento.cp_cart_Quantity_units + contador);
+                                const cp_cart_Quantity_packages = Math.floor((elemento.cp_cart_Quantity_units + contador) / articulo[0].atribute9);
+                                const cp_cart_Quantity_volume = (elemento.cp_cart_Quantity_units + contador) * articulo[0].atribute8;
+                                const Cardline = { cp_cart_Quantity_units, cp_cart_Quantity_packages, cp_cart_Quantity_volume };
+
+                                ShopingCartLineService.updateCarline(cpCartLineId, Cardline).then(Actualizalinearesponse => {
+                                    console.log(Actualizalinearesponse.data);
                                     setShow(true);
                                 }).catch(error => {
                                     console.log(error);
-                                    alert("Error al crear linea de orden")
+                                    alert("Error al crear linea de carrito de compra")
+                                })
+
+
+                                break; // Puedes salir del bucle una vez que se ha encontrado el elemento
+
+                            }
+                        }
+
+                        if (!encontrado) {
+                            const cp_cart_line_number = line_number;
+                            const cp_cart_Quantity_units = contador;
+                            const cp_cart_Quantity_packages = Math.floor(contador / articulo[0].atribute9);
+                            const cp_cart_Quantity_volume = contador * articulo[0].atribute8;
+                            const lineCarrito = { inventory_item_id, cp_cart_id, cp_cart_line_number, cp_cart_Quantity_volume, cp_cart_Quantity_units, cp_cart_Quantity_packages };
+
+                            ShopingCartLineService.postLineaCarrito(lineCarrito).then(lineCarritoresponse => {
+                                console.log(lineCarritoresponse.data)
+                                OrderService.getorderbyCartId(cart_id).then(obtenerordencaridresponse => {
+                                    console.log(obtenerordencaridresponse.data)
+                                    const cp_order_id = obtenerordencaridresponse.data[0].cp_order_id;
+                                    const cp_order_Quantity_units = lineCarritoresponse.data.cp_cart_Quantity_units;
+                                    const cp_order_line_number = lineCarritoresponse.data.cp_cart_line_number;
+                                    const cp_order_Quantity_volume = lineCarritoresponse.data.cp_cart_Quantity_volume;
+                                    const cp_order_Quantity_packages = lineCarritoresponse.data.cp_cart_Quantity_packages;
+                                    const lineOrder = { inventory_item_id, cp_order_id, cp_order_Quantity_units, cp_order_line_number, cp_order_Quantity_volume, cp_order_Quantity_packages };
+
+                                    OrderLineService.InsertarOrderLine(lineOrder).then(lineOrderresponse => {
+                                        console.log(lineOrderresponse.data)
+                                        //alert("Carrito creado exitosamente")                                    
+                                        setShow(true);
+                                    }).catch(error => {
+                                        console.log(error);
+                                        alert("Error al crear linea de orden")
+                                    })
+                                }).catch(error => {
+                                    console.log(error);
+                                    alert("Error al buscar order id")
                                 })
                             }).catch(error => {
                                 console.log(error);
-                                alert("Error al buscar order id")
+                                alert("Error al crear linea de carrito de compra")
                             })
-                        }).catch(error => {
-                            console.log(error);
-                            alert("Error al crear linea de carrito de compra")
-                        })
+                        }
                     })
                 }
             }).catch(error => {
@@ -322,6 +352,7 @@ const DataPedido = () => {
         ItemService.getItemsDiseno()
             .then(response => {
                 setDiseno(response.data);
+                console.log("diseños:" + response.data);
             })
             .catch(error => {
                 console.log(error);
@@ -365,10 +396,6 @@ const DataPedido = () => {
             return diseñoText.toLowerCase().includes(searchText.toLowerCase());
         });
     };
-
-
-
-
 
     const products = [
         { id: 1, name: 'Linea', category: 'Linea' },
@@ -492,16 +519,17 @@ const DataPedido = () => {
 
     const StyleFilter = {
         fontColor: '#717171',
-        fontSize: '20px',
+        fontSize: '14px',
         marginBottom: '-10px',
     };
     const StyleProducts = {
         fontColor: '#717171',
-        fontSize: '15px',
+        fontSize: '12px',
         marginTop: '-10px',
         marginBottom: '15px',
         maxHeight: '150px', // Altura máxima del contenedor de desplazamiento
         overflow: 'auto', // Habilitar el desplazamiento cuando los productos excedan la altura del contenedor
+
 
     };
 
@@ -557,15 +585,17 @@ const DataPedido = () => {
 
     const [show, setShow] = useState(false);
     const handleClose = () => {
+        carritoComprausuario(CustAccountId, usuarioId);
         setShow(false);
-        window.location.reload();
     }
 
     const info_general_items = {
         border: 'none',
-        backgroundColor: '#767373',
+        backgroundColor: '#767373', //Arreglo 8 Nov*/}
         color: 'white',
-        fontSize: '12.5px',
+        fontSize: '12.5px', //Arreglo 8 Nov*/}
+        fontFamily: 'Medium',
+        width: '130px'
     };
 
     const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
@@ -576,8 +606,7 @@ const DataPedido = () => {
             <div className='Back-Pedi' style={backgroundStyle}>
                 <BannerUser />
                 <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
-                    <div className='Info_general_2' >
-
+                    <div className='Info_general_2' style={info_general_items}>
                         <table className='table-borderless' >
                             <thead >
                             </thead>
@@ -622,24 +651,24 @@ const DataPedido = () => {
                             <td style={{ verticalAlign: 'middle' }}><Container>
                                 <Row>
                                     <Col xs={6} md={4}>
-                                        <Image className='Img-Admin' src={imagenes.Arboles} roundedCircle />
+                                        <Image className='Img-User-Haz' src={imagenes.Arboles} roundedCircle />
                                     </Col>
                                 </Row>
                             </Container>
                             </td>
                             <td>
                                 <td>
-                                    <tr><th>{usuarioSesion}</th></tr>
-                                    <tr> {usuarioEmpresa} </tr>
-                                    <tr>{usuarioCorreo}</tr>
-                                    <tr>{usuarioTelefono}</tr>
+                                    <tr><th style={{ fontFamily: 'Bold', fontSize: '14px' }}>{usuarioSesion}</th></tr>
+                                    <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioEmpresa}</tr>
+                                    <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioCorreo}</tr>
+                                    <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioTelefono}</tr>
                                 </td>
                             </td>
                         </tr>
                     </div>
                     <div className='ContenedorPadrePedi'>
                         <div className='Filtro_Haz'>
-                            <h3>Filtros</h3>
+                            <h3 style={{ fontFamily: 'Bold', fontSize: '16px' }}>Filtros</h3>
                             <div style={CategoriasStyle}>
                                 {categories.map((category) => (
                                     <div key={category}>
@@ -840,15 +869,16 @@ const DataPedido = () => {
                                                 style={{ width: '200px', height: '270px' }}
                                             />
                                             <div className='organiza_texto'>
-                                                <tr>CÓDIGO ARTÍCULO:{articulo[0].item_number}</tr>
-                                                <div className='DescripcionHaz'>
+                                                <tr style={{ fontFamily: 'Ligera', fontSize: '12px' }}>
+                                                    CÓDIGO ARTÍCULO:{articulo[0].item_number}</tr>
+                                                <div className='DescripcionHaz' style={{ fontFamily: 'Medium', fontSize: '12px' }}>
                                                     <tr><strong>{articulo[0].item_description_long}</strong></tr></div>
                                                 <div className='PrecioHaz'>
                                                     <strong>
                                                         <table>
                                                             <tr>
-                                                                <td className="precio-label">Precio:</td>
-                                                                <td className="precio-valor">${articulo[1].unit_price.toLocaleString(undefined, opciones) + " " + articulo[1].currency_code}</td>
+                                                                <td className="precio-label" style={{ fontFamily: 'Medium', fontSize: '12px' }}>Precio:</td>
+                                                                <td className="precio-valor" style={{ fontFamily: 'Medium', fontSize: '16px' }}>${articulo[1].unit_price.toLocaleString(undefined, opciones) + " " + articulo[1].currency_code}</td>
                                                             </tr>
                                                         </table>
                                                     </strong>
@@ -856,7 +886,8 @@ const DataPedido = () => {
                                                 <div className='organiza_iva_inc'>
                                                     <table>
                                                         <tr>
-                                                            <td >${(articulo[1].unit_price + (articulo[1].unit_price * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)} {articulo[1].currency_code} IVA INCLUIDO</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '13px' }}>${(articulo[1].unit_price + (articulo[1].unit_price * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)} {articulo[1].currency_code}</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '8px' }}>IVA INCLUIDO</td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -887,7 +918,7 @@ const DataPedido = () => {
                                                 </div>
                                                 <div className='organiza_btn_carro'>
                                                     <Button onClick={() => carritoCompra(articulo, contadores[articulo[0].inventory_item_id])} className='btn_agregar_carro'>
-                                                        <FaShoppingCart /><span> Agregar</span>
+                                                        <FaShoppingCart style={{ height: '13px', width: '13px' }} /><span style={{ fontFamily: 'Ligera', fontSize: '10px' }}> Agregar</span>
                                                     </Button>
                                                 </div>
                                                 <div className='organiza_uni_paq'>

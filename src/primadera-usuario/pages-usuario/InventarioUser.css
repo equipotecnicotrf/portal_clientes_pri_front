@@ -6,6 +6,11 @@
     margin-top: 3%;
 }
 
+.Img_DatosInv {
+    height: 91px;
+    width: 91px;
+}
+
 
 
 .Agregar-btn {
@@ -118,7 +123,7 @@
 }
 
 .principal_contador_Inv {
-    margin-top: 10%;
+    margin-top: 8%;
     margin-left: 0%;
     position: relative;
     width: 100px;
@@ -182,7 +187,7 @@
     font-size: 8px;
     width: fit-content;
 
-    padding-top: 12px;
+    padding-top: 21px;
 
 
 
@@ -268,6 +273,7 @@
 
 .PrecioInv {
     max-width: 200px;
+
 }
 
 table {
@@ -321,8 +327,9 @@ td {
 
 @media (max-width: 480px) {
     .organiza_articulos_Inv {
-        margin-left: 15%;
+        margin-left: 30%;
         transform: scale(0.7) translateX(-10%);
+        width: 90%;
 
     }
 }

@@ -114,18 +114,41 @@ const DataTable = ({ backgroundColor }) => {
             <div className='Back' style={backgroundStyle}>
                 <Banner />
 
-                <div style={audit2}>
-                    <tr>
-                        <td><Container>
-                            <Row>
-                                <Col xs={6} md={4}>
-                                    <Image className='Img-Admin' src={imagenes.Arboles} roundedCircle />
-                                </Col>
-                            </Row>
-                        </Container>
-                        </td>
-                        <td><th>{usuarioSesion}</th><tr><td>{usuarioCorreo}</td></tr><tr><td>{usuariotelefono}</td></tr></td>
-                    </tr>
+                <div className='Datos_Aud' style={audit2}>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div className='ubica_imagen_audit' >
+                                        <Container>
+                                            <Row>
+                                                <Col xs={6} md={4}>
+                                                    <Image className='Img-Admin-audit' src={imagenes.Arboles} roundedCircle />
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div className='ubica_datos_audit'>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <th className='Datos' style={{ fontFamily: 'Bold', fontSize: '14px' }}>{usuarioSesion}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td className='Datos' style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioCorreo}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className='Datos' style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuariotelefono}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <Dropdown style={dropDown}>

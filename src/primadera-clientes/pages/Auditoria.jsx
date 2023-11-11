@@ -184,13 +184,13 @@ const DataTable = ({ backgroundColor }) => {
                                         <table>
                                             <tbody>
                                                 <tr>
-                                                    <th className='Datos'>{usuarioSesion}</th>
+                                                    <th className='Datos' style={{ fontFamily: 'Bold', fontSize: '14px' }}>{usuarioSesion}</th>
                                                 </tr>
                                                 <tr>
-                                                    <td className='Datos'>{usuarioCorreo}</td>
+                                                    <td className='Datos' style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioCorreo}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td className='Datos'>{usuariotelefono}</td>
+                                                    <td className='Datos' style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuariotelefono}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

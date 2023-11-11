@@ -384,9 +384,11 @@ const FinalizarCompra = () => {
 
     const info_general_items = {
         border: 'none',
-        backgroundColor: '#767373',
+        backgroundColor: '#767373', //Arreglo 8 Nov*/}
         color: 'white',
-        fontSize: '12.5px',
+        fontSize: '12.5px', //Arreglo 8 Nov*/}
+        fontFamily: 'Medium',
+        width: '130px'
     };
 
     const bannerStyle_compra = {
@@ -414,7 +416,7 @@ const FinalizarCompra = () => {
             <BannerUser />
 
             <button className='Info_general_compra' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamano_carro_principal_compra' />
-                <div className='Info_general_compra_2'>
+                <div className='Info_general_compra_2' style={info_general_items}>
                     <table className='table-borderless' >
                         <thead >
                         </thead>
@@ -467,10 +469,10 @@ const FinalizarCompra = () => {
                         </Container>
                         </td>
                         <td>
-                            <tr><th>{usuarioSesion}</th></tr>
-                            <tr>{usuarioEmpresa}</tr>
-                            <tr>{usuarioCorreo}</tr>
-                            <tr>{usuarioTelefono}</tr>
+                            <tr><th style={{ fontFamily: 'Bold', fontSize: '14px' }}>{usuarioSesion}</th></tr>
+                            <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioEmpresa}</tr>
+                            <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioCorreo}</tr>
+                            <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioTelefono}</tr>
                         </td>
                     </tr>
                 </div>
@@ -479,10 +481,10 @@ const FinalizarCompra = () => {
                     <div className='ContenedorPadre_compra'>
                         <div className='direccion_envio'>
                             <div className='direccion_busca'>
-                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE ENVIO</strong></h5>
+                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion' style={{ fontFamily: 'Bold', fontSize: '14px' }}> DIRECCION DE ENVIO</h5>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
                                     <Dropdown>
-                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
+                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black', fontFamily: 'Ligera', fontSize: '13px' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
                                             {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
@@ -504,10 +506,10 @@ const FinalizarCompra = () => {
                                 </Form.Group>
                             </div>
                             <div className='direccion_busca'>
-                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion'> <strong>DIRECCION DE FACTURACION</strong></h5>
+                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion' style={{ fontFamily: 'Bold', fontSize: '14px' }}>DIRECCION DE FACTURACION</h5>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
                                     <Dropdown>
-                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
+                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black', fontFamily: 'Ligera', fontSize: '13px' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
                                             {selectedDireccionBillto ? selectedDireccionBillto.address1 : 'Escoge tu dirección'}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
@@ -530,8 +532,8 @@ const FinalizarCompra = () => {
                             </div>
                             <div className='orden_compra'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                    <Form.Label ><strong>Orden de Compra/Referencia</strong></Form.Label>
-                                    <Form.Control
+                                    <Form.Label style={{ fontFamily: 'Bold', fontSize: '14px' }}>Orden de Compra/Referencia</Form.Label>
+                                    <Form.Control style={{ fontFamily: 'Ligera', fontSize: '13px' }}
                                         type="text"
                                         placeholder="Orden de Compra"
                                         autoFocus
@@ -546,7 +548,7 @@ const FinalizarCompra = () => {
 
                         <div className='resumen_pedido'>
                             <div>
-                                <FaShoppingCart className='tamano_carro_resumen' /><h5 className='tamano_resumen'> <strong>RESUMEN DE TU PEDIDO</strong></h5>
+                                <FaShoppingCart className='tamano_carro_resumen' /><h5 className='tamano_resumen' style={{ fontFamily: 'Bold', fontSize: '14px' }}>RESUMEN DE TU PEDIDO</h5>
                             </div>
                             <div className='tables'>
                                 <table className='table table-borderless' style={bannerStyle_compra}>
@@ -554,10 +556,10 @@ const FinalizarCompra = () => {
                                         <tr style={{ textAlign: 'center' }}>
                                             <th style={Style_tables}></th>
                                             <th style={Style_tables}></th>
-                                            <th style={Style_tables}>Precio</th>
+                                            <th style={{ fontFamily: 'Medium', fontSize: '12px', backgroundColor: '#D9D9D9' }}>Precio</th>
                                         </tr>
                                     </thead>
-                                    <tbody >
+                                    <tbody style={{ fontFamily: 'Ligera', fontSize: '12px' }}>
                                         {carrito
                                             .map((carrito) => (
                                                 <tr key={carrito[3].inventory_item_id}>
@@ -583,23 +585,23 @@ const FinalizarCompra = () => {
                                             <tr className="borde_horizontal" >
                                             </tr>
                                             <tr >
-                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Subtotal</td>
-                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{sumaTotal.toLocaleString(undefined, opciones)}</td>
+                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9', fontFamily: 'Medium', fontSize: '12px' }}>Subtotal</td>
+                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9', fontFamily: 'Medium', fontSize: '14px' }}>{sumaTotal.toLocaleString(undefined, opciones)}</td>
                                             </tr>
                                             <tr className="borde_horizontal">
-                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>IVA</td>
-                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100)).toLocaleString(undefined, opciones)}</td>
+                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9', fontFamily: 'Medium', fontSize: '12px' }}>IVA</td>
+                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9', fontFamily: 'Medium', fontSize: '14px' }}>{(sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100)).toLocaleString(undefined, opciones)}</td>
                                             </tr>
                                             <tr >
-                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9' }}>Total</td>
-                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9' }}>{(sumaTotal + (sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)}</td>
+                                                <td style={{ textAlign: 'left', backgroundColor: '#D9D9D9', fontFamily: 'Medium', fontSize: '12px' }}>Total</td>
+                                                <td style={{ textAlign: 'right', backgroundColor: '#D9D9D9', fontFamily: 'Medium', fontSize: '14px' }}>{(sumaTotal + (sumaTotal * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)}</td>
                                             </tr>
                                         </React.Fragment>
                                     </tbody>
                                 </table>
                             </div>
                             <div className='centrar_boton_confirmar'>
-                                <Button type='submit' className='btns_carrito_conf_compra' >Confirmar orden   </Button>
+                                <Button type='submit' className='btns_carrito_conf_compra' style={{ fontFamily: 'Medium', fontSize: '12px' }} >Confirmar orden   </Button>
                             </div>
                         </div>
 

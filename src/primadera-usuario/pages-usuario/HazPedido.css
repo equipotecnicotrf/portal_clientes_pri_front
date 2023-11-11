@@ -8,6 +8,10 @@
     margin-top: 3%;
 }
 
+
+
+
+
 .ContenedorPadrePedi {
     background-color: #F9F7F7;
     width: 950x;
@@ -19,6 +23,8 @@
     position: relative;
 }
 
+
+
 .organiza_articulos_Haz {
     background-color: #F9F7F7;
     width: 800px;
@@ -27,6 +33,9 @@
     margin-left: 32.9%;
     margin-top: 2%;
 }
+
+
+
 
 .Borde_imagenes {
     border-radius: 5%;
@@ -45,6 +54,8 @@
     align-items: center;
     justify-content: center;
 }
+
+
 
 .btns_pedido_Haz {
     box-shadow: 2px;
@@ -119,7 +130,7 @@
 }
 
 .principal_contador {
-    margin-top: 10%;
+    margin-top: 8%;
     margin-left: 0%;
     position: relative;
     width: 100px;
@@ -144,39 +155,48 @@
     color: #6D6F6F;
     font-size: 8px;
     width: fit-content;
-    padding-top: 15px;
+
+    padding-top: 21px;
+
+
+
 }
+
+
 
 .modal_principal {
+
+
+
     background-color: #474444;
+
     color: white;
+
 }
+
+
 
 .modal-carrito {
+
     align-items: center;
+
     justify-content: center;
+
     display: flex;
-    width: 130px;
-    background-color: #474444;
-    margin-right: 0%;
+
 }
+
+
 
 .modal-frase {
+
     align-items: center;
-    text-align: center;
+
     justify-content: center;
+
     display: flex;
-    width: 300px;
-    background-color: #474444;
-}
 
-.cerrar_modal {
-    border: none;
-    background-color: #474444;
-    color: white;
-    width: 10px;
 }
-
 
 .tamanio_carro_principal {
     font-size: 40px;
@@ -204,8 +224,8 @@
 }
 
 .Img-User-Haz {
-    width: 100px;
-    height: 100px;
+    width: 91px;
+    height: 91px;
 }
 
 
@@ -225,14 +245,15 @@
 
 @media (max-width: 480px) {
     .Filtro_Haz {
-        transform: scale(0.6) translateX(-10%);
+        transform: scale(0.5) translateX(-10%);
     }
 }
 
 @media (max-width: 480px) {
     .organiza_articulos_Haz {
-        margin-left: 18%;
+        margin-left: 30%;
         transform: scale(0.7) translateX(-10%);
+        width: 90%;
     }
 }
 
@@ -247,6 +268,7 @@
     .ContenedorPadrePedi {
 
         margin-top: auto;
+
     }
 }
 
@@ -297,6 +319,6 @@
 
 @media (min-width: 768px) and (max-width: 1023px) {
     .organiza_articulos_Haz {
-        margin-left: 20%;
+        margin-left: 30%;
     }
 }

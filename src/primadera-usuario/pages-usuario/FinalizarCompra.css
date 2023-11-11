@@ -67,7 +67,8 @@
 .btns_carrito_conf_compra {
     background-color: #941C1D;
     border-radius: 30px;
-    width: 200px;
+    width: 149px;
+    height: 34px;
     border: none;
 }
 
@@ -206,4 +207,12 @@
     margin-left: 8%;
     height: 150px;
     width: 400px;
+}
+
+@media (max-width: 768px) {
+    .Info_general_compra {
+        width: 220px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
 }

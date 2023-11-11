@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const BASE_REST_API_URL = "http://150.136.119.119:8285/api/v1/Users";
-const USERNAME_BASE_REST_API_URL = "http://150.136.119.119:8285/api/v1/Username";
+//const BASE_REST_API_URL = "http://150.136.119.119:8285/api/v1/Users";
+//const USERNAME_BASE_REST_API_URL = "http://150.136.119.119:8285/api/v1/Username";
 
-//const BASE_REST_API_URL = "http://localhost:8285/api/v1/Users";
-//const USERNAME_BASE_REST_API_URL = "http://localhost:8285/api/v1/Username";
+const BASE_REST_API_URL = "http://localhost:8285/api/v1/Users";
+const USERNAME_BASE_REST_API_URL = "http://localhost:8285/api/v1/Username";
 
 class UserService {
     getAllUsers() {

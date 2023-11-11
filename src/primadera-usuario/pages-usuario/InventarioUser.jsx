@@ -20,6 +20,7 @@ import OrderService from '../../services/OrderService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
 import OrderLineService from '../../services/OrderLineService';
 import IvaService from '../../services/IVAService';
+import '../../Styles.css';
 
 const DataInventario = () => {
     const [usuarioSesion, setUarioSesion] = useState([]);
@@ -108,6 +109,8 @@ const DataInventario = () => {
         backgroundColor: '#767373', //Arreglo 8 Nov*/}
         color: 'white',
         fontSize: '12.5px', //Arreglo 8 Nov*/}
+        fontFamily: 'Medium',
+        width: '130px'
     };
 
     // Define un estado para los contadores de cada artículo
@@ -162,7 +165,7 @@ const DataInventario = () => {
     const [carritocrear, setcarritocrear] = useState([]);
     const [orden, setorden] = useState([]);
     const carritoCompra = (articulo, contador) => {
-        if (contador == undefined) {
+        if (contador === undefined || contador === 0) {
             alert("Por Favor seleccionar cantidad")
         } else {
             const cp_user_id = usuarioId;
@@ -223,7 +226,7 @@ const DataInventario = () => {
                         alert("Error al crear carrito de compra")
                     })
                 } else {
-                    const cart_id = carritocrear[0].cp_cart_id;
+                    const cart_id = carrouseridresponse.data[0].cp_cart_id;
                     ShopingCartLineService.getLineCarritobyCartId(cart_id).then(obtenerlineasresponse => {
                         console.log(obtenerlineasresponse.data);
 
@@ -236,39 +239,70 @@ const DataInventario = () => {
                             const length = obtenerlineasresponse.data.length - 1;
                             line_number = obtenerlineasresponse.data[length].cp_cart_line_number + 1;
                         }
-                        const cp_cart_line_number = line_number;
-                        const cp_cart_Quantity_units = contador;
-                        const cp_cart_Quantity_packages = Math.floor(contador / articulo[0].atribute9);
-                        const cp_cart_Quantity_volume = contador * articulo[0].atribute8;
-                        const lineCarrito = { inventory_item_id, cp_cart_id, cp_cart_line_number, cp_cart_Quantity_volume, cp_cart_Quantity_units, cp_cart_Quantity_packages };
 
-                        ShopingCartLineService.postLineaCarrito(lineCarrito).then(lineCarritoresponse => {
-                            console.log(lineCarritoresponse.data)
-                            OrderService.getorderbyCartId(cart_id).then(obtenerordencaridresponse => {
-                                console.log(obtenerordencaridresponse.data)
-                                const cp_order_id = obtenerordencaridresponse.data[0].cp_order_id;
-                                const cp_order_Quantity_units = lineCarritoresponse.data.cp_cart_Quantity_units;
-                                const cp_order_line_number = lineCarritoresponse.data.cp_cart_line_number;
-                                const cp_order_Quantity_volume = lineCarritoresponse.data.cp_cart_Quantity_volume;
-                                const cp_order_Quantity_packages = lineCarritoresponse.data.cp_cart_Quantity_packages;
-                                const lineOrder = { inventory_item_id, cp_order_id, cp_order_Quantity_units, cp_order_line_number, cp_order_Quantity_volume, cp_order_Quantity_packages };
 
-                                OrderLineService.InsertarOrderLine(lineOrder).then(lineOrderresponse => {
-                                    console.log(lineOrderresponse.data)
-                                    //alert("Carrito creado exitosamente")                                    
+                        const arreglo = obtenerlineasresponse.data;
+                        let encontrado = false;
+                        for (const elemento of arreglo) {
+                            if (elemento.inventory_item_id === inventory_item_id) {
+                                // El atributo "inventory_item_id" existe y es igual al valor del primer elemento del arreglo
+                                const cpCartLineId = elemento.cp_cart_line_id;
+                                console.log(`El atributo "inventory_item_id" existe en el elemento del arreglo y su valor es ${cpCartLineId}.`);
+                                encontrado = true; // Se ha encontrado el elemento, establece la bandera como verdadera
+                                const cp_cart_Quantity_units = (elemento.cp_cart_Quantity_units + contador);
+                                const cp_cart_Quantity_packages = Math.floor((elemento.cp_cart_Quantity_units + contador) / articulo[0].atribute9);
+                                const cp_cart_Quantity_volume = (elemento.cp_cart_Quantity_units + contador) * articulo[0].atribute8;
+                                const Cardline = { cp_cart_Quantity_units, cp_cart_Quantity_packages, cp_cart_Quantity_volume };
+
+                                ShopingCartLineService.updateCarline(cpCartLineId, Cardline).then(Actualizalinearesponse => {
+                                    console.log(Actualizalinearesponse.data);
                                     setShow(true);
                                 }).catch(error => {
                                     console.log(error);
-                                    alert("Error al crear linea de orden")
+                                    alert("Error al crear linea de carrito de compra")
+                                })
+
+
+                                break; // Puedes salir del bucle una vez que se ha encontrado el elemento
+
+                            }
+                        }
+
+                        if (!encontrado) {
+                            const cp_cart_line_number = line_number;
+                            const cp_cart_Quantity_units = contador;
+                            const cp_cart_Quantity_packages = Math.floor(contador / articulo[0].atribute9);
+                            const cp_cart_Quantity_volume = contador * articulo[0].atribute8;
+                            const lineCarrito = { inventory_item_id, cp_cart_id, cp_cart_line_number, cp_cart_Quantity_volume, cp_cart_Quantity_units, cp_cart_Quantity_packages };
+
+                            ShopingCartLineService.postLineaCarrito(lineCarrito).then(lineCarritoresponse => {
+                                console.log(lineCarritoresponse.data)
+                                OrderService.getorderbyCartId(cart_id).then(obtenerordencaridresponse => {
+                                    console.log(obtenerordencaridresponse.data)
+                                    const cp_order_id = obtenerordencaridresponse.data[0].cp_order_id;
+                                    const cp_order_Quantity_units = lineCarritoresponse.data.cp_cart_Quantity_units;
+                                    const cp_order_line_number = lineCarritoresponse.data.cp_cart_line_number;
+                                    const cp_order_Quantity_volume = lineCarritoresponse.data.cp_cart_Quantity_volume;
+                                    const cp_order_Quantity_packages = lineCarritoresponse.data.cp_cart_Quantity_packages;
+                                    const lineOrder = { inventory_item_id, cp_order_id, cp_order_Quantity_units, cp_order_line_number, cp_order_Quantity_volume, cp_order_Quantity_packages };
+
+                                    OrderLineService.InsertarOrderLine(lineOrder).then(lineOrderresponse => {
+                                        console.log(lineOrderresponse.data)
+                                        //alert("Carrito creado exitosamente")                                    
+                                        setShow(true);
+                                    }).catch(error => {
+                                        console.log(error);
+                                        alert("Error al crear linea de orden")
+                                    })
+                                }).catch(error => {
+                                    console.log(error);
+                                    alert("Error al buscar order id")
                                 })
                             }).catch(error => {
                                 console.log(error);
-                                alert("Error al buscar order id")
+                                alert("Error al crear linea de carrito de compra")
                             })
-                        }).catch(error => {
-                            console.log(error);
-                            alert("Error al crear linea de carrito de compra")
-                        })
+                        }
                     })
                 }
             }).catch(error => {
@@ -505,12 +539,12 @@ const DataInventario = () => {
     //{/*Arreglo 8 Nov*/}
     const StyleFilter = {
         fontColor: '#717171',
-        fontSize: '20px',
+        fontSize: '14px',
         marginBottom: '-10px',
     };
     const StyleProducts = {
         fontColor: '#717171',
-        fontSize: '15px',
+        fontSize: '12px',
         marginTop: '-10px',
         marginBottom: '15px',
         maxHeight: '150px', // Altura máxima del contenedor de desplazamiento
@@ -576,8 +610,8 @@ const DataInventario = () => {
 
     const [show, setShow] = useState(false);
     const handleClose = () => {
+        carritoComprausuario(CustAccountId, usuarioId);
         setShow(false);
-        window.location.reload();
     }
 
 
@@ -589,16 +623,16 @@ const DataInventario = () => {
             <div className='Back' style={backgroundStyle}>
                 <BannerUser />
                 <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
-                    <div className='Info_general_2'>
+                    <div className='Info_general_2' style={info_general_items}>
                         <table className='table-borderless' >
                             <thead >
                             </thead>
                             <tbody >
                                 <tr style={info_general_items}>
                                     <td style={info_general_items}>
-                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
-                                        <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
+                                        <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
+                                        <tr style={info_general_items}>{carrito.length} items(s)</tr>
+                                        <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3</tr>
                                     </td>
                                 </tr>
                             </tbody>
@@ -633,23 +667,23 @@ const DataInventario = () => {
                             <td style={{ verticalAlign: 'middle' }}><Container>
                                 <Row>
                                     <Col xs={6} md={4}>
-                                        <Image className='Img-Admin' src={imagenes.Arboles} roundedCircle />
+                                        <Image className='Img_DatosInv' src={imagenes.Arboles} roundedCircle />
                                     </Col>
                                 </Row>
                             </Container>
                             </td>
                             <td>
-                                <tr><th>{usuarioSesion}</th></tr>
-                                <tr> {usuarioEmpresa} </tr>
-                                <tr>{usuarioCorreo}</tr>
-                                <tr>{usuarioTelefono}</tr>
+                                <tr><th style={{ fontFamily: 'Bold', fontSize: '14px' }}>{usuarioSesion}</th></tr>
+                                <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioEmpresa}</tr>
+                                <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioCorreo}</tr>
+                                <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioTelefono}</tr>
                             </td>
                         </tr>
                     </div>
 
                     <div className='ContenedorPadre'>
                         <div className='Filtro'>
-                            <h3>Filtros</h3>
+                            <h3 style={{ fontFamily: 'Bold', fontSize: '16px' }}>Filtros</h3>
                             <div style={CategoriasStyle}>
                                 {categories.map((category) => (
                                     <div key={category}>
@@ -855,18 +889,21 @@ const DataInventario = () => {
                                                 style={{ width: '200px', height: '270px' }}
                                             />
                                             <div className='organiza_texto'>
-                                                <tr>CÓDIGO ARTÍCULO: {articulo[0].item_number} </tr>
-                                                <div className='DescripcionInv'><tr><strong>{articulo[0].item_description_long}</strong>
-                                                </tr></div>
+                                                <tr style={{ fontFamily: 'Ligera', fontSize: '12px' }}>
+                                                    CÓDIGO ARTÍCULO: {articulo[0].item_number} </tr>
+                                                <div className='DescripcionInv' style={{ fontFamily: 'Medium', fontSize: '12px' }}>
+                                                    <tr><strong>{articulo[0].item_description_long}</strong>
+                                                    </tr></div>
                                                 <div className='organiza_cant_disp'>
-                                                    <tr>Cantidad disponible: {articulo[1].available_to_transact} uds.</tr>
+                                                    <tr style={{ fontFamily: 'Ligera', fontSize: '11px' }}>Cantidad disponible: {articulo[1].available_to_transact} uds.
+                                                    </tr>
                                                 </div>
-                                                <div className='PrecioInv'>
+                                                <div className='PrecioInv' >
                                                     <strong>
                                                         <table>
                                                             <tr>
-                                                                <td className="precio-label">Precio:</td>
-                                                                <td className="precio-valor">${articulo[2].unit_price.toLocaleString(undefined, opciones) + " " + articulo[2].currency_code}</td>
+                                                                <td className="precio-label" style={{ fontFamily: 'Medium', fontSize: '12px' }}>Precio:</td>
+                                                                <td className="precio-valor" style={{ fontFamily: 'Medium', fontSize: '16px' }}>${articulo[2].unit_price.toLocaleString(undefined, opciones) + " " + articulo[2].currency_code}</td>
                                                             </tr>
                                                         </table>
                                                     </strong>
@@ -874,7 +911,10 @@ const DataInventario = () => {
                                                 <div className='organiza_iva_inc'>
                                                     <table>
                                                         <tr>
-                                                            <td>${(articulo[2].unit_price + (articulo[2].unit_price * ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)} {articulo[2].currency_code} IVA INCLUIDO</td>
+
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '13px' }}>${(articulo[2].unit_price + (articulo[2].unit_price *
+                                                                ((ivaFiltrados.length > 0 ? ivaFiltrados[0].cp_IVA : 0) / 100))).toLocaleString(undefined, opciones)} {articulo[2].currency_code} </td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '8px' }}>IVA INCLUIDO</td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -905,7 +945,7 @@ const DataInventario = () => {
                                                 </div>
                                                 <div className='organiza_btn_carro_Inv'>
                                                     <Button onClick={() => carritoCompra(articulo, contadores[articulo[0].inventory_item_id])} className='btn_agregar_carro'>
-                                                        <FaShoppingCart /><span> Agregar</span>
+                                                        <FaShoppingCart style={{ height: '13px', width: '13px' }} /><span style={{ fontFamily: 'Ligera', fontSize: '10px' }}> Agregar</span>
                                                     </Button>
                                                 </div>
 
@@ -939,4 +979,4 @@ const DataInventario = () => {
     );
 };
 
-export default DataInventario;
+export default DataInventario

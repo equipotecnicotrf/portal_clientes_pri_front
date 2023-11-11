@@ -86,28 +86,22 @@ function AdminMenu() {
 
       <div className='Back' style={backgroundS}>
         <Banner />
-        <div style={dropdown_principal}>
+        <div style={dropdown_principal} className='perfil_inv'>
           <tr>
+            <td style={{ verticalAlign: 'middle' }}><Container>
+              <Row>
+                <Col xs={6} md={4}>
+                  <Image className='Img_DatosInv' src={imagenes.Arboles} roundedCircle />
+                </Col>
+              </Row>
+            </Container>
+            </td>
+            <td>
+              <tr><th style={{ fontFamily: 'Bold', fontSize: '14px' }}>{usuarioSesion}</th></tr>
 
-            <div className='ubica_imagen_dropdown'>
-              <td><Container>
-                <Row>
-                  <Col xs={6} md={4}>
-                    <Image className='Img-Admin-Dropdown' src={imagenes.Arboles} roundedCircle />
-                  </Col>
-                </Row>
-              </Container>
-              </td>
-            </div>
-
-            <div className='ubica_datos_dropdown'>
-              <td >
-                <th>{usuarioSesion}</th>
-                <tr><td>{usuarioCorreo}</td></tr>
-                <tr><td>{usuariotelefono}</td></tr>
-              </td>
-            </div>
-
+              <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuarioCorreo}</tr>
+              <tr style={{ fontFamily: 'Ligera', fontSize: '14px' }}>{usuariotelefono}</tr>
+            </td>
           </tr>
         </div>
 

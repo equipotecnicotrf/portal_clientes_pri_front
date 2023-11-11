@@ -1,8 +1,8 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 
-const BASE_REST_API_URL = "http://150.136.119.119:8285/api/v1/login";
-//const BASE_REST_API_URL = "http://localhost:8285/api/v1/login";
+//const BASE_REST_API_URL = "http://150.136.119.119:8285/api/v1/login";
+const BASE_REST_API_URL = "http://localhost:8285/api/v1/login";
 const COOKIE_NAME = 'portal_sesion';
 
 class LoginUser {

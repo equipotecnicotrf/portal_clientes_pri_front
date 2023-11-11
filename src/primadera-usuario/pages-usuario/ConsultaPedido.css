@@ -87,3 +87,11 @@
     margin-top: 10%;
     color: white;
 }
+
+@media (max-width: 768px) {
+    .Info_general_Consul {
+        width: 220px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+}
