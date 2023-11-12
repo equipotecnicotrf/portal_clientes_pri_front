@@ -55,7 +55,7 @@ const ConsultaPedido = () => {
                 //const creationDateToFormateada = '${yearCreationDateTo}-${monthCreationDateTo}-${dayCreationDateTo}';
 
                 const creationDateFrom = new Date(creationDateTo);
-                creationDateFrom.setDate(creationDateTo.getDate() - 60);
+                creationDateFrom.setDate(creationDateTo.getDate() - 90);
 
                 const yearCreationDateFrom = creationDateFrom.getFullYear();
                 const monthcreationDateFrom = (creationDateFrom.getMonth() + 1).toString().padStart(2, '0');
@@ -65,7 +65,7 @@ const ConsultaPedido = () => {
                 const creationDateFromFormateada = yearCreationDateFrom + "-" + monthcreationDateFrom + "-" + daycreationDateFrom;
 
                 carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
-                consultaPedidoInicial(responseid.data.party_id, "NACIONAL", "CLOSED", creationDateFromFormateada, creationDateToFormateada);
+                consultaPedidoInicial(responseid.data.party_id, "NACIONAL", "OPEN", creationDateFromFormateada, creationDateToFormateada);
 
             }).catch(error => {
                 console.log(error)
@@ -84,7 +84,7 @@ const ConsultaPedido = () => {
             console.log(consultorderresponse.data);
         }).catch(error => {
             console.log(error);
-            //alert("El cliente no tiene pedidos abiertos");
+            alert("El cliente no tiene pedidos abiertos");
         })
     }
 
@@ -97,9 +97,11 @@ const ConsultaPedido = () => {
         const dayfechaComparacion = fechaComparacion.getDate().toString().padStart(2, '0');//Para crear ceros a la izquierda
         const fechaComparacionFormateada = yearfechaComparacion + "-" + monthfechaComparacion + "-" + dayfechaComparacion;
 
-        const fechaFactura = BillingDate.split('T')[0];
+        const fechaFactura = BillingDate ? BillingDate.split('T')[0] : "null";
         switch (status) {
             case "Scheduled":
+                return "En programación";
+            case "Manual Scheduling Required":
                 return "En programación";
             case "Awaiting Shipping":
                 return "En consolidación";

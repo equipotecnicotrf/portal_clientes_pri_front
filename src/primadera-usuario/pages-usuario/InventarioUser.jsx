@@ -202,7 +202,9 @@ const DataInventario = () => {
                                 const cp_order_line_number = lineCarritoresponse.data.cp_cart_line_number;
                                 const cp_order_Quantity_volume = lineCarritoresponse.data.cp_cart_Quantity_volume;
                                 const cp_order_Quantity_packages = lineCarritoresponse.data.cp_cart_Quantity_packages;
-                                const lineOrder = { inventory_item_id, cp_order_id, cp_order_Quantity_units, cp_order_line_number, cp_order_Quantity_volume, cp_order_Quantity_packages };
+                                const cp_cart_line_id = lineCarritoresponse.data.cp_cart_line_id;
+                                const cp_line_order_status = 'En Proceso';
+                                const lineOrder = { inventory_item_id, cp_order_id, cp_order_Quantity_units, cp_order_line_number, cp_order_Quantity_volume, cp_order_Quantity_packages, cp_cart_line_id, cp_line_order_status };
 
                                 OrderLineService.InsertarOrderLine(lineOrder).then(lineOrderresponse => {
                                     console.log(lineOrderresponse.data)
@@ -256,15 +258,32 @@ const DataInventario = () => {
 
                                 ShopingCartLineService.updateCarline(cpCartLineId, Cardline).then(Actualizalinearesponse => {
                                     console.log(Actualizalinearesponse.data);
-                                    setShow(true);
+
+                                    OrderLineService.getorderlinebyCartLineId(Actualizalinearesponse.data.cp_cart_line_id).then(obtenerlineorderresponse => {
+                                        console.log(obtenerlineorderresponse.data);
+
+                                        const cp_order_Quantity_units = Actualizalinearesponse.data.cp_cart_Quantity_units;
+                                        const cp_order_Quantity_volume = Actualizalinearesponse.data.cp_cart_Quantity_volume;
+                                        const cp_order_Quantity_packages = Actualizalinearesponse.data.cp_cart_Quantity_packages;
+                                        const cp_line_order_status = 'En Proceso';
+                                        const lineOrderedit = { cp_order_Quantity_units, cp_order_Quantity_volume, cp_order_Quantity_packages, cp_line_order_status };
+
+                                        OrderLineService.updateOrderline(obtenerlineorderresponse.data[0].cp_order_line_id, lineOrderedit).then(actualizarorderlineresponse => {
+                                            console.log(actualizarorderlineresponse.data);
+                                            setShow(true);
+                                        }).catch(error => {
+                                            console.log(error);
+                                            alert("Error al actualizar linea de orden")
+                                        })
+                                    }).catch(error => {
+                                        console.log(error);
+                                        alert("Error al obtner id de linea de orden")
+                                    })
                                 }).catch(error => {
                                     console.log(error);
                                     alert("Error al crear linea de carrito de compra")
                                 })
-
-
                                 break; // Puedes salir del bucle una vez que se ha encontrado el elemento
-
                             }
                         }
 
@@ -284,7 +303,9 @@ const DataInventario = () => {
                                     const cp_order_line_number = lineCarritoresponse.data.cp_cart_line_number;
                                     const cp_order_Quantity_volume = lineCarritoresponse.data.cp_cart_Quantity_volume;
                                     const cp_order_Quantity_packages = lineCarritoresponse.data.cp_cart_Quantity_packages;
-                                    const lineOrder = { inventory_item_id, cp_order_id, cp_order_Quantity_units, cp_order_line_number, cp_order_Quantity_volume, cp_order_Quantity_packages };
+                                    const cp_cart_line_id = lineCarritoresponse.data.cp_cart_line_id;
+                                    const cp_line_order_status = 'En Proceso';
+                                    const lineOrder = { inventory_item_id, cp_order_id, cp_order_Quantity_units, cp_order_line_number, cp_order_Quantity_volume, cp_order_Quantity_packages, cp_cart_line_id, cp_line_order_status };
 
                                     OrderLineService.InsertarOrderLine(lineOrder).then(lineOrderresponse => {
                                         console.log(lineOrderresponse.data)

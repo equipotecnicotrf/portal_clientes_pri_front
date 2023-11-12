@@ -11,6 +11,10 @@ class UserService {
         return axios.get(BASE_REST_API_URL);
     }
 
+    getAllUsersandRoles() {
+        return axios.get(BASE_REST_API_URL + "androles");
+    }
+
     createUsers(user) {
         return axios.post(BASE_REST_API_URL, user);
     }

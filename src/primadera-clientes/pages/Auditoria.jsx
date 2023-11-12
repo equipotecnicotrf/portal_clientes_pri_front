@@ -38,10 +38,6 @@ const DataTable = ({ backgroundColor }) => {
         ListarAuditoria();
     }, []);
 
-    useEffect(() => {
-        obtenerNombresDeUsuario();
-    }, [auditoria]);
-
     const SesionUsername = () => {
         if (LoginService.isAuthenticated()) {
             const read = Cookies.get();
@@ -62,46 +58,20 @@ const DataTable = ({ backgroundColor }) => {
     };
 
     const ListarAuditoria = () => {
-        AuditService.getAllAudits()
+        AuditService.getAllAuditsAndUser()
             .then((response) => {
                 setAuditoria(response.data);
-                obtenerNombresDeUsuario();
             })
             .catch((error) => {
                 console.error(error);
             });
     };
 
-    const obtenerNombresDeUsuario = async () => {
-        try {
-            const auditPromises = auditoria.map(async (audit) => {
-                try {
-                    const userResponse = await UserService.getUserById(audit.cp_id_user);
-                    const user = userResponse.data;
-                    return { id: audit.cp_id_user, username: user.username };
-                } catch (error) {
-                    console.error(`Error obteniendo el usuario con ID ${audit.cp_id_user}: ${error}`);
-                    return { id: audit.cp_id_user, username: 'N/A' };
-                }
-            });
-
-            const auditUsers = await Promise.all(auditPromises);
-
-            const usernamesObject = {};
-            auditUsers.forEach((user) => {
-                usernamesObject[user.id] = user.username;
-            });
-
-            setUsernames(usernamesObject);
-        } catch (error) {
-            console.error(`Error obteniendo nombres de usuario: ${error}`);
-        }
-    };
 
     // Función para filtrar auditorías según el texto de búsqueda
     const filterAuditoria = () => {
         return auditoria.filter((audit) => {
-            const auditText = `${audit.cp_Audit_id} ${audit.cp_audit_description} ${audit.cp_audit_date} ${usernames[audit.cp_id_user]}`;
+            const auditText = `${audit[0].cp_Audit_id} ${audit[0].cp_audit_description} ${audit[0].cp_audit_date} ${usernames[audit[0].cp_id_user]}`;
             return auditText.toLowerCase().includes(searchText.toLowerCase());
         });
     };
@@ -250,13 +220,13 @@ const DataTable = ({ backgroundColor }) => {
                         </thead>
                         <tbody style={bannerStyle}>
                             {filterAuditoria()
-                                .toSorted((a, b) => a.cp_Audit_id - b.cp_Audit_id) // Ordena el arreglo por cp_user_id en orden ascendente
+                                .toSorted((a, b) => a[0].cp_Audit_id - b[0].cp_Audit_id) // Ordena el arreglo por cp_user_id en orden ascendente
                                 .map((audit) => (
-                                    <tr style={bannerStyle} className='borderless_audit' key={audit.cp_Audit_id}>
-                                        <td style={bannerStyle}>{audit.cp_Audit_id}</td>
-                                        <td style={bannerStyle}>{audit.cp_audit_description}</td>
-                                        <td style={bannerStyle}>{audit.cp_audit_date}</td>
-                                        <td style={bannerStyle}>{usernames[audit.cp_id_user] ? (<span>{usernames[audit.cp_id_user]}</span>) : (<span>Cargando...</span>)}</td>
+                                    <tr style={bannerStyle} className='borderless_audit' key={audit[0].cp_Audit_id}>
+                                        <td style={bannerStyle}>{audit[0].cp_Audit_id}</td>
+                                        <td style={bannerStyle}>{audit[0].cp_audit_description}</td>
+                                        <td style={bannerStyle}>{audit[0].cp_audit_date}</td>
+                                        <td style={bannerStyle}>{audit[1].username}</td>
                                     </tr>
                                 ))}
                         </tbody>

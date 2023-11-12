@@ -12,5 +12,9 @@ class OrderService {
         return axios.get(BASE_REST_API_URL + '/cartid/' + CartId);
     }
 
+    updateOrder(orderId, order) {
+        return axios.put(BASE_REST_API_URL + '/' + orderId, order);
+    }
+
 }
 export default new OrderService();

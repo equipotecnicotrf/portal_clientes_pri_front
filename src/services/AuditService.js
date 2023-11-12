@@ -11,5 +11,9 @@ class AuditService {
     CrearAudit(Audit) {
         return axios.post(BASE_REST_API_URL, Audit);
     }
+
+    getAllAuditsAndUser() {
+        return axios.get(BASE_REST_API_URL + "anduser");
+    }
 }
 export default new AuditService();

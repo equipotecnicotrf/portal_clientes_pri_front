@@ -13,5 +13,9 @@ class OrderLineService {
         return axios.put(BASE_REST_API_URL + '/' + orderLineId, orderLine);
     }
 
+    getorderlinebyCartLineId(CartLineId) {
+        return axios.get(BASE_REST_API_URL + '/cartlineid/' + CartLineId);
+    }
+
 }
 export default new OrderLineService();

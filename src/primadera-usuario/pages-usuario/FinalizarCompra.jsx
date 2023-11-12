@@ -23,7 +23,8 @@ import ShopingCartLineService from '../../services/ShopingCartLineService';
 import TypeOrderService from '../../services/TypeOrderService';
 import NotificationService from '../../services/NotificationService';
 import EmailService from '../../services/EmailService';
-
+import OrderService from '../../services/OrderService';
+import OrderLineService from '../../services/OrderLineService';
 const FinalizarCompra = () => {
 
     //validacion de sesion activa
@@ -133,34 +134,6 @@ const FinalizarCompra = () => {
         sumavolumen += quantityvolume;
     }
 
-
-    //Eliminar carrito
-
-    const deleteCarrito = () => {
-        if (carrito && carrito.length > 0) {
-            // Recorremos las líneas del carrito y las eliminamos una por una
-            Promise.all(
-                carrito.map((carritoItem) => {
-                    // Eliminar la línea del carrito actual
-                    ShopingCartService.deleteCar(carritoItem[1].cp_cart_id).then(deleteCarresponse => {
-                        console.log(deleteCarresponse.data);
-                    }).catch(error => {
-                        console.log(error);
-                    })
-                    return ShopingCartLineService.deleteCarline(carritoItem[2].cp_cart_line_id);
-                }))
-                .then((deletelineresponse) => {
-                    // Todas las líneas se eliminaron con éxito
-                    console.log(deletelineresponse.data)
-                })
-                .catch((error) => {
-                    console.log("Error al eliminar una o más líneas del carrito", error);
-                });
-        }
-
-
-    }
-
     const ListDirecciones = (id_direccion) => {
         SoapServiceDirecciones.getAllDirecciones(id_direccion).then(response => {
             setDirecciones(response.data);
@@ -190,28 +163,6 @@ const FinalizarCompra = () => {
             direccion.address1.toLowerCase().includes(searchTerm) && direccion.siteUseCode === 'SHIP_TO'
         );
         setFilteredDirecciones(filtered);
-    };
-
-
-    const [selectedDireccionBillto, setSelectedDireccionBillto] = useState(null);
-    const [searchTermBillto, setSearchTermBillto] = useState('');
-    const [filteredDireccionesBillto, setFilteredDireccionesBillto] = useState([]);
-
-
-    const handleDireccionSelectBillto = (direccionbillto) => {
-        setSelectedDireccionBillto(direccionbillto);
-        setSearchTermBillto('');
-        setsiteUseIdpedido(direccionbillto.siteUseId);
-    };
-
-    const handleSearchChangeBillto = (e) => {
-        const searchTermBillto = e.target.value.toLowerCase();
-        setSearchTermBillto(searchTermBillto);
-
-        const filteredBillto = direcciones.filter((direccionbillto) =>
-            direccionbillto.address1.toLowerCase().includes(searchTerm) && direccionbillto.siteUseCode === 'BILL_TO'
-        );
-        setFilteredDireccionesBillto(filteredBillto);
     };
 
     const [crearpedidoERP, setCrearpedidoERP] = useState([]);
@@ -254,8 +205,6 @@ const FinalizarCompra = () => {
 
 
     //creacion pedido
-
-
     const [validated, setValidated] = useState(false);
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -270,12 +219,9 @@ const FinalizarCompra = () => {
         setValidated(true);
     }
 
-
-
-
     const pedidoERP = () => {
-        if (selectedDireccionBillto === null || selectedDireccion === null) {
-            alert("Por favor, seleccione dirección de envío y de facturación.");
+        if (selectedDireccion === null) {
+            alert("Por favor, seleccione dirección de envío");
         } else {
             const fechaHoy = new Date(); // Obtén la fecha actual
 
@@ -296,7 +242,7 @@ const FinalizarCompra = () => {
                 salesperson: nameVendedor,
                 customerPONumber: ordenCompra,
                 customerAccountId: CustAccountId,
-                siteUseId: parseInt(siteUseIdpedido),
+                //siteUseId: parseInt(siteUseIdpedido),
                 partyId: PartyId,
                 siteId: parseInt(partySiteId),
                 lineItems: lineItemsPedido
@@ -334,18 +280,60 @@ const FinalizarCompra = () => {
                             .replace('${pedidooraclecuerpo}', responsepedidoERP.data.substring(41, 1000))
                         const correo = { toUser, subject, message };
                         EmailService.Sendmessage(correo).then(() => {
-                            setShow(true);
-                            deleteCarrito();
+                            Promise.all(
+                                carrito.map((carritoItem) => {
+                                    // Eliminar la línea del carrito actual
+                                    ShopingCartService.deleteCar(carritoItem[1].cp_cart_id).then(deleteCarresponse => {
+                                        console.log(deleteCarresponse.data);
+                                        OrderService.getorderbyCartId(carritoItem[1].cp_cart_id).then(obtenerordenresponse => {
+                                            console.log(obtenerordenresponse.data);
+                                            const cp_order_status = 'Finalizado';
+                                            const order = { cp_order_status };
+                                            OrderService.updateOrder(obtenerordenresponse.data[0].cp_order_id, order).then(actualizarorden => {
+                                                console.log(actualizarorden.data);
+                                            })
+                                        })
+                                    }).catch(error => {
+                                        console.log(error);
+                                    })
+                                    OrderLineService.getorderlinebyCartLineId(carritoItem[2].cp_cart_line_id).then(obtenerlineorderresponse => {
+                                        console.log(obtenerlineorderresponse.data);
+                                        const cp_order_Quantity_units = obtenerlineorderresponse.data[0].cp_order_Quantity_units;
+                                        const cp_order_Quantity_volume = obtenerlineorderresponse.data[0].cp_order_Quantity_volume;
+                                        const cp_order_Quantity_packages = obtenerlineorderresponse.data[0].cp_order_Quantity_packages;
+                                        const cp_line_order_status = 'Finalizado';
+                                        const lineOrderedit = { cp_order_Quantity_units, cp_order_Quantity_volume, cp_order_Quantity_packages, cp_line_order_status };
+
+                                        OrderLineService.updateOrderline(obtenerlineorderresponse.data[0].cp_order_line_id, lineOrderedit).then(actualizarorderlineresponse => {
+                                            console.log(actualizarorderlineresponse.data);
+                                        }).catch(error => {
+                                            console.log(error);
+                                            alert("Error al actualizar linea de orden")
+                                        })
+                                    }).catch(error => {
+                                        console.log(error);
+                                        alert("Error al obtner id de linea de orden")
+                                    })
+                                    return ShopingCartLineService.deleteCarline(carritoItem[2].cp_cart_line_id);
+                                }))
+                                .then((deletelineresponse) => {
+                                    // Todas las líneas se eliminaron con éxito
+                                    console.log(deletelineresponse.data)
+
+                                    setShow(true);
+                                })
+                                .catch((error) => {
+                                    console.log("Error al eliminar una o más líneas del carrito", error);
+
+                                });
                         }).catch(error => {
                             console.log(error);
                             alert("Error al enviar correo");
                         })
-
                     }).catch(error => {
                         console.log(error);
                         alert("Error obtener contexto de notificacion");
                     })
-
                 }).catch((error) => {
                     console.log(error);
                     alert("Error al actualizar Consecutivo")
@@ -483,51 +471,25 @@ const FinalizarCompra = () => {
                             <div className='direccion_busca'>
                                 <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion' style={{ fontFamily: 'Bold', fontSize: '14px' }}> DIRECCION DE ENVIO</h5>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                    <Dropdown>
-                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black', fontFamily: 'Ligera', fontSize: '13px' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                            {selectedDireccion ? selectedDireccion.address1 : 'Escoge tu dirección'}
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="Buscar dirección"
-                                                value={searchTerm}
-                                                onChange={handleSearchChange}
-                                            />
-                                            {filteredDirecciones.map((direccion) => (
-                                                <Dropdown.Item
-                                                    key={direccion.siteUseId}
-                                                    onClick={() => handleDireccionSelect(direccion)} >
-                                                    {direccion.address1 + " - " + direccion.city}
-                                                </Dropdown.Item>
-                                            ))}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </Form.Group>
-                            </div>
-                            <div className='direccion_busca'>
-                                <FaTruck className='tamano_carro_compra_2' /><h5 className='tamano_direccion' style={{ fontFamily: 'Bold', fontSize: '14px' }}>DIRECCION DE FACTURACION</h5>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-                                    <Dropdown>
-                                        <Dropdown.Toggle className="buscador mb-3" style={{ color: 'black', fontFamily: 'Ligera', fontSize: '13px' }} controlId="exampleForm.ControlInput4" id="dropdown-basic">
-                                            {selectedDireccionBillto ? selectedDireccionBillto.address1 : 'Escoge tu dirección'}
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="Buscar dirección"
-                                                value={searchTermBillto}
-                                                onChange={handleSearchChangeBillto}
-                                            />
-                                            {filteredDireccionesBillto.map((direccionbillto) => (
-                                                <Dropdown.Item
-                                                    key={direccionbillto.siteUseId}
-                                                    onClick={() => handleDireccionSelectBillto(direccionbillto)} >
-                                                    {direccionbillto.address1 + " - " + direccionbillto.city}
-                                                </Dropdown.Item>
-                                            ))}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                    <label className="mb-2">Escoge tu dirección:</label>
+                                    <select
+                                        className="form-select"
+                                        value={selectedDireccion ? selectedDireccion.siteUseId : ''}
+                                        required
+                                        onChange={(e) => {
+                                            const selectedSiteUseId = e.target.value;
+                                            const selectedDireccion = direcciones.find((direccion) => direccion.siteUseId === selectedSiteUseId);
+                                            handleDireccionSelect(selectedDireccion);
+                                        }}
+                                    >
+                                        <option value="" disabled>Selecciona una dirección</option>
+                                        {direcciones.map((direccion) => (
+                                            <option key={direccion.siteUseId} value={direccion.siteUseId}>
+                                                {direccion.address1 + " - " + direccion.city}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <Form.Control.Feedback type="invalid">Selecciona una dirección</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                                 </Form.Group>
                             </div>
                             <div className='orden_compra'>
@@ -541,7 +503,7 @@ const FinalizarCompra = () => {
                                         onChange={(e) => setordenCompra(e.target.value)}
                                         required
                                     />
-                                    <Form.Control.Feedback type="invalid">Por favor ingresa orden de compra</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
+                                    <Form.Control.Feedback type="invalid">Por favor ingresa orden de compra o referencia</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                                 </Form.Group>
                             </div>
                         </div>

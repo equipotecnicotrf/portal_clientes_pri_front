@@ -65,8 +65,9 @@ const DataTable = ({ backgroundColor }) => {
   }, [])
 
   const ListUsers = () => {
-    UserService.getAllUsers().then(response => {
+    UserService.getAllUsersandRoles().then(response => {
       setUsers(response.data);
+      console.log(response.data);
     }).catch(error => {
       console.log(error);
     })
@@ -75,7 +76,7 @@ const DataTable = ({ backgroundColor }) => {
   // Función para filtrar auditorías según el texto de búsqueda
   const filterUsuario = () => {
     return users.filter((users) => {
-      const usersText = `${users.cp_email} ${users.cp_name}${users.cust_name}`;
+      const usersText = `${users[0].cp_email} ${users[0].cp_name}${users[0].cust_name}`;
       return usersText.toLowerCase().includes(searchText.toLowerCase());
     });
   };
@@ -90,12 +91,12 @@ const DataTable = ({ backgroundColor }) => {
     try {
       const userPromises = users.map(async (user) => {
         try {
-          const rolResponse = await RoleService.getrolById(user.cp_rol_id);
+          const rolResponse = await RoleService.getrolById(user[0].cp_rol_id);
           const rol = rolResponse.data;
-          return { id: user.cp_rol_id, username: rol.cp_rol_name };
+          return { id: user[0].cp_rol_id, username: rol.cp_rol_name };
         } catch (error) {
-          console.error(`Error obteniendo el usuario con ID ${user.cp_rol_id}: ${error}`);
-          return { id: user.cp_rol_id, username: "N/A" }; // Puedes proporcionar un valor predeterminado si la obtención falla
+          console.error(`Error obteniendo el usuario con ID ${user[0].cp_rol_id}: ${error}`);
+          return { id: user[0].cp_rol_id, username: "N/A" }; // Puedes proporcionar un valor predeterminado si la obtención falla
         }
       })
       const usersRoles = await Promise.all(userPromises);
@@ -530,7 +531,7 @@ const DataTable = ({ backgroundColor }) => {
   ///crear o actualizar rol
   const saveOrUpdaterol = (e) => {
     if (editrolId) {
-      const existingType = users.find(item => item.cp_rol_id === editrolId)
+      const existingType = users.find(item => item[0].cp_rol_id === editrolId)
       if (existingType) {
         const cp_estatus = (checkbox_rol2 ? "Activo" : checkbox_rol1 ? "Inactivo" : cp_estatus);
         if (cp_estatus == 'Inactivo') {
@@ -906,22 +907,22 @@ const DataTable = ({ backgroundColor }) => {
             </thead>
             <tbody style={bannerStyle}>
               {filterUsuario()
-                .toSorted((a, b) => a.cp_user_id - b.cp_user_id) // Ordena el arreglo por cp_user_id en orden ascendente
+                .toSorted((a, b) => a[0].cp_user_id - b[0].cp_user_id) // Ordena el arreglo por cp_user_id en orden ascendente
                 .map((users) => (
-                  <tr style={bannerStyle} className='borderless_gest_usua' key={users.cp_user_id}>
-                    <td style={bannerStyle}>{users.cust_name}</td>
-                    <td style={bannerStyle}>{users.cp_name}</td>
-                    <td style={bannerStyle}>{users.cp_cell_phone}</td>
-                    <td style={bannerStyle}>{users.cp_email}</td>
-                    <td style={bannerStyle}>{users.cp_estatus}</td>
-                    <td style={bannerStyle}>{usernameRol[users.cp_rol_id] ? (<span>{usernameRol[users.cp_rol_id]}</span>) : (<span>Cargando...</span>)}</td>
+                  <tr style={bannerStyle} className='borderless_gest_usua' key={users[0].cp_user_id}>
+                    <td style={bannerStyle}>{users[0].cust_name}</td>
+                    <td style={bannerStyle}>{users[0].cp_name}</td>
+                    <td style={bannerStyle}>{users[0].cp_cell_phone}</td>
+                    <td style={bannerStyle}>{users[0].cp_email}</td>
+                    <td style={bannerStyle}>{users[0].cp_estatus}</td>
+                    <td style={bannerStyle}>{users[1].cp_rol_name}</td>
                     <td style={bannerStyle4}>
-                      <Button onClick={() => handleEditClick(users.cp_user_id)} className='edit-btn'>
+                      <Button onClick={() => handleEditClick(users[0].cp_user_id)} className='edit-btn'>
                         <FaRegEdit />
                       </Button>
                     </td>
                     <td style={bannerStyle4}>
-                      <Button onClick={() => { handleHomeShow(); ListDirecciones(users.cust_account_id); }} className='home-btn'>
+                      <Button onClick={() => { handleHomeShow(); ListDirecciones(users[0].cust_account_id); }} className='home-btn'>
                         <FaHome />
                       </Button>
                     </td>
@@ -1364,7 +1365,6 @@ const DataTable = ({ backgroundColor }) => {
                     <th >Ciudad</th>
                     <th >País</th>
                     <th >Vendedor</th>
-                    <th >Uso</th>
                   </tr>
                 </thead>
                 <tbody >
@@ -1377,7 +1377,6 @@ const DataTable = ({ backgroundColor }) => {
                         <td >{direcciones.city}</td>
                         <td >{direcciones.country}</td>
                         <td >{direcciones.nameVendedor}</td>
-                        <td >{direcciones.siteUseCode}</td>
                       </tr>
                     ))}
                 </tbody>

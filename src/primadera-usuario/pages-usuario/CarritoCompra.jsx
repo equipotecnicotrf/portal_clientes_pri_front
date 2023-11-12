@@ -16,8 +16,9 @@ import Button from 'react-bootstrap/Button';
 import { Modal } from 'react-bootstrap';
 import ShopingCartService from '../../services/ShopingCartService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
-import AvailabilityService from '../../services/AvailabilityService';
 import PromesasServices from '../../services/PromesasServices';
+import OrderLineService from '../../services/OrderLineService';
+import OrderService from '../../services/OrderService';
 
 const CarritoCompras = () => {
 
@@ -180,8 +181,29 @@ const CarritoCompras = () => {
     const ActualizarLinea = (CardlineId, Cardline) => {
         ShopingCartLineService.updateCarline(CardlineId, Cardline).then(Actualizalinearesponse => {
             console.log(Actualizalinearesponse.data);
-            carritoComprausuario(CustAccountId, usuarioId);
-            setContadores(Actualizalinearesponse.data.cp_cart_Quantity_units)
+
+            OrderLineService.getorderlinebyCartLineId(Actualizalinearesponse.data.cp_cart_line_id).then(obtenerlineorderresponse => {
+                console.log(obtenerlineorderresponse.data);
+
+                const cp_order_Quantity_units = Actualizalinearesponse.data.cp_cart_Quantity_units;
+                const cp_order_Quantity_volume = Actualizalinearesponse.data.cp_cart_Quantity_volume;
+                const cp_order_Quantity_packages = Actualizalinearesponse.data.cp_cart_Quantity_packages;
+                const cp_line_order_status = 'En Proceso';
+                const lineOrderedit = { cp_order_Quantity_units, cp_order_Quantity_volume, cp_order_Quantity_packages, cp_line_order_status };
+
+                OrderLineService.updateOrderline(obtenerlineorderresponse.data[0].cp_order_line_id, lineOrderedit).then(actualizarorderlineresponse => {
+                    console.log(actualizarorderlineresponse.data);
+                    carritoComprausuario(CustAccountId, usuarioId);
+                    setContadores(Actualizalinearesponse.data.cp_cart_Quantity_units)
+                }).catch(error => {
+                    console.log(error);
+                    alert("Error al actualizar linea de orden")
+                })
+            }).catch(error => {
+                console.log(error);
+                alert("Error al obtner id de linea de orden")
+            })
+
         }).catch(error => {
             console.log(error);
             alert("Error al actualizar cantidad")
@@ -193,8 +215,27 @@ const CarritoCompras = () => {
     const deleteCarritoLine = (CarLineId) => {
         ShopingCartLineService.deleteCarline(CarLineId).then(deleteresponse => {
             console.log(deleteresponse.data);
-            carritoComprausuario(CustAccountId, usuarioId);
-            alert("Articulo eliminado")
+
+            OrderLineService.getorderlinebyCartLineId(CarLineId).then(obtenerlineorderresponse => {
+                console.log(obtenerlineorderresponse.data);
+                const cp_order_Quantity_units = obtenerlineorderresponse.data[0].cp_order_Quantity_units;
+                const cp_order_Quantity_volume = obtenerlineorderresponse.data[0].cp_order_Quantity_volume;
+                const cp_order_Quantity_packages = obtenerlineorderresponse.data[0].cp_order_Quantity_packages;
+                const cp_line_order_status = 'Eliminado';
+                const lineOrderedit = { cp_order_Quantity_units, cp_order_Quantity_volume, cp_order_Quantity_packages, cp_line_order_status };
+
+                OrderLineService.updateOrderline(obtenerlineorderresponse.data[0].cp_order_line_id, lineOrderedit).then(actualizarorderlineresponse => {
+                    console.log(actualizarorderlineresponse.data);
+                    carritoComprausuario(CustAccountId, usuarioId);
+                    alert("Articulo eliminado");
+                }).catch(error => {
+                    console.log(error);
+                    alert("Error al actualizar linea de orden")
+                })
+            }).catch(error => {
+                console.log(error);
+                alert("Error al obtner id de linea de orden")
+            })
         }).catch(error => {
             console.log(error);
             alert("Error al eliminar linea de carrito")
@@ -213,10 +254,40 @@ const CarritoCompras = () => {
                     // Eliminar la línea del carrito actual
                     ShopingCartService.deleteCar(carritoItem[1].cp_cart_id).then(deleteCarresponse => {
                         console.log(deleteCarresponse.data);
+                        OrderService.getorderbyCartId(carritoItem[1].cp_cart_id).then(obtenerordenresponse => {
+                            console.log(obtenerordenresponse.data);
+                            const cp_order_status = 'Eliminado';
+                            const order = { cp_order_status };
+                            OrderService.updateOrder(obtenerordenresponse.data[0].cp_order_id, order).then(actualizarorden => {
+                                console.log(actualizarorden.data);
+                            })
+                        })
+
                     }).catch(error => {
                         console.log(error);
                     })
+                    OrderLineService.getorderlinebyCartLineId(carritoItem[2].cp_cart_line_id).then(obtenerlineorderresponse => {
+                        console.log(obtenerlineorderresponse.data);
+                        const cp_order_Quantity_units = obtenerlineorderresponse.data[0].cp_order_Quantity_units;
+                        const cp_order_Quantity_volume = obtenerlineorderresponse.data[0].cp_order_Quantity_volume;
+                        const cp_order_Quantity_packages = obtenerlineorderresponse.data[0].cp_order_Quantity_packages;
+                        const cp_line_order_status = 'Eliminado';
+                        const lineOrderedit = { cp_order_Quantity_units, cp_order_Quantity_volume, cp_order_Quantity_packages, cp_line_order_status };
+
+                        OrderLineService.updateOrderline(obtenerlineorderresponse.data[0].cp_order_line_id, lineOrderedit).then(actualizarorderlineresponse => {
+                            console.log(actualizarorderlineresponse.data);
+                            carritoComprausuario(CustAccountId, usuarioId);
+                        }).catch(error => {
+                            console.log(error);
+                            alert("Error al actualizar linea de orden")
+                        })
+                    }).catch(error => {
+                        console.log(error);
+                        alert("Error al obtner id de linea de orden")
+                    })
                     return ShopingCartLineService.deleteCarline(carritoItem[2].cp_cart_line_id);
+
+
                 }))
                 .then((deletelineresponse) => {
                     // Todas las líneas se eliminaron con éxito
