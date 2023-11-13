@@ -9,7 +9,7 @@ class ConsultOrderService {
     }
 
     getOrderByOrderNumber(orderNumber) {
-        return axios.get(BASE_REST_API_URL + "getOrderByOrderNumber?orderNumber=" + orderNumber)
+        return axios.get(BASE_REST_API_URL + "/getOrderByOrderNumber?orderNumber=" + orderNumber)
     }
 
 }

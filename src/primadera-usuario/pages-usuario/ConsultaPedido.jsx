@@ -15,6 +15,8 @@ import Table from 'react-bootstrap/Table';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ConsultOrderService from '../../services/ConsultOrderService';
 import ShopingCartService from '../../services/ShopingCartService';
+import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
+import TypeOrderService from '../../services/TypeOrderService';
 
 const ConsultaPedido = () => {
 
@@ -28,6 +30,9 @@ const ConsultaPedido = () => {
     const [carrito, setcarrito] = useState([]);
     const [orders, setorders] = useState([]);
     const [transactional_currency_code, settransactional_currency_code] = useState([]);
+    const [cp_type_order_id, setcp_type_order_id] = useState([]);
+    const [typeOrder, setTypeOrder] = useState([]);
+    const [direcciones, setDirecciones] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,25 +52,36 @@ const ConsultaPedido = () => {
                 setUsuarioEmpresa(responseid.data.cust_name);
                 setPartyId(responseid.data.party_id);
                 settransactional_currency_code(responseid.data.transactional_currency_code);
+                setcp_type_order_id(responseid.data.cp_type_order_id);
 
-                const creationDateTo = new Date();
-                const yearCreationDateTo = creationDateTo.getFullYear();
-                const monthCreationDateTo = (creationDateTo.getMonth() + 1).toString().padStart(2, '0');
-                const dayCreationDateTo = creationDateTo.getDate().toString().padStart(2, '0');//Para crear ceros a la izquierda
-                //const creationDateToFormateada = '${yearCreationDateTo}-${monthCreationDateTo}-${dayCreationDateTo}';
+                ListDirecciones(responseid.data.cust_account_id);
+                ConsultarTipoPedidoPorId(responseid.data.cp_type_order_id);
 
-                const creationDateFrom = new Date(creationDateTo);
-                creationDateFrom.setDate(creationDateTo.getDate() - 90);
+                TypeOrderService.getTypeOrderById(responseid.data.cp_type_order_id).then(consultorderresponse => {
+                    const transactionTypeCode = consultorderresponse.data.cp_type_order_description;
 
-                const yearCreationDateFrom = creationDateFrom.getFullYear();
-                const monthcreationDateFrom = (creationDateFrom.getMonth() + 1).toString().padStart(2, '0');
-                const daycreationDateFrom = creationDateFrom.getDate().toString().padStart(2, '0');//Para crear ceros a la izquierda
+                    const creationDateTo = new Date();
+                    const yearCreationDateTo = creationDateTo.getFullYear();
+                    const monthCreationDateTo = (creationDateTo.getMonth() + 1).toString().padStart(2, '0');
+                    const dayCreationDateTo = creationDateTo.getDate().toString().padStart(2, '0');//Para crear ceros a la izquierda
+                    //const creationDateToFormateada = '${yearCreationDateTo}-${monthCreationDateTo}-${dayCreationDateTo}';
 
-                const creationDateToFormateada = yearCreationDateTo + "-" + monthCreationDateTo + "-" + dayCreationDateTo;
-                const creationDateFromFormateada = yearCreationDateFrom + "-" + monthcreationDateFrom + "-" + daycreationDateFrom;
+                    const creationDateFrom = new Date(creationDateTo);
+                    creationDateFrom.setDate(creationDateTo.getDate() - 90);
 
-                carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
-                consultaPedidoInicial(responseid.data.party_id, "NACIONAL", "OPEN", creationDateFromFormateada, creationDateToFormateada);
+                    const yearCreationDateFrom = creationDateFrom.getFullYear();
+                    const monthcreationDateFrom = (creationDateFrom.getMonth() + 1).toString().padStart(2, '0');
+                    const daycreationDateFrom = creationDateFrom.getDate().toString().padStart(2, '0');//Para crear ceros a la izquierda
+
+                    const creationDateToFormateada = yearCreationDateTo + "-" + monthCreationDateTo + "-" + dayCreationDateTo;
+                    const creationDateFromFormateada = yearCreationDateFrom + "-" + monthcreationDateFrom + "-" + daycreationDateFrom;
+
+                    carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
+                    consultaPedidoInicial(responseid.data.party_id, transactionTypeCode, "OPEN", creationDateFromFormateada, creationDateToFormateada);
+
+
+                });
+
 
             }).catch(error => {
                 console.log(error)
@@ -84,7 +100,7 @@ const ConsultaPedido = () => {
             console.log(consultorderresponse.data);
         }).catch(error => {
             console.log(error);
-            alert("El cliente no tiene pedidos abiertos");
+            console.log("El cliente no tiene pedidos abiertos");
         })
     }
 
@@ -119,6 +135,15 @@ const ConsultaPedido = () => {
                 return status;
         }
     };
+
+    const ConsultarTipoPedidoPorId = (typeOrderId) => {
+        TypeOrderService.getTypeOrderById(typeOrderId).then((responsetypeorder) => {
+            setTypeOrder(responsetypeorder.data);
+            console.log(responsetypeorder.data);
+        }).catch(error => {
+            console.log(error)
+        })
+    }
 
     const carritoComprausuario = (cust_account_id, cp_user_id) => {
         ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
@@ -158,7 +183,39 @@ const ConsultaPedido = () => {
     const toggleOverlay = () => {
         setOverlayVisible(!isOverlayVisible);
         setOverlayVisible2(false);
-        ListDirecciones(usuarioCustAccountId);
+
+    };
+
+    const ListDirecciones = (id_direccion) => {
+        SoapServiceDirecciones.getAllDirecciones(id_direccion).then(response => {
+            setDirecciones(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const [selectedDireccion, setSelectedDireccion] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredDirecciones, setFilteredDirecciones] = useState([]);
+
+    const handleDireccionSelect = (direccion) => {
+        setSelectedDireccion(direccion);
+        setSearchTerm('');
+        setnameVendedor(direccion.nameVendedor);
+        setpartySiteId(direccion.partySiteId);
+
+    };
+
+    const ESTADOS = {
+        OPEN: {
+            valor: "OPEN",
+            traduccion: "Abierto"
+        },
+        CLOSED: {
+            valor: "CLOSED",
+            traduccion: "Cerrado"
+        }
     };
 
 
@@ -199,17 +256,70 @@ const ConsultaPedido = () => {
         state: '',
         zip: '',
     });
-    const [validated, setValidated] = useState(false);
 
+    const [orderNumber, setorderNumber] = useState([]);
+    const [statusCode, setstatusCode] = useState([]);
+    const [creationDateFrom, setcreationDateFrom] = useState([]);
+    const [creationDateTo, setcreationDateTo] = useState([]);
+    const [itemDescription, setitemDescription] = useState([]);
+
+    const [validated, setValidated] = useState(false);
     const handleSubmit = (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+            alert("Por favor, complete el formulario correctamente.");
+        } else {
+            consultapedidobusqueda();
+        }
+        setValidated(true);
+    }
+
+    const consultapedidobusqueda = () => {
+        orderNumber;
+        const buyingPartyId = PartyId;
+        const transactionTypeCode = typeOrder.cp_type_order_description;
+        statusCode;
+        creationDateFrom;
+        creationDateTo;
+        itemDescription;
+        selectedDireccion;
+
+        if (orderNumber.length !== 0) {
+            ConsultOrderService.getOrderByOrderNumber(orderNumber).then(consultorderresponse => {
+                setorders(consultorderresponse.data);
+                console.log(consultorderresponse.data);
+            }).catch(error => {
+                console.log(error);
+                alert("No se encuentra el numero de pedido");
+            });
+
+        } else {
+            if (creationDateFrom.length === 0) {
+                alert("Por favor indicar fecha de creación desde")
+            } else if (creationDateTo.length === 0) {
+                alert("Por favor indicar fecha de creación hasta")
+            } else if (statusCode.length === 0) {
+                alert("Por favor indicar estado")
+            } else {
+                ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, statusCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
+                    setorders(consultorderresponse.data);
+                    console.log(consultorderresponse.data);
+                }).catch(error => {
+                    console.log(error);
+                    alert("La búsqueda no genero resultados");
+                })
+
+            }
+
         }
 
-        setValidated(true);
-    };
+
+    }
+
+
+
     const FilterStyle = {
         marginLeft: '2.5%',
         marginTop: '3%',
@@ -293,69 +403,64 @@ const ConsultaPedido = () => {
                                     <Form.Group as={Col} md="4" controlId="validationCustom01">
                                         <Form.Label>Fecha de creación</Form.Label>
                                         <Form.Control
-                                            required
                                             type="Date"
                                             placeholder="Desde"
-                                            value={filterValues.fechaCrea}
-                                            onChange={(e) => setFilterValues({ ...filterValues, fechaCrea: e.target.value })}
-                                            isInvalid={validated && !filterValues.fechaCrea}
-
+                                            value={creationDateFrom}
+                                            onChange={(e) => setcreationDateFrom(e.target.value)}
                                         />
                                         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group as={Col} md="3" controlId="validationCustom02">
                                         <Form.Label>Número de pedido</Form.Label>
                                         <Form.Control
-
                                             type="text"
                                             placeholder="00000"
-
-                                            value={filterValues.NumPed}
-                                            onChange={(e) => setFilterValues({ ...filterValues, NumPed: e.target.value })}
-                                            isInvalid={validated && !filterValues.NumPed}
+                                            value={orderNumber}
+                                            onChange={(e) => setorderNumber(e.target.value)}
                                         />
-
                                     </Form.Group>
                                     <Form.Group as={Col} md="3" controlId="validationCustomUsername">
                                         <Form.Label>Estado</Form.Label>
-                                        <InputGroup hasValidation>
-
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="Username"
-                                                aria-describedby="inputGroupPrepend"
-
-                                                value={filterValues.Estado}
-                                                onChange={(e) => setFilterValues({ ...filterValues, Estado: e.target.value })}
-                                                isInvalid={validated && !filterValues.Estado}
-                                            />
-
-                                        </InputGroup>
+                                        <select
+                                            className="form-select"
+                                            value={statusCode}
+                                            onChange={(e) => setstatusCode(e.target.value)}                                        >
+                                            <option value="" disabled>Estado</option>
+                                            {Object.values(ESTADOS).map((estado) => (
+                                                <option key={estado.valor} value={estado.valor}>
+                                                    {estado.traduccion}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </Form.Group>
                                 </Row>
                                 <Row className="mb-3">
                                     <Form.Group as={Col} md="4" controlId="validationCustom03">
-
                                         <Form.Control
                                             type="Date"
                                             placeholder="Hasta"
-                                            required
-                                            value={filterValues.firstName}
-                                            onChange={(e) => setFilterValues({ ...filterValues, firstName: e.target.value })}
-                                            isInvalid={validated && !filterValues.firstName}
+                                            value={creationDateTo}
+                                            onChange={(e) => setcreationDateTo(e.target.value)}
                                         />
-
                                     </Form.Group>
                                     <Form.Group as={Col} md="3" controlId="validationCustom04">
                                         <Form.Label>Dirección de envío</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="State"
-
-                                            value={filterValues.firstName}
-                                            onChange={(e) => setFilterValues({ ...filterValues, firstName: e.target.value })}
-                                            isInvalid={validated && !filterValues.firstName}
-                                        />
+                                        <select
+                                            className="form-select"
+                                            value={selectedDireccion ? selectedDireccion.siteUseId : ''}
+                                            onChange={(e) => {
+                                                const selectedSiteUseId = e.target.value;
+                                                const selectedDireccion = direcciones.find((direccion) => direccion.siteUseId === selectedSiteUseId);
+                                                handleDireccionSelect(selectedDireccion);
+                                            }}
+                                        >
+                                            <option value="" disabled>Selecciona una dirección</option>
+                                            {direcciones.map((direccion) => (
+                                                <option key={direccion.siteUseId} value={direccion.siteUseId}>
+                                                    {direccion.address1 + " - " + direccion.city}
+                                                </option>
+                                            ))}
+                                        </select>
 
                                     </Form.Group>
                                     <Form.Group as={Col} md="3" controlId="validationCustom05">
@@ -363,12 +468,9 @@ const ConsultaPedido = () => {
                                         <Form.Control
                                             type="text"
                                             placeholder="Palabra clave"
-
-                                            value={filterValues.firstName}
-                                            onChange={(e) => setFilterValues({ ...filterValues, firstName: e.target.value })}
-                                            isInvalid={validated && !filterValues.firstName}
+                                            value={itemDescription}
+                                            onChange={(e) => setitemDescription(e.target.value)}
                                         />
-
                                     </Form.Group>
                                     <Button style={BtnBuscar} type="submit">Buscar</Button>
                                 </Row>
