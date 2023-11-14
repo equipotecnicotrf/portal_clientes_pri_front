@@ -595,7 +595,7 @@ const DataInventario = () => {
     }
     //{/*Arreglo 8 Nov*/}
     const StyleSearchBar = {
-        width: '130px',
+        width: '115px',
         marginRight: '10px',
         marginBottom: '10px',
 
@@ -643,23 +643,25 @@ const DataInventario = () => {
         <>
             <div className='Back' style={backgroundStyle}>
                 <BannerUser />
-                <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
-                    <div className='Info_general_2' style={info_general_items}>
-                        <table className='table-borderless' >
-                            <thead >
-                            </thead>
-                            <tbody >
-                                <tr style={info_general_items}>
-                                    <td style={info_general_items}>
-                                        <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
-                                        <tr style={info_general_items}>{carrito.length} items(s)</tr>
-                                        <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3</tr>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </button>
+                <div className='div_gris'>
+                    <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
+                        <div className='Info_general_2' style={info_general_items}>
+                            <table className='table-borderless' >
+                                <thead >
+                                </thead>
+                                <tbody >
+                                    <tr style={info_general_items}>
+                                        <td style={info_general_items}>
+                                            <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
+                                            <tr style={info_general_items}>{carrito.length} items(s)</tr>
+                                            <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3</tr>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </button>
+                </div>
                 <div className='FondoBlanco_inv'>
                     <div className='Buttons_perfil mt-12 d-flex align-items-center'>
                         <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
@@ -667,7 +669,7 @@ const DataInventario = () => {
                             <div className='Palabra_perfil'>Perfil </div>
                             <div className='FaAngleDown_perfil '><FaAngleDown /></div>
                         </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                        <button className='btns_Inv_Prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
                             <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
                             <div className='Palabra_inv'>Inventario disponible</div>
                             <div className='FaAngleDown_inv'><FaAngleDown /></div>
@@ -995,7 +997,7 @@ const DataInventario = () => {
                     </div>
                 </div>
                 <Image className='Img-Creamos_ped' src={imagenes.Creamos} />
-            </div>{/*AJUSTE LCPG*/}
+            </div > {/*AJUSTE LCPG*/}
         </>
     );
 };

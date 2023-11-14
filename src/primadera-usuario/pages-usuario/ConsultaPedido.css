@@ -95,3 +95,15 @@
         transform: translateX(-50%);
     }
 }
+
+.btns_Consul_Prin {
+    box-shadow: 2px;
+    background-color: #898989;
+    color: white;
+    position: auto;
+    font-size: medium;
+    width: 190px;
+    height: 50px;
+    border: none;
+    border-width: 0.5px;
+}

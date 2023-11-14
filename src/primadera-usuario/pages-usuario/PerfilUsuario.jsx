@@ -140,7 +140,7 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                 <BannerUser />
                 <div className='FondoBlanco'>
                     <div className='Buttons_perfil mt-12 d-flex align-items-center'>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
+                        <button className='btns_perfil_prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
                             <div className='FaUser_perfil'><FaUser /></div>
                             <div className='Palabra_perfil'>Perfil </div>
                             <div className='FaAngleDown_perfil '><FaAngleDown /></div>

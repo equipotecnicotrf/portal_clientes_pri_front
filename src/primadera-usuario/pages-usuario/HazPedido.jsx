@@ -575,7 +575,7 @@ const DataPedido = () => {
         width: '160px',
     }
     const StyleSearchBar = {
-        width: '120px',
+        width: '115px',
         marginRight: '10px',
         marginBottom: '10px',
     }
@@ -626,23 +626,25 @@ const DataPedido = () => {
         <>
             <div className='Back-Pedi' style={backgroundStyle}>
                 <BannerUser />
-                <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
-                    <div className='Info_general_2' style={info_general_items}>
-                        <table className='table-borderless' >
-                            <thead >
-                            </thead>
-                            <tbody  >
-                                <tr style={info_general_items}>
-                                    <td style={info_general_items}>
-                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
-                                        <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </button>
+                <div className='div_gris'>
+                    <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
+                        <div className='Info_general_2' style={info_general_items}>
+                            <table className='table-borderless' >
+                                <thead >
+                                </thead>
+                                <tbody  >
+                                    <tr style={info_general_items}>
+                                        <td style={info_general_items}>
+                                            <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
+                                            <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
+                                            <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </button>
+                </div>
                 <div className='FondoBlanco_Pedi'>
                     <div className='Buttons_perfil mt-12 d-flex align-items-center'>
                         <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
@@ -655,7 +657,7 @@ const DataPedido = () => {
                             <div className='Palabra_inv'>Inventario disponible</div>
                             <div className='FaAngleDown_inv'><FaAngleDown /></div>
                         </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                        <button className='btns_Haz_Prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
                             <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
                             <div className='Palabra_haz'>Haz tu pedido </div>
                             <div className='FaAngleDown_haz'><FaAngleDown /></div>

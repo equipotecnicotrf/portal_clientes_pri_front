@@ -200,10 +200,8 @@ const ConsultaPedido = () => {
     const [filteredDirecciones, setFilteredDirecciones] = useState([]);
 
     const handleDireccionSelect = (direccion) => {
-        setSelectedDireccion(direccion);
+        setSelectedDireccion(direccion.address1);
         setSearchTerm('');
-        setnameVendedor(direccion.nameVendedor);
-        setpartySiteId(direccion.partySiteId);
 
     };
 
@@ -318,6 +316,28 @@ const ConsultaPedido = () => {
 
     }
 
+    const [filteredOrders, setFilteredOrders] = useState([]);
+
+    useEffect(() => {
+        console.log("itemDescription:", itemDescription);
+        console.log("selectedDireccion:", selectedDireccion);
+        console.log("orders:", orders);
+
+        const filtered = orders.flat().filter((order) => {
+            const matchesItemDescription = !itemDescription || order.productDescription === itemDescription;
+            const matchesSelectedDireccion = !selectedDireccion || order.address1 === selectedDireccion;
+
+            return matchesItemDescription && matchesSelectedDireccion;
+        });
+
+        console.log("filtered:", filtered);
+
+        // If no filters are applied, show all orders
+        const resultOrders = filtered.length > 0 ? filtered : orders.flat();
+
+        setFilteredOrders(resultOrders);
+    }, [itemDescription, selectedDireccion, orders]);
+
 
 
     const FilterStyle = {
@@ -388,7 +408,7 @@ const ConsultaPedido = () => {
                             <div className='Palabra_haz'>Haz tu pedido </div>
                             <div className='FaAngleDown_haz'><FaAngleDown /></div>
                         </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                        <button className='btns_Consul_Prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
                             <div className='FaTruck_cons'><FaTruck /></div>
                             <div className='Palabra_cons'>Consulta tu pedido</div>
                             <div className='FaAngleDown_cons'><FaAngleDown /></div>
@@ -496,20 +516,22 @@ const ConsultaPedido = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {orders.flat().map((order) => (
-                                        <tr key={order.fulfillLineId}>
-                                            <td>{order.sourceTransactionNumber}</td>
-                                            <td>{order.fulfillLineNumber}</td>
-                                            <td>{order.productDescription}</td>
-                                            <td>{order.orderedQuantity}</td>
-                                            <td>{"M3"}</td>
-                                            <td>{order.requestedShipDate}</td>
-                                            <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
-                                            <td>{order.actualShipDate}</td>
-                                            <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
-                                            <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
-                                        </tr>
-                                    ))}
+                                    {filteredOrders.map((order) => {
+                                        return (
+                                            <tr key={order.fulfillLineId}>
+                                                <td>{order.sourceTransactionNumber}</td>
+                                                <td>{order.fulfillLineNumber}</td>
+                                                <td>{order.productDescription}</td>
+                                                <td>{order.orderedQuantity}</td>
+                                                <td>{"M3"}</td>
+                                                <td>{order.requestedShipDate}</td>
+                                                <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
+                                                <td>{order.actualShipDate}</td>
+                                                <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
+                                                <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
+                                            </tr>
+                                        );
+                                    })}
 
                                 </tbody>
                             </Table>

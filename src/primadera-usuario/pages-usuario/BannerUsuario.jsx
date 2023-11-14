@@ -3,6 +3,7 @@ import imagenes from "../../assets/imagenes";
 import { FaHome, FaRegEdit } from "react-icons/fa";
 import LoginService from '../../services/LoginService';
 import { Carousel } from 'react-bootstrap';
+import './BannerUsuario.css'
 
 
 const BannerUser = ({ backgroundColor }) => {

@@ -1,0 +1,9 @@
+@media screen and (min-width: 1360px) {
+
+    .img1_img-fluid,
+    .img2_img-fluid,
+    .img3_img-fluid,
+    .img4_img-fluid {
+        width: 100%;
+    }
+}
