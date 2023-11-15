@@ -1,11 +1,15 @@
 import axios from "axios";
 
-const BASE_REST_API_URL = "http://150.136.119.119:8285/api/v1/Items";
-//const BASE_REST_API_URL = "http://localhost:8285/api/v1/Items";
+//const BASE_REST_API_URL = "http://150.136.119.119:8285/api/v1/Items";
+const BASE_REST_API_URL = "http://localhost:8285/api/v1/Items";
 
 class ItemService {
     getAllItems() {
         return axios.get(BASE_REST_API_URL);
+    }
+
+    getItemsById(id) {
+        return axios.get(BASE_REST_API_URL + "/" + id);
     }
 
     getItemsConDisponibilidad(Cust_account_id) {

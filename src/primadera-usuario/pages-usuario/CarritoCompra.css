@@ -496,3 +496,31 @@
 /* Otros estilos adicionales 
 }
 */
+
+.hovered {
+    background-color: #D3D3D3;
+}
+
+.btns_carrito_finalizar:hover {
+    background-color: #D3D3D3;
+}
+
+.btns_carrito_seguir:hover {
+    background-color: #D3D3D3;
+}
+
+.btns_carrito_borrar:hover {
+    background-color: #D3D3D3;
+}
+
+.btn_eliminar:hover {
+    background-color: #D3D3D3;
+}
+
+.decre_incre_carrito:hover {
+    background-color: #D3D3D3;
+}
+
+.decre_incre_carrito2:hover {
+    background-color: #D3D3D3;
+}

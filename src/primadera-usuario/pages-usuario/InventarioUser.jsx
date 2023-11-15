@@ -578,7 +578,7 @@ const DataInventario = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        transform: 'translate(30px, -21px)',
+        transform: 'translate(77px, -21px)',
     };
 
     const StyleDownArrows = {
@@ -587,7 +587,7 @@ const DataInventario = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        transform: 'translate(30px, -21px)',
+        transform: 'translate(77px, -21px)',
     };
 
     const CategoriasStyle = {
@@ -636,7 +636,7 @@ const DataInventario = () => {
     }
 
 
-    const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
+    const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
     const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
     return (
@@ -727,7 +727,7 @@ const DataInventario = () => {
                                                         <span style={StyleDownArrows}>&#5167;</span>
                                                     )}
                                                 </strong>
-                                                {/*Arreglo 8 Nov*/}  <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
+                                                {/*Arreglo 8 Nov*/}  <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '160px' }} />
 
                                             </div>
                                         ) : (
@@ -741,7 +741,7 @@ const DataInventario = () => {
                                                             <span style={StyleDownArrows}>&#5167;</span>
                                                         )}
                                                     </strong>
-                                                    {/*Arreglo 8 Nov*/}     <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
+                                                    {/*Arreglo 8 Nov*/}     <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '160px' }} />
                                                 </div>
                                                 {expandedSections.includes(category) && (
                                                     <div style={StyleProducts}>
@@ -1003,7 +1003,7 @@ const DataInventario = () => {
                         </Modal>
                     </div>
                 </div>
-                <Image className='Img-Creamos_ped' src={imagenes.Creamos} />
+                <Image className='Img-Creamos_Inven' src={imagenes.Creamos} />
             </div > {/*AJUSTE LCPG*/}
         </>
     );

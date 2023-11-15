@@ -25,7 +25,7 @@
     width: 800px;
     height: 400px;
     margin: -38%;
-    margin-left: 32.9%;
+    margin-left: 26%;
     margin-top: 2%;
 }
 
@@ -67,7 +67,7 @@
 .Filtro_Haz {
     max-width: 100%;
     margin: 2%;
-    margin-left: 2%;
+    margin-left: 7.5%;
     position: absolute;
 }
 
@@ -84,6 +84,8 @@
 .organiza_texto {
     width: fit-content;
     padding-top: 5px;
+    margin-top: 3%;
+    height: 10px;
 }
 
 .organiza_img_y_cont {
@@ -132,11 +134,12 @@
     transform: translate(50%, 50%);
 }
 
-.Img-Creamos_Inv {
+.Img-Creamos_Pedido {
     width: 200px;
     height: 100px;
     margin: auto;
     display: block;
+    margin-top: 40px;
 }
 
 .organiza_uni_paq {
@@ -310,4 +313,32 @@
     height: 50px;
     border: none;
     border-width: 0.5px;
+}
+
+.PrecioHaz {
+    max-width: 200px;
+    /*15-11-2023*/
+    margin-top: -3%;
+}
+
+.decre_incre:hover {
+    background-color: #D3D3D3;
+}
+
+.decre_incre2:hover {
+    background-color: #D3D3D3;
+}
+
+.btn_agregar_carro:hover {
+    background-color: #D3D3D3;
+}
+
+.checkbox_categorias:hover {
+    background-color: #D3D3D3;
+}
+
+@media screen and (max-width: 768px) {
+    .Img-Creamos_Pedido {
+        margin-top: 35%;
+    }
 }

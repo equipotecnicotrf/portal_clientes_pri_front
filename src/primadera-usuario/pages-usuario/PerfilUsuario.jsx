@@ -14,7 +14,7 @@ import UserService from '../../services/UserService';
 import { Form, Button } from 'react-bootstrap';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import AddressService from '../../services/AddressService';
-import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaAngleDown } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaAngleDown, FaAngleRight } from "react-icons/fa";
 import '../../Styles.css';
 
 const DataTablePerfilUser = ({ backgroundColor }) => {
@@ -206,10 +206,10 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
 
                                             <thead>
                                                 <tr style={bannerStyle} >
-                                                    <th style={bannerStyle}>Dirección</th>
-                                                    <th style={bannerStyle}>Dpt</th>
-                                                    <th style={bannerStyle}>Ciudad</th>
-                                                    <th style={bannerStyle}>País</th>
+                                                    <th style={{ backgroundColor: '#EFEEEE' }}>Dirección</th>
+                                                    <th style={{ backgroundColor: '#EFEEEE' }}>Dpt</th>
+                                                    <th style={{ backgroundColor: '#EFEEEE' }}>Ciudad</th>
+                                                    <th style={{ backgroundColor: '#EFEEEE' }}>País</th>
                                                 </tr>
                                             </thead>
 
@@ -218,10 +218,10 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                                                     .toSorted((a, b) => a.siteUseId - b.siteUseId) // Ordena el arreglo por cp_rol_id en orden ascendente
                                                     .map((direcciones) => (
                                                         <tr key={direcciones.siteUseId}>
-                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px' }}> {direcciones.address1}</td>
-                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px' }}>{direcciones.state}</td>
-                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px' }}>{direcciones.city}</td>
-                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px' }}>{direcciones.country}</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px', backgroundColor: '#EFEEEE' }}> {direcciones.address1}</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px', backgroundColor: '#EFEEEE' }}>{direcciones.state}</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px', backgroundColor: '#EFEEEE' }}>{direcciones.city}</td>
+                                                            <td style={{ fontFamily: 'Ligera', fontSize: '15px', backgroundColor: '#EFEEEE' }}>{direcciones.country}</td>
                                                         </tr>
                                                     ))}
                                             </tbody>
@@ -256,11 +256,15 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
 
                     <div className='Buttons_perfil2 mt-12'>
                         <Row>
-
-                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' onClick={toggleOverlay}><td><th style={{ fontFamily: 'Bold' }}>Direcciones</th>{direcciones.length + " "}direcciones agregadas</td></button></Col>
+                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' onClick={toggleOverlay}><td ><th style={{ fontFamily: 'Bold' }} className='ubicar_direcciones'>Direcciones </th> {direcciones.length + " "}direcciones agregadas </td> {/*15-11-2023*/}
+                                <td className='ubicar_flecha_btn' >< FaAngleRight className='tamanio_flecha' /></td>{/*15-11-2023*/}
+                            </button>
+                            </Col>
                         </Row>
                         <Row>
-                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' style={{ fontFamily: 'Bold' }} onClick={toggleOverlay2}><th>Servicio de ayuda</th></button></Col>
+                            <Col><button className='btns_perfil2 p-2 m-2 btn-sm' style={{ fontFamily: 'Bold' }} onClick={toggleOverlay2}><th className='ubicar_servicio_ayuda'>Servicio de ayuda</th> {/*15-11-2023*/}
+                                <td className='ubicar_flecha_btn_2' ><FaAngleRight className='tamanio_flecha' /></td>
+                            </button></Col> {/*15-11-2023*/}
                         </Row>
                     </div>
 

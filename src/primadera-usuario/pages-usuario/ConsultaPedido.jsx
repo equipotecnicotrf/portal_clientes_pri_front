@@ -240,7 +240,7 @@ const ConsultaPedido = () => {
 
     };
 
-    const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
+    const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
     const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
 

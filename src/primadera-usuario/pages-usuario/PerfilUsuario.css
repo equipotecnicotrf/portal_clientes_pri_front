@@ -111,7 +111,7 @@
     justify-content: left;
     width: 90%;
     height: 12vh;
-    margin-left: 4.5%;
+    margin-left: 1%;
 }
 
 .CuadroInfo_ayuda {
@@ -189,7 +189,7 @@
 .Palabra_perfil {
 
     width: fit-content;
-    margin-left: 23%;
+    margin-left: 18%;
 
 }
 
@@ -1324,4 +1324,40 @@
         transform: translate(-50%, -50%);
         height: max-content;
     }
+}
+
+.ubicar_flecha_btn {
+    width: fit-content;
+    margin-left: 92%;
+    margin-top: -35px;
+    display: flex;
+}
+
+
+.tamanio_flecha {
+    width: 25px;
+    height: 25px;
+    stroke-width: -11;
+    color: #909090;
+}
+
+.ubicar_direcciones {
+    width: fit-content;
+    margin-left: 0%;
+    margin-top: -8%;
+    display: flex;
+}
+
+.ubicar_servicio_ayuda {
+    width: fit-content;
+    margin-left: 1%;
+    margin-top: -1%;
+    display: flex;
+}
+
+.ubicar_flecha_btn_2 {
+    width: fit-content;
+    margin-left: 92%;
+    margin-top: -25px;
+    display: flex;
 }

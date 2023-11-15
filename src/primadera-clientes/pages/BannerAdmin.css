@@ -4,21 +4,22 @@
     position: absolute;
     top: 0%;
     right: 10px;
-    background-color: #323333;
+    background-color: #4d4d4d;
     z-index: 1;
     color: white;
     border: none;
     width: 150px;
+
 }
 
 .LogoReciclaje {
 
-    max-width: 150px;
+    max-width: 175px;
     padding: 10px 20 px;
     position: absolute;
-    top: 43px;
-    right: 10.5px;
-    background-color: #323333;
+    top: 20px;
+    right: -3px;
+
     border-radius: 0px 0px 60px 60px;
     color: white;
 
@@ -35,7 +36,7 @@
     position: absolute;
     top: 20px;
     right: 170px;
-    background-color: #323333;
+    background-color: #4d4d4d;
     border-radius: 20px;
     color: white;
     border: none;
@@ -49,8 +50,9 @@
     }
 
     .LogoReciclaje {
-        width: 100px;
-        top: 64px
+        width: 115px;
+        top: 35px;
+        right: 2px;
     }
 
     .Logo_Pri_Blanco {

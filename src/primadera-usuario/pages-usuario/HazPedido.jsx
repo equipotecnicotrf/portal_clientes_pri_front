@@ -559,7 +559,7 @@ const DataPedido = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        transform: 'translate(30px, -21px)',
+        transform: 'translate(77px, -21px)',
     };
 
     const StyleDownArrows = {
@@ -568,7 +568,7 @@ const DataPedido = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        transform: 'translate(30px, -21px)',
+        transform: 'translate(77px, -21px)',
     };
 
     const CategoriasStyle = {
@@ -619,7 +619,7 @@ const DataPedido = () => {
         width: '130px'
     };
 
-    const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
+    const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
     const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
     return (
@@ -712,7 +712,7 @@ const DataPedido = () => {
                                                         <span style={StyleDownArrows}>&#5167;</span>
                                                     )}
                                                 </strong>
-                                                <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
+                                                <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '160px' }} />
                                             </div>
                                         ) : (
                                             <>
@@ -725,7 +725,7 @@ const DataPedido = () => {
                                                             <span style={StyleDownArrows}>&#5167;</span>
                                                         )}
                                                     </strong>
-                                                    <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '120px' }} />
+                                                    <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '160px' }} />
                                                 </div>
                                                 {expandedSections.includes(category) && (
                                                     <div style={StyleProducts}>
@@ -977,7 +977,7 @@ const DataPedido = () => {
                         </Modal>
                     </div>
                 </div>
-                <Image className='Img-Creamos_Inv' src={imagenes.Creamos} />
+                <Image className='Img-Creamos_Pedido' src={imagenes.Creamos} />
             </div>{/*AJUSTE LCPG*/}
         </>
     );

@@ -56,6 +56,16 @@ const ActualizarPassword = () => {
   };
 
   const handleUpdatePassword = () => {
+    UserService.getUserById(userId).then(responseUser => {
+      if (responseUser.data.cp_Password === btoa(password.CP_Password) && btoa(confirmPassword)) {
+        alert("La nueva contraseña que ingresado es la misma que la contraseña actual. Por favor, elegir una contraseña diferente.");
+      }
+
+    }).catch(error => {
+      console.log(error);
+      alert("Usuario no existe");
+    });
+
     if (password.CP_Password && confirmPassword && password.CP_Password === confirmPassword) {
       if (password.CP_Password.length >= 8) {
         UserService.updatePassword(userId, password.CP_Password).then((response) => {

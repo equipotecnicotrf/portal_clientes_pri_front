@@ -29,12 +29,12 @@ const BannerUser = ({ backgroundColor }) => {
     };
 
     const logoStyle = {
-        maxWidth: '150px',
+        maxWidth: '214.5px',
         padding: '10px 20px',
         position: 'absolute',
-        top: '43px',
-        right: '10.5px',
-        backgroundColor: backgroundColor || '#323333',
+        top: '32px',
+        right: '0px',
+
         borderRadius: '0px 0px 60px 60px',
         color: 'white',
 
@@ -46,8 +46,8 @@ const BannerUser = ({ backgroundColor }) => {
         cursor: 'pointer',
         position: 'absolute',
         top: '0%',
-        right: '10px',
-        backgroundColor: backgroundColor || '#323333',
+        right: '32.5px',
+        backgroundColor: backgroundColor || '#4d4d4d',
         zIndex: '1',
         color: 'white',
         border: 'none',
@@ -76,13 +76,15 @@ const BannerUser = ({ backgroundColor }) => {
             right: '0',
             transform: 'translateY(-50%)',
             zIndex: '5',
+            width: 'fit-content',
+
 
         },
         icon: {
-            width: '50px',
-            height: '50px',
+            width: '140px',
+            height: '65px',
             borderRadius: '40px 0 0 40px',
-            border: '1px solid #25D366',
+
             cursor: 'pointer',
 
         },
@@ -133,7 +135,7 @@ const BannerUser = ({ backgroundColor }) => {
 
             <div >
                 <button style={btnCrrSesion} onClick={((e) => logout(e))}>Cerrar Sesión</button>
-                <img style={logoStyle} src={imagenes.ReciclajeBlanco} />
+                <img className="Img_Recicla" style={logoStyle} src={imagenes.ReciclajeBlanco} />
             </div>
             {/*AJUSTE LCPG INI*/}
 

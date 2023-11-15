@@ -171,7 +171,7 @@ const FinalizarCompra = () => {
     };
 
     const [crearpedidoERP, setCrearpedidoERP] = useState([]);
-    const [ordenCompra, setordenCompra] = useState([]);
+    const [ordenCompra, setordenCompra] = useState();
 
     const lineItemsPedido = carrito.map((carritoItem) => ({
         productNumber: carritoItem[3].item_number,
@@ -245,7 +245,7 @@ const FinalizarCompra = () => {
                 paymentTerms: payment_terms,
                 transactionalCurrencyCode: transactional_currency_code,
                 salesperson: nameVendedor,
-                customerPONumber: ordenCompra,
+                customerPONumber: ordenCompra !== undefined && ordenCompra !== null ? ordenCompra : 'Sin Referencia',
                 customerAccountId: CustAccountId,
                 //siteUseId: parseInt(siteUseIdpedido),
                 partyId: PartyId,
@@ -400,7 +400,7 @@ const FinalizarCompra = () => {
     };
 
 
-    const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
+    const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
     const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
     return (
@@ -512,7 +512,6 @@ const FinalizarCompra = () => {
                                         autoFocus
                                         value={ordenCompra}
                                         onChange={(e) => setordenCompra(e.target.value)}
-                                        required
                                     />
                                     <Form.Control.Feedback type="invalid">Por favor ingresa orden de compra o referencia</Form.Control.Feedback> {/*AJUSTE LCPG 9-10*/}
                                 </Form.Group>

@@ -14,7 +14,7 @@ import BannerArboles from './BannerArboles.jpg';
 import BannerIndustria from './BannerIndustria.jpg';
 import BannerTroncos from './BannerTroncos.jpg';
 import ReciclajeBlanco from './ReciclajeBlanco.png';
-import wpp from './wpp.png';
+import wpp from './wpp.svg';
 
 /*const imageSlide = [
     {url: 'FLORMORADO-HOME.jpg'
@@ -29,7 +29,7 @@ import wpp from './wpp.png';
 
 
 
-export default  {
+export default {
     "wpp": wpp,
     "ReciclajeBlanco": ReciclajeBlanco,
     "BannerArboles": BannerArboles,

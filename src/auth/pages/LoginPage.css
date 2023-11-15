@@ -1,17 +1,17 @@
-.BackImg{
+.BackImg {
     background-image:
-  url("../../assets/LoginBack.jpg");
+        url("../../assets/LoginBack.jpg");
     background-size: cover;
     background-position: center;
     height: 100vh;
-    
+
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
 }
 
-.Login-head{
+.Login-head {
     background-color: white;
     border-radius: 10px;
     width: 482px;
@@ -19,39 +19,48 @@
     margin: auto;
     margin-left: 150px;
 }
-.Login-btn{
+
+.Login-btn {
     background-color: #323333;
     width: 194.49px;
     height: 50.74px;
     border-radius: 30px;
-    margin-top: 10px;
+    margin-top: 22px;
+    border: none;
 }
 
-.Login-content{
-text-align: center;
+.Login-content {
+    text-align: center;
 }
 
-.logo-rojo{
+.logo-rojo {
     text-align: center;
     margin-top: 50px;
 }
 
-.email-form{
-width: 312.88px;
-height: 50.74;
-margin: auto;
-border-radius: 30px;
+.email-form {
+    width: 312.88px;
+    height: 50.74;
+    margin: auto;
+    border-radius: 30px;
 }
 
-.password-form{
+.password-form {
     border-radius: 30px;
     width: 312.88px;
-    height: 50.74; 
+    height: 50.74;
     margin: auto;
 }
+
 /*AJUSTE LCPG 10-10*/
-.Actua_contra{
+.Actua_contra {
     margin: auto;
     display: block;
 }
+
 /*AJUSTE LCPG 10-10*/
+
+.Login-btn:hover {
+    background-color: #D3D3D3;
+
+}

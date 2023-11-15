@@ -34,7 +34,7 @@
     width: 800px;
     height: 400px;
     margin: -38%;
-    margin-left: 32.9%;
+    margin-left: 26%;
     margin-top: 2%;
 }
 
@@ -75,7 +75,7 @@
 
     max-width: 100%;
     margin: 2%;
-    margin-left: 2%;
+    margin-left: 7.5%;
     position: absolute;
 
 }
@@ -97,6 +97,7 @@
     width: fit-content;
     padding-top: 5px;
     height: 10px;
+    margin-top: 3%;
 }
 
 .organiza_img_y_cont {
@@ -173,7 +174,7 @@
     line-height: 0;
 }
 
-.Img-Creamos_ped {
+.Img-Creamos_Inven {
     width: 200px;
     height: 100px;
     margin: auto;
@@ -259,8 +260,7 @@
 
 .tamanio_carro_principal {
     font-size: 40px;
-    margin-left: 12%;
-    margin-top: 10%;
+    margin: 6%;
     color: white;
 }
 
@@ -273,6 +273,7 @@
 
 .PrecioInv {
     max-width: 200px;
+    margin-top: 3%;
 
 }
 
@@ -401,4 +402,22 @@ td {
     height: 50px;
     border: none;
     border-width: 0.5px;
+}
+
+.decre_incre:hover {
+    background-color: #D3D3D3;
+}
+
+.decre_incre2:hover {
+    background-color: #D3D3D3;
+}
+
+.btn_agregar_carro:hover {
+    background-color: #D3D3D3;
+}
+
+@media screen and (max-width: 768px) {
+    .Img-Creamos_Inven {
+        margin-top: 35%;
+    }
 }
