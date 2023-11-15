@@ -127,7 +127,7 @@ const ConsultaPedido = () => {
                 if (fechaFactura < fechaComparacionFormateada) {
                     return "Cerrado";
                 } else {
-                    return "Despachado-Facturado por fecha";
+                    return "Despachado-Facturado";
                 }
             case "Canceled":
                 return "Cancelado";
@@ -206,13 +206,29 @@ const ConsultaPedido = () => {
     };
 
     const ESTADOS = {
-        OPEN: {
-            valor: "OPEN",
-            traduccion: "Abierto"
+        RETENIDO: {
+            valor: "RETENIDO_OPEN",
+            traduccion: "Retenido"
         },
-        CLOSED: {
-            valor: "CLOSED",
+        PROGRAMACION: {
+            valor: "PROGRAMACION_OPEN",
+            traduccion: "En programación"
+        },
+        CONSOLIDACION: {
+            valor: "CONSOLIDACION_OPEN",
+            traduccion: "En consolidación"
+        },
+        DESPACHADO_FACTURADO: {
+            valor: "DESPACHADO_FACTURADO_CLOSED",
+            traduccion: "Despachado-Facturado"
+        },
+        CERRADO: {
+            valor: "CERRADO_CLOSED",
             traduccion: "Cerrado"
+        },
+        CANCELADO: {
+            valor: "CANCELED",
+            traduccion: "Cancelado"
         }
     };
 
@@ -278,14 +294,14 @@ const ConsultaPedido = () => {
         orderNumber;
         const buyingPartyId = PartyId;
         const transactionTypeCode = typeOrder.cp_type_order_description;
-        statusCode;
+        //statusCode;
         creationDateFrom;
         creationDateTo;
         itemDescription;
         selectedDireccion;
 
         if (orderNumber.length !== 0) {
-            ConsultOrderService.getOrderByOrderNumber(orderNumber).then(consultorderresponse => {
+            ConsultOrderService.getOrderByOrderNumber(orderNumber, buyingPartyId).then(consultorderresponse => {
                 setorders(consultorderresponse.data);
                 console.log(consultorderresponse.data);
             }).catch(error => {
@@ -301,7 +317,9 @@ const ConsultaPedido = () => {
             } else if (statusCode.length === 0) {
                 alert("Por favor indicar estado")
             } else {
-                ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, statusCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
+                const mappedStatusCode = mapStatusCode(statusCode);
+
+                ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, mappedStatusCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
                     setorders(consultorderresponse.data);
                     console.log(consultorderresponse.data);
                 }).catch(error => {
@@ -313,32 +331,22 @@ const ConsultaPedido = () => {
 
         }
 
-
     }
 
-    const [filteredOrders, setFilteredOrders] = useState([]);
-
-    useEffect(() => {
-        console.log("itemDescription:", itemDescription);
-        console.log("selectedDireccion:", selectedDireccion);
-        console.log("orders:", orders);
-
-        const filtered = orders.flat().filter((order) => {
-            const matchesItemDescription = !itemDescription || order.productDescription === itemDescription;
-            const matchesSelectedDireccion = !selectedDireccion || order.address1 === selectedDireccion;
-
-            return matchesItemDescription && matchesSelectedDireccion;
-        });
-
-        console.log("filtered:", filtered);
-
-        // If no filters are applied, show all orders
-        const resultOrders = filtered.length > 0 ? filtered : orders.flat();
-
-        setFilteredOrders(resultOrders);
-    }, [itemDescription, selectedDireccion, orders]);
-
-
+    //Homologar la seleccion de estado para que tome OPEN o CLOSED
+    const mapStatusCode = (statusCode) => {
+        switch (statusCode) {
+            case "RETENIDO_OPEN":
+            case "PROGRAMACION_OPEN":
+            case "CONSOLIDACION_OPEN":
+                return "OPEN";
+            case "DESPACHADO_FACTURADO_CLOSED":
+            case "CERRADO_CLOSED":
+                return "CLOSED"
+            default:
+                return statusCode;
+        }
+    }
 
     const FilterStyle = {
         marginLeft: '2.5%',
@@ -374,23 +382,32 @@ const ConsultaPedido = () => {
         <>
             <div className='BackConsul' style={backgroundStyleConsul}>
                 <BannerUser />
-                <button className='Info_general_Consul' onClick={() => navigate("/CarritoCompras")} ><FaShoppingCart className='tamanio_carro_principal_Consul' />
-                    <div className='Info_general_2_Consul' style={info_general_items}>
-                        <table className='table-borderless' >
-                            <thead >
-                            </thead>
-                            <tbody >
-                                <tr style={info_general_items}>
-                                    <td style={info_general_items}>
-                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
-                                        <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                {carrito.length === 0 ? (
+                    <div>
+                        {/* Your content here */}
                     </div>
-                </button>
+
+                ) : (
+                    <div className='div_gris'>
+                        <button className='Info_general_Consul' onClick={() => navigate("/CarritoCompras")} ><FaShoppingCart className='tamanio_carro_principal_Consul' />
+                            <div className='Info_general_2_Consul' style={info_general_items}>
+                                <table className='table-borderless' >
+                                    <thead >
+                                    </thead>
+                                    <tbody >
+                                        <tr style={info_general_items}>
+                                            <td style={info_general_items}>
+                                                <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
+                                                <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
+                                                <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </button>
+                    </div>
+                )}
                 <div className='FondoBlancoConsul'>
                     <div className='Buttons_perfil mt-12 d-flex align-items-center'>
                         <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
@@ -516,22 +533,43 @@ const ConsultaPedido = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {filteredOrders.map((order) => {
-                                        return (
-                                            <tr key={order.fulfillLineId}>
-                                                <td>{order.sourceTransactionNumber}</td>
-                                                <td>{order.fulfillLineNumber}</td>
-                                                <td>{order.productDescription}</td>
-                                                <td>{order.orderedQuantity}</td>
-                                                <td>{"M3"}</td>
-                                                <td>{order.requestedShipDate}</td>
-                                                <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
-                                                <td>{order.actualShipDate}</td>
-                                                <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
-                                                <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
-                                            </tr>
-                                        );
-                                    })}
+                                    {orders.flat()
+                                        .filter(order => {
+                                            if (selectedDireccion === null && itemDescription.length === 0) {
+                                                return true;
+                                            }
+
+                                            let matchesSelectedDireccion = true;
+                                            let matchesItemDescription = true;
+
+                                            if (selectedDireccion !== null) {
+                                                matchesSelectedDireccion = order.matchesSelectedDireccion = order.address1 === selectedDireccion;
+                                            }
+
+                                            if (itemDescription && typeof itemDescription === 'string') {
+                                                matchesItemDescription = order.matchesItemDescription = order.productDescription.includes(itemDescription);
+                                            }
+
+
+                                            return matchesItemDescription && matchesSelectedDireccion;
+
+                                        })
+                                        .map((order) => {
+                                            return (
+                                                <tr key={order.fulfillLineId}>
+                                                    <td>{order.sourceTransactionNumber}</td>
+                                                    <td>{order.fulfillLineNumber}</td>
+                                                    <td>{order.productDescription}</td>
+                                                    <td>{order.orderedQuantity}</td>
+                                                    <td>{"M3"}</td>
+                                                    <td>{order.requestedShipDate}</td>
+                                                    <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
+                                                    <td>{order.actualShipDate}</td>
+                                                    <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
+                                                    <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
+                                                </tr>
+                                            );
+                                        })}
 
                                 </tbody>
                             </Table>

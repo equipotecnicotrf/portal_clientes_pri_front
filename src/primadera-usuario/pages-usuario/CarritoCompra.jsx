@@ -108,11 +108,21 @@ const CarritoCompras = () => {
         const fechaHoy = new Date(); // Fecha actual
         let fechaEntrega = new Date(fechaHoy);
 
+        const diasFestivos = ["2023-11-06", "2023-11-13", "2023-12-08", "2023-12-25", "2024-01-01"]; // Puedes agregar más días festivos según sea necesario
+
+        const esDiaFestivo = (fecha) => {
+            // Verificar si la fecha es un día festivo
+            const formatoFecha = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            const fechaFormateada = fecha.toLocaleDateString(undefined, formatoFecha);
+
+            return diasFestivos.includes(fechaFormateada);
+        };
+
         while (diasLaborales > 0) {
             fechaEntrega.setDate(fechaEntrega.getDate() + 1); // Sumamos un día
 
-            // Si el día de la semana no es sábado (6) ni domingo (0), descontamos un día laboral
-            if (fechaEntrega.getDay() !== 0 && fechaEntrega.getDay() !== 6) {
+            // Si el día de la semana no es sábado (6) ni domingo (0), y no es un día festivo, descontamos un día laboral
+            if (fechaEntrega.getDay() !== 0 && fechaEntrega.getDay() !== 6 && !esDiaFestivo(fechaEntrega)) {
                 diasLaborales--;
             }
         }
@@ -391,29 +401,34 @@ const CarritoCompras = () => {
         <>
             <div className='Back' style={backgroundStyle}>
                 <BannerUser />
-                <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
-                    <div className='Info_general_2' style={info_general_items}>
-
-                        <table className='table-borderless' >
-                            <thead >
-
-                            </thead>
-                            <tbody >
-                                <tr style={info_general_items}>
-                                    <td style={info_general_items}>
-                                        <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
-                                        <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                        <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
-                                    </td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-
+                {carrito.length === 0 ? (
+                    <div>
+                        {/* Your content here */}
                     </div>
-                </button>
 
+                ) : (
+                    <div className='div_gris'>
+                        <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
+                            <div className='Info_general_2' style={info_general_items}>
+
+                                <table className='table-borderless' >
+                                    <thead >
+
+                                    </thead>
+                                    <tbody >
+                                        <tr style={info_general_items}>
+                                            <td style={info_general_items}>
+                                                <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
+                                                <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
+                                                <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </button>
+                    </div>
+                )}
                 <div className='FondoBlanco_carrito'>
                     <div className='Buttons_perfil mt-12 d-flex align-items-center'>
                         <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>

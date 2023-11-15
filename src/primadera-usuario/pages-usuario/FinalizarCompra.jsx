@@ -113,8 +113,13 @@ const FinalizarCompra = () => {
         ShopingCartService.getCarritoxUserIdxitemsxprecios(cust_account_id, cp_user_id).then(carrouseridresponse => {
             setcarrito(carrouseridresponse.data);
             console.log(carrouseridresponse.data);
+
+            if (carrouseridresponse.data.length === 0) {
+                navigate('/DataInventario')
+            }
         }).catch(error => {
             console.log(error);
+
         })
     }
 
@@ -402,27 +407,33 @@ const FinalizarCompra = () => {
 
         <div className='Back' style={backgroundStyle}>
             <BannerUser />
-
-            <button className='Info_general_compra' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamano_carro_principal_compra' />
-                <div className='Info_general_compra_2' style={info_general_items}>
-                    <table className='table-borderless' >
-                        <thead >
-                        </thead>
-                        <tbody >
-                            <tr style={info_general_items}>
-                                <td style={info_general_items}>
-                                    <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
-                                    <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                    <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            {carrito.length === 0 ? (
+                <div>
+                    {/* Your content here */}
                 </div>
-            </button>
 
+            ) : (
+                <div className='div_gris'>
+                    <button className='Info_general_compra' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamano_carro_principal_compra' />
+                        <div className='Info_general_compra_2' style={info_general_items}>
+                            <table className='table-borderless' >
+                                <thead >
+                                </thead>
+                                <tbody >
+                                    <tr style={info_general_items}>
+                                        <td style={info_general_items}>
+                                            <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
+                                            <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
+                                            <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </button>
+                </div>
+            )}
             <div className='FondoBlanco_compra'>
-
                 <div className='Buttons_perfil mt-12 d-flex align-items-center'>
                     <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
                         <div className='FaUser_perfil'><FaUser /></div>
