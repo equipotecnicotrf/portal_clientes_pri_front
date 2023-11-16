@@ -859,7 +859,7 @@ const DataTable = ({ backgroundColor }) => {
         {/*31-10-2023 se ajusta DIV completo*/}
 
         <Dropdown style={dropDown}>
-          <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
+          <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_usario'>
             {selectedOption}
           </Dropdown.Toggle>
           <Dropdown.Menu style={dropDownbackgroundStyle}>

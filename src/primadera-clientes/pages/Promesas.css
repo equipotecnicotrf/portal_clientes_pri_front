@@ -55,3 +55,9 @@
     margin-top: 0%;
     margin-left: 0%;
 }
+
+@media (max-width: 480px) {
+    .boton_prome {
+        margin-left: -110%;
+    }
+}

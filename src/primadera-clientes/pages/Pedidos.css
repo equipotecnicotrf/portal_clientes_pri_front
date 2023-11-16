@@ -167,3 +167,10 @@
         Top: 600px;
     }
 }
+
+@media (max-width: 480px) {
+    .boton_pedido {
+        margin-left: -110%;
+        margin-top: 30%;
+    }
+}

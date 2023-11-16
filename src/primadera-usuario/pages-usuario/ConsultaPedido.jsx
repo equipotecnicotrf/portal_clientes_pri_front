@@ -240,39 +240,8 @@ const ConsultaPedido = () => {
 
     };
 
-    const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
-    const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
-
-
-    /*ESTILOS*/
-    const backgroundStyleConsul = {
-        backgroundImage: `url(${imagenes.fondoTextura}`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column'
-    };
-
-    const StyleConsul = {
-        marginTop: '5px',
-        marginLeft: '2%',
-        zIndex: 'auto',
-
-    }
-
-    const [filterValues, setFilterValues] = useState({
-        firstName: '',
-        lastName: '',
-        username: '',
-        city: '',
-        state: '',
-        zip: '',
-    });
-
     const [orderNumber, setorderNumber] = useState([]);
-    const [statusCode, setstatusCode] = useState([]);
+    const [statusCode, setstatusCode] = useState();
     const [creationDateFrom, setcreationDateFrom] = useState([]);
     const [creationDateTo, setcreationDateTo] = useState([]);
     const [itemDescription, setitemDescription] = useState([]);
@@ -348,6 +317,37 @@ const ConsultaPedido = () => {
         }
     }
 
+    const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
+    const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
+
+
+    /*ESTILOS*/
+    const backgroundStyleConsul = {
+        backgroundImage: `url(${imagenes.fondoTextura}`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column'
+    };
+
+    const StyleConsul = {
+        marginTop: '5px',
+        marginLeft: '2%',
+        zIndex: 'auto',
+
+    }
+
+    const [filterValues, setFilterValues] = useState({
+        firstName: '',
+        lastName: '',
+        username: '',
+        city: '',
+        state: '',
+        zip: '',
+    });
+
     const FilterStyle = {
         marginLeft: '2.5%',
         marginTop: '3%',
@@ -369,219 +369,225 @@ const ConsultaPedido = () => {
         border: 'none',
         backgroundColor: '#767373', //Arreglo 8 Nov*/}
         color: 'white',
-        fontSize: '12.5px', //Arreglo 8 Nov*/}
+        fontSize: '12px', //Arreglo 8 Nov*/}
         fontFamily: 'Medium',
-        width: '130px'
+        width: 'fit-content'
     };
 
-
-
-
-
     return (
-        <>
-            <div className='BackConsul' style={backgroundStyleConsul}>
-                <BannerUser />
-                {carrito.length === 0 ? (
-                    <div>
-                        {/* Your content here */}
-                    </div>
 
-                ) : (
-                    <div className='div_gris'>
-                        <button className='Info_general_Consul' onClick={() => navigate("/CarritoCompras")} ><FaShoppingCart className='tamanio_carro_principal_Consul' />
-                            <div className='Info_general_2_Consul' style={info_general_items}>
-                                <table className='table-borderless' >
-                                    <thead >
-                                    </thead>
-                                    <tbody >
-                                        <tr style={info_general_items}>
-                                            <td style={info_general_items}>
-                                                <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
-                                                <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                                <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </button>
-                    </div>
-                )}
-                <div className='FondoBlancoConsul'>
-                    <div className='Buttons_perfil mt-12 d-flex align-items-center'>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
-                            <div className='FaUser_perfil'><FaUser /></div>
-                            <div className='Palabra_perfil'>Perfil </div>
-                            <div className='FaAngleDown_perfil '><FaAngleDown /></div>
-                        </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
-                            <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
-                            <div className='Palabra_inv'>Inventario disponible</div>
-                            <div className='FaAngleDown_inv'><FaAngleDown /></div>
-                        </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
-                            <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
-                            <div className='Palabra_haz'>Haz tu pedido </div>
-                            <div className='FaAngleDown_haz'><FaAngleDown /></div>
-                        </button>
-                        <button className='btns_Consul_Prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
-                            <div className='FaTruck_cons'><FaTruck /></div>
-                            <div className='Palabra_cons'>Consulta tu pedido</div>
-                            <div className='FaAngleDown_cons'><FaAngleDown /></div>
-                        </button>
-                    </div>
+        <div className='BackConsul' style={backgroundStyleConsul}>
+            <BannerUser />
+            {carrito.length === 0 ? (
+                <div>
+                    {/* Your content here */}
+                </div>
 
-                    <div className='ContenedorPadreConsul'>
-                        <div className='FiltroConsul'>
-                            <Form style={FilterStyle} noValidate validated={validated} onSubmit={handleSubmit}>
-
-                                <Row className="mb-3">
-                                    <Form.Group as={Col} md="4" controlId="validationCustom01">
-                                        <Form.Label>Fecha de creación</Form.Label>
-                                        <Form.Control
-                                            type="Date"
-                                            placeholder="Desde"
-                                            value={creationDateFrom}
-                                            onChange={(e) => setcreationDateFrom(e.target.value)}
-                                        />
-                                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                    </Form.Group>
-                                    <Form.Group as={Col} md="3" controlId="validationCustom02">
-                                        <Form.Label>Número de pedido</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="00000"
-                                            value={orderNumber}
-                                            onChange={(e) => setorderNumber(e.target.value)}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group as={Col} md="3" controlId="validationCustomUsername">
-                                        <Form.Label>Estado</Form.Label>
-                                        <select
-                                            className="form-select"
-                                            value={statusCode}
-                                            onChange={(e) => setstatusCode(e.target.value)}                                        >
-                                            <option value="" disabled>Estado</option>
-                                            {Object.values(ESTADOS).map((estado) => (
-                                                <option key={estado.valor} value={estado.valor}>
-                                                    {estado.traduccion}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </Form.Group>
-                                </Row>
-                                <Row className="mb-3">
-                                    <Form.Group as={Col} md="4" controlId="validationCustom03">
-                                        <Form.Control
-                                            type="Date"
-                                            placeholder="Hasta"
-                                            value={creationDateTo}
-                                            onChange={(e) => setcreationDateTo(e.target.value)}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group as={Col} md="3" controlId="validationCustom04">
-                                        <Form.Label>Dirección de envío</Form.Label>
-                                        <select
-                                            className="form-select"
-                                            value={selectedDireccion ? selectedDireccion.siteUseId : ''}
-                                            onChange={(e) => {
-                                                const selectedSiteUseId = e.target.value;
-                                                const selectedDireccion = direcciones.find((direccion) => direccion.siteUseId === selectedSiteUseId);
-                                                handleDireccionSelect(selectedDireccion);
-                                            }}
-                                        >
-                                            <option value="" disabled>Selecciona una dirección</option>
-                                            {direcciones.map((direccion) => (
-                                                <option key={direccion.siteUseId} value={direccion.siteUseId}>
-                                                    {direccion.address1 + " - " + direccion.city}
-                                                </option>
-                                            ))}
-                                        </select>
-
-                                    </Form.Group>
-                                    <Form.Group as={Col} md="3" controlId="validationCustom05">
-                                        <Form.Label>Descripción de artículo</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Palabra clave"
-                                            value={itemDescription}
-                                            onChange={(e) => setitemDescription(e.target.value)}
-                                        />
-                                    </Form.Group>
-                                    <Button style={BtnBuscar} type="submit">Buscar</Button>
-                                </Row>
-
-                            </Form>
+            ) : (
+                <div className='div_gris'>
+                    <button className='Info_general_Consul' onClick={() => navigate("/CarritoCompras")} >
+                        <div className='ubicar_carro_cons'>
+                            <FaShoppingCart className='tamanio_carro_principal_Consul' />
                         </div>
-
-                        <div className='Tabla_info_Consul'>
-                            <Table striped bordered hover >
-                                <thead>
-                                    <tr>
-                                        <th>Pedido</th>
-                                        <th>Línea</th>
-                                        <th>Artículo</th>
-                                        <th>Cantidad (Unidades)</th>
-                                        <th>Cantidad (M3)</th>
-                                        <th>Fecha Estimada de envío</th>
-                                        <th>Estado</th>
-                                        <th>Fecha de despacho</th>
-                                        <th>Remisión</th>
-                                        <th>Factura</th>
-
-                                    </tr>
+                        <div className='Info_general_2_Consul'>
+                            <table className='table-borderless' >
+                                <thead >
                                 </thead>
-                                <tbody>
-                                    {orders.flat()
-                                        .filter(order => {
-                                            if (selectedDireccion === null && itemDescription.length === 0) {
-                                                return true;
-                                            }
-
-                                            let matchesSelectedDireccion = true;
-                                            let matchesItemDescription = true;
-
-                                            if (selectedDireccion !== null) {
-                                                matchesSelectedDireccion = order.matchesSelectedDireccion = order.address1 === selectedDireccion;
-                                            }
-
-                                            if (itemDescription && typeof itemDescription === 'string') {
-                                                matchesItemDescription = order.matchesItemDescription = order.productDescription.includes(itemDescription);
-                                            }
-
-
-                                            return matchesItemDescription && matchesSelectedDireccion;
-
-                                        })
-                                        .map((order) => {
-                                            return (
-                                                <tr key={order.fulfillLineId}>
-                                                    <td>{order.sourceTransactionNumber}</td>
-                                                    <td>{order.fulfillLineNumber}</td>
-                                                    <td>{order.productDescription}</td>
-                                                    <td>{order.orderedQuantity}</td>
-                                                    <td>{"M3"}</td>
-                                                    <td>{order.requestedShipDate}</td>
-                                                    <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
-                                                    <td>{order.actualShipDate}</td>
-                                                    <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
-                                                    <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
-                                                </tr>
-                                            );
-                                        })}
-
+                                <tbody >
+                                    <tr style={info_general_items}>
+                                        <td style={info_general_items}>
+                                            <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
+                                            <tr style={info_general_items}>{carrito.length} items(s)</tr>
+                                            <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
+                                        </td>
+                                    </tr>
                                 </tbody>
-                            </Table>
+                            </table>
                         </div>
+                    </button>
+                </div>
+            )}
+            <div className='FondoBlancoConsul'>
+                <div className='Buttons_perfil mt-12 d-flex align-items-center'>
+                    <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
+                        <div className='FaUser_perfil'><FaUser /></div>
+                        <div className='Palabra_perfil'>Perfil </div>
+                        <div className='FaAngleDown_perfil '><FaAngleDown /></div>
+                    </button>
+                    <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                        <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
+                        <div className='Palabra_inv'>Inventario disponible</div>
+                        <div className='FaAngleDown_inv'><FaAngleDown /></div>
+                    </button>
+                    <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                        <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
+                        <div className='Palabra_haz'>Haz tu pedido </div>
+                        <div className='FaAngleDown_haz'><FaAngleDown /></div>
+                    </button>
+                    <button className='btns_Consul_Prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                        <div className='FaTruck_cons'><FaTruck /></div>
+                        <div className='Palabra_cons'>Consulta tu pedido</div>
+                        <div className='FaAngleDown_cons'><FaAngleDown /></div>
+                    </button>
+                </div>
 
+                <div className='ContenedorPadreConsul'>
+                    <div className='FiltroConsul'>
+                        <Form style={FilterStyle} noValidate validated={validated} onSubmit={handleSubmit}>
+
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="4" controlId="validationCustom01">
+                                    <Form.Label>Fecha de creación</Form.Label>
+                                    <Form.Control
+                                        type="Date"
+                                        placeholder="Desde"
+                                        value={creationDateFrom}
+                                        onChange={(e) => setcreationDateFrom(e.target.value)}
+                                    />
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={Col} md="3" controlId="validationCustom02">
+                                    <Form.Label>Número de pedido</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="00000"
+                                        value={orderNumber}
+                                        onChange={(e) => setorderNumber(e.target.value)}
+                                    />
+                                </Form.Group>
+                                <Form.Group as={Col} md="3" controlId="validationCustomUsername">
+                                    <Form.Label>Estado</Form.Label>
+                                    <select
+                                        className="form-select"
+                                        value={statusCode}
+                                        onChange={(e) => setstatusCode(e.target.value)}                                        >
+                                        <option value="" disabled>Estado</option>
+                                        {Object.values(ESTADOS).map((estado) => (
+                                            <option key={estado.valor} value={estado.valor}>
+                                                {estado.traduccion}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                                    <Form.Control
+                                        type="Date"
+                                        placeholder="Hasta"
+                                        value={creationDateTo}
+                                        onChange={(e) => setcreationDateTo(e.target.value)}
+                                    />
+                                </Form.Group>
+                                <Form.Group as={Col} md="3" controlId="validationCustom04">
+                                    <Form.Label>Dirección de envío</Form.Label>
+                                    <select
+                                        className="form-select"
+                                        value={selectedDireccion ? selectedDireccion.siteUseId : ''}
+                                        onChange={(e) => {
+                                            const selectedSiteUseId = e.target.value;
+                                            const selectedDireccion = direcciones.find((direccion) => direccion.siteUseId === selectedSiteUseId);
+                                            handleDireccionSelect(selectedDireccion);
+                                        }}
+                                    >
+                                        <option value="" disabled>Selecciona una dirección</option>
+                                        {direcciones.map((direccion) => (
+                                            <option key={direccion.siteUseId} value={direccion.siteUseId}>
+                                                {direccion.address1 + " - " + direccion.city}
+                                            </option>
+                                        ))}
+                                    </select>
+
+                                </Form.Group>
+                                <Form.Group as={Col} md="3" controlId="validationCustom05">
+                                    <Form.Label>Descripción de artículo</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Palabra clave"
+                                        value={itemDescription}
+                                        onChange={(e) => setitemDescription(e.target.value)}
+                                    />
+                                </Form.Group>
+                                <Button style={BtnBuscar} type="submit">Buscar</Button>
+                            </Row>
+
+                        </Form>
                     </div>
 
+                    <div className='Tabla_info_Consul'>
+                        <Table striped bordered hover >
+                            <thead>
+                                <tr>
+                                    <th>Pedido</th>
+                                    <th>Línea</th>
+                                    <th>Artículo</th>
+                                    <th>Cantidad (Unidades)</th>
+                                    <th>Cantidad (M3)</th>
+                                    <th>Fecha Estimada de envío</th>
+                                    <th>Estado</th>
+                                    <th>Fecha de despacho</th>
+                                    <th>Remisión</th>
+                                    <th>Factura</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.flat()
+                                    .filter(order => {
+                                        if (selectedDireccion === null && itemDescription.length === 0 && statusCode != 'RETENIDO_OPEN') {
+                                            return true;
+                                        }
+
+                                        let matchesSelectedDireccion = true;
+                                        let matchesItemDescription = true;
+                                        let matchesStatus = true;
+
+                                        if (selectedDireccion !== null) {
+                                            matchesSelectedDireccion = order.matchesSelectedDireccion = order.address1 === selectedDireccion;
+                                        }
+
+                                        if (itemDescription && typeof itemDescription === 'string') {
+                                            matchesItemDescription = order.matchesItemDescription = order.productDescription.includes(itemDescription);
+                                        }
+
+                                        if (statusCode == "RETENIDO_OPEN") {
+                                            matchesStatus = order.matchesStatus = order.onHoldFlag === true;
+                                        } else if (statusCode == "PROGRAMACION_OPEN") {
+                                            matchesStatus = order.matchesStatus = order.status === "Scheduled" ? "Scheduled, Manual Scheduling Required" : order.status;
+                                        }
+
+
+                                        return matchesItemDescription && matchesSelectedDireccion && matchesStatus;
+
+                                    })
+                                    .map((order) => {
+                                        return (
+                                            <tr key={order.fulfillLineId}>
+                                                <td>{order.sourceTransactionNumber}</td>
+                                                <td>{order.fulfillLineNumber}</td>
+                                                <td>{order.productDescription}</td>
+                                                <td>{order.orderedQuantity}</td>
+                                                <td>{"M3"}</td>
+                                                <td>{order.requestedShipDate}</td>
+                                                <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
+                                                <td>{order.actualShipDate}</td>
+                                                <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
+                                                <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
+                                            </tr>
+                                        );
+                                    })}
+
+                            </tbody>
+                        </Table>
+                    </div>
 
                 </div>
-                <Image className='Img_Creamos_Consul' src={imagenes.Creamos} />
+
+
             </div>
-        </>
+            <Image className='Img_Creamos_Consul' src={imagenes.Creamos} />
+        </div>
+
     );
 };
 

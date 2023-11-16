@@ -280,7 +280,7 @@ const DataIva = ({ backgroundColor }) => {
                 </div>
 
                 <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_iva'>
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>

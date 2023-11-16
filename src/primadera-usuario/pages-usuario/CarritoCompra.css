@@ -221,10 +221,10 @@
     margin-top: 41%;
 }
 
-.tamanio_carro_principal {
-    font-size: 40px;
-    margin-left: 12%;
-    margin-top: 10%;
+.tamanio_carro_principal_carrito {
+    font-size: 35px;
+    margin-left: 4%;
+    margin-top: 12%;
     color: white;
 }
 
@@ -324,10 +324,10 @@
     border: 1px solid #000;
 }
 
-.Info_general {
+.Info_general_carrito {
     background-color: #767373;
     text-align: left;
-    margin-left: 75%;
+    margin-left: 80%;
     width: 220px;
     height: 80px;
     margin-top: 2%;
@@ -338,16 +338,18 @@
 }
 
 
-
-
-.Info_general_2 {
+.Info_general_2_carrito {
     background-color: #767373;
-    margin-left: 40%;
-    margin-top: -29.5%;
-    width: 100px;
+    margin-left: 30%;
+    margin-top: -1%;
+    width: fit-content;
     text-align: center;
     font-size: smaller;
     color: white;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    display: flex;
 }
 
 .ancho_div {
@@ -523,4 +525,10 @@
 
 .decre_incre_carrito2:hover {
     background-color: #D3D3D3;
+}
+
+.ubicar_carro_carrito {
+    margin-left: 1%;
+    margin-top: 0.5%;
+    position: absolute;
 }

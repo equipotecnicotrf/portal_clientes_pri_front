@@ -135,14 +135,20 @@
 
 
 @media (max-width: 510px) {
-
-
-
-
     .boton_cons {
         position: absolute;
 
         top: 680px;
     }
 
+}
+
+@media (max-width: 480px) {
+
+    .boton_conse {
+        margin-left: -110%;
+        margin-top: 10%;
+        position: static;
+
+    }
 }

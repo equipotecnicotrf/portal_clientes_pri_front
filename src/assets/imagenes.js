@@ -14,7 +14,7 @@ import BannerArboles from './BannerArboles.jpg';
 import BannerIndustria from './BannerIndustria.jpg';
 import BannerTroncos from './BannerTroncos.jpg';
 import ReciclajeBlanco from './ReciclajeBlanco.png';
-import wpp from './wpp.svg';
+import wpp from './wpp.png';
 
 /*const imageSlide = [
     {url: 'FLORMORADO-HOME.jpg'

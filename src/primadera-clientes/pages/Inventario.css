@@ -65,3 +65,10 @@
         /* Añade una animación de transición de 0.3 segundos */
     }
 }
+
+@media (max-width: 480px) {
+    .boton_inventario {
+        margin-left: -110%;
+        margin-top: 15%;
+    }
+}

@@ -631,20 +631,20 @@ const DataPedido = () => {
 
                 ) : (
                     <div className='div_gris'>
-                        <button className='Info_general' onClick={() => navigate("/CarritoCompras")}>
+                        <button className='Info_general_haz' onClick={() => navigate("/CarritoCompras")}>
                             <div className='ubicar_carro_haz'>
                                 <FaShoppingCart className='tamanio_carro_principal_haz' />
                             </div>
-                            <div className='Info_general_2'>
+                            <div className='Info_general_2_haz'>
                                 <table className='table-borderless' >
                                     <thead >
                                     </thead>
                                     <tbody  >
                                         <tr style={info_general_items}>
                                             <td style={info_general_items}>
-                                                <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
-                                                <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                                <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
+                                                <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
+                                                <tr style={info_general_items}>{carrito.length} items(s)</tr>
+                                                <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
                                             </td>
                                         </tr>
                                     </tbody>

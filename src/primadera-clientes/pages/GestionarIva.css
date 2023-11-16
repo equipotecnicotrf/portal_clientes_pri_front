@@ -185,3 +185,13 @@
 
     }
 }
+
+@media (max-width: 480px) {
+    .boton_iva {
+
+        margin-left: -110%;
+        margin-top: 19%;
+        position: static;
+
+    }
+}

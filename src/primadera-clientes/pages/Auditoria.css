@@ -228,8 +228,6 @@
 
 }
 
-
-
 @media (min-width: 1200px) {
 
   .Img_gest_usua {
@@ -238,4 +236,14 @@
 
   }
 
+}
+
+@media (max-width: 480px) {
+
+  .boton_1 {
+    margin-left: -108%;
+    margin-top: -10%;
+    position: static;
+    display: block;
+  }
 }

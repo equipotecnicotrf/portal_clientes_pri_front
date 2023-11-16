@@ -388,9 +388,9 @@ const CarritoCompras = () => {
         border: 'none',
         backgroundColor: '#767373', //Arreglo 8 Nov*/}
         color: 'white',
-        fontSize: '12.5px', //Arreglo 8 Nov*/}
+        fontSize: '12px', //Arreglo 8 Nov*/}
         fontFamily: 'Medium',
-        width: '130px'
+        width: 'fit-content'
     };
 
     const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -408,8 +408,11 @@ const CarritoCompras = () => {
 
                 ) : (
                     <div className='div_gris'>
-                        <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
-                            <div className='Info_general_2' style={info_general_items}>
+                        <button className='Info_general_carrito' onClick={() => navigate("/CarritoCompras")}>
+                            <div className='ubicar_carro_carrito'>
+                                <FaShoppingCart className='tamanio_carro_principal_carrito' />
+                            </div>
+                            <div className='Info_general_2_carrito'>
 
                                 <table className='table-borderless' >
                                     <thead >
@@ -418,9 +421,9 @@ const CarritoCompras = () => {
                                     <tbody >
                                         <tr style={info_general_items}>
                                             <td style={info_general_items}>
-                                                <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
-                                                <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                                <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
+                                                <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
+                                                <tr style={info_general_items}>{carrito.length} items(s)</tr>
+                                                <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
                                             </td>
                                         </tr>
                                     </tbody>

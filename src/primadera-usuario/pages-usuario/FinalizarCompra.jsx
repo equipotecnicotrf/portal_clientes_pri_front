@@ -324,7 +324,7 @@ const FinalizarCompra = () => {
                                 .then((deletelineresponse) => {
                                     // Todas las líneas se eliminaron con éxito
                                     console.log(deletelineresponse.data)
-
+                                    setShow2(false);
                                     setShow(true);
                                 })
                                 .catch((error) => {
@@ -379,9 +379,9 @@ const FinalizarCompra = () => {
         border: 'none',
         backgroundColor: '#767373', //Arreglo 8 Nov*/}
         color: 'white',
-        fontSize: '12.5px', //Arreglo 8 Nov*/}
+        fontSize: '12px', //Arreglo 8 Nov*/}
         fontFamily: 'Medium',
-        width: '130px'
+        width: 'fit-content'
     };
 
     const bannerStyle_compra = {
@@ -399,6 +399,10 @@ const FinalizarCompra = () => {
 
     };
 
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+
 
     const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
     const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -414,17 +418,20 @@ const FinalizarCompra = () => {
 
             ) : (
                 <div className='div_gris'>
-                    <button className='Info_general_compra' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamano_carro_principal_compra' />
-                        <div className='Info_general_compra_2' style={info_general_items}>
+                    <button className='Info_general_compra' onClick={() => navigate("/CarritoCompras")}>
+                        <div className='ubicar_carro_finalizar'>
+                            <FaShoppingCart className='tamanio_carro_principal_finalizar' />
+                        </div>
+                        <div className='Info_general_compra_2' >
                             <table className='table-borderless' >
                                 <thead >
                                 </thead>
                                 <tbody >
                                     <tr style={info_general_items}>
                                         <td style={info_general_items}>
-                                            <tr style={info_general_items}><strong>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</strong></tr>
-                                            <tr style={info_general_items}><strong>{carrito.length} items(s)</strong></tr>
-                                            <tr style={info_general_items}><strong>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </strong></tr>
+                                            <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
+                                            <tr style={info_general_items}>{carrito.length} items(s)</tr>
+                                            <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -573,14 +580,26 @@ const FinalizarCompra = () => {
                                 </table>
                             </div>
                             <div className='centrar_boton_confirmar'>
-                                <Button type='submit' className='btns_carrito_conf_compra' style={{ fontFamily: 'Medium', fontSize: '12px' }} >Confirmar orden   </Button>
+                                <Button type='submit' className='btns_carrito_conf_compra' onClick={handleShow2} style={{ fontFamily: 'Medium', fontSize: '12px' }} >Confirmar orden   </Button>
                             </div>
                         </div>
 
 
 
-                        <Modal show={show} onHide={handleClose} centered className='ancho_modal_finalizar' >
-                            <Modal.Header closeButton></Modal.Header>
+                        <Modal centered size="s" show={show2} onHide={handleClose2}>
+                            <Modal.Header className='quitar_borde_modal_finalizar' >
+                            </Modal.Header>
+                            <Modal.Body className='centrar_texto_finalizar'>
+                                <h5 className='Color_texto_finalizar'><strong>Estamos procesando su solicitud...</strong></h5>
+                            </Modal.Body>
+                            <Modal.Footer className='quitar_borde_modal_finalizar'>
+                            </Modal.Footer>
+                        </Modal>
+
+
+
+                        <Modal show={show} onHide={handleClose} centered className='ancho_modal_finalizar'>
+                            <Modal.Header closeButton className='modal_cabecera_principal'></Modal.Header>
                             <Modal.Body className='modal_principal_finalizar' >
                                 <div className='modal-frase-finalizar'>
                                     <FaTruck className='centrar_carrito_finalizar' />

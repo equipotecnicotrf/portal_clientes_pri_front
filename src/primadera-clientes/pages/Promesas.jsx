@@ -241,7 +241,7 @@ const Promesas = ({ backgroundColor }) => {
                     </table>
                 </div>
                 <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_prome'>
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>

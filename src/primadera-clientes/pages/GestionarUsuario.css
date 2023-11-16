@@ -352,6 +352,12 @@
     margin-left: 70%;
 }
 
+@media (max-width: 480px) {
+    .boton_usario {
+        margin-left: -110%;
+    }
+}
+
 
 
 /*33-10-2023 adiciones fin*/

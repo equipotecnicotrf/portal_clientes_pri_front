@@ -89,4 +89,11 @@
     margin-left: 70%;
 }
 
+@media (max-width: 480px) {
+    .boton_noti {
+        margin-left: -110%;
+        margin-top: 8%;
+    }
+}
+
 /*30-10-2023 adiciones fin*/

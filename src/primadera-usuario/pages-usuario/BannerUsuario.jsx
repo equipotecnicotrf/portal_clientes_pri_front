@@ -81,8 +81,8 @@ const BannerUser = ({ backgroundColor }) => {
 
         },
         icon: {
-            width: '140px',
-            height: '65px',
+            width: '50px',
+            height: '55px',
             borderRadius: '40px 0 0 40px',
 
             cursor: 'pointer',
@@ -96,7 +96,7 @@ const BannerUser = ({ backgroundColor }) => {
 
             <div className='Back'>
                 <Carousel >
-                    <Carousel.Item style={bannerStyle}>
+                    <Carousel.Item className="Carrusel" style={bannerStyle}>
                         <img
                             className="img1_img-fluid"
                             src={imagenes.BannerSenior}
@@ -133,7 +133,7 @@ const BannerUser = ({ backgroundColor }) => {
                 </a>
             </div>
 
-            <div >
+            <div className="div_close">
                 <button style={btnCrrSesion} onClick={((e) => logout(e))}>Cerrar Sesión</button>
                 <img className="Img_Recicla" style={logoStyle} src={imagenes.ReciclajeBlanco} />
             </div>

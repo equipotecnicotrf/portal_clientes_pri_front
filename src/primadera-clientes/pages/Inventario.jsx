@@ -152,7 +152,7 @@ const DataTable = ({ backgroundColor }) => {
                 </div>
 
                 <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_inventario'>
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>

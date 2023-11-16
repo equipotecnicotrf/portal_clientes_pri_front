@@ -179,7 +179,7 @@
     color: white;
 }
 
-.Info_general {
+.Info_general_haz {
     background-color: #767373;
     text-align: left;
     margin-left: 80%;
@@ -203,7 +203,7 @@
 }
 
 
-.Info_general_2 {
+.Info_general_2_haz {
     background-color: #767373;
     margin-left: 30%;
     margin-top: -1%;
