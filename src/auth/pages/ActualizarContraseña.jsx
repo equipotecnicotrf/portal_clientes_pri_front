@@ -56,31 +56,31 @@ const ActualizarPassword = () => {
   };
 
   const handleUpdatePassword = () => {
-    UserService.getUserById(userId).then(responseUser => {
-      if (responseUser.data.cp_Password === btoa(password.CP_Password) && btoa(confirmPassword)) {
-        alert("La nueva contraseña que ingresado es la misma que la contraseña actual. Por favor, elegir una contraseña diferente.");
-      }
-
-    }).catch(error => {
-      console.log(error);
-      alert("Usuario no existe");
-    });
-
     if (password.CP_Password && confirmPassword && password.CP_Password === confirmPassword) {
       if (password.CP_Password.length >= 8) {
-        UserService.updatePassword(userId, password.CP_Password).then((response) => {
-          if (response.data === "El usuario con este ID no existe : ") {
-            alert("No se encontró el usuario");
+
+        UserService.getUserById(userId).then(responseUser => {
+          if (responseUser.data.cp_Password === btoa(password.CP_Password)) {
+            alert("La nueva contraseña que ingresado es la misma que la contraseña actual. Por favor, elegir una contraseña diferente.");
           } else {
-            alert("¡Actualización exitosa!");
-            navigate('/login');
-            window.location.reload();
+            UserService.updatePassword(userId, password.CP_Password).then((response) => {
+              if (response.data === "El usuario con este ID no existe : ") {
+                alert("No se encontró el usuario");
+              } else {
+                alert("¡Actualización exitosa!");
+                navigate('/login');
+                window.location.reload();
+              }
+              console.log('Contraseña actualizada correctamente');
+              navigate('/login');
+              window.location.reload();
+            }).catch((error) => {
+              console.error('Error al actualizar la contraseña', error);
+            });
           }
-          console.log('Contraseña actualizada correctamente');
-          navigate('/login');
-          window.location.reload();
-        }).catch((error) => {
-          console.error('Error al actualizar la contraseña', error);
+        }).catch(error => {
+          console.log(error);
+          alert("Usuario no existe");
         });
       } else {
         alert('La contraseña debe tener al menos 8 caracteres.');

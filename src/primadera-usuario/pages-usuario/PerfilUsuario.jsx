@@ -133,6 +133,11 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
 
     };
 
+    const color_flechas = {
+        fontSize: '20px',
+        color: '#909090',
+    };
+
 
     return (
         <>
@@ -257,13 +262,17 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                     <div className='Buttons_perfil2 mt-12'>
                         <Row>
                             <Col><button className='btns_perfil2 p-2 m-2 btn-sm' onClick={toggleOverlay}><td ><th style={{ fontFamily: 'Bold' }} className='ubicar_direcciones'>Direcciones </th> {direcciones.length + " "}direcciones agregadas </td> {/*15-11-2023*/}
-                                <td className='ubicar_flecha_btn' >< FaAngleRight className='tamanio_flecha' /></td>{/*15-11-2023*/}
+                                <td style={color_flechas} className='ubicar_flecha_btn'>  &#5171;</td>{
+                                    /*15-11-2023*/
+                                }
                             </button>
                             </Col>
                         </Row>
                         <Row>
                             <Col><button className='btns_perfil2 p-2 m-2 btn-sm' style={{ fontFamily: 'Bold' }} onClick={toggleOverlay2}><th className='ubicar_servicio_ayuda'>Servicio de ayuda</th> {/*15-11-2023*/}
-                                <td className='ubicar_flecha_btn_2' ><FaAngleRight className='tamanio_flecha' /></td>
+                                <td style={color_flechas} className='ubicar_flecha_btn_2'>  &#5171;</td>{
+                                    /*15-11-2023*/
+                                }
                             </button></Col> {/*15-11-2023*/}
                         </Row>
                     </div>

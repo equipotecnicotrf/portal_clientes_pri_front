@@ -110,7 +110,7 @@ const DataInventario = () => {
         color: 'white',
         fontSize: '12.5px', //Arreglo 8 Nov*/}
         fontFamily: 'Medium',
-        width: '130px'
+        width: 'fit-content'
     };
 
     // Define un estado para los contadores de cada artículo
@@ -574,20 +574,21 @@ const DataInventario = () => {
     };
 
     const StyleUpArrows = {
-        fontSize: '15px',
+        fontSize: '11px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         transform: 'translate(77px, -21px)',
+        color: '#909090',
     };
 
     const StyleDownArrows = {
-        fontSize: '10px',
-
+        fontSize: '11px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         transform: 'translate(77px, -21px)',
+        color: '#909090',
     };
 
     const CategoriasStyle = {
@@ -650,8 +651,11 @@ const DataInventario = () => {
 
                 ) : (
                     <div className='div_gris'>
-                        <button className='Info_general' onClick={() => navigate("/CarritoCompras")}><FaShoppingCart className='tamanio_carro_principal' />
-                            <div className='Info_general_2' style={info_general_items}>
+                        <button className='Info_general_inv' onClick={() => navigate("/CarritoCompras")}>
+                            <div className='ubicar_carro_inv'>
+                                <FaShoppingCart className='tamanio_carro_principal_inv' />
+                            </div>
+                            <div className='Info_general_2_inv'>
                                 <table className='table-borderless' >
                                     <thead >
                                     </thead>
@@ -722,9 +726,9 @@ const DataInventario = () => {
                                                 {category}
                                                 <strong>
                                                     {expandedSections.includes(category) ? (
-                                                        <span style={StyleUpArrows}>&#94;</span>
+                                                        <span style={StyleUpArrows}>&#5167;</span>
                                                     ) : (
-                                                        <span style={StyleDownArrows}>&#5167;</span>
+                                                        <span style={StyleDownArrows}>&#5169;</span>
                                                     )}
                                                 </strong>
                                                 {/*Arreglo 8 Nov*/}  <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '160px' }} />
@@ -736,9 +740,9 @@ const DataInventario = () => {
                                                     {category}
                                                     <strong>
                                                         {expandedSections.includes(category) ? (
-                                                            <span style={StyleUpArrows}>&#94;</span>
+                                                            <span style={StyleUpArrows}>&#5167;</span>
                                                         ) : (
-                                                            <span style={StyleDownArrows}>&#5167;</span>
+                                                            <span style={StyleDownArrows}>&#5169;</span>
                                                         )}
                                                     </strong>
                                                     {/*Arreglo 8 Nov*/}     <hr style={{ border: 'none', borderTop: '1px solid black', marginTop: '-10px', width: '160px' }} />
@@ -933,7 +937,7 @@ const DataInventario = () => {
                                                         <table>
                                                             <tr>
                                                                 <td className="precio-label" style={{ fontFamily: 'Medium', fontSize: '12px' }}>Precio:</td>
-                                                                <td className="precio-valor" style={{ fontFamily: 'Medium', fontSize: '16px' }}>${articulo[2].unit_price.toLocaleString(undefined, opciones) + " " + articulo[2].currency_code}</td>
+                                                                <td className="precio-valor" style={{ fontFamily: 'Medium', fontSize: '15px' }}>${articulo[2].unit_price.toLocaleString(undefined, opciones) + " " + articulo[2].currency_code}</td>
                                                             </tr>
                                                         </table>
                                                     </strong>
