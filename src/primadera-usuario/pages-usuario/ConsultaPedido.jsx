@@ -283,7 +283,7 @@ const ConsultaPedido = () => {
                 alert("Por favor indicar fecha de creación desde")
             } else if (creationDateTo.length === 0) {
                 alert("Por favor indicar fecha de creación hasta")
-            } else if (statusCode.length === 0) {
+            } else if (statusCode === null) {
                 alert("Por favor indicar estado")
             } else {
                 const mappedStatusCode = mapStatusCode(statusCode);
@@ -534,7 +534,7 @@ const ConsultaPedido = () => {
                             <tbody>
                                 {orders.flat()
                                     .filter(order => {
-                                        if (selectedDireccion === null && itemDescription.length === 0 && statusCode != 'RETENIDO_OPEN') {
+                                        if (selectedDireccion === null && itemDescription.length === 0 && statusCode === null) {
                                             return true;
                                         }
 
@@ -553,7 +553,15 @@ const ConsultaPedido = () => {
                                         if (statusCode == "RETENIDO_OPEN") {
                                             matchesStatus = order.matchesStatus = order.onHoldFlag === true;
                                         } else if (statusCode == "PROGRAMACION_OPEN") {
-                                            matchesStatus = order.matchesStatus = order.status === "Scheduled" ? "Scheduled, Manual Scheduling Required" : order.status;
+                                            matchesStatus = order.matchesStatus = order.status === "Scheduled";
+                                        } else if (statusCode == "CONSOLIDACION_OPEN") {
+                                            matchesStatus = order.matchesStatus = order.status === "Awaiting Shipping";
+                                        } else if (statusCode == "DESPACHADO_FACTURADO_CLOSED") {
+                                            matchesStatus = order.matchesStatus = order.status === "Awaiting Billing";
+                                        } else if (statusCode == "CERRADO_CLOSED") {
+                                            matchesStatus = order.matchesStatus = order.status === "Closed";
+                                        } else if (statusCode == "CANCELED") {
+                                            matchesStatus = order.matchesStatus = order.status === "Canceled";
                                         }
 
 
