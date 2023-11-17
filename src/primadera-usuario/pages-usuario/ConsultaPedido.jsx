@@ -77,7 +77,7 @@ const ConsultaPedido = () => {
                     const creationDateFromFormateada = yearCreationDateFrom + "-" + monthcreationDateFrom + "-" + daycreationDateFrom;
 
                     carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
-                    consultaPedidoInicial(responseid.data.party_id, transactionTypeCode, "OPEN", creationDateFromFormateada, creationDateToFormateada);
+                    consultaPedidoInicial(responseid.data.party_id, transactionTypeCode, creationDateFromFormateada, creationDateToFormateada);
 
 
                 });
@@ -94,9 +94,10 @@ const ConsultaPedido = () => {
         }
     }
 
-    const consultaPedidoInicial = (buyingPartyId, transactionTypeCode, statusCode, creationDateFrom, creationDateTo) => {
-        ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, statusCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
+    const consultaPedidoInicial = (buyingPartyId, transactionTypeCode, creationDateFrom, creationDateTo) => {
+        ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
             setorders(consultorderresponse.data);
+            setstatusCode("OPEN")
             console.log(consultorderresponse.data);
         }).catch(error => {
             console.log(error);
@@ -206,6 +207,10 @@ const ConsultaPedido = () => {
     };
 
     const ESTADOS = {
+        INICIAL: {
+            valor: "INICIAL",
+            traduccion: "Todos"
+        },
         RETENIDO: {
             valor: "RETENIDO_OPEN",
             traduccion: "Retenido"
@@ -263,7 +268,6 @@ const ConsultaPedido = () => {
         orderNumber;
         const buyingPartyId = PartyId;
         const transactionTypeCode = typeOrder.cp_type_order_description;
-        //statusCode;
         creationDateFrom;
         creationDateTo;
         itemDescription;
@@ -286,9 +290,8 @@ const ConsultaPedido = () => {
             } else if (statusCode === null) {
                 alert("Por favor indicar estado")
             } else {
-                const mappedStatusCode = mapStatusCode(statusCode);
 
-                ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, mappedStatusCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
+                ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
                     setorders(consultorderresponse.data);
                     console.log(consultorderresponse.data);
                 }).catch(error => {
@@ -300,21 +303,6 @@ const ConsultaPedido = () => {
 
         }
 
-    }
-
-    //Homologar la seleccion de estado para que tome OPEN o CLOSED
-    const mapStatusCode = (statusCode) => {
-        switch (statusCode) {
-            case "RETENIDO_OPEN":
-            case "PROGRAMACION_OPEN":
-            case "CONSOLIDACION_OPEN":
-                return "OPEN";
-            case "DESPACHADO_FACTURADO_CLOSED":
-            case "CERRADO_CLOSED":
-                return "CLOSED"
-            default:
-                return statusCode;
-        }
     }
 
     const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -354,7 +342,7 @@ const ConsultaPedido = () => {
     }
 
     const BtnBuscar = {
-        width: 'fit-content',
+        width: '150px',
         height: 'fit-content',
         marginRight: 'auto',
         marginLeft: 'auto',
@@ -534,7 +522,7 @@ const ConsultaPedido = () => {
                             <tbody>
                                 {orders.flat()
                                     .filter(order => {
-                                        if (selectedDireccion === null && itemDescription.length === 0 && statusCode === null) {
+                                        if (selectedDireccion === null && itemDescription.length === 0 && statusCode === null || statusCode === "INICIAL") {
                                             return true;
                                         }
 
@@ -553,7 +541,7 @@ const ConsultaPedido = () => {
                                         if (statusCode == "RETENIDO_OPEN") {
                                             matchesStatus = order.matchesStatus = order.onHoldFlag === true;
                                         } else if (statusCode == "PROGRAMACION_OPEN") {
-                                            matchesStatus = order.matchesStatus = order.status === "Scheduled";
+                                            matchesStatus = order.matchesStatus = order.status === "Scheduled" || order.status === "Manual Scheduling Required";
                                         } else if (statusCode == "CONSOLIDACION_OPEN") {
                                             matchesStatus = order.matchesStatus = order.status === "Awaiting Shipping";
                                         } else if (statusCode == "DESPACHADO_FACTURADO_CLOSED") {
@@ -562,6 +550,8 @@ const ConsultaPedido = () => {
                                             matchesStatus = order.matchesStatus = order.status === "Closed";
                                         } else if (statusCode == "CANCELED") {
                                             matchesStatus = order.matchesStatus = order.status === "Canceled";
+                                        } else if (statusCode == "OPEN") {
+                                            matchesStatus = order.matchesStatus = order.status === "Scheduled" || order.status === "Manual Scheduling Required" || order.status === "Awaiting Shipping";
                                         }
 
 

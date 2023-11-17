@@ -345,6 +345,7 @@ const FinalizarCompra = () => {
                 });
             }).catch(error => {
                 console.log(error);
+                setShow2(false);
                 alert("Error al Crear pedido en el ERP")
             })
         }

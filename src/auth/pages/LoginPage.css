@@ -4,7 +4,6 @@
     background-size: cover;
     background-position: center;
     height: 100vh;
-
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -13,7 +12,7 @@
 
 .Login-head {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 30px;
     width: 482px;
     height: 482px;
     margin: auto;
@@ -25,8 +24,7 @@
     width: 194.49px;
     height: 50.74px;
     border-radius: 30px;
-    margin-top: 22px;
-    border: none;
+    margin-top: 10px;
 }
 
 .Login-content {
@@ -60,7 +58,116 @@
 
 /*AJUSTE LCPG 10-10*/
 
-.Login-btn:hover {
-    background-color: #D3D3D3;
+/*AJUSTE LCPG 2-11*/
 
+/* VISTA CELULAR */
+
+@media screen and (max-width: 479px) {
+    .Login-head {
+        margin-top: auto;
+        margin-left: 2%;
+        width: auto;
+        transform: scale(0.9);
+    }
+
+    .logo-rojo {
+        margin-top: 15px;
+    }
+
+}
+
+@media screen and (min-width: 480px) and (max-width: 574px) {
+    .Login-head {
+        margin-top: auto;
+        margin-left: 1.5%;
+    }
+
+    .logo-rojo {
+        margin-top: 15px;
+    }
+
+}
+
+/* CELULAR O PANTALLA REDUCIDA */
+@media screen and (min-width: 575px) and (max-width: 605px) {
+    .Login-head {
+        margin-top: auto;
+        margin-left: 10%;
+    }
+}
+
+/* CONFIGURACION CUANDO LOS BOTONES DE ARRIBA SE MUEVEN */
+@media screen and (min-width: 606px) and (max-width: 627px) {
+    .Login-head {
+        margin-top: auto;
+        margin-left: 14%;
+    }
+}
+
+/* CONFIGURACION CUANDO LOS BOTONES DE ARRIBA SE MUEVEN */
+@media screen and (min-width: 628px) and (max-width: 767px) {
+    .Login-head {
+        margin-top: auto;
+        margin-left: 16%;
+    }
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .Login-head {
+        margin-top: auto;
+        margin-left: 20%;
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    .Login-head {
+        margin-top: auto;
+        margin-left: -4%;
+        width: auto;
+        transform: scale(0.7) translateY(0%);
+
+    }
+
+    .logo-rojo {
+        margin-top: 15px;
+    }
+
+}
+
+@media (orientation: landscape) and (max-width: 750px) {
+    .Login-head {
+        margin-top: auto;
+        margin-left: 25%;
+        width: auto;
+        transform: scale(0.9);
+    }
+
+    .logo-rojo {
+        margin-top: 15px;
+        transform: scale(0.8);
+    }
+
+    .Login-content {
+        transform: scale(0.9);
+    }
+}
+
+@media (orientation: landscape) and (max-width: 950px) {
+    .Login-head {
+        margin-top: auto;
+        margin-left: 30%;
+        width: auto;
+        transform: scale(0.9);
+    }
+
+    .logo-rojo {
+        margin-top: 15px;
+        transform: scale(0.8);
+    }
+
+    .Login-content {
+        transform: scale(0.9);
+    }
 }

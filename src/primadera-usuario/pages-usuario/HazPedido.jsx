@@ -597,8 +597,7 @@ const DataPedido = () => {
     };
 
     const PediDatosUser = {
-        padding: '60px',
-        height: '27vh',
+
         marginTop: '-40px'
     };
 
@@ -654,23 +653,23 @@ const DataPedido = () => {
                     </div>
                 )}
                 <div className='FondoBlanco_Pedi'>
-                    <div className='Buttons_perfil mt-12 d-flex align-items-center'>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
+                    <div className='Buttons_Haz mt-12 d-flex align-items-center'>
+                        <button className='btns_Haz p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
                             <div className='FaUser_perfil'><FaUser /></div>
                             <div className='Palabra_perfil'>Perfil </div>
                             <div className='FaAngleDown_perfil '><FaAngleDown /></div>
                         </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                        <button className='btns_Haz p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
                             <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
                             <div className='Palabra_inv'>Inventario disponible</div>
                             <div className='FaAngleDown_inv'><FaAngleDown /></div>
                         </button>
-                        <button className='btns_Haz_Prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                        <button className='btns_Haz_prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
                             <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
                             <div className='Palabra_haz'>Haz tu pedido </div>
                             <div className='FaAngleDown_haz'><FaAngleDown /></div>
                         </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                        <button className='btns_Haz p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
                             <div className='FaTruck_cons'><FaTruck /></div>
                             <div className='Palabra_cons'>Consulta tu pedido</div>
                             <div className='FaAngleDown_cons'><FaAngleDown /></div>

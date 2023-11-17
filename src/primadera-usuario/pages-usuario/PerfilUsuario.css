@@ -258,10 +258,29 @@
 
 }
 
-/* CELULAR O PANTALLA REDUCIDA */
+/*  PANTALLA REDUCIDA */
 
-@media screen and (max-width: 569px) {
+@media screen and (max-width: 539px) {
 
+    .ubicar_servicio_ayuda {
+        font-size: 30px;
+        font-family: Ligera;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ubicar_direcciones {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        font-family: Ligera !important;
+    }
+
+    .Dir_agre {
+        display: none;
+    }
 
     .CuadroInfo_dir,
     .CuadroInfo_ayuda {
@@ -288,16 +307,44 @@
     }
 
     .Img-Creamos_perfil {
-        margin-top: 40%;
+        margin-top: -10%;
+    }
+}
+
+@media screen and (max-width: 569px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        margin: -24%;
+        margin-left: -16%;
+        margin-top: 1%;
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.6) translateY(-30%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.6) translateY(-30%);
+        margin-top: 0;
+        position: absolute;
+        left: -50%;
+    }
+
+    .Buttons_perfil2 {
+        position: absolute;
+        left: 25%;
+        transform: scale(0.4) translateX(-94%) translateY(460%);
+        display: flex;
+    }
+
+    .Img-Creamos_perfil {
+        margin-top: -10%;
     }
 }
 
 /* CELULAR O PANTALLA REDUCIDA */
 @media screen and (min-width: 570px) and (max-width: 595px) {
 
-    .Buttons_perfil {
-        flex-direction: column;
-    }
 
     .Img-Creamos_perfil {
         margin-top: 15%;
@@ -317,7 +364,7 @@
     .CuadroInfo_ayuda {
         margin: -24%;
         margin-left: 36%;
-        margin-top: -95.3%;
+        margin-top: -95%;
         position: absolute;
         overflow: auto;
         justify-content: center;
@@ -334,9 +381,6 @@
 /* CONFIGURACION CUANDO LOS BOTONES DE ARRIBA SE MUEVEN */
 @media screen and (min-width: 596px) and (max-width: 627px) {
 
-    .Buttons_perfil {
-        flex-direction: column;
-    }
 
     .Img-Creamos_perfil {
         margin-top: 15%;
@@ -356,7 +400,7 @@
     .CuadroInfo_ayuda {
         margin: -24%;
         margin-left: 36%;
-        margin-top: -89.6%;
+        margin-top: -92.5%;
         position: absolute;
         overflow: auto;
         justify-content: center;
@@ -374,9 +418,6 @@
 /* a */
 @media screen and (min-width: 628px) and (max-width: 658px) {
 
-    .Buttons_perfil {
-        flex-direction: column;
-    }
 
     .Img-Creamos_perfil {
         margin-top: 15%;
@@ -413,10 +454,6 @@
 /* CONFIGURACION CUANDO LOS BOTONES DE ARRIBA SE MUEVEN */
 @media screen and (min-width: 659px) and (max-width: 695px) {
 
-    .Buttons_perfil {
-        flex-direction: column;
-    }
-
     .Img-Creamos_perfil {
         margin-top: 15%;
         z-index: 5;
@@ -452,10 +489,6 @@
 /* CONFIGURACION CUANDO LOS BOTONES DE ARRIBA SE MUEVEN */
 @media screen and (min-width: 696px) and (max-width: 729px) {
 
-    .Buttons_perfil {
-        flex-direction: column;
-    }
-
     .Img-Creamos_perfil {
         margin-top: 15%;
         z-index: 5;
@@ -490,11 +523,6 @@
 
 /* CONFIGURACION CUANDO LOS BOTONES DE ARRIBA SE MUEVEN */
 @media screen and (min-width: 730px) and (max-width: 767px) {
-
-    .Buttons_perfil {
-        flex-direction: column;
-    }
-
 
     .Img-Creamos_perfil {
         margin-top: 15%;
@@ -1169,7 +1197,7 @@
 .ubicar_flecha_btn {
     width: fit-content;
     margin-left: 92%;
-    margin-top: -35px;
+    margin-top: -40px;
     display: flex;
 }
 
@@ -1184,7 +1212,7 @@
 .ubicar_direcciones {
     width: fit-content;
     margin-left: 0%;
-    margin-top: -8%;
+    margin-top: -4%;
     display: flex;
 }
 
@@ -1229,5 +1257,260 @@
     .Palabra_cons {
         display: block;
         margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+
+    .FaUser_perfil,
+    .FaSearchMinus_inv,
+    .FaShoppingCart_haz,
+    .FaTruck_cons {
+        margin-left: 0%;
+    }
+
+    .btns_perfil,
+    .btns_perfil_prin {
+        border-radius: 30%;
+    }
+
+    .Buttons_perfil {
+        transform: translateY(150%);
+        position: relative;
+        z-index: 3;
+    }
+
+    .perfil {
+        transform: scale(0.8) translateX(-10%) translateY(-90%);
+    }
+
+    .ubicar_servicio_ayuda {
+        font-size: 14px;
+        font-family: Ligera;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ubicar_direcciones {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-family: Ligera !important;
+    }
+
+    .Dir_agre {
+        display: none;
+    }
+
+    .Buttons_perfil2 {
+        position: absolute;
+        left: 25%;
+        transform: scale(0.3) translateX(-133%) translateY(530%);
+        display: flex;
+    }
+
+    .Img-Creamos_perfil {
+        transform: scale(0.6);
+        margin-top: 0%;
+        z-index: 6;
+    }
+
+    .ubicar_direcciones {
+        transform: scale(2.5) translateX(50%);
+    }
+
+    .ubicar_servicio_ayuda {
+        transform: scale(2.5) translateX(35%);
+    }
+
+
+    .FondoBlanco {
+        max-height: 550px;
+    }
+}
+
+@media screen and (min-width: 360px) and (max-width: 369px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.45) translateY(-50%) translateX(-33%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.45) translateY(-50%) translateX(-33%);
+        margin-top: 0;
+        position: absolute;
+        overflow-x: auto;
+    }
+}
+
+@media screen and (min-width: 370px) and (max-width: 390px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        margin: -24%;
+        margin-left: -41%;
+        margin-top: 1%;
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.45) translateY(-50%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.45) translateY(-50%);
+        margin-top: 0;
+        position: absolute;
+        left: -73%;
+        overflow-x: auto;
+    }
+
+
+}
+
+@media screen and (min-width: 391px) and (max-width: 405px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.45) translateY(-50%) translateX(-26%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.45) translateY(-50%) translateX(-24%);
+        margin-top: 0;
+        position: absolute;
+        overflow-x: auto;
+    }
+}
+
+@media screen and (min-width: 406px) and (max-width: 430px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.45) translateY(-45%) translateX(-20%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.45) translateY(-46%) translateX(-20%);
+        margin-top: 0;
+        position: absolute;
+        overflow-x: auto;
+    }
+
+    .Buttons_perfil2 {
+        position: absolute;
+        left: 25%;
+        transform: scale(0.3) translateX(-127%) translateY(530%);
+        display: flex;
+    }
+}
+
+@media screen and (min-width: 431px) and (max-width: 460px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.45) translateY(-45%) translateX(-15%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.45) translateY(-45%) translateX(-15%);
+        margin-top: 0;
+        position: absolute;
+        overflow-x: auto;
+    }
+}
+
+@media screen and (min-width: 461px) and (max-width: 480px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.45) translateY(-43%) translateX(-9%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.45) translateY(-43%) translateX(-9%);
+        margin-top: 0;
+        position: absolute;
+        overflow-x: auto;
+
+    }
+
+    .FaUser_perfil,
+    .FaSearchMinus_inv,
+    .FaShoppingCart_haz,
+    .FaTruck_cons {
+        margin-left: 0%;
+    }
+
+    .btns_perfil,
+    .btns_perfil_prin {
+        border-radius: 30%;
+    }
+
+    .Buttons_perfil {
+        transform: translateY(150%);
+        position: relative;
+        z-index: 3;
+    }
+
+    .perfil {
+        transform: scale(0.8) translateX(-10%) translateY(-90%);
+    }
+
+    .ubicar_servicio_ayuda {
+        font-size: 14px;
+        font-family: Ligera;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ubicar_direcciones {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-family: Ligera !important;
+    }
+
+    .Dir_agre {
+        display: none;
+    }
+
+    .Buttons_perfil2 {
+        position: absolute;
+        left: 25%;
+        transform: scale(0.3) translateX(-125%) translateY(530%);
+        display: flex;
+    }
+
+    .Img-Creamos_perfil {
+        transform: scale(0.6);
+        margin-top: 0%;
+        z-index: 6;
+    }
+
+    .ubicar_direcciones {
+        transform: scale(2.5) translateX(50%);
+    }
+
+    .ubicar_servicio_ayuda {
+        transform: scale(2.5) translateX(35%);
+    }
+
+
+    .FondoBlanco {
+        max-height: 550px;
     }
 }

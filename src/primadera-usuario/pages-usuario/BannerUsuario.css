@@ -11,14 +11,14 @@
 @media screen and (max-width: 768px) {
     .div_close {
         position: absolute;
-        transform: scale(0.7);
+        transform: scale(0.5);
         top: 0%;
         margin-left: 100%;
         z-index: 2;
     }
 
     .Carrusel {
-        height: 100px;
+        height: 100px !important;
     }
 
 }

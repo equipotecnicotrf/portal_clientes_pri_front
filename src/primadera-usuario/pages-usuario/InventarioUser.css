@@ -1,5 +1,6 @@
 .FondoBlanco_inv {
     background-color: white;
+    ;
     margin: 40px;
     top: 30%;
     height: 755px;
@@ -9,6 +10,38 @@
 .Img_DatosInv {
     height: 91px;
     width: 91px;
+}
+
+.btns_Inv {
+    box-shadow: 2px;
+    background-color: #BFBFBF;
+    color: white;
+    position: auto;
+    font-size: medium;
+    width: 190px;
+    height: 50px;
+    border: none;
+    border-width: 0.5px;
+}
+
+.btns_Inv_prin {
+    box-shadow: 2px;
+    background-color: #898989;
+    color: white;
+    position: auto;
+    font-size: medium;
+    width: 190px;
+    height: 50px;
+    border: none;
+    border-width: 0.5px;
+}
+
+.Buttons_Inv {
+    margin-top: -2.5%;
+    z-index: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -50,7 +83,6 @@
 
 .Buttons_Inventario {
     margin-top: -2.5%;
-
     z-index: auto;
     display: flex;
     align-items: center;
@@ -179,7 +211,7 @@
     height: 100px;
     margin: auto;
     display: block;
-    margin-top: 40px;
+
 }
 
 .organiza_uni_paq_Inv {
@@ -296,94 +328,6 @@ td {
     vertical-align: middle;
 }
 
-/* VISTA CELULAR */
-@media (max-width: 480px) {
-    .Filtro {
-        transform: scale(0.6) translateX(-10%);
-    }
-}
-
-@media (max-width: 480px) {
-    .Inv_perfil {
-        margin-left: -20%;
-
-    }
-}
-
-@media (max-width: 480px) {
-    .perfil_inv {
-        margin-left: -18%;
-        transform: scale(0.9) translateX(0%);
-    }
-}
-
-@media (max-width: 480px) {
-    .ContenedorPadre {
-        width: auto;
-
-
-    }
-}
-
-@media (max-width: 480px) {
-    .Buttons_Inventario {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 480px) {
-    .organiza_articulos_Inv {
-        margin-left: 30%;
-        transform: scale(0.7) translateX(-10%);
-        width: 90%;
-
-    }
-}
-
-
-
-
-/* CELULAR O PANTALLA REDUCIDA */
-@media (min-width: 480px) and (max-width: 767px) {
-    .ContenedorPadre {
-        margin-top: 10%;
-    }
-}
-
-@media (min-width: 480px) and (max-width: 767px) {
-    .organiza_articulos_Inv {
-        margin-left: 40%;
-    }
-}
-
-@media (min-width: 481px) and (max-width: 767px) {
-    .Buttons_Inventario {
-        flex-direction: column;
-    }
-}
-
-/* TABLET */
-
-
-
-@media (min-width: 768px) and (max-width: 800px) {
-    .ContenedorPadre {
-        margin-top: 10%;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 800px) {
-    .organiza_articulos_Inv {
-        margin-left: 20%;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 800px) {
-    .organiza_articulos_Inv {
-        margin-left: 20%;
-    }
-}
-
 .cerrar_modal {
     border: none;
     background-color: #474444;
@@ -421,14 +365,121 @@ td {
     background-color: #D3D3D3;
 }
 
-@media screen and (max-width: 768px) {
-    .Img-Creamos_Inven {
-        margin-top: 35%;
-    }
-}
-
 .ubicar_carro_inv {
     margin-left: 1%;
     margin-top: 0.5%;
     position: absolute;
+}
+
+/* VISTA CELULAR */
+@media (max-width: 768px) {
+    .Filtro {
+        transform: scale(0.6) translateX(-45%);
+    }
+
+    .Inv_perfil {
+        margin-left: -20%;
+
+    }
+
+    .perfil_inv {
+        margin-left: -18%;
+        transform: scale(0.9) translateX(10%) translateY(-190%);
+    }
+
+    .ContenedorPadre {
+        width: auto;
+    }
+
+    .organiza_articulos_Inv {
+        margin-left: 30%;
+        transform: scale(0.7) translateX(-10%);
+        width: 90%;
+
+    }
+
+    .div_gris {
+        max-height: 100px;
+    }
+
+    .Info_general_inv {
+        transform: scale(0.8) translateX(-130%);
+    }
+
+    .Img_DatosInv {
+        width: 59px;
+        height: 59px;
+        transform: translateX(10%) translateY(-10%);
+    }
+
+    .FondoBlanco_inv {
+        margin-top: 200px;
+    }
+
+
+}
+
+@media (max-width: 768px) {
+    .btns_Inv {
+
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btns_Inv>div:not(:first-child) {
+        display: none;
+    }
+
+    .btns_Inv_prin {
+
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btns_Inv_prin>div:not(:first-child) {
+        display: none;
+    }
+
+    .Palabra_perfil,
+    .Palabra_inv,
+    .Palabra_haz,
+    .Palabra_cons {
+        display: block;
+        margin-top: 20px;
+    }
+
+    .Buttons_Inv {
+        margin-top: -30px;
+    }
+
+    .ContenedorPadre {
+        margin-top: -10px;
+        height: 620px;
+    }
+}
+
+
+/* CELULAR O PANTALLA REDUCIDA */
+
+
+
+/* TABLET */
+
+
+@media (min-width: 769px) and (max-width: 800px) {
+    .ContenedorPadre {
+        margin-top: 10%;
+    }
+
+    .organiza_articulos_Inv {
+        margin-left: 20%;
+    }
+
+    .organiza_articulos_Inv {
+        margin-left: 20%;
+    }
+
+    .Img-Creamos_Inven {
+        margin-top: 35%;
+    }
 }

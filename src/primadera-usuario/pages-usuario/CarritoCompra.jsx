@@ -111,9 +111,9 @@ const CarritoCompras = () => {
         const diasFestivos = ["2023-11-06", "2023-11-13", "2023-12-08", "2023-12-25", "2024-01-01"]; // Puedes agregar más días festivos según sea necesario
 
         const esDiaFestivo = (fecha) => {
-            // Verificar si la fecha es un día festivo
-            const formatoFecha = { year: 'numeric', month: '2-digit', day: '2-digit' };
-            const fechaFormateada = fecha.toLocaleDateString(undefined, formatoFecha);
+            // Formatear la fecha actual para compararla con los días festivos
+            const formatoFecha = 'yyyy-MM-dd';
+            const fechaFormateada = fecha.toISOString().slice(0, 10);
 
             return diasFestivos.includes(fechaFormateada);
         };

@@ -82,7 +82,7 @@ const BannerUser = ({ backgroundColor }) => {
         },
         icon: {
             width: '50px',
-            height: '55px',
+
             borderRadius: '40px 0 0 40px',
 
             cursor: 'pointer',
@@ -103,21 +103,21 @@ const BannerUser = ({ backgroundColor }) => {
                             alt="Primera diapositiva"
                         />
                     </Carousel.Item>
-                    <Carousel.Item style={bannerStyle}>
+                    <Carousel.Item className="Carrusel" style={bannerStyle}>
                         <img
                             className="img2_img-fluid"
                             src={imagenes.BannerArboles}
                             alt="Segunda diapositiva"
                         />
                     </Carousel.Item >
-                    <Carousel.Item style={bannerStyle}>
+                    <Carousel.Item className="Carrusel" style={bannerStyle}>
                         <img
                             className="img3_img-fluid"
                             src={imagenes.BannerTroncos}
                             alt="Tercera diapositiva"
                         />
                     </Carousel.Item>
-                    <Carousel.Item style={bannerStyle}>
+                    <Carousel.Item className="Carrusel" style={bannerStyle}>
                         <img
                             className="img4_img-fluid"
                             src={imagenes.BannerIndustria}
