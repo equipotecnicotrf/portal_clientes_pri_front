@@ -17,6 +17,7 @@ import ConsultOrderService from '../../services/ConsultOrderService';
 import ShopingCartService from '../../services/ShopingCartService';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import TypeOrderService from '../../services/TypeOrderService';
+import ItemService from '../../services/ItemService';
 
 const ConsultaPedido = () => {
 
@@ -33,10 +34,12 @@ const ConsultaPedido = () => {
     const [cp_type_order_id, setcp_type_order_id] = useState([]);
     const [typeOrder, setTypeOrder] = useState([]);
     const [direcciones, setDirecciones] = useState([]);
+    const [items, setItems] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         SesionUsername();
+        Items();
     }, [])
 
     const SesionUsername = () => {
@@ -93,6 +96,15 @@ const ConsultaPedido = () => {
             navigate('/')
         }
     }
+
+    const Items = () => {
+        ItemService.getAllItems().then(response => {
+            setItems(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
+    };
 
     const consultaPedidoInicial = (buyingPartyId, transactionTypeCode, creationDateFrom, creationDateTo) => {
         ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
@@ -197,13 +209,8 @@ const ConsultaPedido = () => {
     }
 
     const [selectedDireccion, setSelectedDireccion] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filteredDirecciones, setFilteredDirecciones] = useState([]);
-
     const handleDireccionSelect = (direccion) => {
         setSelectedDireccion(direccion.address1);
-        setSearchTerm('');
-
     };
 
     const ESTADOS = {
@@ -298,12 +305,10 @@ const ConsultaPedido = () => {
                     console.log(error);
                     alert("La búsqueda no genero resultados");
                 })
-
             }
-
         }
-
     }
+
 
     const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
     const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -474,11 +479,17 @@ const ConsultaPedido = () => {
                                         value={selectedDireccion ? selectedDireccion.siteUseId : ''}
                                         onChange={(e) => {
                                             const selectedSiteUseId = e.target.value;
-                                            const selectedDireccion = direcciones.find((direccion) => direccion.siteUseId === selectedSiteUseId);
-                                            handleDireccionSelect(selectedDireccion);
+
+                                            // Verifica si se seleccionó la opción "Selecciona una dirección"
+                                            if (selectedSiteUseId === "") {
+                                                setSelectedDireccion(null);  // Establece el estado a null
+                                            } else {
+                                                const selectedDireccion = direcciones.find((direccion) => direccion.siteUseId === selectedSiteUseId);
+                                                handleDireccionSelect(selectedDireccion);
+                                            }
                                         }}
                                     >
-                                        <option value="" disabled>Selecciona una dirección</option>
+                                        <option value="">Selecciona una dirección</option>
                                         {direcciones.map((direccion) => (
                                             <option key={direccion.siteUseId} value={direccion.siteUseId}>
                                                 {direccion.address1 + " - " + direccion.city}
@@ -498,7 +509,6 @@ const ConsultaPedido = () => {
                                 </Form.Group>
                                 <Button style={BtnBuscar} type="submit">Buscar</Button>
                             </Row>
-
                         </Form>
                     </div>
 
@@ -516,7 +526,6 @@ const ConsultaPedido = () => {
                                     <th>Fecha de despacho</th>
                                     <th>Remisión</th>
                                     <th>Factura</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -559,16 +568,20 @@ const ConsultaPedido = () => {
 
                                     })
                                     .map((order) => {
+                                        const item = items.find(item => item.inventory_item_id === order.productId);
+                                        const Volumen = item ? order.orderedQuantity * item.atribute8 : 0;
+                                        const formattedrequestedShipDate = order.requestedShipDate ? new Date(order.requestedShipDate).toLocaleDateString('es-ES') : '';
+                                        const formattedActualShipDate = order.actualShipDate ? new Date(order.actualShipDate).toLocaleDateString('es-ES') : '';
                                         return (
                                             <tr key={order.fulfillLineId}>
                                                 <td>{order.sourceTransactionNumber}</td>
                                                 <td>{order.fulfillLineNumber}</td>
                                                 <td>{order.productDescription}</td>
                                                 <td>{order.orderedQuantity}</td>
-                                                <td>{"M3"}</td>
-                                                <td>{order.requestedShipDate}</td>
+                                                <td>{Volumen.toLocaleString(undefined, opciones)}</td>
+                                                <td>{formattedrequestedShipDate}</td>
                                                 <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
-                                                <td>{order.actualShipDate}</td>
+                                                <td>{formattedActualShipDate}</td>
                                                 <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
                                                 <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
                                             </tr>
