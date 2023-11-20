@@ -623,11 +623,7 @@ const DataInventario = () => {
         flexDirection: 'column'
     };
 
-    const InveDatosUser = {
 
-
-        marginTop: '-40px'
-    };
 
 
     const [show, setShow] = useState(false);
@@ -696,7 +692,7 @@ const DataInventario = () => {
                             <div className='FaAngleDown_cons'><FaAngleDown /></div>
                         </button>
                     </div>
-                    <div style={InveDatosUser} className='perfil_inv'>
+                    <div className='perfil_inv'>
                         <tr>
                             <td style={{ verticalAlign: 'middle' }}><Container>
                                 <Row>

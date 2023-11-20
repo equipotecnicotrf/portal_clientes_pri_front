@@ -214,7 +214,7 @@
 .Info_general_haz {
     background-color: #767373;
     text-align: left;
-
+    margin-left: 80%;
     width: 220px;
     height: 80px;
     margin-top: 2%;
@@ -411,7 +411,15 @@
     }
 
     .Info_general_haz {
+        width: 220px;
+        margin-left: 50%;
         transform: scale(0.8);
+    }
+
+    .div_gris {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .FondoBlanco_Pedi {
@@ -420,7 +428,7 @@
 
     .perfil_pedi {
         margin-left: -18%;
-        transform: scale(0.9) translateX(10%) translateY(-190%);
+        transform: scale(0.9) translateX(10%) translateY(-230%);
     }
 
     .Img-User-Haz {

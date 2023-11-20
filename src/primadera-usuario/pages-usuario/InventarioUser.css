@@ -403,7 +403,9 @@ td {
     }
 
     .Info_general_inv {
-        transform: scale(0.8) translateX(-130%);
+        width: 220px;
+        margin-left: 50%;
+        transform: scale(0.8);
     }
 
     .Img_DatosInv {

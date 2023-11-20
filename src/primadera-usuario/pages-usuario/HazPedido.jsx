@@ -596,10 +596,7 @@ const DataPedido = () => {
         flexDirection: 'column'
     };
 
-    const PediDatosUser = {
 
-        marginTop: '-40px'
-    };
 
     const [show, setShow] = useState(false);
     const handleClose = () => {
@@ -676,7 +673,7 @@ const DataPedido = () => {
                         </button>
                     </div>
 
-                    <div style={PediDatosUser} className='perfil_pedi'>
+                    <div className='perfil_pedi'>
                         <tr>
                             <td style={{ verticalAlign: 'middle' }}><Container>
                                 <Row>
