@@ -184,7 +184,7 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '40px',
+
     };
 
     const bannerStyle2 = {
@@ -210,13 +210,6 @@ const DataTable = ({ backgroundColor }) => {
         borderRadius: '10px',
         borderColor: 'Black',
         width: '250px'
-    };
-    const dropDown = {
-        position: 'absolute',
-        marginTop: '185px',
-        left: '75%',
-        transform: 'translate (-50%, -50%)',
-
     };
 
     const pedido = {
@@ -308,8 +301,8 @@ const DataTable = ({ backgroundColor }) => {
                     </table>
                 </div>
 
-                <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_pedido'>
+                <Dropdown className='boton_pedido' >
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" >
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
@@ -324,7 +317,7 @@ const DataTable = ({ backgroundColor }) => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <div className='DataTable' style={bannerStyle}>
+                <div className='DataTable_Pedi' style={bannerStyle}>
                     <th style={pedido}><FaTruck /> GESTIONAR TIPO DE PEDIDOS</th> {/*AJUSTE LCPG*/}
                     <table className='table table-bordered' >
                         <thead style={bannerStyle} >
@@ -369,8 +362,8 @@ const DataTable = ({ backgroundColor }) => {
                         </tbody>
                     </table>
                 </div>
-                <div className="botones mt-12">
-                    <Button className="boton_crear_pedi p-2 m-2 btn-sm" onClick={handleShow}>Crear</Button> {/*AJUSTE LCPG*/}
+                <div className="boton_peid mt-12">
+                    <Button className="botones_peid p-2 m-2 btn-sm" onClick={handleShow}>Crear</Button> {/*AJUSTE LCPG*/}
                 </div>
 
 
@@ -488,7 +481,7 @@ const DataTable = ({ backgroundColor }) => {
 
 
 
-                <Image className='Img-Creamos_ped' src={imagenes.Creamos} />
+                <Image className='Img-Creamos_pedido_us' src={imagenes.Creamos} />
             </div>
 
 

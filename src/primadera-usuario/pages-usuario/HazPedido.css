@@ -251,7 +251,6 @@
 
 .div_gris {
     background-color: #D9D9D9;
-    margin-left: 1.5%;
     height: 155px;
 }
 
@@ -294,6 +293,14 @@
 
 
 @media (max-width: 480px) {
+
+    .btns_Haz,
+    .btns_Haz_prin {
+        border-radius: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+
     .Filtro_Haz {
         transform: scale(0.5) translateX(-10%);
     }
@@ -309,10 +316,6 @@
         transform: scale(0.9) translateX(0%);
     }
 
-    .Buttons_Pedido_Haz {
-        flex-direction: column;
-
-    }
 }
 
 @media (min-width: 500px) and (max-width: 690px) {
@@ -373,32 +376,50 @@
 
 
 @media (max-width: 768px) {
-    .btns_Haz {
-        border-radius: 20px;
-        align-items: center;
-        justify-content: center;
-    }
 
-    .btns_Haz>div:not(:first-child) {
-        display: none;
-    }
-
+    .btns_Haz,
     .btns_Haz_prin {
-        border-radius: 20px;
+
+        flex-direction: column;
         align-items: center;
         justify-content: center;
     }
 
-    .btns_Haz_prin>div:not(:first-child) {
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
         display: none;
     }
 
-    .Palabra_perfil,
-    .Palabra_inv,
-    .Palabra_haz,
-    .Palabra_cons {
-        display: block;
-        margin-top: 20px;
+    #Num_Per_ped {
+        position: absolute;
+        margin-bottom: -13%;
+        margin-left: 0%;
+        color: #000000;
+        pointer-events: none;
+    }
+
+    #Num_inv_ped {
+        position: absolute;
+        margin-bottom: -16%;
+        margin-left: -8%;
+        color: #000000;
+        max-width: 25px;
+    }
+
+    #Num_haz_ped {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -13%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_ped {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -13%;
+        margin-left: 0%;
     }
 
     .Buttons_Inv {
@@ -428,7 +449,7 @@
 
     .perfil_pedi {
         margin-left: -18%;
-        transform: scale(0.9) translateX(10%) translateY(-230%);
+        transform: scale(1) translateX(12%) translateY(-220%);
     }
 
     .Img-User-Haz {
@@ -449,4 +470,216 @@
     .Filtro_Haz {
         transform: scale(0.6) translateX(-45%);
     }
+}
+
+/* Media query para las letras de los botones para acomodar los tamaños y que no se desucadre, 21 de Noviembre*/
+@media screen and (min-width: 481px)and (max-width: 549px) {
+    #Num_cons_ped {
+        width: 90px;
+        margin-bottom: -18%;
+    }
+
+    #Num_haz_ped {
+        width: 90px;
+        margin-bottom: -19%;
+    }
+
+    #Num_inv_ped {
+        width: 90px;
+        margin-bottom: -19%;
+        margin-left: -10%;
+    }
+
+    #Num_Per_ped {
+        width: 90px;
+        margin-bottom: -18%;
+    }
+
+
+}
+
+
+@media screen and (min-width: 550px)and (max-width: 658px) {
+    #Num_cons_ped {
+        width: 90px;
+        margin-bottom: -15%;
+    }
+
+    #Num_haz_ped {
+        width: 90px;
+        margin-bottom: -16%;
+    }
+
+    #Num_inv_ped {
+        width: 90px;
+        margin-bottom: -16%;
+        margin-left: -10%;
+    }
+
+    #Num_Per_ped {
+        width: 90px;
+        margin-bottom: -15%;
+    }
+
+
+}
+
+@media screen and (min-width: 461px) and (max-width: 480px) {
+
+    #Num_Per_ped {
+        position: absolute;
+        margin-bottom: -18%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_inv_ped {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: -12%;
+    }
+
+    #Num_haz_ped {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_ped {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    .btns_Haz,
+    .btns_Haz_prin {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 460px) {
+
+    #Num_Per_ped,
+    #Num_inv_ped,
+    #Num_haz_ped,
+    #Num_cons_ped {
+        transform: scale(0.9);
+    }
+
+    #Num_Per_ped {
+        position: absolute;
+        margin-bottom: -18%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_inv_ped {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: -11%;
+    }
+
+    #Num_haz_ped {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_ped {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    .btns_Haz,
+    .btns_Haz_prin {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+@media screen and (max-width: 399px) {
+
+    #Num_Per_ped,
+    #Num_inv_ped,
+    #Num_haz_ped,
+    #Num_cons_ped {
+        transform: scale(0.9);
+    }
+
+    #Num_Per_ped {
+        position: absolute;
+        margin-bottom: -21%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_inv_ped {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: -14%;
+    }
+
+    #Num_haz_ped {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_ped {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    .btns_Haz,
+    .btns_Haz_prin {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
 }

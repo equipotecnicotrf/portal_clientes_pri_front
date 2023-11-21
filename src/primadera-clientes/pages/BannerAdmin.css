@@ -43,25 +43,32 @@
 }
 
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .Btn_Cerrar {
         max-width: 100px;
         font-size: 15px;
+        transform: scale(0.8);
+        margin-top: -11px;
     }
 
     .LogoReciclaje {
         width: 115px;
         top: 35px;
         right: 2px;
+        transform: scale(0.8);
+        margin-top: -11px;
     }
 
     .Logo_Pri_Blanco {
         width: 120px;
         margin-left: -10%;
         margin-top: -5%;
+        transform: scale(0.8);
+
     }
 
     .Btn_Home {
         right: 120px;
+        transform: scale(0.8);
     }
 }

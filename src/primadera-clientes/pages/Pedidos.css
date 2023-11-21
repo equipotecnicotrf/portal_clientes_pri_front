@@ -1,36 +1,32 @@
-.DataTable {
+.DataTable_Pedi {
+    position: relative;
     padding: 5%;
     margin: 5%;
     border-radius: 29px;
+    width: auto;
+    border-collapse: collapse;
+    max-height: 350px;
+    overflow-y: auto;
+    text-align: center;
+    margin-top: 70px;
+    /*30-10-2023*/
+    max-height: 500px;
+    /*30-10-2023*/
+    overflow-x: auto;
+    margin-right: 20px;
 }
 
-.botones {
-    margin-top: -30px;
+
+
+.boton_peid {
+    margin-top: -10px;
     margin-right: 5%;
     display: flex;
     justify-content: flex-end;
 }
 
-@media (max-width: 768px) {
 
-    .DataTable {
-        position: absolute;
-        top: 220px;
-        max-width: 600px;
-        overflow: scroll;
-        transition: all 0.3s ease;
-    }
-
-    .boton_crear_pedi {
-        position: absolute;
-        top: 620px;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
-    }
-
-}
-
-.boton_crear_pedi {
+.botones_peid {
     /*23-10-2023 se cambia nombre*/
     background-color: #323333;
 
@@ -79,7 +75,7 @@
     height: 45px;
 }
 
-.Img-Creamos_ped {
+.Img-Creamos_pedido_us {
     width: 200px;
     height: 100px;
     margin: auto;
@@ -118,59 +114,67 @@
     margin: 1%;
 }
 
-@media (max-width: 730px) {
-    .DataTable {
-        position: absolute;
-        top: 250px;
-        max-width: 600px;
-        overflow: scroll;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
+
+
+
+
+
+
+
+.boton_pedido {
+
+    position: absolute;
+    top: 30%;
+    right: 40px;
+
+
+
+}
+
+
+
+@media (max-width: 390px) {
+
+    .DataTable_Pedi {
+        margin-top: 30%;
     }
 
-    .boton_crear_pedi {
-        position: absolute;
-        top: 890px;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
+    .boton_pedido {
+        left: 30px;
+        margin-top: 50px;
     }
+
+
+
+}
+
+
+@media (min-width: 400px) and (max-width: 765px) {
+
+
+    .boton_pedido {
+        left: 30px;
+
+    }
+
 }
 
 @media (max-width: 510px) {
-
-
-    .DataTable {
-        position: absolute;
-        top: 280px;
-        max-width: 500px;
-        overflow: scroll;
-        max-width: 430px;
-    }
-
-    .boton_crear_pedi {
-        position: absolute;
-        top: 910px;
-    }
-}
-
-
-@media (max-width: 1140px) {
-    .Img-Creamos_ped {
+    .botones_peid {
         position: relative;
-        margin-top: 30px;
+
+        top: auto;
     }
+
 }
 
-@media (max-width: 768px) {
-    .Img-Creamos_ped {
-        position: relative;
-        Top: 600px;
-    }
-}
-
-@media (max-width: 480px) {
+@media only screen and (max-width: 915px) and (orientation: landscape) {
     .boton_pedido {
-        margin-left: -110%;
-        margin-top: 30%;
+        margin-top: 20%;
     }
+
+    .DataTable_Pedi {
+        margin-top: 20%;
+    }
+
 }

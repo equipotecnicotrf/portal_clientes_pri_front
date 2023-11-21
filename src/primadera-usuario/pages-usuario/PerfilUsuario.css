@@ -1,6 +1,6 @@
 .Img_usua_Per {
-    width: 91px;
-    height: 91px;
+    width: 100px;
+    height: 100px;
 }
 
 .Img-Creamos_perfil {
@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .Buttons_perfil2 {
@@ -37,6 +38,7 @@
     height: 50px;
     border: none;
     border-width: 0.5px;
+    border-radius: 10px;
 }
 
 .btns_perfil_prin {
@@ -49,6 +51,7 @@
     height: 50px;
     border: none;
     border-width: 0.5px;
+    border-radius: 10px;
 }
 
 .btns_perfil2 {
@@ -302,7 +305,7 @@
     .Buttons_perfil2 {
         position: absolute;
         left: 25%;
-        transform: scale(0.4) translateX(-94%) translateY(460%);
+        transform: scale(0.4) translateX(-90%) translateY(460%);
         display: flex;
     }
 
@@ -311,7 +314,7 @@
     }
 }
 
-@media screen and (max-width: 569px) {
+@media screen and (min-width: 540px) and (max-width: 569px) {
 
     .CuadroInfo_dir,
     .CuadroInfo_ayuda {
@@ -364,7 +367,7 @@
     .CuadroInfo_ayuda {
         margin: -24%;
         margin-left: 36%;
-        margin-top: -95%;
+        margin-top: -98%;
         position: absolute;
         overflow: auto;
         justify-content: center;
@@ -437,7 +440,7 @@
     .CuadroInfo_ayuda {
         margin: -24%;
         margin-left: 36%;
-        margin-top: -84%;
+        margin-top: -87%;
         position: absolute;
         overflow: auto;
         justify-content: center;
@@ -472,7 +475,7 @@
     .CuadroInfo_ayuda {
         margin: -24%;
         margin-left: 36%;
-        margin-top: -78.4%;
+        margin-top: -81%;
         position: absolute;
         overflow: auto;
         justify-content: center;
@@ -568,7 +571,7 @@
     }
 
     .Buttons_perfil2 {
-        transform: scale(0.8) translateY(-70%) translateX(-14%);
+        transform: scale(0.6) translateY(-70%) translateX(-14%);
         left: 0px;
     }
 
@@ -582,10 +585,15 @@
         justify-content: center;
     }
 
-    .CuadroInfo,
-    .CuadroInfo_ayuda,
-    .CuadroInfo_dir {
+    .CuadroInfo {
         transform: scale(0.7) translateX(-10%);
+        margin-left: 230px;
+    }
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        transform: scale(0.7) translateX(-10%);
+        margin-left: 235px;
     }
 }
 
@@ -1197,7 +1205,7 @@
 .ubicar_flecha_btn {
     width: fit-content;
     margin-left: 92%;
-    margin-top: -40px;
+    margin-top: -35px;
     display: flex;
 }
 
@@ -1212,7 +1220,7 @@
 .ubicar_direcciones {
     width: fit-content;
     margin-left: 0%;
-    margin-top: -4%;
+    margin-top: -8%;
     display: flex;
 }
 
@@ -1230,37 +1238,120 @@
     display: flex;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) and (min-width: 481px) {
     .btns_perfil {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        border-radius: 16px;
     }
 
-    .btns_perfil>div:not(:first-child) {
+    .Buttons_perfil {
+        margin-bottom: 10%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
         display: none;
+    }
+
+    #numeralperfil {
+        position: absolute;
+        margin-bottom: -10%;
+        margin-left: 0%;
+        color: #000000;
+        font-size: 14px;
+    }
+
+    #numeralInventario {
+        position: absolute;
+        margin-bottom: -13%;
+        margin-left: -8%;
+        color: #000000;
+        max-width: 25px;
+        font-size: 14px;
+    }
+
+    #numeralPedido {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -10%;
+        margin-left: 0%;
+        font-size: 14px;
+    }
+
+    #numeralConsulta {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -10%;
+        margin-left: 0%;
+        font-size: 14px;
     }
 
     .btns_perfil_prin {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        border-radius: 16px;
     }
 
-    .btns_perfil_prin>div:not(:first-child) {
-        display: none;
-    }
-
-    .Palabra_perfil,
-    .Palabra_inv,
-    .Palabra_haz,
-    .Palabra_cons {
-        display: block;
-        margin-top: 20px;
-    }
 }
 
 @media screen and (max-width: 460px) {
+
+    #numeralperfil,
+    #numeralInventario,
+    #numeralPedido,
+    #numeralConsulta {
+        transform: scale(0.9);
+    }
+
+    #numeralperfil {
+        position: absolute;
+        margin-bottom: -20%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #numeralInventario {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    #numeralPedido {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    #numeralConsulta {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    .btns_perfil_prin,
+    .btns_perfil {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
     .FaUser_perfil,
     .FaSearchMinus_inv,
@@ -1271,7 +1362,7 @@
 
     .btns_perfil,
     .btns_perfil_prin {
-        border-radius: 30%;
+        border-radius: 16px;
     }
 
     .Buttons_perfil {
@@ -1281,6 +1372,7 @@
     }
 
     .perfil {
+        margin-left: -4%;
         transform: scale(0.8) translateX(-10%) translateY(-90%);
     }
 
@@ -1331,6 +1423,48 @@
     }
 }
 
+
+@media screen and (max-width: 369px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.45) translateY(-50%) translateX(-33%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.45) translateY(-50%) translateX(-33%);
+        margin-top: 0;
+        position: absolute;
+        overflow-x: auto;
+    }
+}
+
+@media screen and (max-width: 368px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        margin: -24%;
+        margin-left: -19%;
+        margin-top: 1%;
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.45) translateY(-50%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.45) translateY(-50%);
+        margin-top: 0;
+        position: absolute;
+        left: -50%;
+        overflow-x: auto;
+    }
+
+
+}
+
+
 @media screen and (min-width: 360px) and (max-width: 369px) {
 
     .CuadroInfo_dir,
@@ -1349,6 +1483,14 @@
 }
 
 @media screen and (min-width: 370px) and (max-width: 390px) {
+
+    #numeralperfil,
+    #numeralInventario,
+    #numeralPedido,
+    #numeralConsulta {
+        transform: scale(0.8) translateY(-10%);
+        font-size: 12px;
+    }
 
     .CuadroInfo_dir,
     .CuadroInfo_ayuda {
@@ -1388,17 +1530,41 @@
     }
 }
 
-@media screen and (min-width: 406px) and (max-width: 430px) {
+@media screen and (min-width: 406px) and (max-width: 415px) {
 
     .CuadroInfo_dir,
     .CuadroInfo_ayuda {
         position: absolute;
         overflow: auto;
-        transform: scale(0.45) translateY(-45%) translateX(-20%);
+        transform: scale(0.45) translateY(-45%) translateX(-15%);
     }
 
     .CuadroInfo {
-        transform: scale(0.45) translateY(-46%) translateX(-20%);
+        transform: scale(0.45) translateY(-46%) translateX(-15%);
+        margin-top: 0;
+        position: absolute;
+        overflow-x: auto;
+    }
+
+    .Buttons_perfil2 {
+        position: absolute;
+        left: 25%;
+        transform: scale(0.3) translateX(-127%) translateY(530%);
+        display: flex;
+    }
+}
+
+@media screen and (min-width: 416px) and (max-width: 430px) {
+
+    .CuadroInfo_dir,
+    .CuadroInfo_ayuda {
+        position: absolute;
+        overflow: auto;
+        transform: scale(0.45) translateY(-45%) translateX(-14%);
+    }
+
+    .CuadroInfo {
+        transform: scale(0.45) translateY(-46%) translateX(-13%);
         margin-top: 0;
         position: absolute;
         overflow-x: auto;
@@ -1430,6 +1596,50 @@
 }
 
 @media screen and (min-width: 461px) and (max-width: 480px) {
+    #numeralperfil {
+        position: absolute;
+        margin-bottom: -20%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #numeralInventario {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    #numeralPedido {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    #numeralConsulta {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    .btns_perfil_prin,
+    .btns_perfil {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
     .CuadroInfo_dir,
     .CuadroInfo_ayuda {
@@ -1455,7 +1665,7 @@
 
     .btns_perfil,
     .btns_perfil_prin {
-        border-radius: 30%;
+        border-radius: 16px;
     }
 
     .Buttons_perfil {
@@ -1513,4 +1723,60 @@
     .FondoBlanco {
         max-height: 550px;
     }
+}
+
+/* Media query para las letras de los botones para acomodar los tamaños y que no se desucadre, 21 de Noviembre*/
+@media screen and (min-width: 481px)and (max-width: 658px) {
+    #numeralConsulta {
+        width: 90px;
+        margin-bottom: -15%;
+
+    }
+
+    #numeralPedido {
+        width: 90px;
+        margin-bottom: -16%;
+
+    }
+
+    #numeralInventario {
+        width: 90px;
+        margin-bottom: -16%;
+        margin-left: -10%;
+    }
+
+    btns_perfil80 #numeralperfil {
+        width: 90px;
+        margin-bottom: -15%;
+    }
+
+
+}
+
+@media screen and (min-width: 769px)and (max-width: 789px) {
+
+    .FaUser_perfil,
+    .Palabra_perfil,
+    .FaAngleDown_perfil,
+    .FaSearchMinus_inv,
+    .Palabra_inv,
+    .FaAngleDown_inv .FaShoppingCart_haz,
+    .Palabra_haz,
+    .FaAngleDown_haz,
+    .FaTruck_cons,
+    .Palabra_cons,
+    .FaAngleDown_cons {
+        transform: scale(0.8);
+    }
+
+    .btns_perfil_prin,
+    .btns_perfil {
+        width: 170px;
+    }
+
+    .btns_perfil2 {
+        transform: scale(0.8);
+    }
+
+
 }

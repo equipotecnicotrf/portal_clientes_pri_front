@@ -5,6 +5,14 @@
   display: block;
 }
 
+.boton_1 {
+  position: absolute;
+  top: -35px;
+  right: auto;
+  display: block;
+
+}
+
 .table {
   width: 100%;
   max-width: none;
@@ -31,7 +39,7 @@
   max-height: 350px;
   overflow-y: auto;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 70px;
   /*30-10-2023*/
   max-height: 500px;
   /*30-10-2023*/
@@ -92,7 +100,7 @@
 
   .Datos_Aud {
 
-    margin-left: -10%;
+    margin-left: -15%;
 
   }
 
@@ -114,39 +122,12 @@
 
 
 
-  .Img_audit {
-
-    width: 200px;
-
-    height: 100px;
-
-    margin: auto;
-
-    display: block;
-
-    margin-top: 580px;
-
-  }
-
-
-
-
-
 }
 
 
 
 @media (min-width: 481px) and (max-width: 767px) {
 
-  .SearchAuditoria {
-
-    position: static;
-
-    margin-top: 10px;
-
-    margin-left: 10px;
-
-  }
 
   .DropAcAudi {
 
@@ -166,53 +147,21 @@
 
   }
 
-  .DataTableAudi {
-    margin-top: 100;
-  }
-
-
-
-}
-
-
-
-@media (min-width: 768px) and (max-width: 1023px) {
-
-  .dropdown-toggle {
-
-    position: relative;
-
-    top: 0;
-
-    left: -350px;
-
-    ;
-
-    margin-top: 60px;
-
-    margin-left: 15px;
-
-    z-index: 1;
-
-    transition: all 0.3s ease;
-
-    /* Añade una animación de transición de 0.3 segundos */
-
-  }
-
-
-
-  .boton_cons {
-
-    Top: 20px;
-
-  }
-
 
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -238,12 +187,61 @@
 
 }
 
-@media (max-width: 480px) {
+.boton-auditoria {
 
-  .boton_1 {
-    margin-left: -108%;
-    margin-top: -10%;
-    position: static;
-    display: block;
+  position: absolute;
+  top: 30%;
+  right: 40px;
+
+
+
+}
+
+
+
+@media (max-width: 390px) {
+
+  .DataTableAudi {
+    margin-top: 30%;
+  }
+
+  .boton-auditoria {
+    left: 30px;
+    margin-top: 50px;
+  }
+
+  .SearchAuditoria {
+    margin-top: 10%;
+    left: 15px;
+  }
+
+}
+
+
+@media (min-width: 400px) and (max-width: 765px) {
+
+
+  .boton-auditoria {
+    left: 30px;
+
+  }
+
+  .SearchAuditoria {
+    margin-top: 10%;
+    left: 15px;
+  }
+}
+
+@media only screen and (max-width: 915px) and (orientation: landscape) {
+  .boton-auditoria {
+    margin-top: 20%;
+  }
+
+  .DataTableAudi {
+    margin-top: 20%;
+  }
+
+  .SearchAuditoria {
+    margin-top: 4%;
   }
 }

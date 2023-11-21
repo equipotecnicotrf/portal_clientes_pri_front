@@ -81,7 +81,7 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '45px', /*31-10-2023*/
+
         maxHeight: '500px',/*30-10-2023*/
         overflow: 'auto', /*30-10-2023*/
 
@@ -111,12 +111,7 @@ const DataTable = ({ backgroundColor }) => {
         width: '250px'
     };
 
-    const dropDown = {
-        position: 'absolute',
-        top: '33%', /*31-10-2023 se ajusta top*/
-        left: '76.4%',  /*30-10-2023 se ajusta left*/
-        transform: 'translate (-50%, -50%)',
-    };
+
 
 
     const audit = {
@@ -171,8 +166,8 @@ const DataTable = ({ backgroundColor }) => {
                     </table>
                 </div>
                 {/*31-10-2023 se ajusta DIV completo*/}
-                <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_1'>
+                <Dropdown className='boton-auditoria'>
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>

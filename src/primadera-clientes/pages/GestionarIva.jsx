@@ -185,7 +185,7 @@ const DataIva = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '30px',
+
     };
 
     const bannerStyle2 = {
@@ -211,13 +211,7 @@ const DataIva = ({ backgroundColor }) => {
         borderColor: 'Black',
         width: '250px'
     };
-    const dropDown = {
-        position: 'absolute',
-        top: '27.2%',
-        left: '75%',
-        transform: 'translate (-50%, -50%)',
 
-    };
 
     const iva = {
         padding: '20px',
@@ -279,8 +273,8 @@ const DataIva = ({ backgroundColor }) => {
                     </table>
                 </div>
 
-                <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_iva'>
+                <Dropdown className='boton_iva'>
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" >
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>

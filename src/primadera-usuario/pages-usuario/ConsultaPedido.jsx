@@ -401,25 +401,25 @@ const ConsultaPedido = () => {
                 </div>
             )}
             <div className='FondoBlancoConsul'>
-                <div className='Buttons_perfil mt-12 d-flex align-items-center'>
+                <div className='Buttons_perfil_cons mt-12 d-flex align-items-center'>
                     <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
                         <div className='FaUser_perfil'><FaUser /></div>
-                        <div className='Palabra_perfil'>Perfil </div>
+                        <div className='Palabra_perfil' id='Num_perf_cons'>Perfil </div>
                         <div className='FaAngleDown_perfil '><FaAngleDown /></div>
                     </button>
                     <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
                         <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
-                        <div className='Palabra_inv'>Inventario disponible</div>
+                        <div className='Palabra_inv' id='Num_Inv_cons'>Inventario disponible</div>
                         <div className='FaAngleDown_inv'><FaAngleDown /></div>
                     </button>
                     <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
                         <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
-                        <div className='Palabra_haz'>Haz tu pedido </div>
+                        <div className='Palabra_haz' id='Num_haz_cons'>Haz tu pedido </div>
                         <div className='FaAngleDown_haz'><FaAngleDown /></div>
                     </button>
                     <button className='btns_Consul_Prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
-                        <div className='FaTruck_cons'><FaTruck /></div>
-                        <div className='Palabra_cons'>Consulta tu pedido</div>
+                        <div className='FaTruck_const'><FaTruck /></div>
+                        <div className='Palabra_cons' id='Num_cons_cons'>Consulta tu pedido</div>
                         <div className='FaAngleDown_cons'><FaAngleDown /></div>
                     </button>
                 </div>

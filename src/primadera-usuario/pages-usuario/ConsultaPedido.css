@@ -83,7 +83,14 @@
 }
 
 
+.Buttons_perfil_cons {
+    margin-top: -2.5%;
+    z-index: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+}
 
 .tamanio_carro_principal_Consul {
     font-size: 35px;
@@ -92,13 +99,6 @@
     color: white;
 }
 
-@media (max-width: 768px) {
-    .Info_general_Consul {
-        width: 220px;
-        margin-left: 50%;
-        transform: translateX(-50%);
-    }
-}
 
 .btns_Consul_Prin {
     box-shadow: 2px;
@@ -114,7 +114,6 @@
 
 .div_gris {
     background-color: #D9D9D9;
-    margin-left: 1.5%;
     height: 155px;
 }
 
@@ -122,4 +121,296 @@
     margin-left: 1%;
     margin-top: 0.5%;
     position: absolute;
+}
+
+@media screen and (max-width: 770px) {
+    .Buttons_perfil_cons {
+        margin-bottom: 10%;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+
+    .FaTruck_const {
+        margin-left: 40%;
+    }
+
+    .FaUser_perfil,
+    .FaSearchMinus_inv,
+    .FaShoppingCart_haz,
+    .FaTruck_cons {
+        margin-left: 0%;
+    }
+
+    .Info_general_Consul {
+        width: 220px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    #Num_perf_cons {
+        position: absolute;
+        margin-bottom: -13%;
+        margin-left: 0%;
+        color: #000000;
+        pointer-events: none;
+    }
+
+    #Num_Inv_cons {
+        position: absolute;
+        margin-bottom: -16%;
+        margin-left: -8%;
+        color: #000000;
+        max-width: 25px;
+    }
+
+    #Num_haz_cons {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -13%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_cons {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -13%;
+        margin-left: 0%;
+    }
+
+    .Info_general_Consul {
+        width: 220px;
+        margin-left: 50%;
+        transform: scale(0.8);
+    }
+
+}
+
+@media screen and (min-width: 481px)and (max-width: 549px) {
+    #Num_cons_cons {
+        width: 90px;
+        margin-bottom: -18%;
+        margin-left: -2%;
+    }
+
+    #Num_haz_cons {
+        width: 90px;
+        margin-bottom: -19%;
+    }
+
+    #Num_Inv_cons {
+        width: 90px;
+        margin-bottom: -19%;
+        margin-left: -10%;
+    }
+
+    #Num_perf_cons {
+        width: 90px;
+        margin-bottom: -18%;
+    }
+
+
+}
+
+
+@media screen and (min-width: 550px)and (max-width: 658px) {
+    #Num_cons_cons {
+        width: 90px;
+        margin-bottom: -17%;
+    }
+
+    #Num_haz_cons {
+        width: 90px;
+        margin-bottom: -17%;
+    }
+
+    #Num_Inv_cons {
+        width: 90px;
+        margin-bottom: -17%;
+        margin-left: -10%;
+    }
+
+    #Num_perf_cons {
+        width: 90px;
+        margin-bottom: -15%;
+    }
+
+
+}
+
+@media screen and (min-width: 461px) and (max-width: 480px) {
+    .btns_Consul_Prin {
+        border-radius: 30%;
+    }
+
+    .Buttons_perfil_cons {
+        margin-bottom: 14%;
+    }
+
+    #Num_perf_cons {
+        position: absolute;
+        margin-bottom: -18%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_Inv_cons {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: -12%;
+    }
+
+    #Num_haz_cons {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_cons {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: -3%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+}
+
+@media screen and (min-width: 400px) and (max-width: 460px) {
+    .btns_Consul_Prin {
+        border-radius: 30%;
+    }
+
+    .Buttons_perfil_cons {
+        margin-bottom: 14%;
+    }
+
+    #Num_perf_cons,
+    #Num_Inv_cons,
+    #Num_haz_cons,
+    #Num_cons_cons {
+        transform: scale(0.9);
+    }
+
+    #Num_perf_cons {
+        position: absolute;
+        margin-bottom: -18%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_Inv_cons {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: -11%;
+    }
+
+    #Num_haz_cons {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_cons {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: -3%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    .btns_Haz,
+    .btns_Haz_prin {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+@media screen and (max-width: 399px) {
+    .btns_Consul_Prin {
+        border-radius: 30%;
+    }
+
+    .Buttons_perfil_cons {
+        margin-bottom: 14%;
+    }
+
+    #Num_perf_cons,
+    #Num_Inv_cons,
+    #Num_haz_cons,
+    #Num_cons_cons {
+        transform: scale(0.9);
+    }
+
+    #Num_perf_cons {
+        position: absolute;
+        margin-bottom: -21%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_Inv_cons {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: -14%;
+    }
+
+    #Num_haz_cons {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_cons {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: -6%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
 }

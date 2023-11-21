@@ -8,8 +8,8 @@
 }
 
 .Img_DatosInv {
-    height: 91px;
-    width: 91px;
+    height: 100px;
+    width: 100px;
 }
 
 .btns_Inv {
@@ -22,6 +22,7 @@
     height: 50px;
     border: none;
     border-width: 0.5px;
+    border-radius: 10px;
 }
 
 .btns_Inv_prin {
@@ -337,7 +338,6 @@ td {
 
 .div_gris {
     background-color: #D9D9D9;
-    margin-left: 1.5%;
     height: 155px;
 }
 
@@ -384,7 +384,7 @@ td {
 
     .perfil_inv {
         margin-left: -18%;
-        transform: scale(0.9) translateX(10%) translateY(-190%);
+        transform: scale(0.8) translateX(9%) translateY(-220%);
     }
 
     .ContenedorPadre {
@@ -409,8 +409,7 @@ td {
     }
 
     .Img_DatosInv {
-        width: 59px;
-        height: 59px;
+
         transform: translateX(10%) translateY(-10%);
     }
 
@@ -422,32 +421,52 @@ td {
 }
 
 @media (max-width: 768px) {
+
+    /* Iconos en el medio */
+    .btns_Inv_prin,
     .btns_Inv {
-
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        border-radius: 16px;
+
     }
 
-    .btns_Inv>div:not(:first-child) {
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
         display: none;
     }
 
-    .btns_Inv_prin {
-
-        align-items: center;
-        justify-content: center;
+    #Num_Per_inv {
+        position: absolute;
+        margin-bottom: -13%;
+        margin-left: 0%;
+        color: #000000;
+        pointer-events: none;
     }
 
-    .btns_Inv_prin>div:not(:first-child) {
-        display: none;
+    #Num_Inv_inv {
+        position: absolute;
+        margin-bottom: -16%;
+        margin-left: -8%;
+        color: #000000;
+        max-width: 25px;
     }
 
-    .Palabra_perfil,
-    .Palabra_inv,
-    .Palabra_haz,
-    .Palabra_cons {
-        display: block;
-        margin-top: 20px;
+    #Num_Haz_inv {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -13%;
+        margin-left: 0%;
+    }
+
+    #Num_Cons_inv {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -13%;
+        margin-left: 0%;
     }
 
     .Buttons_Inv {
@@ -460,10 +479,218 @@ td {
     }
 }
 
+/* Media query para las letras de los botones para acomodar los tamaños y que no se desucadre, 21 de Noviembre*/
+@media screen and (min-width: 481px)and (max-width: 549px) {
+    #Num_Cons_inv {
+        width: 90px;
+        margin-bottom: -18%;
+    }
+
+    #Num_Haz_inv {
+        width: 90px;
+        margin-bottom: -19%;
+    }
+
+    #Num_Inv_inv {
+        width: 90px;
+        margin-bottom: -19%;
+        margin-left: -10%;
+    }
+
+    #Num_Per_inv {
+        width: 90px;
+        margin-bottom: -18%;
+    }
+
+
+}
+
+@media screen and (min-width: 550px)and (max-width: 658px) {
+    #Num_Cons_inv {
+        width: 90px;
+        margin-bottom: -15%;
+    }
+
+    #Num_Haz_inv {
+        width: 90px;
+        margin-bottom: -16%;
+    }
+
+    #Num_Inv_inv {
+        width: 90px;
+        margin-bottom: -16%;
+        margin-left: -10%;
+    }
+
+    #Num_Per_inv {
+        width: 90px;
+        margin-bottom: -15%;
+    }
+
+
+}
+
+@media screen and (max-width: 399px) {
+
+    #Num_Per_inv,
+    #Num_Inv_inv,
+    #Num_Haz_inv,
+    #Num_Cons_inv {
+        transform: scale(0.9);
+        font-size: 12px;
+    }
+
+    #Num_Per_inv {
+        position: absolute;
+        margin-bottom: -21%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_Inv_inv {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: -11%;
+    }
+
+    #Num_Haz_inv {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -20%;
+        margin-left: 0%;
+    }
+
+    #Num_Cons_inv {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    .btns_perfil_prin,
+    .btns_perfil {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
 
 /* CELULAR O PANTALLA REDUCIDA */
+@media screen and (min-width: 400px) and (max-width: 460px) {
 
+    #Num_Per_inv,
+    #Num_Inv_inv,
+    #Num_Haz_inv,
+    #Num_Cons_inv {
+        transform: scale(0.9);
+    }
 
+    #Num_Per_inv {
+        position: absolute;
+        margin-bottom: -18%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_Inv_inv {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: -11%;
+    }
+
+    #Num_Haz_inv {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    #Num_Cons_inv {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    .btns_perfil_prin,
+    .btns_perfil {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+@media screen and (min-width: 461px) and (max-width: 480px) {
+
+    #Num_Per_inv {
+        position: absolute;
+        margin-bottom: -18%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_Inv_inv {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: -12%;
+    }
+
+    #Num_Haz_inv {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    #Num_Cons_inv {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -22%;
+        margin-left: 0%;
+    }
+
+    .FaAngleDown_perfil,
+    .FaAngleDown_inv,
+    .FaAngleDown_haz,
+    .FaAngleDown_cons {
+        display: none;
+    }
+
+    .btns_perfil_prin,
+    .btns_perfil {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
 
 /* TABLET */
 
@@ -477,11 +704,27 @@ td {
         margin-left: 20%;
     }
 
-    .organiza_articulos_Inv {
-        margin-left: 20%;
-    }
-
     .Img-Creamos_Inven {
         margin-top: 35%;
+    }
+
+    .btns_Inv_prin,
+    .btns_Inv {
+
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+    }
+}
+
+/* CELULAR */
+@media screen and (max-width: 480px) {
+
+    .btns_Inv_prin,
+    .btns_Inv {
+
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
     }
 }

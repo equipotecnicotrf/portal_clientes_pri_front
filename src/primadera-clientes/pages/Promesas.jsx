@@ -149,12 +149,7 @@ const Promesas = ({ backgroundColor }) => {
         borderColor: 'Black',
         width: '250px'
     };
-    const dropDown = {
-        position: 'absolute',
-        marginTop: '-25px',
-        left: '75%',
-        transform: 'translate (-50%, -50%)',
-    };
+
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -172,7 +167,7 @@ const Promesas = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '60px',
+
         maxHeight: '500px',
         overflow: 'auto',
     };
@@ -240,8 +235,8 @@ const Promesas = ({ backgroundColor }) => {
                         </tbody>
                     </table>
                 </div>
-                <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_prome'>
+                <Dropdown className='boton_prome'>
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" >
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
@@ -331,7 +326,7 @@ const Promesas = ({ backgroundColor }) => {
                         </Form>
                     </Modal.Body>
                 </Modal>
-                <Image className='Img-Creamos_ped' src={imagenes.Creamos} />
+                <Image className='Img-Creamos_promesa' src={imagenes.Creamos} />
             </div >
         </>
     );

@@ -1,9 +1,21 @@
 .DataTableIva {
-    padding: 1.5%;
+
+    position: relative;
+    padding: 5%;
     margin: 5%;
     border-radius: 29px;
+    width: auto;
+    border-collapse: collapse;
+    max-height: 350px;
+    overflow-y: auto;
+    text-align: center;
+    margin-top: 70px;
+    /*30-10-2023*/
+    max-height: 500px;
+    /*30-10-2023*/
     overflow-x: auto;
     margin-right: 20px;
+
 }
 
 .Img-Creamos_iva {
@@ -13,7 +25,7 @@
     display: block;
 }
 
-.DropIva {}
+
 
 .botones-Iva {
     margin-top: -4%;
@@ -143,13 +155,7 @@
 
 
 
-    .botones-Iva {
 
-        position: relative;
-
-        top: 670px;
-
-    }
 }
 
 @media (max-width: 510px) {
@@ -164,34 +170,67 @@
         margin-left: 0%;
     }
 
-    .DataTableIva {
-        position: absolute;
 
-        top: 320px;
+}
 
-        max-width: 600px;
 
-        overflow: scroll;
 
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
-    }
+@media (max-width: 600px) {
+    .Crear-btn-iva {
 
-    .botones-Iva {
-
-        position: relative;
-
-        top: 670px;
+        width: 150px;
 
     }
 }
 
-@media (max-width: 480px) {
-    .boton_iva {
+@media (max-width: 510px) {
+    .botones-Iva {
+        position: relative;
 
-        margin-left: -110%;
-        margin-top: 19%;
-        position: static;
+        top: auto;
+    }
+
+}
+
+.boton_iva {
+
+    position: absolute;
+    top: 30%;
+    right: 40px;
+
+
+
+}
+
+@media (max-width: 390px) {
+
+    .DataTableIva {
+        margin-top: 30%;
+    }
+
+    .boton_iva {
+        left: 30px;
+        margin-top: 50px;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 765px) {
+
+
+    .boton_iva {
+        left: 30px;
 
     }
+
+}
+
+@media only screen and (max-width: 915px) and (orientation: landscape) {
+    .boton_iva {
+        margin-top: 20%;
+    }
+
+    .DataTableIva {
+        margin-top: 20%;
+    }
+
 }

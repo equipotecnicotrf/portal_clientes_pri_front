@@ -186,12 +186,7 @@ const GestionarConsecutivos = ({ backgroundColor }) => {
         borderColor: 'Black',
         width: '250px'
     };
-    const dropDown = {
-        position: 'absolute',
-        top: '27.2%',
-        left: '75%',
-        transform: 'translate (-50%, -50%)',
-    };
+
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -214,7 +209,7 @@ const GestionarConsecutivos = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '40px',
+
     };
 
     const bannerStyle2 = {
@@ -273,8 +268,8 @@ const GestionarConsecutivos = ({ backgroundColor }) => {
                     </table>
                 </div>
 
-                <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_conse'>
+                <Dropdown className='boton_conse'>
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" >
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
