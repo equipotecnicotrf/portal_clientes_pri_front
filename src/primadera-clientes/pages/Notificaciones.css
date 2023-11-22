@@ -11,6 +11,7 @@
 }
 
 .DataTable_noti {
+    position: relative;
     padding: 5%;
     margin: 5%;
     border-radius: 29px;
@@ -18,9 +19,15 @@
     border-collapse: collapse;
     max-height: 350px;
     overflow-y: auto;
+    text-align: center;
+    margin-top: 70px;
+    /*30-10-2023*/
+    max-height: 500px;
+    /*30-10-2023*/
     overflow-x: auto;
     margin-right: 20px;
 }
+
 
 .Edit_noti {
     background-color: #878787;
@@ -89,11 +96,52 @@
     margin-left: 70%;
 }
 
-@media (max-width: 480px) {
-    .boton_noti {
-        margin-left: -110%;
-        margin-top: 8%;
+.boton_noti {
+
+    position: absolute;
+    top: 30%;
+    right: 40px;
+
+
+
+}
+
+
+
+@media (max-width: 390px) {
+
+    .DataTable_noti {
+        margin-top: 30%;
     }
+
+    .boton_noti {
+        left: 30px;
+        margin-top: 50px;
+    }
+
+
+}
+
+
+@media (min-width: 400px) and (max-width: 765px) {
+
+
+    .boton_noti {
+        left: 30px;
+
+    }
+
+}
+
+@media only screen and (max-width: 977px) and (orientation: landscape) {
+    .boton_noti {
+        margin-top: 20%;
+    }
+
+    .DataTable_noti {
+        margin-top: 20%;
+    }
+
 }
 
 /*30-10-2023 adiciones fin*/

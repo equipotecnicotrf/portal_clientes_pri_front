@@ -19,7 +19,7 @@ import UserService from '../../services/UserService';
 
 
 
-const DataTable = ({ backgroundColor }) => {
+const DataTable_inve = ({ backgroundColor }) => {
     const [selectedOption, setSelectedOption] = useState('Acciones');
     const [usuarioSesion, setUsuarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
@@ -75,7 +75,7 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '60px',
+
 
     };
     const backgroundStyle = {
@@ -87,6 +87,7 @@ const DataTable = ({ backgroundColor }) => {
 
     const audit = {
         padding: '20px',
+
 
     };
 
@@ -102,12 +103,7 @@ const DataTable = ({ backgroundColor }) => {
         borderColor: 'Black',
         width: '250px'
     };
-    const dropDown = {
-        position: 'absolute',
-        marginTop: '-25px',
-        left: '75%',
-        transform: 'translate (-50%, -50%)',
-    };
+
 
     return (
         <>
@@ -151,8 +147,8 @@ const DataTable = ({ backgroundColor }) => {
                     </table>
                 </div>
 
-                <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_inventario'>
+                <Dropdown className='boton_inventario' >
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
@@ -167,7 +163,7 @@ const DataTable = ({ backgroundColor }) => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <div className='DataTable' style={bannerStyle}>
+                <div className='DataTable_inve' style={bannerStyle}>
                     <th style={audit}>ORGANIZACIONES DE INVENTARIO </th>
                     <div className='SearchInventario'>
                         <Form inline>
@@ -215,4 +211,4 @@ const DataTable = ({ backgroundColor }) => {
     );
 };
 
-export default DataTable;
+export default DataTable_inve;

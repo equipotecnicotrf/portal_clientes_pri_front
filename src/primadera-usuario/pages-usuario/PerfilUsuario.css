@@ -464,17 +464,20 @@
 
     .CuadroInfo {
         margin-top: -10%;
+        right: 80px;
     }
 
     .Buttons_perfil2 {
-        transform: scale(0.7) translateY(-90%) translateX(-26%);
+        transform: scale(0.5) translateY(-90%) translateX(-63%);
         left: 0px;
+        margin-top: -20%;
+        margin-left: 4%;
     }
 
     .CuadroInfo_dir,
     .CuadroInfo_ayuda {
         margin: -24%;
-        margin-left: 36%;
+        margin-left: 25%;
         margin-top: -81%;
         position: absolute;
         overflow: auto;
@@ -484,7 +487,7 @@
     .CuadroInfo,
     .CuadroInfo_ayuda,
     .CuadroInfo_dir {
-        transform: scale(0.7) translateX(-14%);
+        transform: scale(0.7) translateX(-18%);
     }
 
 }
@@ -571,7 +574,7 @@
     }
 
     .Buttons_perfil2 {
-        transform: scale(0.6) translateY(-70%) translateX(-14%);
+        transform: scale(0.6) translateY(-90%) translateX(-13%);
         left: 0px;
     }
 
@@ -1238,7 +1241,7 @@
     display: flex;
 }
 
-@media screen and (max-width: 768px) and (min-width: 481px) {
+@media screen and (max-width: 768px) and (min-width: 482px) {
     .btns_perfil {
         flex-direction: column;
         align-items: center;
@@ -1259,7 +1262,7 @@
 
     #numeralperfil {
         position: absolute;
-        margin-bottom: -10%;
+        margin-bottom: -11%;
         margin-left: 0%;
         color: #000000;
         font-size: 14px;
@@ -1306,11 +1309,13 @@
     #numeralPedido,
     #numeralConsulta {
         transform: scale(0.9);
+        margin-bottom: -25%;
+
     }
 
     #numeralperfil {
         position: absolute;
-        margin-bottom: -20%;
+        font-family: Medium;
         margin-left: 0%;
         color: #807878;
     }
@@ -1319,7 +1324,7 @@
         position: absolute;
         width: 90px;
         color: #807878;
-        margin-bottom: -25%;
+        margin-bottom: -30%;
         margin-left: 0%;
     }
 
@@ -1327,7 +1332,7 @@
         position: absolute;
         width: 90px;
         color: #807878;
-        margin-bottom: -25%;
+        margin-bottom: -30%;
         margin-left: 0%;
     }
 
@@ -1335,7 +1340,7 @@
         position: absolute;
         width: 90px;
         color: #807878;
-        margin-bottom: -25%;
+        margin-bottom: -30%;
         margin-left: 0%;
     }
 
@@ -1490,6 +1495,7 @@
     #numeralConsulta {
         transform: scale(0.8) translateY(-10%);
         font-size: 12px;
+        margin-bottom: -90px;
     }
 
     .CuadroInfo_dir,
@@ -1729,25 +1735,25 @@
 @media screen and (min-width: 481px)and (max-width: 658px) {
     #numeralConsulta {
         width: 90px;
-        margin-bottom: -15%;
+        margin-bottom: -22%;
 
     }
 
     #numeralPedido {
         width: 90px;
-        margin-bottom: -16%;
+        margin-bottom: -22%;
 
     }
 
     #numeralInventario {
         width: 90px;
-        margin-bottom: -16%;
+        margin-bottom: -22%;
         margin-left: -10%;
     }
 
     btns_perfil80 #numeralperfil {
         width: 90px;
-        margin-bottom: -15%;
+        margin-bottom: -18%;
     }
 
 

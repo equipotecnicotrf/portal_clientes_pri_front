@@ -442,30 +442,30 @@ const FinalizarCompra = () => {
                 </div>
             )}
             <div className='FondoBlanco_compra'>
-                <div className='Buttons_perfil mt-12 d-flex align-items-center'>
+                <div className='Buttons_perfil_end mt-12 d-flex align-items-center'>
                     <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataTablePerfilUser")}>
                         <div className='FaUser_perfil'><FaUser /></div>
-                        <div className='Palabra_perfil'>Perfil </div>
+                        <div className='Palabra_perfil' id='Num_perf_end'>Perfil </div>
                         <div className='FaAngleDown_perfil '><FaAngleDown /></div>
                     </button>
                     <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
                         <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
-                        <div className='Palabra_inv'>Inventario disponible</div>
+                        <div className='Palabra_inv' id='Num_inv_end'>Inventario disponible</div>
                         <div className='FaAngleDown_inv'><FaAngleDown /></div>
                     </button>
                     <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
                         <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
-                        <div className='Palabra_haz'>Haz tu pedido </div>
+                        <div className='Palabra_haz' id='Num_haz_end'>Haz tu pedido </div>
                         <div className='FaAngleDown_haz'><FaAngleDown /></div>
                     </button>
                     <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
                         <div className='FaTruck_cons'><FaTruck /></div>
-                        <div className='Palabra_cons'>Consulta tu pedido</div>
+                        <div className='Palabra_cons' id='Num_cons_end'>Consulta tu pedido</div>
                         <div className='FaAngleDown_cons'><FaAngleDown /></div>
                     </button>
                 </div>
 
-                <div style={FinalizarDatosUser}>
+                <div style={FinalizarDatosUser} className='PerfilEnd'>
                     <tr>
                         <td style={{ verticalAlign: 'middle' }}><Container>
                             <Row>

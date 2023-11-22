@@ -4,16 +4,28 @@
 }
 
 
-.DataTable {
+.DataTable_inve {
     position: relative;
     padding: 5%;
+    margin: 5%;
     border-radius: 29px;
+    width: auto;
+    border-collapse: collapse;
+    max-height: 350px;
+    overflow-y: auto;
+    text-align: center;
+    margin-top: 70px;
+    /*30-10-2023*/
+    max-height: 500px;
+    /*30-10-2023*/
+    overflow-x: auto;
+    margin-right: 20px;
 
 }
 
 .SearchInventario {
     position: absolute;
-    top: 40px;
+    top: 60px;
     right: 10px;
 }
 
@@ -48,27 +60,66 @@
     border: none;
 }
 
-@media (max-width: 768px) {
 
-    .SearchInventario {
-        position: static;
-        margin-top: 10px;
-        margin-left: 10px;
+
+
+
+.boton_inventario {
+
+    position: absolute;
+    top: 30%;
+    right: 0;
+
+
+
+}
+
+
+
+@media (max-width: 390px) {
+
+    .DataTable_inve {
+        margin-top: 30%;
     }
 
-    .DataTable {
-        position: absolute;
-        top: 250px;
-        max-width: 600px;
-        overflow: scroll;
-        transition: all 0.3s ease;
-        /* Añade una animación de transición de 0.3 segundos */
+    .boton_inventario {
+        left: 30px;
+        margin-top: 50px;
+    }
+
+    .SearchInventario {
+
+        left: 15px;
+    }
+
+
+
+}
+
+@media (min-width: 400px) and (max-width: 765px) {
+
+
+    .boton_inventario {
+        left: 30px;
+
+    }
+
+    .SearchInventario {
+
+        left: 15px;
     }
 }
 
-@media (max-width: 480px) {
+@media only screen and (max-width: 977px) and (orientation: landscape) {
     .boton_inventario {
-        margin-left: -110%;
-        margin-top: 15%;
+        margin-top: 20%;
+    }
+
+    .DataTable_inve {
+        margin-top: 20%;
+    }
+
+    .SearchInventario {
+        margin-top: 2%;
     }
 }

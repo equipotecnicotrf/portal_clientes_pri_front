@@ -639,7 +639,7 @@ const DataTable = ({ backgroundColor }) => {
     color: '#fff',
     padding: '20px',
     textAlign: 'center',
-    marginTop: '90px',/*31-10-2023*/
+
     maxHeight: '500px',/*31-10-2023*/
     overflow: 'auto', /*31-10-2023*/
   };
@@ -696,13 +696,7 @@ const DataTable = ({ backgroundColor }) => {
     borderColor: 'Black',
     width: '250px'
   };
-  const dropDown = {
-    position: 'absolute',
-    top: '33%', /*31-10-2023 se ajusta top*/
-    left: '76.4%',  /*31-10-2023 se ajusta left*/
-    transform: 'translate (-50%, -50%)',
 
-  };
   const gestion_usua = {
     padding: '60px',
     height: '23vh',
@@ -858,8 +852,8 @@ const DataTable = ({ backgroundColor }) => {
         </div>
         {/*31-10-2023 se ajusta DIV completo*/}
 
-        <Dropdown style={dropDown}>
-          <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_usario'>
+        <Dropdown className='boton_usuario'>
+          <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" >
             {selectedOption}
           </Dropdown.Toggle>
           <Dropdown.Menu style={dropDownbackgroundStyle}>
@@ -873,26 +867,29 @@ const DataTable = ({ backgroundColor }) => {
             <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-        <div className='busc_gest_usua'>
-          <Form inline>
-            <Row>
-              <Col xs="auto">
-                <Form.Control
-                  type="text"
-                  placeholder="Buscar"
-                  className=" mr-sm-2"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                />
-              </Col>
-              <Col xs="auto">
-                <Button className='usuario'><FaSearch /></Button> {/*20-10-2023*/}
-              </Col>
-            </Row>
-          </Form>
-        </div>
+
+
+
         <div className='DataTable_Usu' style={bannerStyle} >  {/*31-10-2023 ajuste classname*/}
           <th style={gestion}>GESTIÓN DE USUARIO </th>
+          <div className='busc_gest_usua'>
+            <Form inline>
+              <Row>
+                <Col xs="auto">
+                  <Form.Control
+                    type="text"
+                    placeholder="Buscar"
+                    className=" mr-sm-2"
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                  />
+                </Col>
+                <Col xs="auto">
+                  <Button className='usuario'><FaSearch /></Button> {/*20-10-2023*/}
+                </Col>
+              </Row>
+            </Form>
+          </div>
           <table className='table table-bordered' style={bannerStyle6} >
             <thead style={bannerStyle}>
               <tr style={bannerStyle} className='borderless_gest_usua'>

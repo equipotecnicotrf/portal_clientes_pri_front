@@ -24,6 +24,21 @@
     display: flex;
 }
 
+.PerfilEnd {
+    margin-top: 25%;
+    margin-left: 2%;
+    z-index: auto;
+    height: 0% !important;
+}
+
+.Buttons_perfil_end {
+    margin-top: -2.5%;
+    z-index: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .tamanio_carro_principal_finalizar {
     font-size: 35px;
     margin-left: 4%;
@@ -58,11 +73,10 @@
 
 .ContenedorPadre_compra {
     background-color: #F9F7F7;
-    width: 950x;
     height: 590px;
     margin-left: 2%;
     margin-right: 2%;
-    margin-top: 1%;
+    margin-top: 5.5%;
     overflow: auto;
     display: flex;
     justify-content: center;
@@ -213,17 +227,10 @@
     width: 400px;
 }
 
-@media (max-width: 768px) {
-    .Info_general_compra {
-        width: 220px;
-        margin-left: 50%;
-        transform: translateX(-50%);
-    }
-}
+
 
 .div_gris {
     background-color: #D9D9D9;
-    margin-left: 1.5%;
     height: 155px;
 }
 
@@ -257,4 +264,357 @@
     align-items: center;
     text-align: center;
     justify-content: center;
+}
+
+@media screen and (max-width: 1010px) {
+
+    .direccion_envio,
+    .resumen_pedido {
+        transform: scale(0.9);
+    }
+}
+
+/* Boton carrito de compras */
+@media (max-width: 768px) {
+    .Info_general_compra {
+        width: 220px;
+        margin-left: 50%;
+        transform: scale(0.8);
+    }
+
+}
+
+@media screen and (max-width: 950px) {
+    .direccion_envio {
+        min-width: 450px;
+    }
+
+    .resumen_pedido {
+        min-width: 350px;
+    }
+
+}
+
+@media screen and (max-width: 850px) {
+
+    .resumen_pedido {
+        transform: scale(0.8) translateX(40%) translateY(-10%);
+    }
+
+    .direccion_envio {
+        transform: scale(0.8) translateX(25%);
+    }
+
+    .ContenedorPadre_compra {
+        display: block;
+        margin-top: 8%;
+    }
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .resumen_pedido {
+        transform: scale(0.8) translateX(30%) translateY(-10%);
+    }
+
+    .direccion_envio {
+        transform: scale(0.8) translateX(15%);
+    }
+
+    .PerfilEnd {
+        transform: scale(0.9) translateY(-130%) translateX(-10%);
+    }
+
+    .Buttons_perfil_end {
+        transform: translateY(180%);
+        margin-bottom: 12%;
+    }
+
+    #Num_perf_end {
+        position: absolute;
+        margin-bottom: -13%;
+        margin-left: 0%;
+        color: #000000;
+        pointer-events: none;
+    }
+
+    #Num_inv_end {
+        position: absolute;
+        margin-bottom: -16%;
+        margin-left: -8%;
+        color: #000000;
+        max-width: 25px;
+    }
+
+    #Num_haz_end {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -13%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_end {
+        position: absolute;
+        color: #000000;
+        margin-bottom: -13%;
+        margin-left: 0%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .resumen_pedido {
+        transform: scale(0.8) translateX(10%) translateY(-10%);
+    }
+
+    .direccion_envio {
+        transform: scale(0.8) translateX(5%);
+    }
+}
+
+@media screen and (max-width: 590px) {
+    .ContenedorPadre_compra {
+        overflow-x: hidden;
+    }
+
+    .resumen_pedido {
+        transform: scale(0.7) translateX(-14%) translateY(-10%);
+    }
+
+    .direccion_envio {
+        transform: scale(0.7) translateX(-15%);
+    }
+}
+
+/* Media query para las letras de los botones para acomodar los tamaños y que no se desucadre, 21 de Noviembre*/
+@media screen and (min-width: 481px)and (max-width: 579px) {
+    #Num_cons_end {
+        width: 90px;
+        margin-bottom: -23%;
+    }
+
+    #Num_haz_end {
+        width: 90px;
+        margin-bottom: -23%;
+    }
+
+    #Num_inv_end {
+        width: 90px;
+        margin-bottom: -23%;
+        margin-left: -12%;
+    }
+
+    #Num_perf_end {
+        width: 90px;
+        margin-bottom: -20%;
+    }
+
+    .PerfilEnd {
+
+        transform: scale(0.9) translateY(-110%) translateX(-10%);
+
+    }
+}
+
+@media screen and (min-width: 580px)and (max-width: 700px) {
+
+    .Buttons_perfil_end {
+        margin-bottom: 15%;
+    }
+
+    #Num_cons_end {
+        width: 90px;
+        margin-bottom: -18%;
+    }
+
+    #Num_haz_end {
+        width: 90px;
+        margin-bottom: -18%;
+    }
+
+    #Num_inv_end {
+        width: 90px;
+        margin-bottom: -18%;
+        margin-left: -10%;
+    }
+
+    #Num_perf_end {
+        width: 90px;
+        margin-bottom: -16%;
+    }
+
+
+}
+
+@media screen and (min-width: 461px) and (max-width: 480px) {
+    .resumen_pedido {
+        transform: scale(0.6) translateX(-25%) translateY(-70%);
+    }
+
+    .direccion_envio {
+        transform: scale(0.6) translateX(-30%) translateY(-30%);
+    }
+
+    .PerfilEnd {
+        transform: scale(0.9) translateY(-124%) translateX(-20%);
+    }
+
+    .Buttons_perfil_end {
+        margin-bottom: 20%;
+    }
+
+    #Num_perf_end {
+        position: absolute;
+        margin-bottom: -23%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_inv_end {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -24%;
+        margin-left: -14%;
+    }
+
+    #Num_haz_end {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -24%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_end {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -24%;
+        margin-left: -2%;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 460px) {
+    .resumen_pedido {
+        transform: scale(0.6) translateX(-25%) translateY(-70%);
+    }
+
+    .direccion_envio {
+        transform: scale(0.6) translateX(-30%) translateY(-30%);
+    }
+
+    .PerfilEnd {
+        transform: scale(0.9) translateY(-100%) translateX(-25%);
+    }
+
+    #Num_perf_end,
+    #Num_inv_end,
+    #Num_haz_end,
+    #Num_cons_end {
+        transform: scale(0.9);
+    }
+
+    #Num_perf_end {
+        position: absolute;
+        margin-bottom: -24%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_inv_end {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: -13%;
+    }
+
+    #Num_haz_end {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_end {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -25%;
+        margin-left: 0%;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 430px) {
+    .PerfilEnd {
+        transform: scale(0.8) translateY(-100%) translateX(-30%);
+    }
+
+}
+
+
+@media screen and (max-width: 399px) {
+
+    .resumen_pedido {
+        transform: scale(0.5) translateX(-45%) translateY(-100%);
+    }
+
+    .direccion_envio {
+        transform: scale(0.5) translateX(-45%) translateY(-30%);
+    }
+
+
+    .Buttons_perfil_end {
+        margin-bottom: 18%;
+    }
+
+    .PerfilEnd {
+        transform: scale(0.7) translateY(-125%) translateX(-35%);
+    }
+
+    #Num_perf_end,
+    #Num_inv_end,
+    #Num_haz_end,
+    #Num_cons_end {
+        transform: scale(0.8);
+    }
+
+    #Num_perf_end {
+        position: absolute;
+        margin-bottom: -26%;
+        margin-left: 0%;
+        color: #807878;
+    }
+
+    #Num_inv_end {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -30%;
+        margin-left: -14%;
+    }
+
+    #Num_haz_end {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -30%;
+        margin-left: 0%;
+    }
+
+    #Num_cons_end {
+        position: absolute;
+        width: 90px;
+        color: #807878;
+        margin-bottom: -30%;
+        margin-left: 0%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+    .Info_general_compra {
+        margin-left: 70%;
+    }
 }

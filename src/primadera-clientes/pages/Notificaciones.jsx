@@ -100,12 +100,7 @@ const DataTable = ({ backgroundColor }) => {
         borderColor: 'Black',
         width: '250px'
     };
-    const dropDown = {
-        position: 'absolute',
-        top: '27.2%',
-        left: '75%',
-        transform: 'translate (-50%, -50%)',
-    };
+
 
     {/*AJUSTES 19-10-2023 INI*/ }
 
@@ -159,7 +154,7 @@ const DataTable = ({ backgroundColor }) => {
         color: '#fff',
         padding: '20px',
         textAlign: 'center',
-        marginTop: '40px',
+
     };
 
     const bannerStyle2 = {
@@ -218,8 +213,8 @@ const DataTable = ({ backgroundColor }) => {
                     </table>
                 </div>
 
-                <Dropdown style={dropDown}>
-                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" className='boton_noti'>
+                <Dropdown className='boton_noti'>
+                    <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic" >
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>

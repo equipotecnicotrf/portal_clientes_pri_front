@@ -1,4 +1,5 @@
 .DataTable_Usu {
+    position: relative;
     padding: 5%;
     margin: 5%;
     border-radius: 29px;
@@ -6,6 +7,11 @@
     border-collapse: collapse;
     max-height: 350px;
     overflow-y: auto;
+    text-align: center;
+    margin-top: 70px;
+    /*30-10-2023*/
+    max-height: 500px;
+    /*30-10-2023*/
     overflow-x: auto;
     margin-right: 20px;
 }
@@ -167,10 +173,10 @@
 
 .busc_gest_usua {
     position: absolute;
-    top: 40.5%;
-    /*31-10-2023*/
-    right: 3.5%;
-    /*31-10-2023*/
+    top: 60px;
+
+    right: 12px;
+
 }
 
 .gest_usua {
@@ -282,36 +288,13 @@
 
 }
 
-@media (max-width: 1190px) {
-    .Botones_gest {
-        margin-top: 0px;
-
-    }
-}
-
-@media (max-width: 1025px) {
-    .busc_gest_usua {
-        margin-top: 10px;
-        transition: all 0.3s ease;
-    }
-}
-
-@media (max-width: 768px) {
-    .busc_gest_usua {
-        margin-top: 80px;
-        left: 90px;
-    }
 
 
 
-    .Botones_gest {
 
-        margin-top: 530px;
-        margin-left: 40px;
 
-    }
 
-}
+
 
 @media (max-width: 510px) {}
 
@@ -352,12 +335,65 @@
     margin-left: 70%;
 }
 
-@media (max-width: 480px) {
-    .boton_usario {
-        margin-left: -110%;
+
+
+
+
+.boton_usuario {
+
+    position: absolute;
+    top: 30%;
+    right: 40px;
+
+
+}
+
+@media (max-width: 390px) {
+
+    .DataTable_Usu {
+        margin-top: 30%;
     }
+
+    .boton_usuario {
+        left: 30px;
+        margin-top: 50px;
+    }
+
+    .busc_gest_usua {
+
+        left: 15px;
+    }
+
 }
 
 
+@media (min-width: 400px) and (max-width: 765px) {
+
+
+    .boton_usuario {
+        left: 30px;
+
+    }
+
+    .busc_gest_usua {
+
+        left: 15px;
+    }
+
+}
+
+@media only screen and (max-width: 915px) and (orientation: landscape) {
+    .boton_usuario {
+        margin-top: 20%;
+    }
+
+    .DataTable_Usu {
+        margin-top: 20%;
+    }
+
+    .busc_gest_usua {
+        margin-top: 1%;
+    }
+}
 
 /*33-10-2023 adiciones fin*/

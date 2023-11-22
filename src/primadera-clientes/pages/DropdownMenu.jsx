@@ -20,12 +20,7 @@ const backgroundStyle = {
   borderColor: 'Black',
   width: '250px'
 };
-const dropDown = {
-  position: 'absolute',
-  top: '235px',
-  left: '14%',
-  transform: 'translate (-50%, -50%)',
-};
+
 const backgroundS = {
   backgroundImage: `url(${imagenes.fondoTextura}`,
   backgroundSize: 'cover',
@@ -34,9 +29,9 @@ const backgroundS = {
 };
 
 const dropdown_principal = {
-  padding: '70px',
+  padding: '60px',
   height: '23vh',
-  marginTop: '-47px',
+  marginTop: 'auto',
 };
 
 const dropDownbackgroundStyle = {
@@ -86,12 +81,12 @@ function AdminMenu() {
 
       <div className='Back' style={backgroundS}>
         <Banner />
-        <div style={dropdown_principal} className='perfil_inv'>
+        <div style={dropdown_principal} className='perfil_drop'>
           <tr>
             <td style={{ verticalAlign: 'middle' }}><Container>
               <Row>
                 <Col xs={6} md={4}>
-                  <Image className='Img_DatosInv' src={imagenes.Arboles} roundedCircle />
+                  <Image className='Img-Admin-Dropdown' src={imagenes.Arboles} roundedCircle />
                 </Col>
               </Row>
             </Container>
@@ -106,7 +101,7 @@ function AdminMenu() {
         </div>
 
         <div className='fondoBlanco'>
-          <Dropdown style={dropDown}>
+          <Dropdown className='botonMenu'>
             <Dropdown.Toggle style={dropDownbackgroundStyle} id="dropdown-basic">
               {selectedOption}
             </Dropdown.Toggle>
@@ -122,7 +117,7 @@ function AdminMenu() {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <Image className='Img-Creamos' src={imagenes.Creamos} />
+        <Image className='Img-Creamos_drop' src={imagenes.Creamos} />
       </div>
     </>
   );
