@@ -1,3 +1,10 @@
+.Img-Creamos_finalizar {
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    display: block;
+}
+
 .Info_general_compra {
     background-color: #767373;
     text-align: left;
@@ -76,7 +83,7 @@
     height: 590px;
     margin-left: 2%;
     margin-right: 2%;
-    margin-top: 5.5%;
+    margin-top: 1%;
     overflow: auto;
     display: flex;
     justify-content: center;
@@ -162,10 +169,6 @@
     justify-content: center;
 }
 
-.ancho_modal_finalizar {
-    width: 400px;
-    left: 35%;
-}
 
 .modal_principal_finalizar {
     background-color: white;
@@ -282,6 +285,10 @@
         transform: scale(0.8);
     }
 
+    .Creamos_finalizar {
+        margin-top: 5%;
+    }
+
 }
 
 @media screen and (max-width: 950px) {
@@ -298,16 +305,21 @@
 @media screen and (max-width: 850px) {
 
     .resumen_pedido {
-        transform: scale(0.8) translateX(40%) translateY(-10%);
+        transform: scale(0.8) translateX(-28%) translateY(-25%);
+        margin-bottom: 5%;
     }
 
     .direccion_envio {
-        transform: scale(0.8) translateX(25%);
+        transform: scale(0.8) translateX(-25%) translateY(-10%);
     }
 
     .ContenedorPadre_compra {
-        display: block;
+        display: grid;
         margin-top: 8%;
+    }
+
+    .FondoBlanco_compra {
+        height: 800px;
     }
 }
 
@@ -315,11 +327,16 @@
 
 @media screen and (max-width: 768px) {
     .resumen_pedido {
-        transform: scale(0.8) translateX(30%) translateY(-10%);
+        transform: scale(0.8) translateX(-16%) translateY(-28%);
     }
 
     .direccion_envio {
-        transform: scale(0.8) translateX(15%);
+        transform: scale(0.8) translateX(-15%) translateY(-10%);
+        margin-bottom: 10%;
+    }
+
+    .FondoBlanco_compra {
+        height: 850px;
     }
 
     .PerfilEnd {
@@ -364,25 +381,35 @@
 
 @media screen and (max-width: 650px) {
     .resumen_pedido {
-        transform: scale(0.8) translateX(10%) translateY(-10%);
+        transform: scale(0.8) translateX(0%) translateY(-30%);
     }
 
     .direccion_envio {
-        transform: scale(0.8) translateX(5%);
+        transform: scale(0.8) translateX(-2%) translateY(-10%);
     }
 }
 
 @media screen and (max-width: 590px) {
+    #Contenido {
+        transform: scale(0.9);
+    }
+
+    .Img-Creamos_finalizar {
+        margin-top: 0%;
+    }
+
     .ContenedorPadre_compra {
         overflow-x: hidden;
+
     }
 
     .resumen_pedido {
-        transform: scale(0.7) translateX(-14%) translateY(-10%);
+        transform: scale(0.7) translateX(5%) translateY(-50%);
     }
 
     .direccion_envio {
-        transform: scale(0.7) translateX(-15%);
+        transform: scale(0.7) translateX(0%) translateY(-20%);
+
     }
 }
 
@@ -448,11 +475,11 @@
 
 @media screen and (min-width: 461px) and (max-width: 480px) {
     .resumen_pedido {
-        transform: scale(0.6) translateX(-25%) translateY(-70%);
+        transform: scale(0.6) translateX(0%) translateY(-70%);
     }
 
     .direccion_envio {
-        transform: scale(0.6) translateX(-30%) translateY(-30%);
+        transform: scale(0.6) translateX(-5%) translateY(-30%);
     }
 
     .PerfilEnd {
@@ -496,12 +523,16 @@
 }
 
 @media screen and (min-width: 400px) and (max-width: 460px) {
+    .FondoBlanco_compra {
+        max-height: 810px;
+    }
+
     .resumen_pedido {
-        transform: scale(0.6) translateX(-25%) translateY(-70%);
+        transform: scale(0.6) translateX(8%) translateY(-70%);
     }
 
     .direccion_envio {
-        transform: scale(0.6) translateX(-30%) translateY(-30%);
+        transform: scale(0.6) translateX(-2%) translateY(-30%);
     }
 
     .PerfilEnd {
@@ -556,13 +587,20 @@
 
 
 @media screen and (max-width: 399px) {
+    .ContenedorPadre_compra {
+        max-height: 475px;
+    }
+
+    .FondoBlanco_compra {
+        max-height: 700px;
+    }
 
     .resumen_pedido {
-        transform: scale(0.5) translateX(-45%) translateY(-100%);
+        transform: scale(0.5) translateX(5%) translateY(-100%);
     }
 
     .direccion_envio {
-        transform: scale(0.5) translateX(-45%) translateY(-30%);
+        transform: scale(0.5) translateX(-5%) translateY(-45%);
     }
 
 

@@ -414,3 +414,21 @@
     }
 
 }
+
+.quitar_borde_modal_consulta {
+    border: none;
+    background-color: #474444;
+    color: white;
+}
+
+.Color_texto_consulta {
+    color: white
+}
+
+.centrar_texto_consulta {
+    display: flex;
+    background-color: #474444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}

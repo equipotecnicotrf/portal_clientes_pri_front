@@ -10,7 +10,7 @@ import Image from 'react-bootstrap/Image';
 import LoginService from '../../services/LoginService';
 import Cookies from 'js-cookie';
 import UserService from '../../services/UserService';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ConsultOrderService from '../../services/ConsultOrderService';
@@ -81,6 +81,7 @@ const ConsultaPedido = () => {
 
                     carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
                     consultaPedidoInicial(responseid.data.party_id, transactionTypeCode, creationDateFromFormateada, creationDateToFormateada);
+                    setShow2(true);
 
 
                 });
@@ -111,8 +112,10 @@ const ConsultaPedido = () => {
             setorders(consultorderresponse.data);
             setstatusCode("OPEN")
             console.log(consultorderresponse.data);
+            setShow2(false);
         }).catch(error => {
             console.log(error);
+            setShow2(false);
             console.log("El cliente no tiene pedidos abiertos");
         })
     }
@@ -281,11 +284,15 @@ const ConsultaPedido = () => {
         selectedDireccion;
 
         if (orderNumber.length !== 0) {
-            ConsultOrderService.getOrderByOrderNumber(orderNumber, buyingPartyId).then(consultorderresponse => {
-                setorders(consultorderresponse.data);
-                console.log(consultorderresponse.data);
+            setShow2(true);
+            ConsultOrderService.getOrderByOrderNumber(orderNumber, buyingPartyId).then(consultorderresponsebusqueda => {
+                setorders(consultorderresponsebusqueda.data);
+                setstatusCode("INICIAL");
+                console.log(consultorderresponsebusqueda.data);
+                setShow2(false);
             }).catch(error => {
                 console.log(error);
+                setShow2(false);
                 alert("No se encuentra el numero de pedido");
             });
 
@@ -297,12 +304,15 @@ const ConsultaPedido = () => {
             } else if (statusCode === null) {
                 alert("Por favor indicar estado")
             } else {
-
+                setShow2(true);
                 ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
                     setorders(consultorderresponse.data);
+                    setstatusCode("INICIAL");
                     console.log(consultorderresponse.data);
+                    setShow2(false);
                 }).catch(error => {
                     console.log(error);
+                    setShow2(false);
                     alert("La búsqueda no genero resultados");
                 })
             }
@@ -366,6 +376,10 @@ const ConsultaPedido = () => {
         fontFamily: 'Medium',
         width: 'fit-content'
     };
+
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
 
     return (
 
@@ -437,17 +451,17 @@ const ConsultaPedido = () => {
                                         value={creationDateFrom}
                                         onChange={(e) => setcreationDateFrom(e.target.value)}
                                     />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group as={Col} md="3" controlId="validationCustom02">
-                                    <Form.Label>Número de pedido</Form.Label>
+                                <Form.Group as={Col} md="3" controlId="validationCustom03">
+                                    <Form.Label>Hasta</Form.Label>
                                     <Form.Control
-                                        type="text"
-                                        placeholder="00000"
-                                        value={orderNumber}
-                                        onChange={(e) => setorderNumber(e.target.value)}
+                                        type="Date"
+                                        placeholder="Hasta"
+                                        value={creationDateTo}
+                                        onChange={(e) => setcreationDateTo(e.target.value)}
                                     />
                                 </Form.Group>
+
                                 <Form.Group as={Col} md="3" controlId="validationCustomUsername">
                                     <Form.Label>Estado</Form.Label>
                                     <select
@@ -464,14 +478,16 @@ const ConsultaPedido = () => {
                                 </Form.Group>
                             </Row>
                             <Row className="mb-3">
-                                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                                <Form.Group as={Col} md="4" controlId="validationCustom02">
+                                    <Form.Label>Número de pedido</Form.Label>
                                     <Form.Control
-                                        type="Date"
-                                        placeholder="Hasta"
-                                        value={creationDateTo}
-                                        onChange={(e) => setcreationDateTo(e.target.value)}
+                                        type="text"
+                                        placeholder="00000"
+                                        value={orderNumber}
+                                        onChange={(e) => setorderNumber(e.target.value)}
                                     />
                                 </Form.Group>
+
                                 <Form.Group as={Col} md="3" controlId="validationCustom04">
                                     <Form.Label>Dirección de envío</Form.Label>
                                     <select
@@ -499,15 +515,15 @@ const ConsultaPedido = () => {
 
                                 </Form.Group>
                                 <Form.Group as={Col} md="3" controlId="validationCustom05">
-                                    <Form.Label>Descripción de artículo</Form.Label>
-                                    <Form.Control
+                                    <Form.Label style={{ width: '150px' }}>Descripción de artículo</Form.Label>
+                                    <Form.Control style={{ marginBottom: '20px' }}
                                         type="text"
                                         placeholder="Palabra clave"
                                         value={itemDescription}
                                         onChange={(e) => setitemDescription(e.target.value)}
                                     />
                                 </Form.Group>
-                                <Button style={BtnBuscar} type="submit">Buscar</Button>
+                                <Button style={BtnBuscar} type="submit" >Buscar</Button>
                             </Row>
                         </Form>
                     </div>
@@ -523,6 +539,7 @@ const ConsultaPedido = () => {
                                     <th>Cantidad (M3)</th>
                                     <th>Fecha Estimada de envío</th>
                                     <th>Estado</th>
+                                    <th>Condición</th>
                                     <th>Fecha de despacho</th>
                                     <th>Remisión</th>
                                     <th>Factura</th>
@@ -567,6 +584,7 @@ const ConsultaPedido = () => {
                                         return matchesItemDescription && matchesSelectedDireccion && matchesStatus;
 
                                     })
+                                    .toSorted((a, b) => a.orderNumber - b.orderNumber) // Ordena el arreglo por orderNumber en orden ascendente
                                     .map((order) => {
                                         const item = items.find(item => item.inventory_item_id === order.productId);
                                         const Volumen = item ? order.orderedQuantity * item.atribute8 : 0;
@@ -581,6 +599,7 @@ const ConsultaPedido = () => {
                                                 <td>{Volumen.toLocaleString(undefined, opciones)}</td>
                                                 <td>{formattedrequestedShipDate}</td>
                                                 <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
+                                                <td>{order.onHoldFlag === true ? "Retenido" : "Liberado"}</td>
                                                 <td>{formattedActualShipDate}</td>
                                                 <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
                                                 <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
@@ -591,8 +610,18 @@ const ConsultaPedido = () => {
                             </tbody>
                         </Table>
                     </div>
-
                 </div>
+
+
+                <Modal centered size="s" show={show2} onHide={handleClose2}>
+                    <Modal.Header className='quitar_borde_modal_consulta' >
+                    </Modal.Header>
+                    <Modal.Body className='centrar_texto_consulta'>
+                        <h5 className='Color_texto_consulta'><strong>Estamos procesando su solicitud...</strong></h5>
+                    </Modal.Body>
+                    <Modal.Footer className='quitar_borde_modal_consulta'>
+                    </Modal.Footer>
+                </Modal>
 
 
             </div>

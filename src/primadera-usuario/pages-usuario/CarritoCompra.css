@@ -377,7 +377,7 @@
 
 @media (max-width: 480px) {
     .bordes_tabla {
-        transform: scale(0.7) translateX(-20%);
+        transform: scale(0.7) translateX(-20%) translateY(-20%);
         transition: all 0.3s ease;
     }
 
@@ -404,13 +404,15 @@
     .ContenedorPadre_carrito {
         margin-top: -12%;
     }
+
+    .Botones_finales {
+        margin-top: 15px;
+    }
 }
 
 
 @media (max-width: 800px) {
-    .ContenedorPadre_carrito {
-        height: auto;
-    }
+
 
     .Buttons_Carrito {
         flex-direction: column;
@@ -549,7 +551,7 @@
 
 @media (max-width: 768px) {
     .ContenedorPadre_carrito {
-        height: auto;
+        height: 500px;
     }
 
     .FondoBlanco_carrito {
@@ -731,7 +733,7 @@
         position: absolute;
         width: 90px;
         color: #807878;
-        margin-bottom: -25%;
+        margin-bottom: -30%;
         margin-left: -13%;
     }
 
@@ -739,7 +741,7 @@
         position: absolute;
         width: 90px;
         color: #807878;
-        margin-bottom: -25%;
+        margin-bottom: -30%;
         margin-left: 0%;
     }
 
@@ -747,7 +749,7 @@
         position: absolute;
         width: 90px;
         color: #807878;
-        margin-bottom: -25%;
+        margin-bottom: -30%;
         margin-left: 0%;
     }
 }
@@ -800,11 +802,5 @@
         color: #807878;
         margin-bottom: -28%;
         margin-left: 0%;
-    }
-}
-
-@media screen and (min-width: 769px) and (max-width: 1200px) {
-    .Info_general_compra {
-        margin-left: 70%;
     }
 }

@@ -599,7 +599,7 @@ const FinalizarCompra = () => {
 
 
 
-                        <Modal show={show} onHide={handleClose} centered className='ancho_modal_finalizar'>
+                        <Modal show={show} onHide={handleClose} centered className='ancho_modal_finalizar' id='Contenido'>
                             <Modal.Header closeButton className='modal_cabecera_principal'></Modal.Header>
                             <Modal.Body className='modal_principal_finalizar' >
                                 <div className='modal-frase-finalizar'>

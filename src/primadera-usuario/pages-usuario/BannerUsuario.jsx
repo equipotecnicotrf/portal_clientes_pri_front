@@ -128,7 +128,7 @@ const BannerUser = ({ backgroundColor }) => {
 
             </div>
             <div style={styles.container}>
-                <a href="https://api.whatsapp.com/send?phone=TUNUMERO" target="_blank" rel="noopener noreferrer">
+                <a href="https://api.whatsapp.com/send?phone=573232348803" target="_blank" rel="noopener noreferrer">
                     <img src={imagenes.wpp} alt="Icono de WhatsApp" style={styles.icon} />
                 </a>
             </div>

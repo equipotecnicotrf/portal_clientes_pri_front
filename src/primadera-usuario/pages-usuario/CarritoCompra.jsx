@@ -365,7 +365,7 @@ const CarritoCompras = () => {
 
     };
     const bannerStyle_precio = {
-        fontSize: '18px',
+        fontSize: '14px',
     }
     const cellStyle = {
         border: 'none',
@@ -572,15 +572,7 @@ const CarritoCompras = () => {
                             </table>
                         </div>
 
-                        <div >
-                            <Button className='btns_carrito_seguir' onClick={() => navigate("/DataInventario")}>Seguir comprando   </Button>
-                            {carrito.length !== 0 && (
-                                <>
-                                    <Button onClick={handleShow} className='btns_carrito_borrar'>Borrar carrito</Button>
-                                    <Button onClick={() => navigate("/FinalizarCompra")} className='btns_carrito_finalizar'>Finalizar compra</Button>
-                                </>
-                            )}
-                        </div>
+
 
                         <Modal show={show} onHide={handleClose} centered >
                             <Modal.Body className='modal_principal_carrito' >
@@ -604,6 +596,15 @@ const CarritoCompras = () => {
                             </Modal.Body>
                         </Modal>
 
+                    </div>
+                    <div className='Botones_finales' >
+                        <Button className='btns_carrito_seguir' onClick={() => navigate("/DataInventario")}>Seguir comprando   </Button>
+                        {carrito.length !== 0 && (
+                            <>
+                                <Button onClick={handleShow} className='btns_carrito_borrar'>Borrar carrito</Button>
+                                <Button onClick={() => navigate("/FinalizarCompra")} className='btns_carrito_finalizar'>Finalizar compra</Button>
+                            </>
+                        )}
                     </div>
 
                 </div>
