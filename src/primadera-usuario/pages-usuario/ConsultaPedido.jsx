@@ -574,7 +574,7 @@ const ConsultaPedido = () => {
                                         const formattedActualShipDate = order.actualShipDate ? new Date(order.actualShipDate).toLocaleDateString('es-ES') : '';
                                         return (
                                             <tr key={order.fulfillLineId}>
-                                                <td>{order.sourceTransactionNumber}</td>
+                                                <td>{order.orderNumber}</td>
                                                 <td>{order.fulfillLineNumber}</td>
                                                 <td>{order.productDescription}</td>
                                                 <td>{order.orderedQuantity}</td>
