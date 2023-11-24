@@ -218,7 +218,7 @@ const ConsultaPedido = () => {
 
     const ESTADOS = {
         INICIAL: {
-            valor: "INICIAL",
+            valor: "TODOS",
             traduccion: "Todos"
         },
         RETENIDO: {
@@ -287,7 +287,7 @@ const ConsultaPedido = () => {
             setShow2(true);
             ConsultOrderService.getOrderByOrderNumber(orderNumber, buyingPartyId).then(consultorderresponsebusqueda => {
                 setorders(consultorderresponsebusqueda.data);
-                setstatusCode("INICIAL");
+                setstatusCode("TODOS");
                 console.log(consultorderresponsebusqueda.data);
                 setShow2(false);
             }).catch(error => {
@@ -307,7 +307,7 @@ const ConsultaPedido = () => {
                 setShow2(true);
                 ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
                     setorders(consultorderresponse.data);
-                    setstatusCode("INICIAL");
+                    setstatusCode("TODOS");
                     console.log(consultorderresponse.data);
                     setShow2(false);
                 }).catch(error => {
@@ -531,7 +531,7 @@ const ConsultaPedido = () => {
                     <div className='Tabla_info_Consul'>
                         <Table striped bordered hover >
                             <thead>
-                                <tr>
+                                <tr className="text-center">
                                     <th>Pedido</th>
                                     <th>Línea</th>
                                     <th>Artículo</th>
@@ -578,6 +578,8 @@ const ConsultaPedido = () => {
                                             matchesStatus = order.matchesStatus = order.status === "Canceled";
                                         } else if (statusCode == "OPEN") {
                                             matchesStatus = order.matchesStatus = order.status === "Scheduled" || order.status === "Manual Scheduling Required" || order.status === "Awaiting Shipping";
+                                        } else if (statusCode == "TODOS") {
+                                            matchesStatus = order.matchesStatus = order.status === "Scheduled" || order.status === "Manual Scheduling Required" || order.status === "Awaiting Shipping" || order.status === "Awaiting Billing" || order.status === "Closed" || order.status === "Canceled";
                                         }
 
 

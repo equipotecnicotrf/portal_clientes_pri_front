@@ -676,7 +676,7 @@ const DataTable = ({ backgroundColor }) => {
     backgroundColor: backgroundColor || '#878787',
     color: '#fff',
     textAlign: 'center',
-    marginTop: '12px' //31-10-2023 se ajusta
+    marginTop: '50px' //31-10-2023 se ajusta
   };
 
   const backgroundStyle = {
@@ -943,7 +943,7 @@ const DataTable = ({ backgroundColor }) => {
           <Modal.Body className="Gestion_roles">
             <Form>
               <Form.Group className="mb-3" controlid="exampleForm.ControlInput1">
-                <div>
+                <div id='Tabla_dir'>
                   <table className='table table-bordered' style={bannerStyle5} >
                     <thead>
                       <tr className='bordered_usua' style={bannerStyle} >
@@ -1353,7 +1353,7 @@ const DataTable = ({ backgroundColor }) => {
             <Modal.Title><FaHome className='btn_fahome_usua' /> GESTIONAR DIRECCIONES</Modal.Title>
           </Modal.Header>
           <ModalBody className='Create-User'>
-            <div>
+            <div id='Tabla_dir'>
               <table className='table table-borderless'>
                 <thead >
                   <tr >

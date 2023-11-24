@@ -60,15 +60,35 @@
     }
 
     .Logo_Pri_Blanco {
-        width: 120px;
-        margin-left: -10%;
+        width: 140px;
+        margin-left: -5%;
         margin-top: -5%;
-        transform: scale(0.8);
+
 
     }
 
     .Btn_Home {
         right: 120px;
         transform: scale(0.8);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+
+    .Logo_Pri_Blanco {
+        width: 250px;
+        margin-left: -5%;
+        margin-top: -30px;
+
+    }
+}
+
+@media (min-width: 1001px) {
+
+    .Logo_Pri_Blanco {
+        width: 250px;
+        margin-left: 2%;
+        margin-top: -30px;
+
     }
 }

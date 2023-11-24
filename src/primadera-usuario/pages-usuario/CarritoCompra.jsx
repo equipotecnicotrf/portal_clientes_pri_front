@@ -584,7 +584,7 @@ const CarritoCompras = () => {
                             </Modal.Body>
                         </Modal>
 
-                        <Modal show={show2} onHide={handleClose2} centered className='ancho_modal_2' >
+                        <Modal show={show2} onHide={handleClose2} centered className='ancho_modal_2' id='Contenido_cart'>
                             <Modal.Body className='modal_principal_sigue' >
                                 <div className='modal-frase-sigue'>
                                     <FaShoppingCart className='centrar_carrito' />

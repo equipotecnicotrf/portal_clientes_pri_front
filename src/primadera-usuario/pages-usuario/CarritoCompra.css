@@ -295,10 +295,6 @@
     border-radius: 20px;
 }
 
-.ancho_modal_2 {
-    width: 400px;
-    left: 35%;
-}
 
 .btns_carrito_sigue {
     background-color: #941C1D;
@@ -802,5 +798,11 @@
         color: #807878;
         margin-bottom: -28%;
         margin-left: 0%;
+    }
+}
+
+@media screen and (max-width: 590px) {
+    #Contenido_cart {
+        transform: scale(0.8);
     }
 }

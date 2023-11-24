@@ -49,7 +49,7 @@
 
 .SearchAuditoria {
   position: absolute;
-  top: 40px;
+  top: 80px;
   /* 30-10-2023 se ajusta rigth*/
   right: 12px;
 }
@@ -211,7 +211,7 @@
   }
 
   .SearchAuditoria {
-    margin-top: 10%;
+
     left: 15px;
   }
 
@@ -227,7 +227,7 @@
   }
 
   .SearchAuditoria {
-    margin-top: 10%;
+
     left: 15px;
   }
 }
@@ -241,7 +241,5 @@
     margin-top: 20%;
   }
 
-  .SearchAuditoria {
-    margin-top: 4%;
-  }
+
 }

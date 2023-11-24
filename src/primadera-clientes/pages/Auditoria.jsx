@@ -99,7 +99,7 @@ const DataTable = ({ backgroundColor }) => {
         backgroundColor: backgroundColor || '#878787',
         color: '#fff',
         textAlign: 'center',
-        marginTop: '26px', /*30-10-2023*/
+        marginTop: '50px', /*30-10-2023*/
 
     };
 

@@ -78,6 +78,13 @@ const DataTable_inve = ({ backgroundColor }) => {
 
 
     };
+
+    const bannerStyle9 = {
+        backgroundColor: backgroundColor || '#878787',
+        color: '#fff',
+        textAlign: 'center',
+        marginTop: '50px' //31-10-2023 se ajusta
+    }
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
         backgroundSize: 'cover',
@@ -184,7 +191,7 @@ const DataTable_inve = ({ backgroundColor }) => {
                         </Form>
                     </div>
 
-                    <table className='table table-bordered'  >
+                    <table className='table table-bordered' style={bannerStyle9} >
                         <thead style={bannerStyle}>
                             <tr style={bannerStyle} className='borderless_inv' >
                                 <th style={bannerStyle} className='borderless_inv'>Organización</th>
