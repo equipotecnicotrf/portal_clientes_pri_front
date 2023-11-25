@@ -405,7 +405,7 @@ const FinalizarCompra = () => {
     const handleShow2 = () => setShow2(true);
 
 
-    const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
+    const opciones = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
     const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
     return (
@@ -430,7 +430,7 @@ const FinalizarCompra = () => {
                                 <tbody >
                                     <tr style={info_general_items}>
                                         <td style={info_general_items}>
-                                            <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
+                                            <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones2) + " " + transactional_currency_code}</tr>
                                             <tr style={info_general_items}>{carrito.length} items(s)</tr>
                                             <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
                                         </td>

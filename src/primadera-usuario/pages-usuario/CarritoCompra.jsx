@@ -394,7 +394,7 @@ const CarritoCompras = () => {
     };
 
     const opciones = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
-    const opciones2 = { useGrouping: true, minimumFractionDigits: 2, maximumFractionDigits: 2 };
+    const opciones2 = { useGrouping: true, minimumFractionDigits: 0, maximumFractionDigits: 0 };
 
 
     return (
@@ -423,7 +423,7 @@ const CarritoCompras = () => {
                                             <td style={info_general_items}>
                                                 <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
                                                 <tr style={info_general_items}>{carrito.length} items(s)</tr>
-                                                <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
+                                                <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones) + " "}m3 </tr>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -549,12 +549,12 @@ const CarritoCompras = () => {
                                                 </td>
 
 
-                                                <td style={bannerStyle_carrito2}><div className='metro_cubico'>{(carrito[2].cp_cart_Quantity_volume).toLocaleString(undefined, opciones2)} </div></td>
+                                                <td style={bannerStyle_carrito2}><div className='metro_cubico'>{(carrito[2].cp_cart_Quantity_volume).toLocaleString(undefined, opciones)} </div></td>
                                                 <td style={bannerStyle_carrito2}>
                                                     <div style={bannerStyle_carrito} className='precio_tot'>
 
                                                         <tr style={style_precio_unit}>
-                                                            <td> ${((carrito[4].unit_price) * carrito[2].cp_cart_Quantity_units).toLocaleString(undefined, opciones) + " " + carrito[4].currency_code}</td>
+                                                            <td> ${((carrito[4].unit_price) * carrito[2].cp_cart_Quantity_units).toLocaleString(undefined, opciones2) + " " + carrito[4].currency_code}</td>
                                                         </tr>
 
                                                     </div>

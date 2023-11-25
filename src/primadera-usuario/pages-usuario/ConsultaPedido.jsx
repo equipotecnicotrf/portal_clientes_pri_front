@@ -259,6 +259,7 @@ const ConsultaPedido = () => {
     const [statusCode, setstatusCode] = useState();
     const [creationDateFrom, setcreationDateFrom] = useState([]);
     const [creationDateTo, setcreationDateTo] = useState([]);
+    const [tempcreationDateTo, settempcreationDateTo] = useState();
     const [itemDescription, setitemDescription] = useState([]);
 
     const [validated, setValidated] = useState(false);
@@ -307,6 +308,7 @@ const ConsultaPedido = () => {
                 setShow2(true);
                 ConsultOrderService.getOrdersByCustomer(buyingPartyId, transactionTypeCode, creationDateFrom, creationDateTo).then(consultorderresponse => {
                     setorders(consultorderresponse.data);
+                    settempcreationDateTo(creationDateTo);
                     setstatusCode("TODOS");
                     console.log(consultorderresponse.data);
                     setShow2(false);
@@ -548,13 +550,21 @@ const ConsultaPedido = () => {
                             <tbody>
                                 {orders.flat()
                                     .filter(order => {
-                                        if (selectedDireccion === null && itemDescription.length === 0 && statusCode === null || statusCode === "INICIAL") {
+                                        if (tempcreationDateTo === undefined && selectedDireccion === null && itemDescription.length === 0 && statusCode === null || statusCode === "INICIAL") {
                                             return true;
                                         }
 
                                         let matchesSelectedDireccion = true;
                                         let matchesItemDescription = true;
                                         let matchesStatus = true;
+                                        let matchescreationDate = true;
+
+                                        if (tempcreationDateTo !== undefined) {
+                                            // Obtener la fecha sin la parte de la hora y la zona horaria de order.creationDate
+                                            const formattedCreationDate = new Date(order.creationDate).toISOString().split('T')[0];
+
+                                            matchescreationDate = order.matchescreationDate = formattedCreationDate <= tempcreationDateTo;
+                                        }
 
                                         if (selectedDireccion !== null) {
                                             matchesSelectedDireccion = order.matchesSelectedDireccion = order.address1 === selectedDireccion;
@@ -583,15 +593,15 @@ const ConsultaPedido = () => {
                                         }
 
 
-                                        return matchesItemDescription && matchesSelectedDireccion && matchesStatus;
+                                        return matchescreationDate && matchesItemDescription && matchesSelectedDireccion && matchesStatus;
 
                                     })
                                     .toSorted((a, b) => a.orderNumber - b.orderNumber) // Ordena el arreglo por orderNumber en orden ascendente
                                     .map((order) => {
                                         const item = items.find(item => item.inventory_item_id === order.productId);
                                         const Volumen = item ? order.orderedQuantity * item.atribute8 : 0;
-                                        const formattedrequestedShipDate = order.requestedShipDate ? new Date(order.requestedShipDate).toLocaleDateString('es-ES') : '';
-                                        const formattedActualShipDate = order.actualShipDate ? new Date(order.actualShipDate).toLocaleDateString('es-ES') : '';
+                                        const formattedrequestedShipDate = order.requestedShipDate ? new Date(order.requestedShipDate).toLocaleDateString('es-CO') : '';
+                                        const formattedActualShipDate = order.actualShipDate ? new Date(order.actualShipDate).toLocaleDateString('es-CO') : '';
                                         return (
                                             <tr key={order.fulfillLineId}>
                                                 <td>{order.orderNumber}</td>
