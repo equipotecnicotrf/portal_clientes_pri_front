@@ -605,14 +605,14 @@ const ConsultaPedido = () => {
                                         return (
                                             <tr key={order.fulfillLineId}>
                                                 <td>{order.orderNumber}</td>
-                                                <td>{order.fulfillLineNumber}</td>
+                                                <td className="text-center">{order.fulfillLineNumber}</td>
                                                 <td>{order.productDescription}</td>
-                                                <td>{order.orderedQuantity}</td>
-                                                <td>{Volumen.toLocaleString(undefined, opciones)}</td>
-                                                <td>{formattedrequestedShipDate}</td>
+                                                <td className="text-center">{order.orderedQuantity}</td>
+                                                <td className="text-center">{Volumen.toLocaleString(undefined, opciones)}</td>
+                                                <td className="text-center">{formattedrequestedShipDate}</td>
                                                 <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
                                                 <td>{order.onHoldFlag === true ? "Retenido" : "Liberado"}</td>
-                                                <td>{formattedActualShipDate}</td>
+                                                <td className="text-center">{formattedActualShipDate}</td>
                                                 <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
                                                 <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
                                             </tr>
