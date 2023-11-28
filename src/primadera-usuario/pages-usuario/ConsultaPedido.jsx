@@ -517,7 +517,7 @@ const ConsultaPedido = () => {
 
                                 </Form.Group>
                                 <Form.Group as={Col} md="3" controlId="validationCustom05">
-                                    <Form.Label style={{ width: '150px' }}>Descripción de artículo</Form.Label>
+                                    <Form.Label>Descripción de artículo</Form.Label>
                                     <Form.Control style={{ marginBottom: '20px' }}
                                         type="text"
                                         placeholder="Palabra clave"

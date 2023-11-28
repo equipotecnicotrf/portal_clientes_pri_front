@@ -110,6 +110,7 @@
     height: 50px;
     border: none;
     border-width: 0.5px;
+    border-radius: 10px;
 }
 
 .div_gris {

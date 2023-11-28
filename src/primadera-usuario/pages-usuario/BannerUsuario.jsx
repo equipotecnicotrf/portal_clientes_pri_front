@@ -99,7 +99,7 @@ const BannerUser = ({ backgroundColor }) => {
                     <Carousel.Item className="Carrusel" style={bannerStyle}>
                         <img
                             className="img1_img-fluid"
-                            src={imagenes.BannerSenior}
+                            src={imagenes.Senior}
                             alt="Primera diapositiva"
                         />
                     </Carousel.Item>
@@ -120,7 +120,7 @@ const BannerUser = ({ backgroundColor }) => {
                     <Carousel.Item className="Carrusel" style={bannerStyle}>
                         <img
                             className="img4_img-fluid"
-                            src={imagenes.BannerIndustria}
+                            src={imagenes.Restos22}
                             alt="Cuarta diapositiva"
                         />
                     </Carousel.Item>

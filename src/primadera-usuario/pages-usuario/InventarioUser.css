@@ -35,7 +35,7 @@
     height: 50px;
     border: none;
     border-width: 0.5px;
-    border-radius: 16px;
+    border-radius: 10px;
 }
 
 .Buttons_Inv {
@@ -780,7 +780,8 @@ td {
 
 @media screen and (min-width: 1101px) {
     .Info_general_inv {
-        margin-left: 75%;
+        margin-left: 80%;
+        margin-top: 2%;
     }
 
     .ContenedorPadre {
@@ -790,5 +791,13 @@ td {
 
     .perfil_inv {
         margin-top: 5%;
+    }
+}
+
+@media screen and (min-width: 2000px) {
+
+    .Info_general_inv {
+        margin-left: 80%;
+        margin-top: 1.5%;
     }
 }

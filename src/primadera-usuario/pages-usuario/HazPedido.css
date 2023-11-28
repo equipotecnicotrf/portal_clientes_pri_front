@@ -37,6 +37,7 @@
     height: 50px;
     border: none;
     border-width: 0.5px;
+    border-radius: 10px;
 }
 
 .btns_Haz_prin {
@@ -49,6 +50,7 @@
     height: 50px;
     border: none;
     border-width: 0.5px;
+    border-radius: 10px;
 }
 
 
