@@ -6,6 +6,19 @@
     margin-top: 3%;
 }
 
+#statusa {
+    width: 2000px;
+}
+
+#statust {
+    width: 145px;
+    display: flex;
+}
+
+#claseinformacion {
+    margin-top: 15px;
+}
+
 .Tabla_info_Consul {
     overflow-x: auto;
     margin-left: 20px;
@@ -432,4 +445,38 @@
     align-items: center;
     text-align: center;
     justify-content: center;
+}
+
+label[data-title] {
+    position: relative;
+}
+
+label[data-title]:hover::after {
+    content: attr(data-title);
+    position: absolute;
+    top: 100%;
+    background-color: #4e4949;
+    color: #F9F7F7;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+}
+
+label[data-title2] {
+    position: relative;
+}
+
+label[data-title2]:hover::after {
+    content: attr(data-title2);
+    position: absolute;
+    top: 100%;
+    background-color: #4e4949;
+    color: #F9F7F7;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
 }

@@ -1,7 +1,7 @@
 import './ConsultaPedido.css';
 import BannerUser from './BannerUsuario';
 import imagenes from "../../assets/imagenes";
-import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaAngleDown } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaAngleDown, FaInfo } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
@@ -246,6 +246,53 @@ const ConsultaPedido = () => {
             traduccion: "Cancelado"
         }
     };
+
+    //Funcion para añadir los estados al title:
+    function getStatusHelpText(status) {
+        switch (status) {
+            case "Retenido":
+                return "Bloqueado por novedades en cartera";
+            case "En programación":
+                return "En proceso de planeación o producción";
+            case "En consolidación":
+                return "Fabricado a la espera de consolidar";
+            case "Despachado-Facturado":
+                return "En transito";
+            case "Cerrado":
+                return "Entregado";
+            case "Cancelado":
+                return "Descartado";
+            default:
+                return "";
+        }
+    }
+    // Obtener la tabla
+    const table = document.createElement("table");
+    table.id = "Tabla_info_Consulta";
+
+    if (table === null) {
+        console.error("The table object is null");
+    }
+    // Obtener todos los elementos con el id "statust"
+    const statusCells = table.querySelectorAll('td#statust');
+
+    // Iterar sobre los elementos
+    for (const statusCell of statusCells) {
+        // Obtener el texto de la celda
+        const statusText = statusCell.textContent;
+
+        // Obtener el help text correspondiente al estado
+        const helpText = getStatusHelpText(statusText);
+
+        // Obtener el arreglo de celdas con el id "claseinformacion"
+        const infoCells = table.querySelectorAll('abbr#claseinformacion');
+
+        // Iterar sobre el arreglo
+        for (const infoCell of infoCells) {
+            // Asignar el help text a la celda
+            infoCell.title = helpText;
+        }
+    }
 
 
 
@@ -606,13 +653,13 @@ const ConsultaPedido = () => {
                                             <tr key={order.fulfillLineId}>
                                                 <td>{order.orderNumber}</td>
                                                 <td className="text-center">{order.fulfillLineNumber}</td>
-                                                <td>{order.productDescription}</td>
+                                                <td id='statusa'>{order.productDescription}</td>
                                                 <td className="text-center">{order.orderedQuantity}</td>
                                                 <td className="text-center">{Volumen.toLocaleString(undefined, opciones)}</td>
                                                 <td className="text-center">{formattedrequestedShipDate}</td>
-                                                <td>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}</td>
-                                                <td>{order.onHoldFlag === true ? "Retenido" : "Liberado"}</td>
-                                                <td className="text-center">{formattedActualShipDate}</td>
+                                                <td id='statust'>{getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate)}<label style={{ transform: 'scale(0.7)' }} id='claseinformacion' data-title={getStatusHelpText(getStatusLabel(order.status, order.lineDetails[0]?.billingTransactionDate))}><FaInfo /></label></td>
+                                                <td>{order.onHoldFlag === true ? "Retenido" : "Liberado"}<label style={{ transform: 'scale(0.7)' }} id='claseinformacion2' data-title2={getStatusHelpText(order.onHoldFlag === true ? "Retenido" : "Liberado")}><FaInfo /></label></td>
+                                                <td className="text-center">{formattedActualShipDate} </td>
                                                 <td>{order.lineDetails[1]?.billOfLadingNumber}</td>
                                                 <td>{order.lineDetails[0]?.billingTransactionNumber}</td>
                                             </tr>
