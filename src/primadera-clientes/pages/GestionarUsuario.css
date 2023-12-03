@@ -354,12 +354,23 @@
 .boton_usuario {
 
     position: absolute;
-    top: 30%;
+    top: 35%;
+    /* Corregido */
     right: 40px;
-
 
 }
 
+@media (min-width: 1501px) and (max-width: 2200px) {
+
+    .boton_usuario {
+
+        position: absolute;
+        top: 31%;
+        /* Corregido */
+        right: 40px;
+
+    }
+}
 
 
 @media (max-width: 390px) {
@@ -370,7 +381,6 @@
 
     .boton_usuario {
         left: 30px;
-        margin-top: 50px;
     }
 
     .busc_gest_usua {
@@ -389,6 +399,7 @@
 
     .boton_usuario {
         left: 30px;
+        top: 255px;
 
     }
 
@@ -401,7 +412,8 @@
 
 @media only screen and (max-width: 915px) and (orientation: landscape) {
     .boton_usuario {
-        margin-top: 20%;
+        margin-top: 5%;
+        /* Corregido */
     }
 
     .DataTable_Usu {

@@ -20,6 +20,7 @@ import OrderService from '../../services/OrderService';
 import ShopingCartLineService from '../../services/ShopingCartLineService';
 import OrderLineService from '../../services/OrderLineService';
 import IvaService from '../../services/IVAService';
+import AccessService from '../../services/AccessService';
 
 const DataPedido = () => {
     const [usuarioSesion, setUarioSesion] = useState([]);
@@ -52,6 +53,7 @@ const DataPedido = () => {
                 setPartyId(responseid.data.party_id);
                 settransactional_currency_code(responseid.data.transactional_currency_code);
 
+                ListSeguridad(responseid.data.cp_rol_id);
                 carritoComprausuario(responseid.data.cust_account_id, responseid.data.cp_user_id);
                 itemsSinDisponibildad(responseid.data.party_id);
 
@@ -65,6 +67,22 @@ const DataPedido = () => {
             navigate('/')
         }
     }
+
+    // consulta de contextos
+    const [seguridad, setSeguridad] = useState([]);
+    const ListSeguridad = (cp_rol_id) => {
+        AccessService.getAllAccessAndContext(cp_rol_id).then(responsecontext => {
+            setSeguridad(responsecontext.data);
+            console.log(responsecontext.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    };
+
+    const hasAccess = (cp_context_id) => {
+        const seguridadItem = seguridad.find((item) => item[0].cp_context_id === cp_context_id);
+        return seguridadItem && seguridadItem[0].cp_access_assign === 1;
+    };
 
     //listar iva
 
@@ -620,34 +638,36 @@ const DataPedido = () => {
         <>
             <div className='Back-Pedi' style={backgroundStyle}>
                 <BannerUser />
-                {carrito.length === 0 ? (
-                    <div>
-                        {/* Your content here */}
-                    </div>
+                {hasAccess(12) && (
+                    carrito.length === 0 ? (
+                        <div>
+                            {/* Your content here */}
+                        </div>
 
-                ) : (
-                    <div className='div_gris'>
-                        <button className='Info_general_haz' onClick={() => navigate("/CarritoCompras")}>
-                            <div className='ubicar_carro_haz'>
-                                <FaShoppingCart className='tamanio_carro_principal_haz' />
-                            </div>
-                            <div className='Info_general_2_haz'>
-                                <table className='table-borderless' >
-                                    <thead >
-                                    </thead>
-                                    <tbody  >
-                                        <tr style={info_general_items}>
-                                            <td style={info_general_items}>
-                                                <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
-                                                <tr style={info_general_items}>{carrito.length} items(s)</tr>
-                                                <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </button>
-                    </div>
+                    ) : (
+                        <div className='div_gris'>
+                            <button className='Info_general_haz' onClick={() => navigate("/CarritoCompras")}>
+                                <div className='ubicar_carro_haz'>
+                                    <FaShoppingCart className='tamanio_carro_principal_haz' />
+                                </div>
+                                <div className='Info_general_2_haz'>
+                                    <table className='table-borderless' >
+                                        <thead >
+                                        </thead>
+                                        <tbody  >
+                                            <tr style={info_general_items}>
+                                                <td style={info_general_items}>
+                                                    <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
+                                                    <tr style={info_general_items}>{carrito.length} items(s)</tr>
+                                                    <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </button>
+                        </div>
+                    )
                 )}
                 <div className='FondoBlanco_Pedi'>
                     <div className='Buttons_Haz mt-12 d-flex align-items-center'>
@@ -656,21 +676,27 @@ const DataPedido = () => {
                             <div className='Palabra_perfil' id='Num_Per_ped'>Perfil </div>
                             <div className='FaAngleDown_perfil '><FaAngleDown /></div>
                         </button>
-                        <button className='btns_Haz p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
-                            <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
-                            <div className='Palabra_inv' id='Num_inv_ped'>Inventario disponible</div>
-                            <div className='FaAngleDown_inv'><FaAngleDown /></div>
-                        </button>
-                        <button className='btns_Haz_prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
-                            <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
-                            <div className='Palabra_haz' id='Num_haz_ped'>Haz tu pedido </div>
-                            <div className='FaAngleDown_haz'><FaAngleDown /></div>
-                        </button>
-                        <button className='btns_Haz p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
-                            <div className='FaTruck_cons'><FaTruck /></div>
-                            <div className='Palabra_cons' id='Num_cons_ped'>Consulta tu pedido</div>
-                            <div className='FaAngleDown_cons'><FaAngleDown /></div>
-                        </button>
+                        {hasAccess(9) && (
+                            <button className='btns_Haz p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                                <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
+                                <div className='Palabra_inv' id='Num_inv_ped'>Inventario disponible</div>
+                                <div className='FaAngleDown_inv'><FaAngleDown /></div>
+                            </button>
+                        )}
+                        {hasAccess(10) && (
+                            <button className='btns_Haz_prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                                <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
+                                <div className='Palabra_haz' id='Num_haz_ped'>Haz tu pedido </div>
+                                <div className='FaAngleDown_haz'><FaAngleDown /></div>
+                            </button>
+                        )}
+                        {hasAccess(11) && (
+                            <button className='btns_Haz p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                                <div className='FaTruck_cons'><FaTruck /></div>
+                                <div className='Palabra_cons' id='Num_cons_ped'>Consulta tu pedido</div>
+                                <div className='FaAngleDown_cons'><FaAngleDown /></div>
+                            </button>
+                        )}
                     </div>
 
                     <div className='perfil_pedi'>
@@ -918,40 +944,30 @@ const DataPedido = () => {
                                                         </tr>
                                                     </table>
                                                 </div>
-                                                <div className='principal_contador_Inv' >
-
-                                                    <td>
-
-                                                        <div className="contador-box" >
-
-                                                            {contadores[articulo[0].inventory_item_id] || 0}
-
-                                                        </div>
-
-                                                    </td>
-
-                                                    <td>
-
-                                                        <div>
-
-                                                            <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}><strong>+</strong></Button></Col>
-
-                                                            <Col><Button className='decre_incre2' onClick={() => decrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}><strong>-</strong></Button></Col>
-
-                                                        </div>
-
-                                                    </td>
-
-                                                </div>
-                                                <div className='organiza_btn_carro'>
-                                                    <Button onClick={() => carritoCompra(articulo, contadores[articulo[0].inventory_item_id])} className='btn_agregar_carro'>
-                                                        <FaShoppingCart style={{ height: '13px', width: '13px' }} /><span style={{ fontFamily: 'Ligera', fontSize: '10px' }}> Agregar</span>
-                                                    </Button>
-                                                </div>
+                                                {hasAccess(12) && (
+                                                    <div className='principal_contador_Inv' >
+                                                        <td>
+                                                            <div className="contador-box" >
+                                                                {contadores[articulo[0].inventory_item_id] || 0}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <Col><Button className='decre_incre' onClick={() => incrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}><strong>+</strong></Button></Col>
+                                                                <Col><Button className='decre_incre2' onClick={() => decrementarContador(articulo[0].inventory_item_id, articulo[0].atribute9)}><strong>-</strong></Button></Col>
+                                                            </div>
+                                                        </td>
+                                                    </div>
+                                                )}
+                                                {hasAccess(12) && (
+                                                    <div className='organiza_btn_carro'>
+                                                        <Button onClick={() => carritoCompra(articulo, contadores[articulo[0].inventory_item_id])} className='btn_agregar_carro'>
+                                                            <FaShoppingCart style={{ height: '13px', width: '13px' }} /><span style={{ fontFamily: 'Ligera', fontSize: '10px' }}> Agregar</span>
+                                                        </Button>
+                                                    </div>
+                                                )}
                                                 <div className='organiza_uni_paq'>
-
                                                     <tr>Unidades por paquete{" " + + articulo[0].atribute9}</tr>
-
                                                 </div>
                                             </div>
                                         </div>

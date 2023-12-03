@@ -17,11 +17,12 @@ import AuditService from '../../services/AuditService';
 import LoginService from '../../services/LoginService';
 import UserService from '../../services/UserService';
 import { BsFillEyeFill } from "react-icons/bs"; {/*20-10-2023*/ }
+import AccessService from '../../services/AccessService';
 
 
 
 const DataTable = ({ backgroundColor }) => {
-    const [selectedOption, setSelectedOption] = useState('Acciones');
+    const [selectedOption, setSelectedOption] = useState('Auditoría');
     const [usuarioSesion, setUsuarioSesion] = useState([]);
     const [usuarioCorreo, setUsuarioCorreo] = useState([]);
     const [usuariotelefono, setUsuarioTelefono] = useState([]);
@@ -46,6 +47,8 @@ const DataTable = ({ backgroundColor }) => {
                     setUsuarioSesion(responseid.data.cp_name);
                     setUsuarioCorreo(responseid.data.username);
                     setUsuarioTelefono(responseid.data.cp_cell_phone);
+
+                    ListSeguridad(responseid.data.cp_rol_id);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -74,6 +77,22 @@ const DataTable = ({ backgroundColor }) => {
             const auditText = `${audit[0].cp_Audit_id} ${audit[0].cp_audit_description} ${audit[0].cp_audit_date} ${usernames[audit[0].cp_id_user]}`;
             return auditText.toLowerCase().includes(searchText.toLowerCase());
         });
+    };
+
+    // consulta de contextos
+    const [seguridad, setSeguridad] = useState([]);
+    const ListSeguridad = (cp_rol_id) => {
+        AccessService.getAllAccessAndContext(cp_rol_id).then(responsecontext => {
+            setSeguridad(responsecontext.data);
+            console.log(responsecontext.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    };
+
+    const hasAccess = (cp_context_id) => {
+        const seguridadItem = seguridad.find((item) => item[0].cp_context_id === cp_context_id);
+        return seguridadItem && seguridadItem[0].cp_access_assign === 1;
     };
 
     const bannerStyle = {
@@ -171,14 +190,30 @@ const DataTable = ({ backgroundColor }) => {
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Promesas'); navigate("/Promesas"); }}>Gestionar Promesas</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+                        {hasAccess(1) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
+                        )}
+                        {hasAccess(2) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
+                        )}
+                        {hasAccess(3) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
+                        )}
+                        {hasAccess(4) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Promesas'); navigate("/Promesas"); }}>Gestionar Promesas</Dropdown.Item>
+                        )}
+                        {hasAccess(5) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
+                        )}
+                        {hasAccess(6) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
+                        )}
+                        {hasAccess(7) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
+                        )}
+                        {hasAccess(8) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+                        )}
                     </Dropdown.Menu>
                 </Dropdown>
 

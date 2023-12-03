@@ -190,11 +190,35 @@
 .boton-auditoria {
 
   position: absolute;
-  top: 30%;
+
   right: 40px;
 
 
 
+}
+
+@media (min-width: 950px) and (max-width: 1500px) {
+
+  .boton-auditoria {
+
+    position: absolute;
+    top: 35%;
+    /* Corregido */
+    right: 40px;
+
+  }
+}
+
+@media (min-width: 1501px) and (max-width: 2200px) {
+
+  .boton-auditoria {
+
+    position: absolute;
+    top: 31%;
+    /* Corregido */
+    right: 40px;
+
+  }
 }
 
 
@@ -207,7 +231,7 @@
 
   .boton-auditoria {
     left: 30px;
-    margin-top: 50px;
+
   }
 
   .SearchAuditoria {
@@ -223,6 +247,7 @@
 
   .boton-auditoria {
     left: 30px;
+    top: 255px;
 
   }
 
@@ -234,7 +259,8 @@
 
 @media only screen and (max-width: 915px) and (orientation: landscape) {
   .boton-auditoria {
-    margin-top: 20%;
+    margin-top: 5%;
+    /* Corregido */
   }
 
   .DataTableAudi {

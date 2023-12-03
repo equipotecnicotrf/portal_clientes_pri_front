@@ -116,21 +116,24 @@
 
 
 
-
-
-
-
-
 .boton_pedido {
 
     position: absolute;
-    top: 30%;
     right: 40px;
-
-
-
+    top: 35%
 }
 
+@media (min-width: 1501px) and (max-width: 2200px) {
+
+    .boton_pedido {
+
+        position: absolute;
+        top: 31%;
+        /* Corregido */
+        right: 40px;
+
+    }
+}
 
 
 @media (max-width: 390px) {
@@ -141,7 +144,6 @@
 
     .boton_pedido {
         left: 30px;
-        margin-top: 50px;
     }
 
 
@@ -154,6 +156,7 @@
 
     .boton_pedido {
         left: 30px;
+        top: 255px;
 
     }
 
@@ -170,7 +173,8 @@
 
 @media only screen and (max-width: 915px) and (orientation: landscape) {
     .boton_pedido {
-        margin-top: 20%;
+        margin-top: 5%;
+        /* Corregido */
     }
 
     .DataTable_Pedi {

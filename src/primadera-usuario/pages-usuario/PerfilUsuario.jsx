@@ -16,6 +16,7 @@ import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import AddressService from '../../services/AddressService';
 import { FaShoppingCart, FaUser, FaSearchMinus, FaTruck, FaAngleDown, FaAngleRight } from "react-icons/fa";
 import '../../Styles.css';
+import AccessService from '../../services/AccessService';
 
 const DataTablePerfilUser = ({ backgroundColor }) => {
 
@@ -48,6 +49,7 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
                 setUsuarioEmpresa(responseid.data.cust_name);
 
+                ListSeguridad(responseid.data.cp_rol_id);
                 ListDirecciones(responseid.data.cust_account_id);
 
             }).catch(error => {
@@ -61,6 +63,22 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
         }
 
     }
+
+    // consulta de contextos
+    const [seguridad, setSeguridad] = useState([]);
+    const ListSeguridad = (cp_rol_id) => {
+        AccessService.getAllAccessAndContext(cp_rol_id).then(responsecontext => {
+            setSeguridad(responsecontext.data);
+            console.log(responsecontext.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    };
+
+    const hasAccess = (cp_context_id) => {
+        const seguridadItem = seguridad.find((item) => item[0].cp_context_id === cp_context_id);
+        return seguridadItem && seguridadItem[0].cp_access_assign === 1;
+    };
 
     const ListDirecciones = (id_direccion) => {
         SoapServiceDirecciones.getAllDirecciones(id_direccion).then(response => {
@@ -150,21 +168,27 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                             <div className='Palabra_perfil' id='numeralperfil'>Perfil </div>
                             <div className='FaAngleDown_perfil '><FaAngleDown /></div>
                         </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
-                            <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
-                            <div className='Palabra_inv' id='numeralInventario'>Inventario disponible</div>
-                            <div className='FaAngleDown_inv'><FaAngleDown /></div>
-                        </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
-                            <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
-                            <div className='Palabra_haz' id='numeralPedido'>Haz tu pedido </div>
-                            <div className='FaAngleDown_haz'><FaAngleDown /></div>
-                        </button>
-                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
-                            <div className='FaTruck_cons'><FaTruck /></div>
-                            <div className='Palabra_cons' id='numeralConsulta'>Consulta tu pedido</div>
-                            <div className='FaAngleDown_cons'><FaAngleDown /></div>
-                        </button>
+                        {hasAccess(9) && (
+                            <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                                <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
+                                <div className='Palabra_inv' id='numeralInventario'>Inventario disponible</div>
+                                <div className='FaAngleDown_inv'><FaAngleDown /></div>
+                            </button>
+                        )}
+                        {hasAccess(10) && (
+                            <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                                <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
+                                <div className='Palabra_haz' id='numeralPedido'>Haz tu pedido </div>
+                                <div className='FaAngleDown_haz'><FaAngleDown /></div>
+                            </button>
+                        )}
+                        {hasAccess(11) && (
+                            <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                                <div className='FaTruck_cons'><FaTruck /></div>
+                                <div className='Palabra_cons' id='numeralConsulta'>Consulta tu pedido</div>
+                                <div className='FaAngleDown_cons'><FaAngleDown /></div>
+                            </button>
+                        )}
                     </div>
                     {/*AJUSTE LCPG 11-10 fin*/}
                     <div className='perfil'>

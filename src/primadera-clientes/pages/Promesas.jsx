@@ -15,9 +15,10 @@ import UserService from '../../services/UserService';
 import { FaRegEdit } from "react-icons/fa";
 import PromesasServices from '../../services/PromesasServices';
 import AuditService from '../../services/AuditService';
+import AccessService from '../../services/AccessService';
 
 const Promesas = ({ backgroundColor }) => {
-    const [selectedOption, setSelectedOption] = useState('Acciones');
+    const [selectedOption, setSelectedOption] = useState('Gestionar Promesas');
 
     //validacion de sesion activa
     const [usuarioSesion, setUarioSesion] = useState([]);
@@ -37,6 +38,7 @@ const Promesas = ({ backgroundColor }) => {
                 setUsuarioCorreo(responseid.data.username);
                 setUsuarioTelefono(responseid.data.cp_cell_phone);
 
+                ListSeguridad(responseid.data.cp_rol_id);
             }).catch(error => {
                 console.log(error)
                 alert("Error obtener usuario de sesion")
@@ -130,6 +132,21 @@ const Promesas = ({ backgroundColor }) => {
 
     };
 
+    // consulta de contextos
+    const [seguridad, setSeguridad] = useState([]);
+    const ListSeguridad = (cp_rol_id) => {
+        AccessService.getAllAccessAndContext(cp_rol_id).then(responsecontext => {
+            setSeguridad(responsecontext.data);
+            console.log(responsecontext.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    };
+
+    const hasAccess = (cp_context_id) => {
+        const seguridadItem = seguridad.find((item) => item[0].cp_context_id === cp_context_id);
+        return seguridadItem && seguridadItem[0].cp_access_assign === 1;
+    };
 
     const backgroundStyle = {
         backgroundImage: `url(${imagenes.fondoTextura}`,
@@ -240,14 +257,30 @@ const Promesas = ({ backgroundColor }) => {
                         {selectedOption}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={dropDownbackgroundStyle}>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Promesas'); navigate("/Promesas"); }}>Gestionar Promesas</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+                        {hasAccess(1) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
+                        )}
+                        {hasAccess(2) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
+                        )}
+                        {hasAccess(3) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
+                        )}
+                        {hasAccess(4) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Promesas'); navigate("/Promesas"); }}>Gestionar Promesas</Dropdown.Item>
+                        )}
+                        {hasAccess(5) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
+                        )}
+                        {hasAccess(6) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
+                        )}
+                        {hasAccess(7) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
+                        )}
+                        {hasAccess(8) && (
+                            <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+                        )}
                     </Dropdown.Menu>
                 </Dropdown>
 

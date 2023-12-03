@@ -67,11 +67,23 @@
 .boton_inventario {
 
     position: absolute;
-    top: 30%;
+    top: 35%;
     right: 40px;
 
 
 
+}
+
+@media (min-width: 1501px) and (max-width: 2200px) {
+
+    .boton_inventario {
+
+        position: absolute;
+        top: 31%;
+        /* Corregido */
+        right: 40px;
+
+    }
 }
 
 
@@ -84,7 +96,7 @@
 
     .boton_inventario {
         left: 30px;
-        margin-top: 50px;
+
     }
 
     .SearchInventario {
@@ -101,6 +113,7 @@
 
     .boton_inventario {
         left: 30px;
+        top: 255px;
 
     }
 
@@ -112,7 +125,8 @@
 
 @media only screen and (max-width: 977px) and (orientation: landscape) {
     .boton_inventario {
-        margin-top: 20%;
+        margin-top: 5%;
+        /* Corregido */
     }
 
     .DataTable_inve {

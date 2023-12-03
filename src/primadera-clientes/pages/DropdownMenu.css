@@ -18,26 +18,27 @@
     height: 100px;
     margin: auto;
     display: block;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    margin-top: 40px;
 }
 
-.botonMenu {
-    position: absolute;
-    top: auto;
-    left: 50px;
-
+.fondoBlanco_menu {
+    background-color: white;
+    height: 400px;
+    margin: 40px;
+    border-color: rgb(20, 87, 87);
 }
 
-@media only screen and (max-width: 995px) and (orientation: landscape) {
-    .botonMenu {
-        margin-top: 5%;
-        transform: translateX(50%);
+#DropdownMenu {
+    position: absolute;
+    margin-top: 0%;
+    margin-left: 0%;
+    transform: translateY(-200%) translateX(200px);
+}
+
+@media screen and (max-width: 999px) {
+    .Img-Creamos_drop {
+        margin-top: 25%;
     }
-
-
 }
 
 @media only screen and (max-width: 768px) {
@@ -45,9 +46,31 @@
         transform: scale(0.8) translateX(-15%);
     }
 
-    .botonMenu {
-        margin-top: 5%;
-        transform: translateX(20%);
+    #DropdownMenu {
+
+        transform: scale(0.9) translateX(62%) translateY(-250%);
+    }
+
+
+}
+
+@media only screen and (max-width: 480px) {
+    #DropdownMenu {
+
+        transform: scale(0.8) translateX(50%) translateY(-250%);
+    }
+
+
+}
+
+@media only screen and (max-width: 410px) {
+    .perfil_drop {
+        transform: scale(0.8) translateX(-30%);
+    }
+
+    #DropdownMenu {
+
+        transform: scale(0.8) translateX(35%) translateY(-250%);
     }
 
 

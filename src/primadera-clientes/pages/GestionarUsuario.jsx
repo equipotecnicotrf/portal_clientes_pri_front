@@ -25,9 +25,10 @@ import AddressService from '../../services/AddressService';
 import TypeOrderService from '../../services/TypeOrderService';
 import EmailService from '../../services/EmailService';
 import NotificationService from '../../services/NotificationService';
+import AccessService from '../../services/AccessService';
 
 const DataTable = ({ backgroundColor }) => {
-  const [selectedOption, setSelectedOption] = useState('Acciones');
+  const [selectedOption, setSelectedOption] = useState('Gestionar Usuarios');
 
   //validacion de sesion activa
   const [usuarioSesion, setUarioSesion] = useState([]);
@@ -47,6 +48,8 @@ const DataTable = ({ backgroundColor }) => {
         setUarioSesion(responseid.data.cp_name);
         setUsuarioCorreo(responseid.data.username);
         setUsuarioTelefono(responseid.data.cp_cell_phone);
+
+        ListSeguridad(responseid.data.cp_rol_id);
       }).catch(error => {
         console.log(error)
         alert("Error obtener usuario de sesion")
@@ -216,7 +219,7 @@ const DataTable = ({ backgroundColor }) => {
           const username = cp_email;
           const cp_estatus = (checkbox2 ? "Activo" : checkbox1 ? "Inactivo" : cp_estatus);
           const UserEdit = { username, cust_account_id, cust_name, party_id, cp_name, cp_email, cp_estatus, cp_rol_id, cp_cell_phone, payment_terms, transactional_currency_code, cp_type_order_id }
-          UserService.updateUser(editUserId, UserEdit).then((response) => {
+          UserService.updateUser(editUserId, UserEdit).then((responseid) => {
             console.log(responseid.data)
             const cp_id_user = responseid.data.cp_user_id;
             const cp_audit_description = "Actualizacion de usuario " + username;
@@ -634,6 +637,58 @@ const DataTable = ({ backgroundColor }) => {
     }
   }
 
+
+  // consulta de contextos
+  const [context, setContext] = useState([]);
+
+  const ListAccessAndContext = (cp_rol_id) => {
+    AccessService.getAllAccessAndContext(cp_rol_id).then(responsecontext => {
+      setContext(responsecontext.data);
+      console.log(responsecontext.data);
+    }).catch(error => {
+      console.log(error);
+    })
+  };
+
+  const handleCheckboxCon2Change = (contextItem) => {
+    const isChecked = event.target.checked;
+    const cp_access_assign = isChecked ? 1 : 0;
+    const cp_Access_id = contextItem[0].cp_Access_id;
+    const cp_context_id = contextItem[0].cp_context_id;
+    const cp_rol_id = contextItem[0].cp_rol_id;
+    const access = { cp_Access_id, cp_context_id, cp_access_assign, cp_rol_id };
+
+    AccessService.CrearAccess(access).then((responsecreate) => {
+      console.log(responsecreate.data);
+      if (cp_access_assign === 1) {
+        alert("Acceso asignado exitosamente");
+      } else {
+        alert("Acceso desasignado exitosamente");
+      }
+      ListAccessAndContext(contextItem[0].cp_rol_id);
+      ListSeguridad(contextItem[0].cp_rol_id);
+    }).catch((error) => {
+      console.log(error);
+      alert("Error al crear acceso");
+    });
+  };
+
+  // consulta de contextos
+  const [seguridad, setSeguridad] = useState([]);
+  const ListSeguridad = (cp_rol_id) => {
+    AccessService.getAllAccessAndContext(cp_rol_id).then(responsecontext => {
+      setSeguridad(responsecontext.data);
+      console.log(responsecontext.data);
+    }).catch(error => {
+      console.log(error);
+    })
+  };
+
+  const hasAccess = (cp_context_id) => {
+    const seguridadItem = seguridad.find((item) => item[0].cp_context_id === cp_context_id);
+    return seguridadItem && seguridadItem[0].cp_access_assign === 1;
+  };
+
   const bannerStyle = {
     backgroundColor: backgroundColor || '#878787',
     color: '#fff',
@@ -726,9 +781,10 @@ const DataTable = ({ backgroundColor }) => {
     setShow3(false);
     setShow(true);
   }
-  const handleShow3 = () => {
+  const handleShow3 = (rolid) => {
     setShow3(true);
     setShow(false);
+    ListAccessAndContext(rolid);
   }
 
   const [crtUserShow, crtUserSetShow] = useState(false);
@@ -764,26 +820,6 @@ const DataTable = ({ backgroundColor }) => {
     setIsChecked(event.target.checked);
   };
 
-  const [checkboxCon1, setCheckboxCon1] = useState(false);
-  const [checkboxCon2, setCheckboxCon2] = useState(false);
-  const [checkboxCon3, setCheckboxCon3] = useState(false);
-
-  const handleCheckboxCon1Change = () => {
-    setCheckboxCon1(true);
-    setCheckboxCon2(false);
-    setCheckboxCon3(false);
-  };
-  const handleCheckboxCon2Change = () => {
-    setCheckboxCon1(false);
-    setCheckboxCon2(true);
-    setCheckboxCon3(false);
-  };
-  const handleCheckboxCon3Change = () => {
-    setCheckboxCon1(false);
-    setCheckboxCon2(false);
-    setCheckboxCon3(true);
-  };
-
   const [editShow2, editSetShow2] = useState(false);
   const handleEditClose2 = () => {
     editSetShow2(false);
@@ -808,6 +844,11 @@ const DataTable = ({ backgroundColor }) => {
     setCheckbox_rol2(true);
     setIsCheckedrol(event.target.checked);
   };
+
+  const StyleContextList = {
+    display: 'flex',
+    flexDirection: 'column', // Muestra los checkbox de manera vertical
+  }
 
   return (
     <>
@@ -857,14 +898,30 @@ const DataTable = ({ backgroundColor }) => {
             {selectedOption}
           </Dropdown.Toggle>
           <Dropdown.Menu style={dropDownbackgroundStyle}>
-            <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Promesas'); navigate("/Promesas"); }}>Gestionar Promesas</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
-            <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+            {hasAccess(1) && (
+              <Dropdown.Item onClick={() => { setSelectedOption('Auditoria'); navigate("/Auditoria"); }}>Auditoría</Dropdown.Item>
+            )}
+            {hasAccess(2) && (
+              <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Consecutivos'); navigate("/GestionarConsecutivos"); }}>Gestionar Consecutivos</Dropdown.Item>
+            )}
+            {hasAccess(3) && (
+              <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Iva'); navigate("/DataIva"); }}>Gestionar Iva</Dropdown.Item>
+            )}
+            {hasAccess(4) && (
+              <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Promesas'); navigate("/Promesas"); }}>Gestionar Promesas</Dropdown.Item>
+            )}
+            {hasAccess(5) && (
+              <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Tipo De Pedidos'); navigate("/Pedidos"); }}>Gestionar Tipo De Pedidos</Dropdown.Item>
+            )}
+            {hasAccess(6) && (
+              <Dropdown.Item onClick={() => { setSelectedOption('Gestionar Usuarios'); navigate("/GestionarUsuario"); }}>Gestionar Usuarios</Dropdown.Item>
+            )}
+            {hasAccess(7) && (
+              <Dropdown.Item onClick={() => { setSelectedOption('Notificaciones'); navigate("/Notificaciones"); }}>Notificaciones</Dropdown.Item>
+            )}
+            {hasAccess(8) && (
+              <Dropdown.Item onClick={() => { setSelectedOption('Organización de Inventarios'); navigate("/Inventario"); }}>Organización De Inventarios</Dropdown.Item>
+            )}
           </Dropdown.Menu>
         </Dropdown>
 
@@ -968,7 +1025,7 @@ const DataTable = ({ backgroundColor }) => {
                                 <FaRegEdit />
                               </Button>
                             </td>
-                            <td style={bannerStyle}><Button className="Btn_contexto" onClick={handleShow3} onClose={handleClose}>
+                            <td style={bannerStyle}><Button className="Btn_contexto" onClick={() => handleShow3(roles.cp_rol_id)} onClose={handleClose}>
                               Contexto
                             </Button></td>
                           </tr>
@@ -1038,20 +1095,21 @@ const DataTable = ({ backgroundColor }) => {
               <div>
                 <Form>
                   <Form.Group>
-                    <Form.Check type="checkbox">
-                      <Form.Check.Input checked={checkboxCon2}
-                        onChange={handleCheckboxCon2Change} />
-                      <Form.Check.Label>Crear Pedido</Form.Check.Label>
-                    </Form.Check>
-                    <Form.Check type="checkbox">
-                      <Form.Check.Input checked={checkboxCon1}
-                        onChange={handleCheckboxCon1Change} />
-                      <Form.Check.Label>Consultar Pedido</Form.Check.Label>
-                    </Form.Check>
-                    <Form.Check type="checkbox">
-                      <Form.Check.Input checked={checkboxCon3}
-                        onChange={handleCheckboxCon3Change} />
-                      <Form.Check.Label>Crear pedido sobre inventario</Form.Check.Label>
+                    <Form.Check>
+                      <div style={StyleContextList}>
+                        {context.map((contextItem) => (
+                          <label key={contextItem[0].cp_Access_id}>
+                            <input
+                              type="checkbox"
+                              onChange={(event) => handleCheckboxCon2Change(contextItem)} // Pass contextItem instead of context
+                              value={contextItem[0].cp_access_assign}
+                              className='checkbox_categorias'
+                              defaultChecked={contextItem[0].cp_access_assign === 1}
+                            />
+                            {contextItem[1].cp_context_description}
+                          </label>
+                        ))}
+                      </div>
                     </Form.Check>
                   </Form.Group>
                 </Form>
@@ -1059,9 +1117,6 @@ const DataTable = ({ backgroundColor }) => {
             </Form>
           </Modal.Body>
           <Modal.Footer className="Contexto">
-            <Button className="Btn_guardar_context " > {/*31-10-2023*/}
-              Guardar
-            </Button>
           </Modal.Footer>
         </Modal>
 

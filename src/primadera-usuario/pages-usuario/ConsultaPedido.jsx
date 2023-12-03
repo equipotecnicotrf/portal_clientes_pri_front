@@ -18,6 +18,7 @@ import ShopingCartService from '../../services/ShopingCartService';
 import SoapServiceDirecciones from '../../services/SoapServiceDirecciones';
 import TypeOrderService from '../../services/TypeOrderService';
 import ItemService from '../../services/ItemService';
+import AccessService from '../../services/AccessService';
 
 const ConsultaPedido = () => {
 
@@ -57,6 +58,7 @@ const ConsultaPedido = () => {
                 settransactional_currency_code(responseid.data.transactional_currency_code);
                 setcp_type_order_id(responseid.data.cp_type_order_id);
 
+                ListSeguridad(responseid.data.cp_rol_id);
                 ListDirecciones(responseid.data.cust_account_id);
                 ConsultarTipoPedidoPorId(responseid.data.cp_type_order_id);
 
@@ -97,6 +99,22 @@ const ConsultaPedido = () => {
             navigate('/')
         }
     }
+
+    // consulta de contextos
+    const [seguridad, setSeguridad] = useState([]);
+    const ListSeguridad = (cp_rol_id) => {
+        AccessService.getAllAccessAndContext(cp_rol_id).then(responsecontext => {
+            setSeguridad(responsecontext.data);
+            console.log(responsecontext.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    };
+
+    const hasAccess = (cp_context_id) => {
+        const seguridadItem = seguridad.find((item) => item[0].cp_context_id === cp_context_id);
+        return seguridadItem && seguridadItem[0].cp_access_assign === 1;
+    };
 
     const Items = () => {
         ItemService.getAllItems().then(response => {
@@ -434,34 +452,36 @@ const ConsultaPedido = () => {
 
         <div className='BackConsul' style={backgroundStyleConsul}>
             <BannerUser />
-            {carrito.length === 0 ? (
-                <div>
-                    {/* Your content here */}
-                </div>
+            {hasAccess(12) && (
+                carrito.length === 0 ? (
+                    <div>
+                        {/* Your content here */}
+                    </div>
 
-            ) : (
-                <div className='div_gris'>
-                    <button className='Info_general_Consul' onClick={() => navigate("/CarritoCompras")} >
-                        <div className='ubicar_carro_cons'>
-                            <FaShoppingCart className='tamanio_carro_principal_Consul' />
-                        </div>
-                        <div className='Info_general_2_Consul'>
-                            <table className='table-borderless' >
-                                <thead >
-                                </thead>
-                                <tbody >
-                                    <tr style={info_general_items}>
-                                        <td style={info_general_items}>
-                                            <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
-                                            <tr style={info_general_items}>{carrito.length} items(s)</tr>
-                                            <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </button>
-                </div>
+                ) : (
+                    <div className='div_gris'>
+                        <button className='Info_general_Consul' onClick={() => navigate("/CarritoCompras")} >
+                            <div className='ubicar_carro_cons'>
+                                <FaShoppingCart className='tamanio_carro_principal_Consul' />
+                            </div>
+                            <div className='Info_general_2_Consul'>
+                                <table className='table-borderless' >
+                                    <thead >
+                                    </thead>
+                                    <tbody >
+                                        <tr style={info_general_items}>
+                                            <td style={info_general_items}>
+                                                <tr style={info_general_items}>{sumaTotal.toLocaleString(undefined, opciones) + " " + transactional_currency_code}</tr>
+                                                <tr style={info_general_items}>{carrito.length} items(s)</tr>
+                                                <tr style={info_general_items}>{sumavolumen.toLocaleString(undefined, opciones2) + " "}m3 </tr>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </button>
+                    </div>
+                )
             )}
             <div className='FondoBlancoConsul'>
                 <div className='Buttons_perfil_cons mt-12 d-flex align-items-center'>
@@ -470,21 +490,27 @@ const ConsultaPedido = () => {
                         <div className='Palabra_perfil' id='Num_perf_cons'>Perfil </div>
                         <div className='FaAngleDown_perfil '><FaAngleDown /></div>
                     </button>
-                    <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
-                        <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
-                        <div className='Palabra_inv' id='Num_Inv_cons'>Inventario disponible</div>
-                        <div className='FaAngleDown_inv'><FaAngleDown /></div>
-                    </button>
-                    <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
-                        <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
-                        <div className='Palabra_haz' id='Num_haz_cons'>Haz tu pedido </div>
-                        <div className='FaAngleDown_haz'><FaAngleDown /></div>
-                    </button>
-                    <button className='btns_Consul_Prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
-                        <div className='FaTruck_const'><FaTruck /></div>
-                        <div className='Palabra_cons' id='Num_cons_cons'>Consulta tu pedido</div>
-                        <div className='FaAngleDown_cons'><FaAngleDown /></div>
-                    </button>
+                    {hasAccess(9) && (
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataInventario")}>
+                            <div className='FaSearchMinus_inv'><FaSearchMinus /> </div>
+                            <div className='Palabra_inv' id='Num_Inv_cons'>Inventario disponible</div>
+                            <div className='FaAngleDown_inv'><FaAngleDown /></div>
+                        </button>
+                    )}
+                    {hasAccess(10) && (
+                        <button className='btns_perfil p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/DataPedido")}>
+                            <div className='FaShoppingCart_haz'><FaShoppingCart /></div>
+                            <div className='Palabra_haz' id='Num_haz_cons'>Haz tu pedido </div>
+                            <div className='FaAngleDown_haz'><FaAngleDown /></div>
+                        </button>
+                    )}
+                    {hasAccess(11) && (
+                        <button className='btns_Consul_Prin p-2 m-2 btn-sm d-flex align-items-center' onClick={() => navigate("/ConsultaPedido")}>
+                            <div className='FaTruck_const'><FaTruck /></div>
+                            <div className='Palabra_cons' id='Num_cons_cons'>Consulta tu pedido</div>
+                            <div className='FaAngleDown_cons'><FaAngleDown /></div>
+                        </button>
+                    )}
                 </div>
 
                 <div className='ContenedorPadreConsul'>
