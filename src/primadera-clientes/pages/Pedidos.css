@@ -139,7 +139,7 @@
 @media (max-width: 390px) {
 
     .DataTable_Pedi {
-        margin-top: 30%;
+        margin-top: 25%;
     }
 
     .boton_pedido {
@@ -172,13 +172,24 @@
 }
 
 @media only screen and (max-width: 915px) and (orientation: landscape) {
-    .boton_pedido {
-        margin-top: 5%;
-        /* Corregido */
-    }
+
 
     .DataTable_Pedi {
         margin-top: 20%;
     }
+
+}
+
+@media only screen and (min-width: 766px) and (max-width: 949px) {
+
+
+    .boton_pedido {
+        margin-top: 8%;
+    }
+
+    .DataTable_Pedi {
+        margin-top: 10%;
+    }
+
 
 }

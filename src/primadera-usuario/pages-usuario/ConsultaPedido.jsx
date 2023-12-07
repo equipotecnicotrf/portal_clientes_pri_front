@@ -270,6 +270,8 @@ const ConsultaPedido = () => {
         switch (status) {
             case "Retenido":
                 return "Bloqueado por novedades en cartera";
+            case "Liberado":
+                return "Sin novedad";
             case "En programación":
                 return "En proceso de planeación o producción";
             case "En consolidación":

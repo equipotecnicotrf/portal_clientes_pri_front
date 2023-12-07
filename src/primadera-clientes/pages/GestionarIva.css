@@ -214,7 +214,7 @@
 @media (max-width: 390px) {
 
     .DataTableIva {
-        margin-top: 30%;
+        margin-top: 25%;
     }
 
     .boton_iva {
@@ -234,12 +234,24 @@
 }
 
 @media only screen and (max-width: 915px) and (orientation: landscape) {
-    .boton_iva {
-        margin-top: 5%;
-    }
+
 
     .DataTableIva {
         margin-top: 20%;
     }
+
+}
+
+@media only screen and (min-width: 766px) and (max-width: 949px) {
+
+
+    .boton_iva {
+        margin-top: 8%;
+    }
+
+    .DataTableIva {
+        margin-top: 10%;
+    }
+
 
 }

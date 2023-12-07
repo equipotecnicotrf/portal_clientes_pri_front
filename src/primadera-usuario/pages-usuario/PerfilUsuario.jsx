@@ -271,7 +271,7 @@ const DataTablePerfilUser = ({ backgroundColor }) => {
                                                 <Row>
                                                     <Col>
                                                         <a href='https://api.whatsapp.com/send?phone=573232348803' target="_blank" rel="noopener noreferrer"><button className='btn_whastapp2 p-2 m-2 btn-sm'  ><th>
-                                                            <img src={imagenes.wpp} alt="Icono de WhatsApp" style={styles.icon} />+ 57 323 234 88 03</th>
+                                                            <img src={imagenes.wppNegro} alt="Icono de WhatsApp" style={styles.icon} /> +57 323 234 88 03</th>
                                                         </button></a>
                                                     </Col>
                                                 </Row>

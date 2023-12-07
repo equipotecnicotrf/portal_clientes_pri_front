@@ -160,7 +160,7 @@
     }
 
     .DataTable_cons {
-        margin-top: 30%;
+        margin-top: 25%;
     }
 
 
@@ -178,13 +178,24 @@
 }
 
 @media only screen and (max-width: 915px) and (orientation: landscape) {
-    .boton_conse {
-        margin-top: 5%;
-        /*Corregido*/
-    }
+
 
     .DataTable_cons {
         margin-top: 20%;
     }
+
+}
+
+@media only screen and (min-width: 766px) and (max-width: 949px) {
+
+
+    .boton_conse {
+        margin-top: 8%;
+    }
+
+    .DataTable_cons {
+        margin-top: 10%;
+    }
+
 
 }

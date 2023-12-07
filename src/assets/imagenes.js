@@ -16,6 +16,7 @@ import BannerTroncos from './BannerTroncos.jpg';
 import ReciclajeBlanco from './ReciclajeBlanco.png';
 import wpp from './wpp.png';
 import Restos22 from './Restos22.jpg';
+import wppNegro from './wppNegro.png';
 
 /*const imageSlide = [
     {url: 'FLORMORADO-HOME.jpg'
@@ -49,5 +50,5 @@ export default {
     "Creamos": Creamos,
     "BannerSenior": BannerSenior,
     "Restos22": Restos22,
-
+    "wppNegro": wppNegro,
 }

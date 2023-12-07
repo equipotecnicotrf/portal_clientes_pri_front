@@ -101,6 +101,7 @@
   .Datos_Aud {
 
     margin-left: -15%;
+    transform: scale(0.9);
 
   }
 
@@ -131,39 +132,15 @@
 
   .DropAcAudi {
 
-
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     margin-top: 10px;
-
     transform: translate(-90%, 210%);
-
-
 
   }
 
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* Para la imagen de abajo, quedaria "Cuadrada"*/
 
@@ -231,6 +208,7 @@
 
   .boton-auditoria {
     left: 30px;
+    top: 35%;
 
   }
 
@@ -257,14 +235,25 @@
   }
 }
 
-@media only screen and (max-width: 915px) and (orientation: landscape) {
+@media only screen and (max-width: 915px) {
+
+
+  .DataTableAudi {
+    margin-top: 25%;
+  }
+
+
+}
+
+@media only screen and (min-width: 766px) and (max-width: 949px) {
+
+
   .boton-auditoria {
-    margin-top: 5%;
-    /* Corregido */
+    margin-top: 24%;
   }
 
   .DataTableAudi {
-    margin-top: 20%;
+    margin-top: 10%;
   }
 
 

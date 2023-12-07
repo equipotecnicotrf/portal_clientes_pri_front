@@ -98,7 +98,7 @@
 @media (max-width: 390px) {
 
     .DataTable_pro {
-        margin-top: 30%;
+        margin-top: 25%;
     }
 
     .boton_prome {
@@ -121,13 +121,24 @@
 }
 
 @media only screen and (max-width: 915px) and (orientation: landscape) {
-    .boton_prome {
-        margin-top: 5%;
-        /* Corregido */
-    }
+
 
     .DataTable_pro {
         margin-top: 20%;
     }
+
+}
+
+@media only screen and (min-width: 766px) and (max-width: 949px) {
+
+
+    .boton_prome {
+        margin-top: 8%;
+    }
+
+    .DataTable_pro {
+        margin-top: 10%;
+    }
+
 
 }

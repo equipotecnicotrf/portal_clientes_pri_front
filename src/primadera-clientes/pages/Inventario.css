@@ -91,7 +91,7 @@
 @media (max-width: 390px) {
 
     .DataTable_inve {
-        margin-top: 30%;
+        margin-top: 25%;
     }
 
     .boton_inventario {
@@ -124,13 +124,21 @@
 }
 
 @media only screen and (max-width: 977px) and (orientation: landscape) {
-    .boton_inventario {
-        margin-top: 5%;
-        /* Corregido */
-    }
 
     .DataTable_inve {
         margin-top: 20%;
+    }
+}
+
+@media only screen and (min-width: 766px) and (max-width: 949px) {
+
+
+    .boton_inventario {
+        margin-top: 8%;
+    }
+
+    .DataTable_inve {
+        margin-top: 10%;
     }
 
 

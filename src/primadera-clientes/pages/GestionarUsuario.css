@@ -376,7 +376,7 @@
 @media (max-width: 390px) {
 
     .DataTable_Usu {
-        margin-top: 30%;
+        margin-top: 25%;
     }
 
     .boton_usuario {
@@ -411,13 +411,24 @@
 }
 
 @media only screen and (max-width: 915px) and (orientation: landscape) {
-    .boton_usuario {
-        margin-top: 5%;
-        /* Corregido */
-    }
+
 
     .DataTable_Usu {
         margin-top: 20%;
+    }
+
+
+}
+
+@media only screen and (min-width: 766px) and (max-width: 949px) {
+
+
+    .boton_usuario {
+        margin-top: 8%;
+    }
+
+    .DataTable_Usu {
+        margin-top: 10%;
     }
 
 
