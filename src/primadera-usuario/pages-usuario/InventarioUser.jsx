@@ -734,7 +734,7 @@ const DataInventario = () => {
                     </div>
 
                     <div className='ContenedorPadre'>
-                        <div className='Filtro'>
+                        <div className='Filtro' style={{ position: 'sticky', top: '30px', zIndex: '1' }} >
                             <h3 style={{ fontFamily: 'Bold', fontSize: '16px' }}>Filtros</h3>
                             <div style={CategoriasStyle}>
                                 {categories.map((category) => (

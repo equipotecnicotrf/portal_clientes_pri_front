@@ -19,6 +19,13 @@
     position: relative;
 }
 
+.ContenedorPadrePedi>div {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+}
+
 .Buttons_Haz {
     margin-top: -2.5%;
     z-index: auto;
@@ -718,4 +725,13 @@
     }
 
 
+}
+
+@media screen and (min-width: 1101px) {
+    .ContenedorPadrePedi {
+        margin-top: 5%;
+        margin-bottom: 15%;
+
+
+    }
 }

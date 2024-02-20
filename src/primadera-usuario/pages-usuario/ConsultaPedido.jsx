@@ -646,7 +646,9 @@ const ConsultaPedido = () => {
                                         }
 
                                         if (itemDescription && typeof itemDescription === 'string') {
-                                            matchesItemDescription = order.matchesItemDescription = order.productDescription.includes(itemDescription);
+                                            const lowercaseItemDescription = itemDescription.toLowerCase();
+                                            const lowercaseProductDescription = order.productDescription.toLowerCase();
+                                            matchesItemDescription = order.matchesItemDescription = lowercaseProductDescription.includes(lowercaseItemDescription);
                                         }
 
                                         if (statusCode == "RETENIDO_OPEN") {
@@ -680,7 +682,7 @@ const ConsultaPedido = () => {
                                         return (
                                             <tr key={order.fulfillLineId}>
                                                 <td>{order.orderNumber}</td>
-                                                <td className="text-center">{order.fulfillLineNumber}</td>
+                                                <td className="text-center">{order.lineNumber + "-" + order.fulfillLineNumber}</td>
                                                 <td id='statusa'>{order.productDescription}</td>
                                                 <td className="text-center">{order.orderedQuantity}</td>
                                                 <td className="text-center">{Volumen.toLocaleString(undefined, opciones)}</td>

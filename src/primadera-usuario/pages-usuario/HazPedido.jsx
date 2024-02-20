@@ -720,7 +720,7 @@ const DataPedido = () => {
                         </tr>
                     </div>
                     <div className='ContenedorPadrePedi'>
-                        <div className='Filtro_Haz'>
+                        <div className='Filtro_Haz' style={{ position: 'sticky', top: '30px', zIndex: '1' }}>
                             <h3 style={{ fontFamily: 'Bold', fontSize: '16px' }}>Filtros</h3>
                             <div style={CategoriasStyle}>
                                 {categories.map((category) => (
